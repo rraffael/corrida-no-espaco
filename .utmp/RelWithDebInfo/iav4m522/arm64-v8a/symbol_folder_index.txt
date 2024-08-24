@@ -1,0 +1,1 @@
+C:\Users\raffa\Desktop\Projeto\corrida-no-espaco\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\iav4m522\obj\arm64-v8a
