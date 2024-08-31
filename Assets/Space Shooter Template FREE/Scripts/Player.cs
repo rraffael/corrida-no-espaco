@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// This script defines which sprite the 'Player" uses and its health.
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
     {
         Instantiate(destructionFX, transform.position, Quaternion.identity); //generating destruction visual effect and destroying the 'Player' object
         Destroy(gameObject);
+        SceneManager.LoadScene(0); // Return to the main menu
     }
 }
 
