@@ -7,7 +7,7 @@ public class Menu : MonoBehaviour
 {
     // Called when we click the "Play" button.
     public void OnPlayButton () {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Game");
     }
 
     // Called when we click the "Quit" button.
