@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corrida no Espaço — Escopo atualizado</title>
+<style>
+  :root {
+    --bg: #fbfaf8;
+    --panel: #ffffff;
+    --ink: #1c1b19;
+    --muted: #6b6862;
+    --line: #e4e1db;
+    --accent: #b4530a;
+    --ok-bg: #e7f3ea; --ok-ink: #1e5c33; --ok-line: #bcdcc6;
+    --warn-bg: #fdf1dd; --warn-ink: #7a4c07; --warn-line: #f0d7ab;
+    --bad-bg: #fbe9e7; --bad-ink: #8c2f22; --bad-line: #f0c4bd;
+    --info-bg: #e8eef7; --info-ink: #274d80; --info-line: #c3d3e8;
+    --code-bg: #f2efe9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161513;
+      --panel: #1e1d1a;
+      --ink: #eceae5;
+      --muted: #9c978d;
+      --line: #34322d;
+      --accent: #e59245;
+      --ok-bg: #16301f; --ok-ink: #8ed9a4; --ok-line: #26593a;
+      --warn-bg: #33260f; --warn-ink: #e9bd6d; --warn-ink: #ecc077; --warn-line: #5c451a;
+      --bad-bg: #3a1c17; --bad-ink: #ef9f92; --bad-line: #63302a;
+      --info-bg: #1a2534; --info-ink: #9dc0ea; --info-line: #2f4562;
+      --code-bg: #26241f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 940px; margin: 0 auto; padding: 40px 24px 96px; }
+  header.top { border-bottom: 3px solid var(--accent); padding-bottom: 22px; margin-bottom: 34px; }
+  .kicker { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 10px 0 8px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); font-size: 15px; margin: 0; }
+  h2 {
+    font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
+    margin: 52px 0 4px; font-weight: 700;
+  }
+  h2 + .h2sub { font-size: 24px; font-weight: 650; letter-spacing: -.015em; margin: 0 0 18px; line-height: 1.25; }
+  h3 { font-size: 17px; margin: 30px 0 10px; letter-spacing: -.01em; }
+  p { margin: 0 0 14px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 7px; }
+  code {
+    background: var(--code-bg); padding: 1px 6px; border-radius: 4px;
+    font: 13.5px/1.5 ui-monospace, "Cascadia Code", Consolas, monospace;
+    word-break: break-word;
+  }
+  a { color: var(--accent); }
+  .panel {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 20px 22px; margin: 0 0 18px;
+  }
+  .note { border-left: 4px solid var(--info-line); background: var(--info-bg); color: var(--info-ink); }
+  .note strong { color: inherit; }
+  .alert { border-left: 4px solid var(--bad-line); background: var(--bad-bg); color: var(--bad-ink); }
+  .flag { border-left: 4px solid var(--warn-line); background: var(--warn-bg); color: var(--warn-ink); }
+  .tablewrap { overflow-x: auto; margin: 0 0 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 700; background: var(--bg); }
+  tr:last-child td { border-bottom: 0; }
+  td.step { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; }
+  .badge {
+    display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: .04em;
+    padding: 3px 9px; border-radius: 999px; border: 1px solid; white-space: nowrap;
+  }
+  .b-ok   { background: var(--ok-bg);   color: var(--ok-ink);   border-color: var(--ok-line); }
+  .b-warn { background: var(--warn-bg); color: var(--warn-ink); border-color: var(--warn-line); }
+  .b-bad  { background: var(--bad-bg);  color: var(--bad-ink);  border-color: var(--bad-line); }
+  .b-info { background: var(--info-bg); color: var(--info-ink); border-color: var(--info-line); }
+  .phase { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 0; margin: 0 0 16px; overflow: hidden; }
+  .phase > .head { padding: 14px 20px; border-bottom: 1px solid var(--line); display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .phase > .head .n { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+  .phase > .head .t { font-size: 18px; font-weight: 650; letter-spacing: -.01em; }
+  .phase > .head .when { margin-left: auto; font-size: 12.5px; color: var(--muted); }
+  .phase > .body { padding: 16px 20px 6px; }
+  .phase > .body > ul { padding-left: 20px; }
+  hr { border: 0; border-top: 1px solid var(--line); margin: 46px 0; }
+  .foot { color: var(--muted); font-size: 13px; margin-top: 60px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .lead { font-size: 18px; line-height: 1.6; }
+  .q { font-weight: 650; margin-bottom: 2px; }
+  .qa { color: var(--muted); font-size: 14.5px; margin: 0 0 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="kicker">Projeto pessoal · Unity · Google Play</div>
+  <h1>Corrida no Espaço — escopo atualizado</h1>
+  <p class="sub">Revisão do passo-a-passo original cruzada com o estado real do repositório <code>C:\Projeto Pessoal\Jogo</code> · 28/07/2026</p>
+</header>
+
+<h2>Resumo</h2>
+<p class="h2sub">Onde você realmente está</p>
+
+<p class="lead">Você fechou os passos <strong>1 a 4</strong> do seu escopo — em nível de protótipo — e nunca chegou nos passos <strong>5, 6 e 7</strong>. O detalhe importante: o passo 6 era <em>“Fazer o jogo abaixo”</em>. Ou seja, <strong>o jogo que você descreveu no documento nunca foi feito.</strong> O que está publicado é o template gratuito <em>Space Shooter Template FREE</em> com um menu por cima.</p>
+
+<div class="panel note">
+<p><strong>Isso não é um problema — é exatamente o que o projeto se propôs a ser.</strong> O objetivo declarado era “entender a pipeline e as ferramentas”, e isso foi cumprido: você fez o ciclo completo de conta → build → assinatura → upload → teste interno → login → conquistas. O que sobra agora é converter esse aprendizado em um jogo de verdade, numa conta nova.</p>
+</div>
+
+<p>A boa notícia é que a parte que costuma travar iniciante (assinar, subir .aab, versionar, plugar o Play Games) você já atravessou uma vez. A parte pesada que resta é a que você ainda não encostou: <strong>o gameplay</strong>.</p>
+
+<hr>
+
+<h2>Parte 1</h2>
+<p class="h2sub">Seu escopo original × o que existe no repositório</p>
+
+<p>As legendas de cor do seu documento (“funciona e criamos” / “funciona mas já veio pronto” / “não funciona”) se perderam na exportação do texto, então refiz o status a partir dos arquivos.</p>
+
+<div class="tablewrap">
+<table>
+<thead><tr><th>Passo</th><th>Item</th><th>Status</th><th>Evidência no projeto</th></tr></thead>
+<tbody>
+<tr><td class="step">1</td><td><strong>Jogo com loop simples + menu</strong></td><td><span class="badge b-warn">Parcial</span></td><td>O loop existe, mas é 100% do template.</td></tr>
+<tr><td class="step">1.1</td><td>Touch funcionando</td><td><span class="badge b-ok">Feito</span></td><td><code>PlayerMoving.cs</code> trata <code>Input.touches</code> sob <code>#if UNITY_ANDROID</code>. Veio pronto do template.</td></tr>
+<tr><td class="step">1.2</td><td>Criar um menu</td><td><span class="badge b-ok">Feito</span></td><td>Seu. <code>Assets/Scenes/Menu.unity</code> — título “Corrida no Espaço”, botões Jogar/Sair.</td></tr>
+<tr><td class="step">1.3</td><td>Opções de inicializar um jogo</td><td><span class="badge b-ok">Feito</span></td><td>Seu. <code>Menu.cs</code> → <code>SceneManager.LoadScene(1)</code>.</td></tr>
+<tr><td class="step">1.4</td><td>Ao morrer, volta ao menu</td><td><span class="badge b-ok">Feito</span></td><td>Seu. Linha 34 de <code>Player.cs</code>: <code>SceneManager.LoadScene(0)</code> — é a <em>única</em> linha que você alterou dentro do template.</td></tr>
+<tr><td class="step">2</td><td><strong>Configurar a Play Store</strong></td><td><span class="badge b-info">Refazer</span></td><td>Foi feito na conta antiga. Conta nova = tudo de novo.</td></tr>
+<tr><td class="step">3</td><td><strong>Lançar na Play Store</strong></td><td><span class="badge b-info">Refazer</span></td><td><code>bundleVersion 1.3</code> / <code>versionCode 4</code> → houve pelo menos 4 uploads. Ciclo dominado.</td></tr>
+<tr><td class="step">3.1</td><td>Criação da chave de acesso</td><td><span class="badge b-bad">Perdida</span></td><td><code>ProjectSettings.asset</code> aponta para <code>C:/Users/raffa/Desktop/Projeto/key/user.keystore</code>, alias <code>user</code>. Essa pasta <strong>não existe nesta máquina</strong>. Ver Parte 2.</td></tr>
+<tr><td class="step">4</td><td><strong>Update com conquista e login</strong></td><td><span class="badge b-warn">Parcial</span></td><td></td></tr>
+<tr><td class="step">4.1</td><td>Adicionar sistema de login</td><td><span class="badge b-warn">Cru</span></td><td><code>Google-Login.cs</code> é o exemplo copiado da documentação, sem adaptação: classe ainda se chama <code>GooglePlayGamesExampleScript</code>, campo <code>Token</code> público, autentica no <code>Awake()</code> sem UI e sem tratamento de falha.</td></tr>
+<tr><td class="step">4.2</td><td>Testar se o login funciona</td><td><span class="badge b-ok">Feito</span></td><td>Configuração GPGS presente e completa (<code>AppId 1042052166444</code>).</td></tr>
+<tr><td class="step">4.3</td><td>Adicionar conquistas na Google Play</td><td><span class="badge b-ok">Feito</span></td><td>2 conquistas criadas no Console e geradas em <code>GPGSIds.cs</code>: <em>Conquista</em> e <em>Mais uma tentativa</em>.</td></tr>
+<tr><td class="step">4.4</td><td>Testar se a conquista funciona</td><td><span class="badge b-bad">Não feito</span></td><td><strong>Nenhuma linha de código chama <code>ReportProgress</code>.</strong> As conquistas existem no Console mas são inalcançáveis no jogo. <code>GPGSIds</code> nunca é referenciado.</td></tr>
+<tr><td class="step">5</td><td><strong>Monetização (ads + compras)</strong></td><td><span class="badge b-bad">Não feito</span></td><td>Nenhum pacote de Ads ou IAP em <code>Packages/manifest.json</code>.</td></tr>
+<tr><td class="step">6</td><td><strong>Fazer “o Jogo” descrito no doc</strong></td><td><span class="badge b-bad">Não feito</span></td><td>Não existe nada do conceito foguete/caminhos/velocidade. O que roda é a <code>Demo_Scene</code> do template.</td></tr>
+<tr><td class="step">6.1</td><td>Verificar touch “New” ou “Old”</td><td><span class="badge b-ok">Respondido</span></td><td>Hoje é <strong>Old</strong>: <code>activeInputHandler: 0</code> (Input Manager). O pacote novo está instalado (<code>com.unity.inputsystem 1.9.0</code>) e o asset <code>InputSystem_Actions.inputactions</code> existe, mas <strong>não está em uso</strong>.</td></tr>
+<tr><td class="step">6.2</td><td>Entender Version e Bundle Version Code</td><td><span class="badge b-ok">Na prática</span></td><td>Você já subiu 4 versões variando os dois; o mecanismo está entendido.</td></tr>
+<tr><td class="step">7</td><td><strong>Lançar alpha, beta e pública</strong></td><td><span class="badge b-bad">Não feito</span></td><td>Nunca passou de teste interno/fechado.</td></tr>
+</tbody>
+</table>
+</div>
+
+<hr>
+
+<h2>Parte 2</h2>
+<p class="h2sub">Raio-X técnico: o que está te esperando</p>
+
+<p>Coisas que hoje impedem ou atrapalham gerar um build publicável. Cada uma é rápida de resolver isoladamente — o custo é ir descobrindo uma por uma no meio do trabalho.</p>
+
+<div class="tablewrap">
+<table>
+<thead><tr><th>Achado</th><th>Onde</th><th>Impacto</th></tr></thead>
+<tbody>
+<tr>
+  <td><strong>Keystore não está na máquina</strong></td>
+  <td><code>ProjectSettings.asset</code>: <code>AndroidKeystoreName: C:/Users/raffa/Desktop/Projeto/key/user.keystore</code>, <code>androidUseCustomKeystore: 1</code></td>
+  <td><span class="badge b-bad">Bloqueia build</span> O build de release falha até apontar para uma chave existente. Como você vai para uma conta nova, o certo é <strong>gerar uma chave nova</strong> — a antiga não serve mesmo.</td>
+</tr>
+<tr>
+  <td><strong>Caminho absoluto de keystore versionado no repo</strong></td>
+  <td>mesmo arquivo</td>
+  <td><span class="badge b-warn">Higiene</span> Amarra o projeto a uma máquina específica. Some no dia que você trocar de PC — que é literalmente o que aconteceu.</td>
+</tr>
+<tr>
+  <td><strong>Versão do Unity divergente</strong></td>
+  <td>Projeto: <code>6000.0.14f1</code> · Instalada aqui: <code>6000.3.6f1</code></td>
+  <td><span class="badge b-warn">Cuidado</span> Abrir força upgrade sem volta. Some com o fato de <strong>não existir pasta <code>Library/</code></strong> (primeira abertura = reimport completo) e você não vai saber distinguir “o upgrade quebrou” de “o reimport quebrou”.</td>
+</tr>
+<tr>
+  <td><strong><code>AndroidTargetSdkVersion: 0</code></strong></td>
+  <td><code>ProjectSettings.asset</code></td>
+  <td><span class="badge b-warn">Risco Play</span> “Automatic” = o que o módulo instalado oferecer. Não determinístico entre máquinas, e a Play exige um alvo mínimo fixo. Deve ser explícito.</td>
+</tr>
+<tr>
+  <td><strong>Orientação em auto-rotação</strong></td>
+  <td><code>defaultScreenOrientation: 4</code></td>
+  <td><span class="badge b-warn">UX</span> Um jogo vertical girando para paisagem no meio da partida. Deve travar em retrato.</td>
+</tr>
+<tr>
+  <td><strong>Sem ícone e sem splash próprios</strong></td>
+  <td><code>m_BuildTargetIcons: []</code> · <code>androidSplashScreen: {fileID: 0}</code></td>
+  <td><span class="badge b-warn">Ficha da loja</span> O app usa o ícone padrão do Unity e a splash “Made with Unity”. Precisa de arte antes de qualquer publicação séria.</td>
+</tr>
+<tr>
+  <td><strong>Jogo sem áudio</strong></td>
+  <td>Nenhum <code>.wav/.mp3/.ogg</code> em <code>Assets/</code></td>
+  <td><span class="badge b-warn">Qualidade</span> Zero som. Para um jogo de arcade isso é metade da sensação de jogo.</td>
+</tr>
+<tr>
+  <td><strong><code>.utmp/</code> fora do <code>.gitignore</code></strong></td>
+  <td>raiz do projeto</td>
+  <td><span class="badge b-info">Higiene</span> Cache de build Android IL2CPP. Não deve ser versionado.</td>
+</tr>
+<tr>
+  <td><strong>Arquitetura e backend</strong></td>
+  <td><code>AndroidTargetArchitectures: 2</code> (ARM64), IL2CPP</td>
+  <td><span class="badge b-ok">OK</span> Já está conforme o exigido pela Play. Nada a fazer.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<hr>
+
+<h2>Parte 3</h2>
+<p class="h2sub">O que mudou desde a última vez</p>
+
+<div class="panel flag">
+<p><strong>Aviso de validade.</strong> Meu conhecimento sobre as regras da Play tem corte em maio de 2026, e essas políticas mudam com frequência. Trate os itens abaixo como <em>“verificar no Console assim que a conta for aprovada”</em>, não como fato consolidado. O Console mostra as exigências atuais na própria tela de publicação.</p>
+</div>
+
+<h3>Conta nova = projeto novo, não continuação</h3>
+<ul>
+  <li><strong>O <code>applicationId</code> provavelmente está queimado.</strong> Um pacote já enviado à Play fica reservado pela conta que o enviou — inclusive vindo só de teste interno/fechado, e inclusive depois de apagado. Planeje trocar <code>com.Raffael.corridanoespaco</code> por um novo. <em>Confirme no Console tentando criar o app com o nome antigo; se aceitar, ótimo, economiza retrabalho.</em></li>
+  <li><strong>Trocar o pacote arrasta o Play Games Services junto.</strong> O App ID <code>1042052166444</code>, as duas conquistas (<code>CgkIrOaY-akeEAIQAA</code>, <code>CgkIrOaY-akeEAIQAQ</code>) e o cliente OAuth pertencem ao projeto antigo. Tudo isso é recriado do zero e o <code>GPGSIds.cs</code> é regerado.</li>
+  <li><strong>Chave nova, obrigatoriamente.</strong> App novo, chave de upload nova. Ative o Play App Signing (é o padrão) — assim, se você perder a chave de upload de novo, dá para pedir reset sem perder o app.</li>
+</ul>
+
+<h3>O gargalo real do cronograma</h3>
+<div class="panel alert">
+<p><strong>Contas pessoais de desenvolvedor precisam rodar um teste fechado com um mínimo de testadores (na última regra que conheço: 12 pessoas, com opt-in contínuo por 14 dias) antes de poder solicitar acesso à produção.</strong></p>
+<p style="margin-bottom:0">Isso não depende de código nenhum. É o único item do caminho crítico que você pode começar <em>hoje</em>, com a conta ainda em verificação: <strong>montar a lista de 12 pessoas</strong> (amigos, família, colegas) e confirmar que cada uma topa instalar e aceitar o convite. Se você deixar isso para quando o jogo estiver pronto, são duas semanas de espera parada no fim do projeto.</p>
+</div>
+
+<h3>Itens de conformidade que não existiam no seu escopo</h3>
+<ul>
+  <li><strong>Política de privacidade com URL pública.</strong> Obrigatória. Com login do Google Play Games — e mais ainda se entrar publicidade — você coleta dados e precisa declarar. <em>Sugestão:</em> você já tem o portfólio no GitHub Pages; hospedar a política lá é o caminho mais barato.</li>
+  <li><strong>Formulário de segurança de dados</strong> (Data Safety) na ficha da Play, coerente com a política acima.</li>
+  <li><strong>Classificação indicativa</strong> (questionário IARC) e declaração de público-alvo — a exigência aperta bastante se o app for direcionado a crianças, o que muda inclusive quais anúncios você pode servir.</li>
+  <li><strong>Verificação de identidade e endereço</strong> da conta — é onde você está agora.</li>
+</ul>
+
+<hr>
+
+<h2>Parte 4</h2>
+<p class="h2sub">Duas decisões suas antes de eu escrever qualquer linha</p>
+
+<p class="q">1. “O jogo” é o conceito do documento ou o shoot-'em-up que está no projeto?</p>
+<p class="qa">Seu doc descreve um jogo de <strong>foguete em caminhos com velocidade</strong> — nada a ver com o shooter do template. O passo 6 (“fazer o Jogo abaixo”) nunca foi feito. Estou assumindo que <strong>“fazer o jogo em si” = construir o conceito do documento</strong>, e o plano abaixo parte disso. Se na verdade você quer polir o shooter e lançar, o plano muda bastante — me avise.</p>
+
+<p class="q">2. Qual vai ser o novo <code>applicationId</code>?</p>
+<p class="qa">Precisa ser decidido antes de qualquer build, porque ele aparece no keystore, no GPGS, no Console e não pode mais mudar depois de publicado. Sugestões: <code>br.com.raffael.corridanoespaco</code> ou <code>com.raffaelrodrigues.corridanoespaco</code>. Evite repetir a capitalização estranha do antigo (<code>com.Raffael.…</code>).</p>
+
+<hr>
+
+<h2>Parte 5</h2>
+<p class="h2sub">O plano — do jeito que você pediu</p>
+
+<p>A ordem abaixo é montada com um objetivo só: <strong>quando você chegar na fase de fazer o jogo, não sobrar nenhuma pendência de infraestrutura para te interromper.</strong> As fases 0 a 2 não dependem da aprovação da conta e podem ser feitas agora.</p>
+
+<div class="phase">
+  <div class="head"><span class="n">Fase 0</span><span class="t">Higiene, antes de abrir o Unity</span><span class="when">~1 hora</span></div>
+  <div class="body">
+    <ul>
+      <li><strong>Garantir o repositório limpo e commitado</strong> antes de qualquer coisa. A primeira abertura no Unity vai mexer em muito arquivo; você quer um ponto de retorno.</li>
+      <li><strong>Decidir a versão do Unity.</strong> Recomendo <strong>instalar a linha <code>6000.0</code> pelo Hub</strong> e abrir o projeto com ela, em vez de deixar a <code>6000.3.6f1</code> fazer o upgrade. Motivo: sem <code>Library/</code>, a primeira abertura já é um reimport completo — juntar upgrade de engine com reimport é a receita para passar um dia caçando erro que não é seu. Migrar de versão vira uma tarefa própria, em branch separada, depois que o projeto estiver comprovadamente rodando.</li>
+      <li>Adicionar <code>/.utmp/</code> ao <code>.gitignore</code>.</li>
+      <li>Abrir o projeto e confirmar que a <code>Demo_Scene</code> ainda roda no Editor. Esse é o marco “projeto vivo”.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="head"><span class="n">Fase 1</span><span class="t">Destravar o build</span><span class="when">~2 horas</span></div>
+  <div class="body">
+    <ul>
+      <li>Definir o novo <code>applicationId</code> (decisão 2 acima).</li>
+      <li><strong>Gerar keystore novo</strong>, guardá-lo <em>fora</em> do repositório, e anotar senha/alias num gerenciador de senhas. Nunca commitar o arquivo nem a senha.</li>
+      <li>Tirar o caminho absoluto do <code>ProjectSettings.asset</code> — a chave deve ser referenciada de um lugar que não amarre o projeto a uma máquina.</li>
+      <li>Fixar <code>AndroidTargetSdkVersion</code> explicitamente no que a Play exigir hoje.</li>
+      <li>Travar a orientação em retrato.</li>
+      <li><strong>Marco:</strong> gerar um <code>.aab</code> de release assinado, mesmo com o jogo ainda sendo o template. A partir daqui, “publicar” deixa de ser um mistério e vira um botão.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="head"><span class="n">Fase 2</span><span class="t">Play Console — o que dá para adiantar</span><span class="when">em paralelo</span></div>
+  <div class="body">
+    <ul>
+      <li><strong style="color:var(--accent)">Montar a lista dos 12 testadores. Comece hoje.</strong> É o item mais longo e o único que não depende de nada seu.</li>
+      <li>Escrever a política de privacidade e publicá-la (GitHub Pages do portfólio).</li>
+      <li>Preparar a arte da ficha: ícone 512×512, feature graphic, screenshots, descrição curta e longa. Vale fazer em PT e EN.</li>
+      <li>Assim que a conta sair da verificação: criar o app, testar se o pacote antigo é aceito, criar o projeto novo no Play Games Services.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="head"><span class="n">Fase 3</span><span class="t">Fechar o que ficou pela metade</span><span class="when">~meio dia</span></div>
+  <div class="body">
+    <ul>
+      <li>Recriar as conquistas no novo projeto GPGS e regerar <code>GPGSIds.cs</code>.</li>
+      <li>Reescrever o <code>Google-Login.cs</code>: nome de classe decente, sem campo público de token, com tratamento de falha e sem autenticar cegamente no <code>Awake()</code>.</li>
+      <li><strong>Fechar o passo 4.4 do seu escopo</strong> — fazer o jogo efetivamente reportar as conquistas. Hoje elas existem e são inalcançáveis.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="head"><span class="n">Fase 4</span><span class="t">O jogo em si — o passo 6, enfim</span><span class="when">o grosso do trabalho</span></div>
+  <div class="body">
+    <p><strong>Sobre reaproveitar o template:</strong> o gameplay dele não serve — movimento livre, tiro, ondas de inimigos, nada disso existe no seu conceito. Mas a arte e os sistemas de apoio servem muito bem: sprites de nave e planetas, VFX de explosão e motor, <code>RepeatingBackground</code>, <code>PoolingController</code>, <code>DirectMoving</code>. <strong>Recomendação: manter o template como biblioteca de arte e escrever o gameplay do zero em cena nova</strong>, em vez de tentar dobrar a <code>Demo_Scene</code> até virar outra coisa.</p>
+    <p>O conceito, destrinchado a partir do seu documento:</p>
+    <ul>
+      <li>Foguete que troca entre um número <strong>ímpar</strong> de caminhos (3 é o começo natural — permite “centro + laterais”).</li>
+      <li>Obstáculos que <strong>aceleram ou freiam</strong> em vez de dar dano. A velocidade é a única barra de vida.</li>
+      <li>Velocidade ≤ 0 → derrota. Velocidade ≥ X → vitória por dobra espacial.</li>
+      <li>Entradas: toque para trocar de faixa. Aqui vale decidir de vez se migra para o Input System novo ou fica no legado — <strong>para trocar de faixa, o legado resolve; migrar agora é custo sem retorno.</strong></li>
+      <li>Áudio: pelo menos motor, impacto positivo, impacto negativo, vitória e derrota.</li>
+      <li>Pontuação persistente e, se quiser, leaderboard do Play Games.</li>
+    </ul>
+    <p style="margin-bottom:14px">Os “plus” do seu doc — tempo limite, dificuldades, foguetes alternativos, duas moedas, upgrades — são <strong>pós-lançamento</strong>. Duas moedas e loja de upgrades é, sozinho, um projeto do tamanho do jogo base.</p>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="head"><span class="n">Fase 5</span><span class="t">Monetização — por último</span><span class="when">depois do lançamento</span></div>
+  <div class="body">
+    <ul>
+      <li>Anúncios primeiro, compras depois. Anúncio é integração; compra com moeda dupla é design de economia.</li>
+      <li>Só faz sentido colocar anúncio em jogo que as pessoas querem jogar. Antes disso você está otimizando receita de zero jogadores.</li>
+      <li>Entrar com Ads muda o formulário de segurança de dados e a classificação indicativa — outro motivo para não misturar isso com o primeiro lançamento.</li>
+    </ul>
+  </div>
+</div>
+
+<hr>
+
+<h2>Parte 6</h2>
+<p class="h2sub">Se você só ler uma coisa</p>
+
+<ol>
+  <li><strong>Hoje:</strong> comece a juntar os 12 testadores. É o relógio mais lento do projeto e ele nem começou a correr.</li>
+  <li><strong>Esta semana:</strong> Fases 0 e 1 — versão do Unity resolvida, keystore novo, pacote novo, e um <code>.aab</code> assinado saindo do forno. Depois disso, publicar nunca mais é assunto.</li>
+  <li><strong>Depois:</strong> Fase 4, sem culpa e sem distração. É aí que o projeto deixa de ser um exercício de pipeline e vira um jogo.</li>
+</ol>
+
+<p class="foot">
+  Documento gerado a partir do passo-a-passo original (Google Docs) cruzado com a leitura de <code>C:\Projeto Pessoal\Jogo</code> em 28/07/2026.<br>
+  Itens de política da Google Play devem ser reconfirmados no Console — as regras mudam e este documento não é fonte oficial.
+</p>
+
+</div>
+</body>
+</html>
