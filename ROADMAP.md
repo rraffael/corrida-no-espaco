@@ -45,23 +45,45 @@ Marque cada item conforme for concluído: `[ ]` → `[x]`.
 
 ---
 
-## Fase 0 — Diagnóstico pendente 🟡
+## Fase 0 — Diagnóstico 🟡
 Bloqueia confiar em qualquer teste no aparelho. Sem saber o erro, não dá para separar bug real de ruído.
 
-- [ ] Capturar o erro que fica repetindo no aparelho:
-      `adb logcat -s Unity` (adb em `…/PlaybackEngines/AndroidPlayer/SDK/platform-tools/`)
-- [ ] Identificar a origem e decidir se é código, configuração ou ruído de plugin
-- [ ] Confirmar se o Console do Unity acusa erro de compilação nos scripts novos de `Assets/Scripts/Input/`
+> **Resolvido em 31/07/2026.** O erro que se repetia era
+> `InvalidOperationException: You are trying to read Input using the UnityEngine.Input class,
+> but you have switched active Input handling to Input System package in Player Settings`.
+> Origem: o `EventSystem` da `Menu.unity` usava `StandaloneInputModule`, o módulo de UI do Input
+> Manager antigo, que lê `UnityEngine.Input` a cada frame. Nenhum script do projeto usa a API
+> antiga. Não era ruído: com o módulo morrendo na exceção, a UI não processa toque — os botões
+> do menu não respondem no aparelho.
 
-## Fase 1 — Tornar o jogo testável no celular ⬜
+- [x] Atalho para o log — `tools/logcat.ps1` acha o adb da Unity sozinho, confere se o aparelho
+      está autorizado e limpa o buffer antes de acompanhar (`-All` mostra tudo, `-Save` grava em arquivo)
+- [x] Capturar o erro que fica repetindo no aparelho
+- [x] Identificar a origem — configuração de cena, não código: `StandaloneInputModule` no `EventSystem`
+- [x] Escrever o conserto — `Assets/Editor/Tools/EventSystemUpgrade.cs`, menu
+      **Tools → Corrida no Espaço → Migrar EventSystem para o Input System**
+- [ ] **Rodar o item de menu acima e rebuildar** — o log tem de ficar limpo e os botões do menu
+      têm de responder ao toque
+- [ ] Confirmar se o Console do Unity acusa erro de compilação nos scripts novos
+
+## Fase 1 — Tornar o jogo testável no celular 🟡
 São três ajustes pequenos que hoje fazem o app *parecer* quebrado sem estar.
+*Aplicados em 31/07/2026 por edição direta dos arquivos, com a Unity fechada. Falta abrir a
+Unity para confirmar que os valores apareceram no Inspector e rodar no aparelho.*
 
-- [ ] `Menu.unity` — CanvasScaler: *UI Scale Mode* → **Scale With Screen Size**,
+- [x] `Menu.unity` — CanvasScaler: *UI Scale Mode* → **Scale With Screen Size**,
       Reference Resolution **1080x1920**, Match **0.5**
-      *(hoje em Constant Pixel Size: botões de 300x65 px físicos ficam minúsculos num 1080x2400)*
-- [ ] Travar orientação em **Portrait** — hoje `defaultScreenOrientation: 4` (auto-rotate, 4 orientações liberadas)
-- [ ] Avaliar `androidRenderOutsideSafeArea: 1` — UI pode ficar sob o notch
-- [ ] Fixar `AndroidTargetSdkVersion` explicitamente — hoje `0` (Automatic), não determinístico
+      *(estava em Constant Pixel Size: botões de 300x65 px físicos ficavam minúsculos num 1080x2400)*
+- [x] Travar orientação em **Portrait** — `defaultScreenOrientation: 0`, e as três autorrotações
+      não-retrato desligadas
+- [x] `androidRenderOutsideSafeArea` → `0` — o jogo não tem código lendo `Screen.safeArea`,
+      então é melhor o Android reservar a faixa do notch. Reverter para `1` no dia em que
+      a UI tratar a safe area sozinha
+- [ ] `AndroidTargetSdkVersion` explícito — tentei **36** e o build quebrou: a SDK Platform 36
+      não está instalada nesta máquina. Voltou para `0` (Automatic) para destravar o teste.
+      **Pendência da Fase 4:** instalar a Platform 36 pelo Android SDK Manager e fixar o valor —
+      a partir de 31/08/2026 a Play exige target 36 para aceitar upload
+- [ ] Confirmar no aparelho: abrir a Unity, Build And Run, ver menu legível e sem rotação
 
 ## Fase 2 — Input de toque 🟡
 Base já escrita nesta sessão; falta provar no aparelho e ligar na jogabilidade.
@@ -70,12 +92,16 @@ Base já escrita nesta sessão; falta provar no aparelho e ligar na jogabilidade
       *(Input System novo, com fallback de mouse no Editor; roda com o `activeInputHandler: 2`
       atual, sem precisar mexer em Player Settings)*
 - [x] Escrever o validador visual — `Assets/Scripts/Input/TouchTester.cs`
-- [ ] **Validar no aparelho:** GameObject vazio na `Game.unity` → Add Component `TouchTester`
-      → Build And Run → conferir dedos ativos, posição, delta e taps
+- [x] Automatizar a montagem da cena de teste — `Assets/Editor/Tools/TouchTestSetup.cs`
+      *(menu **Tools → Corrida no Espaço → Montar teste de toque**: abre a `Game.unity`, cria o
+      objeto `TouchTest` com `TouchInput` + `TouchTester` e salva. O item "Desmontar" desfaz)*
+- [ ] **Validar no aparelho:** rodar o item de menu acima → Build And Run → conferir dedos
+      ativos, posição, delta e taps
+- [ ] Desmontar o `TouchTest` antes de qualquer build de release
 - [ ] Decidir o gesto de jogo: *tap* nas laterais vs *swipe* para trocar de faixa
-- [ ] Decidir se o EventSystem do menu migra de `StandaloneInputModule` (legado) para
-      `InputSystemUIInputModule` — **recomendação: só depois que o gameplay estiver de pé**,
-      hoje o legado funciona e mexer é risco sem ganho
+- [x] ~~Decidir se o EventSystem migra para `InputSystemUIInputModule`~~ — decidido pela
+      realidade: **não era opcional**. A suposição de que "hoje o legado funciona" estava errada;
+      ver Fase 0. Migração escrita, falta rodar
 
 ## Fase 3 — Decisões que travam o resto ⬜
 Herdadas da Parte 4 do escopo. Nenhuma linha de gameplay ou build de release deve sair antes destas duas.
@@ -90,23 +116,46 @@ Herdadas da Parte 4 do escopo. Nenhuma linha de gameplay ou build de release dev
 ## Fase 4 — Destravar o build de release ⬜
 Depende da Fase 3. Fecha o assunto "publicar" de uma vez.
 
+- [ ] Instalar a **Android SDK Platform 36** e fixar o Target API Level em 36 — sem isso a Play
+      não aceita upload a partir de 31/08/2026, e hoje o valor está em Automatic
 - [ ] Gerar keystore novo, guardar **fora** do repositório, senha e alias num gerenciador
-- [ ] Tirar o caminho absoluto de `ProjectSettings.asset:277` — não amarrar o projeto a uma máquina
+- [x] Tirar o caminho absoluto do keystore do `ProjectSettings.asset` — `AndroidKeystoreName` e
+      `AndroidKeyaliasName` agora vazios; o projeto não está mais amarrado a uma máquina
+- [x] Script de build — `Assets/Editor/Tools/BuildAndroid.cs`. Menu **Tools → Corrida no Espaço →
+      Build** (APK de teste / AAB de release) e alvos `-executeMethod BuildAndroid.Release` e
+      `.Development` para linha de comando. As credenciais vêm das variáveis `CNE_KEYSTORE_PATH`,
+      `CNE_KEYSTORE_PASS`, `CNE_KEY_ALIAS`, `CNE_KEY_ALIAS_PASS` e são limpas do Editor ao fim do
+      build, para o caminho da chave nunca voltar a vazar para o `ProjectSettings.asset`
+- [x] Conferência automática antes do build — `Assets/Editor/Tools/PreflightCheck.cs`, menu
+      **Tools → Corrida no Espaço → Conferir configuração**: cenas e ordem da build list,
+      orientação, target SDK, keystore vazado no projeto e `applicationId` antigo
 - [ ] Aplicar o novo `applicationId`
 - [ ] Ativar Play App Signing (padrão) — permite reset se a chave de upload sumir de novo
 - [ ] **Marco:** gerar um `.aab` de release assinado, mesmo com o jogo incompleto
-- [ ] Adicionar `/.utmp/` ao `.gitignore`
+- [x] ~~Adicionar `/.utmp/` ao `.gitignore`~~ — já estava lá (`.gitignore:14`); item era engano meu
 
 ## Fase 5 — Play Console, em paralelo ⬜
 Não depende de código. **O relógio mais lento do projeto** — começar cedo.
 
+- [x] Preparar o teste fechado no papel — `docs/play-console/teste-fechado.md`: regra, planilha
+      para 16 e-mails (convidar mais que 12, porque gente some), texto de convite e checklist
 - [ ] Montar a lista de **12 testadores** para o teste fechado (opt-in contínuo por 14 dias)
-- [ ] Escrever e publicar a política de privacidade com URL pública (GitHub Pages do portfólio)
-- [ ] Preparar ficha da loja: ícone 512×512, feature graphic, screenshots, descrições PT e EN
+      — **é você quem junta os e-mails; nada mais no projeto trava isto**
+- [x] Escrever a política de privacidade — `docs/politica-de-privacidade.md` e `docs/privacy-policy.md`
+- [ ] Publicar a política numa URL pública (GitHub Pages do portfólio) e guardar o link
+- [ ] Desligar o Unity Analytics legado antes de publicar — `UnityConnectSettings.asset:23` está
+      com `m_Enabled: 1` e `m_InitializeOnStartup: 1`. Sem `cloudProjectId` ele não envia nada,
+      mas a política afirma que o jogo não coleta dados: melhor a configuração concordar com o texto
+- [x] Escrever a ficha da loja PT e EN — `docs/play-console/ficha-da-loja.md`
+      *(textos escritos para o conceito das 3 faixas; se a Fase 3 decidir outra coisa, reescrever)*
+- [ ] Produzir os gráficos da ficha: ícone 512×512, feature graphic 1024×500, screenshots — **arte, é sua**
 - [ ] Quando a conta sair da verificação: criar o app e testar se o pacote antigo é aceito
 - [ ] Criar o projeto novo no Play Games Services
-- [ ] Formulário de Data Safety, coerente com a política de privacidade
-- [ ] Questionário IARC e declaração de público-alvo
+- [x] Rascunhar o Data Safety coerente com a política — `docs/play-console/data-safety.md`
+- [ ] Preencher o Data Safety no Console
+- [x] Rascunhar IARC e público-alvo — `docs/play-console/iarc-e-publico-alvo.md`
+      *(recomendação: declarar 13+ e ficar fora da Política para Famílias)*
+- [ ] Responder o questionário IARC no Console
 
 > Regras da Play mudam com frequência — reconfirmar cada item no Console, não tratar como fato.
 
@@ -127,10 +176,16 @@ O grosso do trabalho. Só começa com a Fase 3 decidida.
 Depende do projeto GPGS novo (Fase 5).
 
 - [ ] Recriar as conquistas no novo projeto GPGS e regerar `GPGSIds.cs`
-- [ ] Reescrever `Google-Login.cs`: nome de classe decente, sem campo público de token,
-      tratamento de falha, sem autenticar cego no `Awake()`
-- [ ] Colocar o script numa cena — hoje ele não está em nenhuma
-- [ ] Chamar `ReportProgress` de fato no jogo (passo 4.4 do escopo, nunca fechado)
+- [x] Reescrever o login — `Assets/Scripts/Services/PlayGamesAuth.cs` substitui o antigo
+      `Google-Login.cs`, que foi apagado. Login silencioso opcional, login manual em botão,
+      falha vira warning e não quebra o jogo, token de servidor vai por callback e não fica
+      guardado. Traz também `UnlockAchievement`/`ReportAchievement`
+      *(o arquivo velho se chamava `Google-Login.cs` com a classe `GooglePlayGamesExampleScript`:
+      com hífen no nome e classe diferente do arquivo, a Unity nunca deixaria anexar num
+      GameObject — era código morto por construção)*
+- [ ] Colocar o `PlayGamesAuth` numa cena (raiz da `Menu.unity`) — só depois do projeto GPGS novo
+- [ ] Ligar um botão de login manual na UI, para quando o silencioso falhar
+- [ ] Chamar `UnlockAchievement` de fato no jogo (passo 4.4 do escopo, nunca fechado)
 - [ ] Cadastrar a SHA-1 de debug no Console para conseguir testar login sem build de release
 
 ## Fase 8 — Acabamento ⬜
