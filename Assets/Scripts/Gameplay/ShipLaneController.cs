@@ -3,8 +3,9 @@ using UnityEngine;
 
 /// <summary>
 /// Move a nave entre as faixas do <see cref="LaneTrack"/>. O comando é arrastar
-/// o dedo para a esquerda ou para a direita; cada tanto de arraste vale uma
-/// faixa, então um arraste longo e contínuo atravessa várias sem soltar o dedo.
+/// o dedo para a esquerda ou para a direita, e cada arraste vale **uma única
+/// faixa**: pouco importa se o dedo andou o mínimo ou atravessou a tela inteira,
+/// a nave anda uma faixa e só aceita o próximo comando depois de soltar o dedo.
 /// </summary>
 public class ShipLaneController : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class ShipLaneController : MonoBehaviour
     [SerializeField] int startingLane = -1;
 
     [Header("Comando")]
-    [Tooltip("Quanto o dedo precisa andar na horizontal, em polegadas, para trocar de faixa. " +
+    [Tooltip("Quanto o dedo precisa andar na horizontal, em polegadas, para o arraste valer uma troca de faixa. " +
              "Em polegadas e não em pixels para o gesto ter o mesmo tamanho em qualquer densidade de tela.")]
     [SerializeField, Min(0.05f)] float swipeInchesPerLane = 0.18f;
 
@@ -36,6 +37,12 @@ public class ShipLaneController : MonoBehaviour
     float dragInches;
     float targetX;
     bool wasPressing;
+
+    /// <summary>Este arraste já valeu a faixa dele. Só zera quando o dedo sai da tela.</summary>
+    bool gestureSpent;
+
+    /// <summary>O dedo desceu em cima da UI (botão de menu): o gesto não é comando de nave.</summary>
+    bool gestureIgnored;
 
     void Awake()
     {
@@ -59,8 +66,7 @@ public class ShipLaneController : MonoBehaviour
 
     void OnDisable()
     {
-        dragInches = 0f;
-        wasPressing = false;
+        EndGesture();
     }
 
     void Update()
@@ -72,48 +78,56 @@ public class ShipLaneController : MonoBehaviour
     void ReadInput()
     {
         var input = TouchInput.Instance;
-        if (input == null || !input.IsPressing)
+
+        // Time.timeScale em zero é o jogo pausado (menu aberto): o arraste de
+        // quem está mexendo no menu não pode virar comando de nave.
+        if (input == null || !input.IsPressing || Time.timeScale <= 0f)
         {
-            dragInches = 0f;
-            wasPressing = false;
+            EndGesture();
             return;
         }
 
-        // Cada toque novo começa a contar o arraste do zero: sobra do gesto
-        // anterior não pode virar troca de faixa fantasma ao encostar o dedo.
         if (!wasPressing)
-            dragInches = 0f;
-
-        wasPressing = true;
-        dragInches += input.InchDelta.x;
-
-        // While, e não if: num arraste rápido o dedo anda mais de uma faixa entre
-        // dois frames, e o gesto tem de valer as duas.
-        while (Mathf.Abs(dragInches) >= swipeInchesPerLane)
         {
-            int step = dragInches > 0f ? 1 : -1;
-            dragInches -= step * swipeInchesPerLane;
-
-            if (!TryMoveLane(step))
-            {
-                // Já está na faixa da ponta. Zera para o jogador não precisar
-                // "desfazer" um arraste acumulado contra a parede antes de voltar.
-                dragInches = 0f;
-                break;
-            }
+            // Cada toque novo começa a contar o arraste do zero: sobra do gesto
+            // anterior não pode virar troca de faixa fantasma ao encostar o dedo.
+            wasPressing = true;
+            dragInches = 0f;
+            gestureSpent = false;
+            gestureIgnored = input.IsOverUI();
         }
+
+        if (gestureIgnored || gestureSpent)
+            return;
+
+        dragInches += input.InchDelta.x;
+        if (Mathf.Abs(dragInches) < swipeInchesPerLane)
+            return;
+
+        // Uma faixa por arraste. O gesto se esgota aqui mesmo quando a nave já
+        // está na ponta e não tem para onde ir — assim continuar arrastando
+        // "contra a parede" não deixa crédito acumulado para o outro lado.
+        gestureSpent = true;
+        MoveLane(dragInches > 0f ? 1 : -1);
     }
 
-    bool TryMoveLane(int step)
+    void EndGesture()
+    {
+        dragInches = 0f;
+        wasPressing = false;
+        gestureSpent = false;
+        gestureIgnored = false;
+    }
+
+    void MoveLane(int step)
     {
         int next = track.ClampLane(CurrentLane + step);
         if (next == CurrentLane)
-            return false;
+            return;
 
         CurrentLane = next;
         targetX = track.LaneCenterX(CurrentLane);
         LaneChanged?.Invoke(CurrentLane);
-        return true;
     }
 
     void MoveTowardsLane()

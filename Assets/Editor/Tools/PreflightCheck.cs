@@ -13,7 +13,7 @@ static class PreflightCheck
 {
     const string OldApplicationId = "com.Raffael.corridanoespaco";
 
-    [MenuItem("Tools/Corrida no Espaço/Conferir configuração", false, 150)]
+    [MenuItem(ProjectTools.PreflightItem, false, 150)]
     static void Check()
     {
         var problems = new List<string>();

@@ -26,13 +26,13 @@ static class BuildAndroid
 {
     const string OutputFolder = "Builds";
 
-    [MenuItem("Tools/Corrida no Espaço/Build/APK de teste", false, 200)]
+    [MenuItem(ProjectTools.BuildApkItem, false, 200)]
     static void DevelopmentApkFromMenu()
     {
         Run(appBundle: false, release: false);
     }
 
-    [MenuItem("Tools/Corrida no Espaço/Build/AAB de release", false, 201)]
+    [MenuItem(ProjectTools.BuildAabItem, false, 201)]
     static void ReleaseBundleFromMenu()
     {
         Run(appBundle: true, release: true);

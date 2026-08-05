@@ -26,6 +26,16 @@ Jogo mobile Android feito na Unity `6000.3.20f1`. Divisão de trabalho:
 - **Ao mover ou apagar arquivo, levar o `.meta` junto.** Sem isso os GUIDs quebram.
 - **Nome de arquivo de MonoBehaviour tem que bater com o nome da classe**, senão não dá para
   anexar em GameObject nenhum. Já aconteceu neste projeto (`Google-Login.cs`).
+- **Ferramenta nova de editor entra no catálogo.** O caminho do `[MenuItem]` é uma `const` em
+  `Assets/Editor/Tools/ProjectTools.cs`, a ferramenta entra em `ProjectTools.All`, e a montagem
+  chama `ProjectTools.MarkRun(id)` ao terminar (e `Forget(id)` no "Desmontar"). É o que faz o
+  **Painel de ferramentas** saber sozinho o que já rodou. Montagem vai no submenu `Montagem/`;
+  conserto pontual, em `Correções/`.
+- **Ferramenta de uso único se apaga depois de rodar.** O Raffael não quer item morto no menu:
+  montou a cena e funcionou, o script sai do projeto (com o `.meta`), e o ROADMAP registra o que
+  ele fez e o `git checkout <commit> -- <caminho>` que o traz de volta. Consequência prática:
+  **commitar a ferramenta antes de rodá-la**, senão não há de onde resgatar. Vale para
+  montagem de cena e conserto pontual, não para rotina (Build, Conferir configuração).
 
 ## Estrutura
 
@@ -43,7 +53,9 @@ quê**, não o que a linha já diz.
 ## Comandos
 
 - Validar compilação: `Unity.exe -quit -batchmode -projectPath . -executeMethod ...`
-  *(pedir o caminho do `Unity.exe` — fica fora da pasta do projeto)*
+  *(pedir o caminho do `Unity.exe` — fica fora da pasta do projeto; não roda com o Editor aberto)*
+- Ferramentas: menu **Tools → Corrida no Espaço → Painel de ferramentas** — lista o que falta
+  rodar e o que já rodou, com a data. O diário fica em `UserSettings/`, fora do git.
 - Build: menu **Tools → Corrida no Espaço → Build**, ou `-executeMethod BuildAndroid.Release`
   com as variáveis `CNE_KEYSTORE_*` definidas.
 - Log do aparelho: `.\tools\logcat.ps1`
