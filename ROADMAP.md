@@ -47,13 +47,16 @@ Marque cada item conforme for concluído: `[ ]` → `[x]`.
   por arraste**, o hambúrguer pausa o jogo e o "Sair" volta para a `Menu.unity`. É a primeira vez
   que o jogo faz algo de verdade num celular. A pausa é `Time.timeScale = 0`, que o
   `ShipLaneController` lê para ignorar arraste — nenhum script de jogabilidade conhece a UI.
+- **A corrida anda** (06/08/2026) — `RaceSpeed` (velocidade do zero ao cruzeiro), campo de
+  estrelas rolando na velocidade dela e HUD no rodapé. **O jogo virou uma corrida**: até ontem
+  era um seletor de faixa parado no vazio.
 - **Unity Analytics desligado** — `UnityConnectSettings.asset` com tudo em `0`, e o módulo
   `com.unity.modules.unityanalytics` fora do `manifest.json`. A configuração agora concorda
   com o que a política de privacidade afirma.
 
 **Faltando**
-- Gameplay: troca de faixa aprovada; a corrida para frente (Parte 2) está **escrita mas não
-  montada na cena** — falta rodar o `RaceSetup` e testar.
+- Parte 3 (nave com ficha, obstáculos, tiro, vitória, derrota, recordes): **escrita em
+  06/08/2026, não montada nem testada.**
 - Áudio: nenhum `.wav`/`.mp3`/`.ogg` no projeto.
 - Ícone e splash próprios.
 - `AndroidTargetSdkVersion` ainda em `0` (Automatic) — **prazo: 31/08/2026**.
@@ -294,7 +297,7 @@ A base de tudo: se a nave não anda direito entre as faixas, nada em cima disso 
             faixas se deslocam, a nave junto) ou **só para um lado** (as faixas existentes ficam
             paradas)?
 
-### Parte 2 — A nave se move para frente 🟡
+### Parte 2 — A nave se move para frente ✅
 Sem cenário passando, não existe sensação de corrida. Liberada em 05/08/2026 com a Parte 1
 aprovada no aparelho; **código escrito no mesmo dia, falta montar e testar**.
 
@@ -319,26 +322,72 @@ aprovada no aparelho; **código escrito no mesmo dia, falta montar e testar**.
       então em cruzeiro não gera lixo por frame
 - [x] Editor script de montagem — `Assets/Editor/Tools/RaceSetup.cs`, menu **Tools → Corrida no
       Espaço → Montagem → Montar corrida (fundo + HUD)**, com "Desmontar corrida" para desfazer
-- [ ] **Commitar antes de rodar** — regra do `CLAUDE.md`: ferramenta de uso único se apaga depois
-      de usada, e só volta do git se tiver sido commitada antes
-- [ ] **Rodar o item de menu** e conferir no Editor: fundo rolando, número subindo de 0 até 80
-- [ ] **Testar no aparelho:** a corrida tem de *parecer* corrida, e a troca de faixa continuar
-      boa com o fundo em movimento
-- [ ] Ajustar o tato se precisar: `cruiseSpeed` e `acceleration` no Inspector do objeto `Race`
+- [x] **Rodado em 06/08/2026** — fundo rolando, velocidade subindo do zero ao cruzeiro e HUD
+      no rodapé. Aprovado pelo Raffael de primeira, sem ajuste de número
+- [x] **Confirmado no aparelho** (06/08/2026) — Editor e celular, sem ajuste de número
+- [ ] Apagar o `RaceSetup.cs` depois de commitado, conforme o combinado do `CLAUDE.md`
 
 > **Sem paralaxe de propósito** (decidido em 05/08/2026): primeiro tudo funcionando, o enfeite
 > depois. O `speedFactor` do `ScrollingBackground` é o gancho para quando essa hora chegar.
 
-### Parte 3 em diante — a definir ⬜
-Candidatos herdados do escopo, **nenhum decidido**:
+### Parte 3 — O jogo inteiro 🟡
+Decidida pelo Raffael em 06/08/2026: **tudo de uma vez**, em vez de uma mecânica por parte.
+Escrito no mesmo dia; **falta montar e testar**.
 
-- [ ] Obstáculos que aceleram ou freiam (velocidade = única barra de vida)
-- [ ] Tiro — o que dá para acertar, e o que acertar muda na corrida
-- [ ] Derrota com velocidade ≤ 0; vitória por dobra espacial com velocidade ≥ X
-- [ ] Voltar ao menu ao morrer (`SceneManager.LoadScene`)
-- [ ] Pontuação persistente
-- [ ] Áudio: motor, impacto positivo, impacto negativo, vitória, derrota
+**A ficha da nave**
+- [x] `Assets/Scripts/Gameplay/ShipStats.cs` — velocidade de cruzeiro, dano, velocidade de ataque
+      e vida. É a ficha que o Raffael pediu antes de tudo, e **é dela que o resto lê**: a arma
+      pega dano e cadência, a corrida pega a velocidade de cruzeiro (`RaceSpeed.ApplyShipStats`),
+      o HUD pega a vida. Atributo novo entra aqui e mais nada muda
+- [x] `Health.cs` — vida genérica, usada **pela nave e pelos obstáculos**. Quem causa dano não
+      precisa saber no que está batendo
+
+**Combate**
+- [x] `Obstacle.cs` — desce na velocidade da corrida, tem vida (dá para destruir a tiro) e dá
+      dano na nave se bater. Destruir **acelera** a corrida; bater **freia** e machuca
+- [x] `ObstacleSpawner.cs` — solta um obstáculo por vez em faixa sorteada, com intervalo irregular
+- [x] `ShipWeapon.cs` + `Projectile.cs` — **tiro automático**, na cadência da ficha, munição
+      infinita. O dia em que virar comando do jogador, a condição entra no `Update` da arma e
+      nada mais muda
+- [x] **Sem Physics2D, de propósito** — o acerto é distância entre dois pontos, como o resto do
+      jogo. Colisor mal configurado falha calado; distância, não
+
+**Fim de corrida**
+- [x] `RaceDirector.cs` — cronômetro, vitória e derrota. **Derrota:** vida da nave em 0.
+      **Vitória:** velocidade alcança a de dobra (15 u/s)
+- [x] Painéis de vitória (tempo, campo de nome, salvar, tabela) e de derrota, montados na cena
+- [x] `HealthHud.cs` — vida no canto inferior esquerdo; o `SpeedHud` passou a mostrar a meta de
+      dobra ao lado da velocidade atual
+
+**Pontuação e recordes**
+- [x] `Services/ScoreBoard.cs` — a pontuação é **o tempo até entrar em dobra**, então menor é
+      melhor. Top 10 em PlayerPrefs, com nome. É por aqui que um leaderboard online passaria
+      na Fase 7
+- [x] `UI/RecordsBoard.cs` — escreve a tabela num TextMesh Pro só; o mesmo componente serve ao
+      painel do menu (10 linhas), ao pódio da transição (3) e ao fim de corrida (5)
+
+**Menu**
+- [x] **Terceiro botão, "Recordes"**, entre Jogar e Sair, com o painel da tabela
+- [x] **Transição antes da partida** — "Jogar" mostra o pódio (3 primeiros, nome e tempo) por
+      3 segundos, ou até tocar na tela, e só então carrega a fase
+- [x] **Botões maiores** — de 300x65 para 440x110, com o texto crescendo junto
+
+**Falta**
+- [ ] **Commitar antes de rodar** as três ferramentas de montagem
+- [ ] Rodar **Montar combate** e **Montar menu**, nesta ordem
+- [ ] Testar no Editor e no aparelho — ver a lista de etapas de teste
+- [ ] Equilibrar os números depois de jogar: vida 100, dano 25, 3 tiros/s, obstáculo com 50 de
+      vida e 20 de dano, +1,5 de velocidade por obstáculo destruído, dobra em 15
+- [ ] Apagar as ferramentas de montagem depois de rodadas
+
+**Ainda em aberto, para depois**
+- [ ] Decidir se o tiro vira comando do jogador, com munição, ou continua automático
+- [ ] Áudio: motor, tiro, impacto, vitória, derrota
 - [ ] Arte de verdade no lugar dos marcadores de `Assets/Art/Placeholder/`
+- [ ] Pool de objetos para tiro e obstáculo, se o `Instantiate`/`Destroy` pesar no aparelho
+
+> A ficha da loja (`docs/play-console/ficha-da-loja.md`) descreve só a corrida, "sem tiro".
+> **Agora tem tiro** — as descrições pt-BR e en-US precisam ser reescritas antes de publicar.
 
 ## Fase 7 — Fechar login e conquistas ⬜
 Depende do projeto GPGS novo (Fase 5). **O plugin não está mais no projeto** — foi removido na
@@ -388,11 +437,14 @@ Depois do lançamento. Anúncios antes de compras.
 
 **Próximo passo, nesta ordem:**
 
-1. **Commitar** o `RaceSetup.cs` — antes de rodar, senão ele não volta do git quando for apagado.
-2. **Tools → Corrida no Espaço → Montagem → Montar corrida (fundo + HUD)** e conferir no Editor.
-3. **Build And Run:** a corrida tem de parecer corrida, e a troca de faixa continuar boa com o
-   fundo em movimento.
-4. **Decidir a Parte 3** vendo a Parte 2 rodar: obstáculo, tiro ou o que a corrida pedir.
+1. **Commitar**, depois rodar **Montar combate** e **Montar menu** (nesta ordem), depois testar
+   por etapas — Editor primeiro, aparelho depois.
+2. **Equilibrar os números** com o jogo na mão: é a primeira vez que o projeto tem dificuldade
+   para ajustar.
+3. **Fase 4, a SDK Platform 36** — **prazo 31/08/2026**, e é instalação pelo Android SDK Manager,
+   não código. Quanto mais perto do fim do mês, mais chance de dar errado na pressa.
+4. **Fase 5, os 12 testadores** — o relógio mais lento do projeto e ainda não começou a correr.
+5. Reescrever a ficha da loja: agora o jogo tem tiro, e o texto atual diz que não tem.
 
 > O modelo híbrido de faixas segue adiado de propósito (ver Parte 1) — é arquitetura para um
 > problema que o jogo ainda não tem.

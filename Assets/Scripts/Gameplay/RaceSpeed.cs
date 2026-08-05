@@ -14,22 +14,17 @@ public class RaceSpeed : MonoBehaviour
 {
     public static RaceSpeed Instance { get; private set; }
 
-    // ─────────────────────────────────────────────────────────────────────
-    // PROVISÓRIO — números da nave chutados, sem ficha de status ainda.
-    //
-    // Quando existir a ficha da nave (velocidade, vida e o que mais vier), ela
-    // chama ApplyShipStats() uma vez e estes três campos param de valer. É o
-    // único ponto de troca: nada mais no jogo lê estes números direto.
-    // ─────────────────────────────────────────────────────────────────────
-    [Header("Provisório — trocar pela ficha da nave")]
-    [Tooltip("Velocidade de cruzeiro: o padrão da nave, para onde ela acelera sozinha.")]
+    [Header("Velocidade de cruzeiro")]
+    [Tooltip("Valor de partida. O ShipStats da nave sobrescreve isto no início da fase — " +
+             "a ficha da nave é quem manda. Este número só vale se não houver nave na cena.")]
     [SerializeField, Min(0f)] float cruiseSpeed = 8f;
 
+    [Header("Regras da corrida")]
     [Tooltip("Quanto a velocidade muda por segundo. 4 = leva 2s do zero até a de cruzeiro.")]
     [SerializeField, Min(0.1f)] float acceleration = 4f;
 
     [Tooltip("Teto de velocidade. Nada consegue empurrar a nave além disto.")]
-    [SerializeField, Min(0.1f)] float maxSpeed = 16f;
+    [SerializeField, Min(0.1f)] float maxSpeed = 18f;
 
     [Header("Início da fase")]
     [Tooltip("Velocidade no primeiro frame. Zero: a fase começa com a nave parada.")]
@@ -91,31 +86,24 @@ public class RaceSpeed : MonoBehaviour
     public void ResumeCruise() => Target = cruiseSpeed;
 
     /// <summary>
-    /// Empurrão imediato, para cima ou para baixo: é isto que um obstáculo ou
-    /// um item vai chamar. A velocidade volta para a de cruzeiro sozinha depois.
+    /// Empurrão para cima ou para baixo: obstáculo destruído acelera a corrida,
+    /// batida freia. Mexe no <see cref="Target"/> e não na velocidade atual, de
+    /// propósito — o ganho fica, e a nave chega nele acelerando, sem salto.
     /// </summary>
-    public void Nudge(float delta)
-    {
-        float next = Mathf.Clamp(Current + delta, 0f, maxSpeed);
-        if (Mathf.Approximately(next, Current))
-            return;
-
-        Current = next;
-        Changed?.Invoke(Current);
-    }
+    public void Nudge(float delta) => SetTarget(Target + delta);
 
     /// <summary>
-    /// Ponto único de troca dos números provisórios. Quando a ficha da nave
-    /// existir, ela chama isto no início da fase e os campos do Inspector viram
-    /// só valor de partida para o Editor.
+    /// Ponto único onde a ficha da nave impõe a velocidade dela. Chamado pelo
+    /// <see cref="ShipStats"/> no início da fase; o valor do Inspector aqui é só
+    /// o que vale enquanto não há nave na cena.
     /// </summary>
-    public void ApplyShipStats(float cruise, float accelerationPerSecond, float top)
+    public void ApplyShipStats(float cruise)
     {
         cruiseSpeed = Mathf.Max(0f, cruise);
-        acceleration = Mathf.Max(0.1f, accelerationPerSecond);
-        maxSpeed = Mathf.Max(0.1f, top);
 
-        Target = cruiseSpeed;
-        Current = Mathf.Clamp(Current, 0f, maxSpeed);
+        // Só puxa o alvo para a nova velocidade de cruzeiro se ninguém tiver
+        // mexido nele ainda: no meio da corrida, o ganho dos obstáculos vale mais.
+        if (Mathf.Approximately(Target, 0f) || Target < cruiseSpeed)
+            Target = cruiseSpeed;
     }
 }

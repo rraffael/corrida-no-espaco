@@ -25,8 +25,14 @@ static class ProjectTools
 
     public const string RaceItem = MenuRoot + "Montagem/Montar corrida (fundo + HUD)";
     public const string RaceUndoItem = MenuRoot + "Montagem/Desmontar corrida";
+    public const string BattleItem = MenuRoot + "Montagem/Montar combate (nave, obstáculos, fim)";
+    public const string BattleUndoItem = MenuRoot + "Montagem/Desmontar combate";
+    public const string MenuSceneItem = MenuRoot + "Montagem/Montar menu (recordes + transição)";
+    public const string MenuSceneUndoItem = MenuRoot + "Montagem/Desmontar menu";
 
     public const string RaceId = "corrida-fundo-hud";
+    public const string BattleId = "combate";
+    public const string MenuSceneId = "menu-recordes";
 
     /// <summary>
     /// O diário vive em <c>UserSettings/</c>, que o .gitignore já ignora: é
@@ -60,6 +66,24 @@ static class ProjectTools
                       "velocidade e o painel de velocidade no rodapé.",
             MenuPath = RaceItem,
             UndoMenuPath = RaceUndoItem,
+        },
+        new Tool
+        {
+            Id = BattleId,
+            Title = "Montar combate (nave, obstáculos, fim)",
+            Summary = "Ficha da nave com vida e tiro automático, obstáculos descendo pelas faixas, " +
+                      "HUD de vida e os painéis de vitória e derrota. Depende do 'Montar corrida'.",
+            MenuPath = BattleItem,
+            UndoMenuPath = BattleUndoItem,
+        },
+        new Tool
+        {
+            Id = MenuSceneId,
+            Title = "Montar menu (recordes + transição)",
+            Summary = "Botões maiores, botão Recordes entre Jogar e Sair, painel da tabela e a " +
+                      "transição com o pódio antes da partida.",
+            MenuPath = MenuSceneItem,
+            UndoMenuPath = MenuSceneUndoItem,
         },
         new Tool
         {

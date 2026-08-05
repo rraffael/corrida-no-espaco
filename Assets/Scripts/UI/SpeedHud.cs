@@ -16,8 +16,12 @@ public class SpeedHud : MonoBehaviour
              "poucas para dar sensação de velocidade no painel; a conta do jogo não muda.")]
     [SerializeField] float displayScale = 10f;
 
+    [Tooltip("De onde vem a velocidade de dobra, mostrada como meta ao lado. Vazio: mostra só a atual.")]
+    [SerializeField] RaceDirector director;
+
     TextMeshProUGUI label;
     int shown = int.MinValue;
+    string goalSuffix = string.Empty;
 
     void Awake()
     {
@@ -28,6 +32,14 @@ public class SpeedHud : MonoBehaviour
     {
         if (speed == null)
             speed = RaceSpeed.Instance != null ? RaceSpeed.Instance : FindAnyObjectByType<RaceSpeed>();
+
+        if (director == null)
+            director = RaceDirector.Instance;
+
+        // A meta de dobra é fixa durante a corrida, então a string sai pronta
+        // uma vez e não é remontada a cada frame.
+        if (director != null)
+            goalSuffix = " / " + Mathf.RoundToInt(director.WarpSpeed * displayScale);
 
         if (speed != null)
             return;
@@ -46,6 +58,6 @@ public class SpeedHud : MonoBehaviour
         // Só monta a string quando o número muda de verdade: enquanto a nave
         // está em cruzeiro, o HUD não gera lixo nenhum por frame.
         shown = value;
-        label.text = value.ToString();
+        label.text = value + goalSuffix;
     }
 }
