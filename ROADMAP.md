@@ -13,9 +13,37 @@ Marque cada item conforme for concluído: `[ ]` → `[x]`.
 
 ---
 
+## ⏸️ Retomar aqui — parado em 06/08/2026, à noite
+
+**Onde paramos:** o Bloco A da Fase 6 Parte 4 está **escrito e não rodado**. O código compila
+até onde dá para saber sem abrir a Unity, mas nenhuma ferramenta nova foi executada e nada foi
+testado. O jogo no aparelho ainda é o de antes do Bloco A: uma fase, um tipo de obstáculo.
+
+**Primeira coisa ao voltar, nesta ordem:**
+
+1. Conferir o Console depois da recompilação.
+2. `git add -A && git commit` — as ferramentas de montagem precisam estar commitadas **antes**
+   de rodar, senão não voltam do git quando forem apagadas.
+3. **Tools → Corrida no Espaço → Montagem → Criar fases e fichas de obstáculo**
+4. **Tools → Corrida no Espaço → Montagem → Montar combate** (de novo, para o spawner na cena
+   pegar a versão nova)
+5. Testar: a Fase 1 tem de continuar igual ao que já estava aprovado — só Detrito, mesmo ritmo.
+
+**Duas decisões esperando você:**
+
+- **Ganho passivo de velocidade** (pedido do Raffael em 06/08, ver Bloco B) — falta decidir se
+  ele sozinho pode chegar à dobra ou se para pouco antes. Muda se dá para vencer sem atirar.
+- **Seletor provisório de fase** — hoje não há como testar as Fases 2 e 3, porque o menu de
+  seleção só vem no Bloco B. Ofereci pôr um seletor no Inspector do objeto `Race` para destravar
+  o teste; são cinco minutos e você não respondeu ainda.
+
+**Depois disso:** Bloco B — menu de fases, progressão, fase sem fim e o leaderboard.
+
+---
+
 ## Estado atual
 
-*Revisto em 05/08/2026.*
+*Revisto em 06/08/2026.*
 
 **Funcional**
 - Cena `Menu.unity` com fiação correta: `Menu.cs` no Canvas, BotaoJogar → `OnPlayButton`,
@@ -59,8 +87,9 @@ Marque cada item conforme for concluído: `[ ]` → `[x]`.
   com o que a política de privacidade afirma.
 
 **Faltando**
-- Variedade: um tipo de obstáculo só, ritmo constante, uma nave. Toda partida é igual — é a
-  Parte 4.
+- **Bloco A da Parte 4 escrito, não rodado.** No aparelho, o jogo ainda é o de antes: uma fase,
+  um tipo de obstáculo, ritmo constante. Ver "Retomar aqui", no topo.
+- Menu de seleção de fase, progressão e fase sem fim (Bloco B).
 - Áudio: nenhum `.wav`/`.mp3`/`.ogg` no projeto.
 - Ícone e splash próprios.
 - `AndroidTargetSdkVersion` ainda em `0` (Automatic) — **prazo: 31/08/2026**.
@@ -391,7 +420,7 @@ de ser uma demonstração e virou um jogo: tem começo, meio, derrota, vitória 
 > A ficha da loja (`docs/play-console/ficha-da-loja.md`) descreve só a corrida, "sem tiro".
 > **Agora tem tiro** — as descrições pt-BR e en-US precisam ser reescritas antes de publicar.
 
-### Parte 4 — Variedade e desafio ⬜ ← **próxima**
+### Parte 4 — Variedade e desafio 🟡
 O jogo funciona, mas toda partida é igual à anterior: um tipo de obstáculo, um ritmo, uma nave.
 O objetivo desta parte é dar ao jogador motivo para jogar de novo.
 
@@ -449,6 +478,24 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
 - [ ] Equilibrar: vida e dano dos três tipos, janelas de estreia e os fatores de dificuldade
 
 **Bloco B — fases, progressão e leaderboard** *(a fazer)*
+- [ ] **Ganho passivo de velocidade** *(pedido do Raffael em 06/08/2026)* — hoje só destruir
+      obstáculo acelera a corrida, o que obriga a atirar. A nave passa a ganhar velocidade
+      **sozinha, com o tempo, proporcional ao atributo de aceleração da ficha** — de leve, para
+      quem preferir desviar a destruir também chegar lá, só que devagar.
+      Onde entra: `RaceSpeed` empurrando o `Target` um pouquinho por segundo
+      - [ ] **Decisão pendente:** esse ganho sozinho chega até a velocidade de dobra, ou para
+            um pouco antes (digamos, 90% dela)?
+            **Chegando:** desviar vira estratégia completa, e uma partida paciente vence sem um
+            tiro — mais liberdade, e o tiro vira atalho em vez de obrigação.
+            **Parando antes:** desviar leva você quase lá, mas fechar a corrida exige alguns
+            abates — o tiro continua tendo papel, e a dobra continua sendo conquistada.
+            *Recomendação: parar antes.* O jogo se chama corrida **com tiro**, e um teto que
+            some perto do fim mantém as duas coisas valendo sem tirar a alternativa de quem
+            joga desviando
+      - [ ] Cuidado ao equilibrar: o ganho passivo também **desfaz sozinho a punição da batida**.
+            Se ficar generoso demais, bater deixa de doer
+      - [ ] Na fase sem fim não há dobra, então lá o ganho passivo vira só rampa: a corrida fica
+            perigosa com o tempo mesmo para quem não atira em nada
 - [ ] Seleção de fase e dificuldade no menu — 3 fases × 3 dificuldades, mais a sem fim
 - [ ] **Progressão**: vencer a fase N destrava a N+1; fechar as três destrava a dificuldade
       seguinte; fechar o Difícil destrava a fase sem fim
@@ -519,9 +566,10 @@ Depois do lançamento. Anúncios antes de compras.
 
 **Próximo passo, nesta ordem:**
 
-1. **Fase 6, Parte 4 — variedade e desafio.** A ficha completa primeiro (é base e é barato),
-   depois a curva de dificuldade, depois os tipos de obstáculo.
-2. **Fase 4, a SDK Platform 36** — **prazo 31/08/2026**, e é instalação pelo Android SDK Manager,
+1. **Rodar e testar o Bloco A da Parte 4** — ver "Retomar aqui", no topo do arquivo.
+2. **Bloco B** — ganho passivo de velocidade, menu de fases, progressão, fase sem fim e o
+   leaderboard invertido.
+3. **Fase 4, a SDK Platform 36** — **prazo 31/08/2026**, e é instalação pelo Android SDK Manager,
    não código. Quanto mais perto do fim do mês, mais chance de dar errado na pressa.
 4. **Fase 5, os 12 testadores** — o relógio mais lento do projeto e ainda não começou a correr.
 5. Reescrever a ficha da loja: agora o jogo tem tiro, e o texto atual diz que não tem.
