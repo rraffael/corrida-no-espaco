@@ -5,14 +5,16 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Menu inicial: jogar, ver recordes ou sair.
 ///
-/// "Jogar" não carrega a cena na hora — passa antes pela transição, que mostra
-/// os três primeiros da tabela. Os nomes dos métodos públicos estão ligados aos
-/// botões dentro da cena: renomear aqui quebra a fiação de lá.
+/// "Jogar" não carrega a cena na hora — abre a seleção de fase e, escolhida a
+/// fase, passa pela transição que mostra os três primeiros da tabela. Os nomes
+/// dos métodos públicos estão ligados aos botões dentro da cena: renomear aqui
+/// quebra a fiação de lá.
 /// </summary>
 public class Menu : MonoBehaviour
 {
     [Header("Painéis")]
     [SerializeField] GameObject recordsPanel;
+    [SerializeField] GameObject levelSelectPanel;
     [SerializeField] GameObject transitionPanel;
 
     [Tooltip("Botões do menu, escondidos enquanto um painel está aberto.")]
@@ -30,7 +32,7 @@ public class Menu : MonoBehaviour
     {
         // Estado pelo código, e não pelo que ficou salvo na cena: quem deixar um
         // painel aberto no Editor para mexer no layout não publica o menu torto.
-        ShowPanels(records: false, transition: false);
+        Show();
     }
 
     /// <summary>Botão "Jogar".</summary>
@@ -39,28 +41,57 @@ public class Menu : MonoBehaviour
         if (loading)
             return;
 
-        // Sem painel de transição montado, o botão faz o que sempre fez.
-        if (transitionPanel == null)
+        // Sem a tela de seleção montada, o botão faz o que sempre fez: joga a
+        // fase que o LevelSelection já tiver escolhido.
+        if (levelSelectPanel == null)
         {
-            LoadGame();
+            BeginTransition();
             return;
         }
 
-        ShowPanels(records: false, transition: true);
-        StartCoroutine(TransitionThenPlay());
+        Show(levelSelect: true);
+    }
+
+    /// <summary>
+    /// Chamado pela tela de seleção quando o jogador toca numa fase destravada.
+    /// É o único lugar que grava a escolha: a tela de seleção só desenha.
+    /// </summary>
+    public void StartRace(LevelDefinition level, Difficulty difficulty)
+    {
+        if (loading)
+            return;
+
+        LevelSelection.Choose(level, difficulty);
+        BeginTransition();
     }
 
     /// <summary>Botão "Recordes".</summary>
-    public void OnRecordsButton() => ShowPanels(records: true, transition: false);
+    public void OnRecordsButton() => Show(records: true);
 
     /// <summary>Botão "Voltar" do painel de recordes.</summary>
-    public void OnCloseRecordsButton() => ShowPanels(records: false, transition: false);
+    public void OnCloseRecordsButton() => Show();
+
+    /// <summary>Botão "Voltar" da tela de seleção de fase.</summary>
+    public void OnCloseLevelSelectButton() => Show();
 
     /// <summary>Toque na tela de transição: pula a espera.</summary>
     public void OnSkipTransitionButton() => LoadGame();
 
     /// <summary>Botão "Sair".</summary>
     public void OnQuitButton() => Application.Quit();
+
+    void BeginTransition()
+    {
+        // Sem painel de transição montado, vai direto para a partida.
+        if (transitionPanel == null)
+        {
+            LoadGame();
+            return;
+        }
+
+        Show(transition: true);
+        StartCoroutine(TransitionThenPlay());
+    }
 
     IEnumerator TransitionThenPlay()
     {
@@ -78,15 +109,22 @@ public class Menu : MonoBehaviour
         SceneManager.LoadScene(gameSceneName);
     }
 
-    void ShowPanels(bool records, bool transition)
+    /// <summary>
+    /// Um painel de cada vez, e os botões só quando nenhum está aberto. Sem
+    /// argumento nenhum, volta ao menu.
+    /// </summary>
+    void Show(bool records = false, bool levelSelect = false, bool transition = false)
     {
         if (recordsPanel != null)
             recordsPanel.SetActive(records);
+
+        if (levelSelectPanel != null)
+            levelSelectPanel.SetActive(levelSelect);
 
         if (transitionPanel != null)
             transitionPanel.SetActive(transition);
 
         if (buttonsRoot != null)
-            buttonsRoot.SetActive(!records && !transition);
+            buttonsRoot.SetActive(!records && !levelSelect && !transition);
     }
 }

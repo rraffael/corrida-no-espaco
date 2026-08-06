@@ -35,12 +35,31 @@ public class ShipStats : MonoBehaviour
              "então nem 99% de defesa deixa a nave imune: um golpe sempre tira pelo menos 1.")]
     [SerializeField, Range(0f, 99f)] float defensePercent = 0f;
 
+    [Tooltip("Fração da aceleração da nave que cada obstáculo de PESO 1 rende ao ser destruído. " +
+             "0,16 com aceleração 4 dá 0,64 u/s por abate, ou uns 4 segundos de ganho passivo. " +
+             "Sai da aceleração, e não de um número solto: uma nave mais potente converte abate " +
+             "em velocidade mais depressa, e o abate vale sempre os mesmos segundos de paciência.")]
+    [SerializeField, Min(0f)] float killGainFactor = 0.16f;
+
     public float CruiseSpeed => cruiseSpeed;
     public float Acceleration => acceleration;
     public float Damage => damage;
     public float AttackSpeed => attackSpeed;
     public float MaxHealth => maxHealth;
     public float DefensePercent => defensePercent;
+
+    /// <summary>
+    /// Velocidade que um obstáculo de **peso 1** rende ao morrer. A ficha do
+    /// obstáculo diz quanto ele vale em relação aos outros; esta ficha diz quanto
+    /// a nave tira disso.
+    ///
+    /// É proporcional à aceleração porque o ganho passivo também é: assim um
+    /// abate vale **os mesmos segundos de paciência** em qualquer nave, e a
+    /// escolha entre atirar e desviar continua valendo a mesma coisa quando as
+    /// naves mudarem. Destruir compensa, desviar também fecha a corrida — só
+    /// mais devagar.
+    /// </summary>
+    public float KillSpeedGain => acceleration * killGainFactor;
 
     /// <summary>Segundos entre um tiro e o próximo.</summary>
     public float ShotInterval => 1f / Mathf.Max(0.1f, attackSpeed);

@@ -71,8 +71,13 @@ public class LevelCatalog : ScriptableObject
         }
 
         // Sem ficha para esta dificuldade, os fatores neutros mantêm a fase
-        // jogável em vez de derrubar a corrida.
-        return new DifficultySettings { difficulty = difficulty };
+        // jogável em vez de derrubar a corrida. O nome sai do próprio enum: o
+        // menu escreve o nome da dificuldade, e "Fácil" ali seria mentira.
+        return new DifficultySettings
+        {
+            difficulty = difficulty,
+            displayName = difficulty.ToString(),
+        };
     }
 
     public LevelDefinition LevelAt(int order)

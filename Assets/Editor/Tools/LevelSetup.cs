@@ -18,7 +18,7 @@ static class LevelSetup
     const string CatalogPath = ResourcesFolder + "/LevelCatalog.asset";
 
     [MenuItem(ProjectTools.LevelsItem, false, 106)]
-    static void Setup()
+    internal static void Setup()
     {
         Directory.CreateDirectory(ObstacleFolder);
         Directory.CreateDirectory(ResourcesFolder);
@@ -34,7 +34,9 @@ static class LevelSetup
             stats.height = 0.9f;
             stats.maxHealth = 50f;
             stats.contactDamage = 20f;
-            stats.speedBonusOnKill = 1.5f;
+            // Peso relativo, e não velocidade: quem converte peso em velocidade é
+            // a ficha da nave (ShipStats.KillSpeedGain).
+            stats.killWeight = 1.5f;
             stats.speedPenaltyOnCrash = 2f;
         }, pixel);
 
@@ -47,7 +49,7 @@ static class LevelSetup
             stats.height = 1.1f;
             stats.maxHealth = 140f;
             stats.contactDamage = 30f;
-            stats.speedBonusOnKill = 2.5f;
+            stats.killWeight = 2.5f;
             stats.speedPenaltyOnCrash = 3f;
             stats.crashDistance = 0.8f;
             stats.hitDistance = 0.6f;
@@ -61,7 +63,7 @@ static class LevelSetup
             stats.height = 0.9f;
             stats.maxHealth = 70f;
             stats.contactDamage = 20f;
-            stats.speedBonusOnKill = 2f;
+            stats.killWeight = 2f;
             stats.speedPenaltyOnCrash = 2f;
             // O que dá sentido a este tipo: destruir de frente cobra caro, e
             // obriga a sair da faixa em vez de segurar o gatilho parado.

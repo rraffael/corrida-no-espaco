@@ -36,7 +36,7 @@ static class RaceSetup
     const float TileHeightFactor = 1.05f;
 
     [MenuItem(ProjectTools.RaceItem, false, 100)]
-    static void Setup()
+    internal static void Setup()
     {
         var scene = OpenGameScene();
         if (!scene.IsValid())

@@ -21,8 +21,8 @@ Jogo mobile Android feito na Unity `6000.3.20f1`. Divisão de trabalho:
 - **Nunca editar cena (`.unity`) ou prefab na mão** para mudanças estruturais. Escrever um editor
   script em `Assets/Editor/Tools/` com item de menu e pedir para ele clicar. Exceção tolerável:
   trocar um valor escalar já existente, com a Unity fechada.
-- **Verificar se a Unity está fechada** antes de mexer em `.unity` ou `ProjectSettings/`:
-  `Get-Process Unity -ErrorAction SilentlyContinue`. Com o Editor aberto, ele sobrescreve.
+- **Nunca editar `.unity` ou `ProjectSettings/` na mão — o Editor vive aberto** e sobrescreve o
+  arquivo. Mudança nesses arquivos é sempre por editor script.
 - **Ao mover ou apagar arquivo, levar o `.meta` junto.** Sem isso os GUIDs quebram.
 - **Nome de arquivo de MonoBehaviour tem que bater com o nome da classe**, senão não dá para
   anexar em GameObject nenhum. Já aconteceu neste projeto (`Google-Login.cs`).
@@ -31,11 +31,20 @@ Jogo mobile Android feito na Unity `6000.3.20f1`. Divisão de trabalho:
   chama `ProjectTools.MarkRun(id)` ao terminar (e `Forget(id)` no "Desmontar"). É o que faz o
   **Painel de ferramentas** saber sozinho o que já rodou. Montagem vai no submenu `Montagem/`;
   conserto pontual, em `Correções/`.
-- **Ferramenta de uso único se apaga depois de rodar.** O Raffael não quer item morto no menu:
-  montou a cena e funcionou, o script sai do projeto (com o `.meta`), e o ROADMAP registra o que
-  ele fez e o `git checkout <commit> -- <caminho>` que o traz de volta. Consequência prática:
-  **commitar a ferramenta antes de rodá-la**, senão não há de onde resgatar. Vale para
-  montagem de cena e conserto pontual, não para rotina (Build, Conferir configuração).
+- **Toda mudança que precise de montagem entra no `Montar.cs`.** O Raffael roda **um item só**:
+  **Tools → Corrida no Espaço → Montar**. Ao terminar uma mudança, reescrever a lista `Steps` em
+  `Assets/Editor/Tools/Montar.cs` com o que aquela mudança exige remontar, na ordem
+  assets → `Game.unity` → `Menu.unity`. Lista vazia é resposta válida: quer dizer que foi só
+  código. Nunca pedir para ele rodar os itens do submenu `Montagem/` um a um.
+- **Não checar se a Unity está aberta, e não rodar validação em batchmode.** O Editor dele fica
+  aberto o tempo todo; o batchmode trava no lockfile e a checagem só gasta tempo. Escrever o
+  código, dizer o que ele roda no Editor, e parar aí — o Console dele acusa erro de compilação.
+- **Conserto pontual se apaga depois de rodar.** Script de `Correções/` que arruma uma coisa uma
+  vez sai do projeto (com o `.meta`) depois de funcionar, e o ROADMAP registra o que ele fez e o
+  `git checkout <commit> -- <caminho>` que o traz de volta. Consequência prática: **commitar antes
+  de rodar**, senão não há de onde resgatar.
+  *(Não vale mais para as montagens: o `Montar.cs` chama `LevelSetup`, `RaceSetup`, `BattleSetup`,
+  `MenuSetup` e `LevelSelectSetup` direto, então apagar qualquer uma quebra a compilação.)*
 
 ## Estrutura
 
@@ -52,8 +61,8 @@ quê**, não o que a linha já diz.
 
 ## Comandos
 
-- Validar compilação: `Unity.exe -quit -batchmode -projectPath . -executeMethod ...`
-  *(pedir o caminho do `Unity.exe` — fica fora da pasta do projeto; não roda com o Editor aberto)*
+- Montar: menu **Tools → Corrida no Espaço → Montar** — o único item que ele roda. Ver as regras
+  de edição acima.
 - Ferramentas: menu **Tools → Corrida no Espaço → Painel de ferramentas** — lista o que falta
   rodar e o que já rodou, com a data. O diário fica em `UserSettings/`, fora do git.
 - Build: menu **Tools → Corrida no Espaço → Build**, ou `-executeMethod BuildAndroid.Release`

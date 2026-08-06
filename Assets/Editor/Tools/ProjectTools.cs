@@ -19,6 +19,14 @@ static class ProjectTools
     public const string MenuRoot = "Tools/Corrida no Espaço/";
 
     public const string PanelItem = MenuRoot + "Painel de ferramentas";
+
+    /// <summary>
+    /// O item único de montagem. Fica na raiz do menu, e não em <c>Montagem/</c>,
+    /// porque é o que o Raffael roda — os itens de dentro do submenu existem só
+    /// para remontar uma coisa isolada quando faz falta.
+    /// </summary>
+    public const string SetupAllItem = MenuRoot + "Montar";
+
     public const string PreflightItem = MenuRoot + "Conferir configuração";
     public const string BuildApkItem = MenuRoot + "Build/APK de teste";
     public const string BuildAabItem = MenuRoot + "Build/AAB de release";
@@ -30,11 +38,14 @@ static class ProjectTools
     public const string BattleUndoItem = MenuRoot + "Montagem/Desmontar combate";
     public const string MenuSceneItem = MenuRoot + "Montagem/Montar menu (recordes + transição)";
     public const string MenuSceneUndoItem = MenuRoot + "Montagem/Desmontar menu";
+    public const string LevelSelectItem = MenuRoot + "Montagem/Montar seleção de fase";
+    public const string LevelSelectUndoItem = MenuRoot + "Montagem/Desmontar seleção de fase";
 
     public const string RaceId = "corrida-fundo-hud";
     public const string LevelsId = "fases-e-obstaculos";
     public const string BattleId = "combate";
     public const string MenuSceneId = "menu-recordes";
+    public const string LevelSelectId = "selecao-de-fase";
 
     /// <summary>
     /// O diário vive em <c>UserSettings/</c>, que o .gitignore já ignora: é
@@ -60,6 +71,15 @@ static class ProjectTools
 
     public static readonly Tool[] All =
     {
+        new Tool
+        {
+            Title = "Montar",
+            Summary = "Roda, na ordem certa, tudo que a última mudança de código precisa que seja " +
+                      "remontado. É o único item de montagem que precisa ser rodado — o Claude " +
+                      "mantém a lista dentro do Montar.cs. Os itens do submenu Montagem continuam " +
+                      "existindo para remontar uma coisa isolada.",
+            MenuPath = SetupAllItem,
+        },
         new Tool
         {
             Id = RaceId,
@@ -94,6 +114,16 @@ static class ProjectTools
                       "transição com o pódio antes da partida.",
             MenuPath = MenuSceneItem,
             UndoMenuPath = MenuSceneUndoItem,
+        },
+        new Tool
+        {
+            Id = LevelSelectId,
+            Title = "Montar seleção de fase",
+            Summary = "A tela que o \"Jogar\" abre: lista das fases do catálogo, dificuldade num " +
+                      "seletor e cadeado no que ainda não foi destravado. Depende do 'Montar menu' " +
+                      "e do 'Criar fases e fichas de obstáculo'.",
+            MenuPath = LevelSelectItem,
+            UndoMenuPath = LevelSelectUndoItem,
         },
         new Tool
         {

@@ -32,7 +32,7 @@ static class MenuSetup
     const float FirstButtonY = 0f;
 
     [MenuItem(ProjectTools.MenuSceneItem, false, 110)]
-    static void Setup()
+    internal static void Setup()
     {
         var scene = OpenMenuScene();
         if (!scene.IsValid())
@@ -211,7 +211,7 @@ static class MenuSetup
         UiBuilder.Label("Titulo", box.transform, "Recordes", 64f,
                         new Vector2(0f, 460f), new Vector2(800f, 110f), UiBuilder.LabelColor);
 
-        UiBuilder.Label("Ajuda", box.transform, "Tempo até entrar em dobra — menor é melhor", 30f,
+        UiBuilder.Label("Ajuda", box.transform, "Distância na fase sem fim — maior é melhor", 30f,
                         new Vector2(0f, 380f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
 
         var listObject = UiBuilder.NewUI("Lista", box.transform);
@@ -221,6 +221,11 @@ static class MenuSetup
 
         var board = listObject.AddComponent<RecordsBoard>();
         UiBuilder.SetReference(board, "target", list);
+
+        var boardSerialized = new SerializedObject(board);
+        boardSerialized.FindProperty("emptyMessage").stringValue =
+            "Ainda sem recordes.\nCorra na fase sem fim para inaugurar a tabela.";
+        boardSerialized.ApplyModifiedPropertiesWithoutUndo();
 
         var close = UiBuilder.Button("BotaoVoltar", box.transform, "Voltar",
                                      new Vector2(0f, -450f), new Vector2(420f, 110f),
@@ -245,7 +250,7 @@ static class MenuSetup
         var skip = UiBuilder.InvisibleFullScreenButton("TocarParaComecar", panel.transform);
         UnityEventTools.AddPersistentListener(skip.onClick, menu.OnSkipTransitionButton);
 
-        UiBuilder.Label("Titulo", panel.transform, "Melhores tempos", 58f,
+        UiBuilder.Label("Titulo", panel.transform, "Maiores distâncias", 58f,
                         new Vector2(0f, 420f), new Vector2(900f, 100f), UiBuilder.LabelColor);
 
         var podiumObject = UiBuilder.NewUI("Podio", panel.transform);
@@ -259,7 +264,7 @@ static class MenuSetup
         var serialized = new SerializedObject(board);
         serialized.FindProperty("maxRows").intValue = 3;
         serialized.FindProperty("emptyMessage").stringValue =
-            "Nenhum tempo registrado ainda.\nO primeiro pode ser o seu.";
+            "Nenhuma distância registrada ainda.\nA primeira pode ser a sua.";
         serialized.ApplyModifiedPropertiesWithoutUndo();
 
         UiBuilder.Label("Aviso", panel.transform, "Toque para começar", 36f,

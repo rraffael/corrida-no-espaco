@@ -22,6 +22,12 @@ static class UiBuilder
     public static Sprite BuiltinSprite() =>
         AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
 
+    public static Sprite BuiltinArrow() =>
+        AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/DropdownArrow.psd");
+
+    public static Sprite BuiltinCheckmark() =>
+        AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Checkmark.psd");
+
     public static GameObject NewUI(string name, Transform parent)
     {
         var go = new GameObject(name, typeof(RectTransform));
@@ -169,6 +175,124 @@ static class UiBuilder
         input.text = string.Empty;
 
         return input;
+    }
+
+    /// <summary>
+    /// Seletor suspenso do TextMesh Pro. Ele não funciona sem uma hierarquia
+    /// exata — modelo desligado, viewport com máscara, conteúdo e um item que
+    /// serve de molde —, e montar isso na mão pelo Inspector é receita de campo
+    /// esquecido. O componente é adicionado por último, com os filhos já de pé.
+    ///
+    /// As opções vêm em runtime de quem usa: aqui só nasce a casca.
+    /// </summary>
+    public static TMP_Dropdown Dropdown(string name, Transform parent, Vector2 position, Vector2 size,
+                                        float fontSize = 38f, float itemHeight = 72f, float listHeight = 224f)
+    {
+        var go = NewUI(name, parent);
+        PlaceCentered(go, position, size);
+
+        var background = go.AddComponent<Image>();
+        background.sprite = BuiltinSprite();
+        background.type = Image.Type.Sliced;
+        background.color = NeutralButton;
+
+        var captionObject = NewUI("Label", go.transform);
+        var captionRect = Stretch(captionObject);
+        captionRect.offsetMin = new Vector2(26f, 8f);
+        captionRect.offsetMax = new Vector2(-74f, -8f);
+        var caption = Label(captionObject, string.Empty, fontSize, LabelColor);
+        caption.alignment = TextAlignmentOptions.Left;
+
+        var arrowObject = NewUI("Seta", go.transform);
+        Place(arrowObject, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f),
+              new Vector2(-24f, 0f), new Vector2(32f, 32f));
+        var arrow = arrowObject.AddComponent<Image>();
+        arrow.sprite = BuiltinArrow();
+        arrow.color = DimLabelColor;
+        arrow.raycastTarget = false;
+
+        var template = NewUI("Template", go.transform);
+        var templateRect = (RectTransform)template.transform;
+        templateRect.anchorMin = new Vector2(0f, 0f);
+        templateRect.anchorMax = new Vector2(1f, 0f);
+        templateRect.pivot = new Vector2(0.5f, 1f);
+        templateRect.anchoredPosition = new Vector2(0f, 2f);
+        templateRect.sizeDelta = new Vector2(0f, listHeight);
+
+        var templateImage = template.AddComponent<Image>();
+        templateImage.sprite = BuiltinSprite();
+        templateImage.type = Image.Type.Sliced;
+        templateImage.color = BoxColor;
+
+        var viewport = NewUI("Viewport", template.transform);
+        var viewportRect = Stretch(viewport);
+        viewportRect.pivot = new Vector2(0f, 1f);
+        var viewportImage = viewport.AddComponent<Image>();
+        viewportImage.sprite = BuiltinSprite();
+        viewportImage.type = Image.Type.Sliced;
+        // A máscara precisa de um Graphic no mesmo objeto, mas ele não pode
+        // aparecer: quem desenha o fundo da lista é o Template.
+        var mask = viewport.AddComponent<Mask>();
+        mask.showMaskGraphic = false;
+
+        var content = NewUI("Content", viewport.transform);
+        var contentRect = (RectTransform)content.transform;
+        contentRect.anchorMin = new Vector2(0f, 1f);
+        contentRect.anchorMax = new Vector2(1f, 1f);
+        contentRect.pivot = new Vector2(0.5f, 1f);
+        contentRect.anchoredPosition = Vector2.zero;
+        contentRect.sizeDelta = new Vector2(0f, itemHeight);
+
+        var item = NewUI("Item", content.transform);
+        var itemRect = (RectTransform)item.transform;
+        itemRect.anchorMin = new Vector2(0f, 0.5f);
+        itemRect.anchorMax = new Vector2(1f, 0.5f);
+        itemRect.pivot = new Vector2(0.5f, 0.5f);
+        itemRect.anchoredPosition = Vector2.zero;
+        itemRect.sizeDelta = new Vector2(0f, itemHeight);
+
+        var itemBackgroundObject = NewUI("Item Background", item.transform);
+        Stretch(itemBackgroundObject);
+        var itemBackground = itemBackgroundObject.AddComponent<Image>();
+        itemBackground.color = PrimaryButton;
+
+        var checkmarkObject = NewUI("Item Checkmark", item.transform);
+        Place(checkmarkObject, new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+              new Vector2(30f, 0f), new Vector2(30f, 30f));
+        var checkmark = checkmarkObject.AddComponent<Image>();
+        checkmark.sprite = BuiltinCheckmark();
+        checkmark.color = LabelColor;
+
+        var itemLabelObject = NewUI("Item Label", item.transform);
+        var itemLabelRect = Stretch(itemLabelObject);
+        itemLabelRect.offsetMin = new Vector2(66f, 4f);
+        itemLabelRect.offsetMax = new Vector2(-24f, -4f);
+        var itemLabel = Label(itemLabelObject, "Opção", fontSize, LabelColor);
+        itemLabel.alignment = TextAlignmentOptions.Left;
+
+        var toggle = item.AddComponent<Toggle>();
+        toggle.targetGraphic = itemBackground;
+        toggle.graphic = checkmark;
+        toggle.isOn = true;
+
+        var scroll = template.AddComponent<ScrollRect>();
+        scroll.content = contentRect;
+        scroll.viewport = viewportRect;
+        scroll.horizontal = false;
+        scroll.vertical = true;
+        scroll.movementType = ScrollRect.MovementType.Clamped;
+        scroll.scrollSensitivity = 0f;
+
+        var dropdown = go.AddComponent<TMP_Dropdown>();
+        dropdown.targetGraphic = background;
+        dropdown.template = templateRect;
+        dropdown.captionText = caption;
+        dropdown.itemText = itemLabel;
+
+        // O modelo só ganha vida quando o jogador abre a lista.
+        template.SetActive(false);
+
+        return dropdown;
     }
 
     /// <summary>Botão sem arte, do tamanho do pai: serve para "toque em qualquer lugar".</summary>

@@ -6,9 +6,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Monta a Parte 3 na Game.unity: a ficha da nave com vida e tiro automático,
-/// os obstáculos que descem pelas faixas, o HUD de vida e os painéis de vitória
-/// e derrota — com campo de nome e tabela de recordes.
+/// Monta o combate na Game.unity: a ficha da nave com vida e tiro automático, os
+/// obstáculos que descem pelas faixas, o HUD de vida e os **três** painéis de fim
+/// de corrida.
+///
+/// São três porque os desfechos são diferentes: fase de progressão vencida (sem
+/// placar, só o que destravou), nave destruída numa fase de progressão, e o fim
+/// da fase sem fim — o único com campo de nome e tabela, porque é a única fase
+/// que pontua.
 /// </summary>
 static class BattleSetup
 {
@@ -24,9 +29,10 @@ static class BattleSetup
     const string WarpHudObject = "HudDobra";
     const string VictoryPanelObject = "PainelVitoria";
     const string DefeatPanelObject = "PainelDerrota";
+    const string EndlessPanelObject = "PainelSemFim";
 
     [MenuItem(ProjectTools.BattleItem, false, 104)]
-    static void Setup()
+    internal static void Setup()
     {
         var scene = OpenGameScene();
         if (!scene.IsValid())
@@ -76,6 +82,7 @@ static class BattleSetup
         var warpHud = BuildWarpHud(canvas.transform, director);
         var victory = BuildVictoryPanel(canvas.transform, director);
         var defeat = BuildDefeatPanel(canvas.transform, director);
+        var endless = BuildEndlessPanel(canvas.transform, director);
 
         var speedHud = canvas.transform.Find(SpeedHudObject);
         var speedHudComponent = speedHud != null ? speedHud.GetComponent<SpeedHud>() : null;
@@ -83,11 +90,15 @@ static class BattleSetup
             UiBuilder.SetReference(speedHudComponent, "director", director);
 
         UiBuilder.SetReference(director, "victoryPanel", victory.panel);
-        UiBuilder.SetReference(director, "defeatPanel", defeat);
         UiBuilder.SetReference(director, "victoryTimeLabel", victory.time);
-        UiBuilder.SetReference(director, "nameField", victory.nameField);
-        UiBuilder.SetReference(director, "victoryPlacementLabel", victory.placement);
-        UiBuilder.SetReference(director, "victoryBoard", victory.board);
+        UiBuilder.SetReference(director, "victoryUnlockLabel", victory.unlock);
+        UiBuilder.SetReference(director, "defeatPanel", defeat);
+
+        UiBuilder.SetReference(director, "endlessPanel", endless.panel);
+        UiBuilder.SetReference(director, "endlessDistanceLabel", endless.distance);
+        UiBuilder.SetReference(director, "nameField", endless.nameField);
+        UiBuilder.SetReference(director, "placementLabel", endless.placement);
+        UiBuilder.SetReference(director, "recordsBoard", endless.board);
 
         // O HUD e o botão de pausa somem quando a corrida acaba, para não
         // competirem com o painel de fim.
@@ -100,6 +111,7 @@ static class BattleSetup
 
         victory.panel.SetActive(false);
         defeat.SetActive(false);
+        endless.panel.SetActive(false);
 
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
@@ -111,8 +123,9 @@ static class BattleSetup
 
         Debug.Log(
             "[Combate] Nave com ficha (vida 100, dano 25, 3 tiros/s), obstáculos, HUD de vida e " +
-            "de dobra, e painéis de vitória e derrota montados em " + ScenePath + ". " +
-            "Vitória é segurar 15 u/s por 5 segundos; cada obstáculo destruído acelera 1,5.",
+            "de dobra, e os três painéis de fim montados em " + ScenePath + ". " +
+            "Fase de progressão: vencer é segurar a dobra, e não marca placar. " +
+            "Fase sem fim: a corrida acaba quando a nave cai, e vale a distância percorrida.",
             ship);
     }
 
@@ -135,7 +148,8 @@ static class BattleSetup
         var canvas = FindInScene(scene, CanvasObject);
         if (canvas != null)
         {
-            foreach (var name in new[] { HealthHudObject, WarpHudObject, VictoryPanelObject, DefeatPanelObject })
+            foreach (var name in new[] { HealthHudObject, WarpHudObject, VictoryPanelObject,
+                                         DefeatPanelObject, EndlessPanelObject })
             {
                 var target = canvas.transform.Find(name);
                 if (target == null)
@@ -214,11 +228,14 @@ static class BattleSetup
     {
         public GameObject panel;
         public TextMeshProUGUI time;
-        public TextMeshProUGUI placement;
-        public TMP_InputField nameField;
-        public RecordsBoard board;
+        public TextMeshProUGUI unlock;
     }
 
+    /// <summary>
+    /// Fase de progressão vencida. **Sem campo de nome e sem tabela**: estas
+    /// fases não pontuam, elas ensinam o jogo e apresentam obstáculo novo. O que
+    /// o jogador leva daqui é a fase seguinte, e é isso que o painel anuncia.
+    /// </summary>
     static VictoryPanel BuildVictoryPanel(Transform canvas, RaceDirector director)
     {
         var existing = canvas.Find(VictoryPanelObject);
@@ -229,30 +246,83 @@ static class BattleSetup
         Undo.RegisterCreatedObjectUndo(panel, "Montar combate");
         panel.transform.SetAsLastSibling();
 
-        var box = UiBuilder.Box("Caixa", panel.transform, new Vector2(900f, 1250f), Vector2.zero);
+        var box = UiBuilder.Box("Caixa", panel.transform, new Vector2(900f, 780f), Vector2.zero);
 
-        UiBuilder.Label("Titulo", box.transform, "Dobra espacial!", 64f,
-                        new Vector2(0f, 520f), new Vector2(820f, 110f), UiBuilder.LabelColor);
+        UiBuilder.Label("Titulo", box.transform, "Fase concluída!", 64f,
+                        new Vector2(0f, 280f), new Vector2(820f, 110f), UiBuilder.LabelColor);
 
         UiBuilder.Label("Rotulo", box.transform, "Seu tempo", 34f,
-                        new Vector2(0f, 420f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
+                        new Vector2(0f, 190f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
 
         var time = UiBuilder.Label("Tempo", box.transform, "0:00.00", 96f,
-                                   new Vector2(0f, 330f), new Vector2(820f, 130f), UiBuilder.LabelColor);
+                                   new Vector2(0f, 100f), new Vector2(820f, 130f), UiBuilder.LabelColor);
+
+        var unlock = UiBuilder.Label("Destravou", box.transform, string.Empty, 36f,
+                                     new Vector2(0f, -30f), new Vector2(820f, 110f),
+                                     new Color(0.7f, 1f, 0.8f, 1f));
+
+        var back = UiBuilder.Button("BotaoVoltar", box.transform, "Voltar ao menu",
+                                    new Vector2(0f, -250f), new Vector2(440f, 110f),
+                                    UiBuilder.NeutralButton);
+        UnityEventTools.AddPersistentListener(back.onClick, director.BackToMenu);
+
+        return new VictoryPanel
+        {
+            panel = panel,
+            time = time,
+            unlock = unlock,
+        };
+    }
+
+    struct EndlessPanel
+    {
+        public GameObject panel;
+        public TextMeshProUGUI distance;
+        public TextMeshProUGUI placement;
+        public TMP_InputField nameField;
+        public RecordsBoard board;
+    }
+
+    /// <summary>
+    /// Fim da fase sem fim. Não é derrota: a nave cair é o fim previsto de lá, e
+    /// o que interessa é até onde ela chegou. É o **único** painel com campo de
+    /// nome e tabela, porque é a única fase que pontua.
+    /// </summary>
+    static EndlessPanel BuildEndlessPanel(Transform canvas, RaceDirector director)
+    {
+        var existing = canvas.Find(EndlessPanelObject);
+        if (existing != null)
+            Undo.DestroyObjectImmediate(existing.gameObject);
+
+        var panel = UiBuilder.Panel(EndlessPanelObject, canvas);
+        Undo.RegisterCreatedObjectUndo(panel, "Montar combate");
+        panel.transform.SetAsLastSibling();
+
+        var box = UiBuilder.Box("Caixa", panel.transform, new Vector2(900f, 1250f), Vector2.zero);
+
+        UiBuilder.Label("Titulo", box.transform, "Corrida encerrada", 60f,
+                        new Vector2(0f, 520f), new Vector2(820f, 110f), UiBuilder.LabelColor);
+
+        UiBuilder.Label("Rotulo", box.transform, "Distância percorrida", 34f,
+                        new Vector2(0f, 420f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
+
+        var distance = UiBuilder.Label("Distancia", box.transform, "0 km", 88f,
+                                       new Vector2(0f, 330f), new Vector2(820f, 130f),
+                                       UiBuilder.LabelColor);
 
         var nameField = UiBuilder.InputField("CampoNome", box.transform, "Seu nome",
                                              new Vector2(0f, 190f), new Vector2(640f, 110f));
 
-        var save = UiBuilder.Button("BotaoSalvar", box.transform, "Salvar tempo",
+        var save = UiBuilder.Button("BotaoSalvar", box.transform, "Salvar distância",
                                     new Vector2(0f, 55f), new Vector2(440f, 110f),
                                     UiBuilder.PrimaryButton);
         UnityEventTools.AddPersistentListener(save.onClick, director.SaveScore);
 
-        var placement = UiBuilder.Label("Colocacao", box.transform, "Salve seu tempo na tabela.", 32f,
+        var placement = UiBuilder.Label("Colocacao", box.transform, "Salve sua distância na tabela.", 32f,
                                         new Vector2(0f, -35f), new Vector2(820f, 60f),
                                         UiBuilder.DimLabelColor);
 
-        UiBuilder.Label("TituloTabela", box.transform, "Melhores tempos", 36f,
+        UiBuilder.Label("TituloTabela", box.transform, "Maiores distâncias", 36f,
                         new Vector2(0f, -110f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
 
         var listObject = UiBuilder.NewUI("Lista", box.transform);
@@ -272,10 +342,10 @@ static class BattleSetup
                                     UiBuilder.NeutralButton);
         UnityEventTools.AddPersistentListener(back.onClick, director.BackToMenu);
 
-        return new VictoryPanel
+        return new EndlessPanel
         {
             panel = panel,
-            time = time,
+            distance = distance,
             placement = placement,
             nameField = nameField,
             board = board,
@@ -298,7 +368,7 @@ static class BattleSetup
                         new Vector2(0f, 180f), new Vector2(780f, 110f), UiBuilder.LabelColor);
 
         UiBuilder.Label("Explicacao", box.transform,
-                        "A corrida acabou antes da dobra.\nSó quem entra em dobra marca tempo.", 34f,
+                        "A corrida acabou antes da dobra.\nA fase só é concluída entrando em dobra.", 34f,
                         new Vector2(0f, 50f), new Vector2(780f, 120f), UiBuilder.DimLabelColor);
 
         var back = UiBuilder.Button("BotaoVoltar", box.transform, "Voltar ao menu",

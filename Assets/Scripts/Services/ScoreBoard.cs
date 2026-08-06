@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Tabela de recordes. A pontuação é o **tempo até entrar em dobra**, então
-/// menor é melhor — a lista fica em ordem crescente.
+/// Tabela de recordes da **fase sem fim**, e só dela. As fases de progressão não
+/// têm placar: elas servem para o jogador aprender o jogo e conhecer obstáculo
+/// novo, e o prêmio delas é destravar a próxima (decidido pelo Raffael em
+/// 06/08/2026).
+///
+/// A pontuação é a **distância percorrida** — velocidade integrada no tempo, e
+/// não tempo puro. Maior é melhor, então a lista fica em ordem decrescente.
+/// Isto inverte o sentido que a tabela tinha até 06/08/2026, quando a pontuação
+/// era o tempo até a dobra e menor vencia.
 ///
 /// Guardado em PlayerPrefs: é do aparelho, sobrevive a fechar o jogo, e não
 /// exige servidor nem login. Quando (e se) o Play Games entrar na Fase 7, este
@@ -12,15 +19,29 @@ using UnityEngine;
 /// </summary>
 public static class ScoreBoard
 {
-    const string TableKey = "corrida.recordes";
+    /// <summary>
+    /// Chave nova de propósito. A tabela antiga guardava segundos em ordem
+    /// crescente; reaproveitar a chave misturaria tempo com distância na mesma
+    /// lista, e o jogador veria um recorde de "0,8 km" que na verdade era um
+    /// tempo de 8 segundos. Quem tinha recorde antigo começa a nova tabela vazia.
+    /// </summary>
+    const string TableKey = "corrida.recordes-distancia";
+
     const string LastNameKey = "corrida.ultimo-nome";
     const int MaxEntries = 10;
+
+    /// <summary>
+    /// Quantos "km" cada unidade de mundo vale no painel. As unidades de mundo
+    /// são poucas para dar sensação de distância percorrida; a conta do jogo não
+    /// muda. É o mesmo espírito do <c>displayScale</c> do <see cref="SpeedHud"/>.
+    /// </summary>
+    public const float DisplayScale = 10f;
 
     [Serializable]
     public class Entry
     {
         public string name;
-        public float seconds;
+        public float distance;
     }
 
     [Serializable]
@@ -38,27 +59,29 @@ public static class ScoreBoard
         set => PlayerPrefs.SetString(LastNameKey, value ?? string.Empty);
     }
 
-    /// <summary>Recordes do melhor para o pior. Nunca devolve nulo.</summary>
+    /// <summary>Recordes do melhor para o pior — do mais longe para o mais perto.</summary>
     public static IReadOnlyList<Entry> All() => Load().entries;
 
     /// <summary>
-    /// Guarda um tempo. Devolve a posição na tabela (0 é o primeiro lugar), ou
-    /// -1 se não foi bom o bastante para entrar.
+    /// Guarda uma distância. Devolve a posição na tabela (0 é o primeiro lugar),
+    /// ou -1 se não foi longe o bastante para entrar.
     /// </summary>
-    public static int Submit(string name, float seconds)
+    public static int Submit(string name, float distance)
     {
-        if (seconds <= 0f)
+        if (distance <= 0f)
             return -1;
 
         var table = Load();
         var entry = new Entry
         {
             name = string.IsNullOrWhiteSpace(name) ? "Piloto" : name.Trim(),
-            seconds = seconds,
+            distance = distance,
         };
 
         table.entries.Add(entry);
-        table.entries.Sort((a, b) => a.seconds.CompareTo(b.seconds));
+
+        // Decrescente: aqui, maior é melhor.
+        table.entries.Sort((a, b) => b.distance.CompareTo(a.distance));
 
         if (table.entries.Count > MaxEntries)
             table.entries.RemoveRange(MaxEntries, table.entries.Count - MaxEntries);
@@ -77,7 +100,18 @@ public static class ScoreBoard
         PlayerPrefs.Save();
     }
 
-    /// <summary>Tempo em m:ss.cc — o formato de cronômetro que se lê de relance.</summary>
+    /// <summary>Distância como o jogador lê: "4.800 km".</summary>
+    public static string FormatDistance(float distance)
+    {
+        int shown = Mathf.RoundToInt(Mathf.Max(0f, distance) * DisplayScale);
+        return shown.ToString("n0") + " km";
+    }
+
+    /// <summary>
+    /// Tempo em m:ss.cc — o formato de cronômetro que se lê de relance. Não é
+    /// mais pontuação, mas o painel de fase concluída ainda mostra quanto tempo
+    /// a corrida levou.
+    /// </summary>
     public static string FormatTime(float seconds)
     {
         if (seconds < 0f)

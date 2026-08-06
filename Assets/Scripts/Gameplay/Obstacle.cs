@@ -120,13 +120,28 @@ public class Obstacle : MonoBehaviour
     {
         if (stats != null)
         {
-            race?.Nudge(stats.speedBonusOnKill);
+            race?.Nudge(SpeedGainOnKill());
 
             if (stats.shrapnelOnDeath)
                 SpawnShrapnel();
         }
 
         Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// O que este abate rende de velocidade. A ficha do obstáculo diz o **peso**
+    /// dele, a ficha da nave diz quanta velocidade a nave tira de um peso 1 — as
+    /// duas coisas são separadas porque a Barcaça valer mais que o Detrito é
+    /// propriedade da Barcaça, e converter abate em velocidade é da nave.
+    ///
+    /// Sem nave na cena — Game.unity aberta solta para teste — o peso vale como
+    /// velocidade, para a cena continuar jogável.
+    /// </summary>
+    float SpeedGainOnKill()
+    {
+        var ship = ShipStats.Instance;
+        return ship != null ? ship.KillSpeedGain * stats.killWeight : stats.killWeight;
     }
 
     /// <summary>

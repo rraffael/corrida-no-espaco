@@ -3,11 +3,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Manda no começo, no fim e no cronômetro da corrida.
+/// Manda no começo, no fim e no cronômetro da corrida. São três desfechos, e
+/// qual deles vale depende do tipo de fase:
 ///
-/// - **Derrota:** a vida da nave chega a zero.
-/// - **Vitória:** a velocidade alcança a de dobra.
-/// - **Pontuação:** o tempo até entrar em dobra. Menor é melhor.
+/// - **Fase de progressão, vitória:** a dobra completa. Destrava a próxima fase.
+///   Não marca placar — estas fases existem para ensinar o jogo e apresentar
+///   obstáculo novo, não para competir.
+/// - **Fase de progressão, derrota:** a vida da nave chega a zero.
+/// - **Fase sem fim:** a nave cair **é o fim previsto**, e não uma derrota. Lá a
+///   corrida vale a **distância percorrida**, que é a única pontuação do jogo.
 /// </summary>
 [DefaultExecutionOrder(-30)]
 public class RaceDirector : MonoBehaviour
@@ -31,19 +35,34 @@ public class RaceDirector : MonoBehaviour
 
     [SerializeField] string menuSceneName = "Menu";
 
-    [Header("Fim de corrida")]
+    [Header("Fim de corrida — fases de progressão")]
     [SerializeField] GameObject victoryPanel;
     [SerializeField] GameObject defeatPanel;
     [SerializeField] TMP_Text victoryTimeLabel;
+
+    [Tooltip("Onde a vitória conta o que foi destravado.")]
+    [SerializeField] TMP_Text victoryUnlockLabel;
+
+    [Header("Fim de corrida — fase sem fim")]
+    [SerializeField] GameObject endlessPanel;
+    [SerializeField] TMP_Text endlessDistanceLabel;
     [SerializeField] TMP_InputField nameField;
-    [SerializeField] TMP_Text victoryPlacementLabel;
-    [SerializeField] RecordsBoard victoryBoard;
+    [SerializeField] TMP_Text placementLabel;
+    [SerializeField] RecordsBoard recordsBoard;
 
     [Tooltip("Some com estes objetos quando a corrida acaba: HUD e botão de menu.")]
     [SerializeField] GameObject[] hideOnEnd;
 
     /// <summary>Tempo de corrida até agora, em segundos.</summary>
     public float Elapsed { get; private set; }
+
+    /// <summary>
+    /// Distância percorrida, em unidades de mundo. É a velocidade **integrada no
+    /// tempo**, e não tempo vezes velocidade final: a velocidade muda o tempo
+    /// todo, e quem acelerou cedo tem de levar vantagem sobre quem acelerou no
+    /// fim. É a pontuação da fase sem fim.
+    /// </summary>
+    public float Distance { get; private set; }
 
     /// <summary>Falso depois da vitória ou da derrota — arma e spawner consultam.</summary>
     public bool IsRunning { get; private set; }
@@ -94,7 +113,7 @@ public class RaceDirector : MonoBehaviour
     {
         race = RaceSpeed.Instance;
         ApplyLevel();
-        WarnIfUnwinnable();
+        ApplyPassiveCeiling();
 
         if (ShipStats.Instance != null)
         {
@@ -104,8 +123,10 @@ public class RaceDirector : MonoBehaviour
 
         SetActive(victoryPanel, false);
         SetActive(defeatPanel, false);
+        SetActive(endlessPanel, false);
 
         Elapsed = 0f;
+        Distance = 0f;
         WarpCharge = 0f;
         IsCharging = false;
         scoreSaved = false;
@@ -143,19 +164,21 @@ public class RaceDirector : MonoBehaviour
     }
 
     /// <summary>
-    /// A velocidade de dobra acima do teto do <see cref="RaceSpeed"/> faz uma
-    /// fase que ninguém consegue vencer, e sem aviso nenhum: o jogador só
-    /// percebe correndo atrás de uma meta que a física do jogo não alcança.
+    /// O ganho passivo do <see cref="RaceSpeed"/> leva a corrida **até a dobra** e
+    /// para ali — quem prefere desviar a atirar chega ao fim da fase, só que
+    /// devagar. Na fase sem fim não existe dobra, então lá ele não para nunca: a
+    /// corrida fica perigosa com o tempo mesmo para quem não atira em nada.
+    ///
+    /// Isto é teto do **ganho passivo**, e não da velocidade — o jogo não tem
+    /// teto de velocidade nenhum desde 06/08/2026. Destruir obstáculo continua
+    /// empurrando a corrida acima da dobra à vontade.
     /// </summary>
-    void WarnIfUnwinnable()
+    void ApplyPassiveCeiling()
     {
-        if (IsEndless || race == null || warpSpeed <= race.MaxSpeed)
+        if (race == null)
             return;
 
-        Debug.LogError(
-            $"[Corrida] Fase invencível: a dobra exige {warpSpeed} u/s, mas o teto de " +
-            $"velocidade é {race.MaxSpeed} u/s. Baixe a dobra ou levante o teto no RaceSpeed.",
-            this);
+        race.SetPassiveCeiling(IsEndless ? float.PositiveInfinity : warpSpeed);
     }
 
     void Update()
@@ -164,6 +187,12 @@ public class RaceDirector : MonoBehaviour
             return;
 
         Elapsed += Time.deltaTime;
+
+        // Integra a velocidade a cada frame, em vez de multiplicar no fim: é o
+        // que faz acelerar cedo valer mais do que acelerar no último segundo.
+        if (race != null)
+            Distance += race.Current * Time.deltaTime;
+
         UpdateWarpCharge();
     }
 
@@ -198,6 +227,10 @@ public class RaceDirector : MonoBehaviour
             WarpCharge = Mathf.Max(0f, WarpCharge - Time.deltaTime * warpDecayRate);
     }
 
+    /// <summary>
+    /// Fase de progressão vencida. Sem placar de propósito: o prêmio destas
+    /// fases é a próxima fase, não uma posição em tabela.
+    /// </summary>
     void Win()
     {
         if (!IsRunning)
@@ -208,13 +241,30 @@ public class RaceDirector : MonoBehaviour
         if (victoryTimeLabel != null)
             victoryTimeLabel.text = ScoreBoard.FormatTime(Elapsed);
 
-        if (nameField != null)
-            nameField.text = ScoreBoard.LastName;
-
-        if (victoryPlacementLabel != null)
-            victoryPlacementLabel.text = "Salve seu tempo na tabela.";
+        if (victoryUnlockLabel != null)
+            victoryUnlockLabel.text = RegisterProgress();
 
         SetActive(victoryPanel, true);
+    }
+
+    /// <summary>
+    /// Vencer anda com a corrente de progressão. Devolve o que contar ao jogador
+    /// — repetir uma fase já vencida não destrava nada, e é melhor dizer isso do
+    /// que deixar o painel mudo.
+    /// </summary>
+    string RegisterProgress()
+    {
+        var catalog = LevelCatalog.Load();
+        if (catalog == null || Level == null)
+            return string.Empty;
+
+        if (!LevelProgress.MarkCleared(catalog, Level, LevelSelection.Difficulty))
+            return "Você já tinha vencido esta fase.";
+
+        int next = LevelProgress.StagesCleared;
+        return next >= LevelProgress.TotalStages(catalog)
+            ? "Você fechou todas as fases!"
+            : "Destravou: " + LevelProgress.DescribeStage(catalog, next);
     }
 
     void Lose()
@@ -223,7 +273,31 @@ public class RaceDirector : MonoBehaviour
             return;
 
         EndRace();
+
+        // Na fase sem fim, a nave cair é o fim previsto da corrida — foi até
+        // onde deu. Chamar aquilo de derrota seria punir o jogador pela única
+        // coisa que a fase permite que aconteça.
+        if (IsEndless)
+        {
+            ShowEndlessResult();
+            return;
+        }
+
         SetActive(defeatPanel, true);
+    }
+
+    void ShowEndlessResult()
+    {
+        if (endlessDistanceLabel != null)
+            endlessDistanceLabel.text = ScoreBoard.FormatDistance(Distance);
+
+        if (nameField != null)
+            nameField.text = ScoreBoard.LastName;
+
+        if (placementLabel != null)
+            placementLabel.text = "Salve sua distância na tabela.";
+
+        SetActive(endlessPanel, true);
     }
 
     void EndRace()
@@ -241,32 +315,36 @@ public class RaceDirector : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    /// <summary>Botão "Salvar" do painel de vitória.</summary>
+    /// <summary>
+    /// Botão "Salvar" do painel da fase sem fim. Só ela tem placar — a guarda do
+    /// <see cref="IsEndless"/> é o que impede uma fase de progressão de entrar na
+    /// tabela, se um dia alguém ligar este botão no painel errado.
+    /// </summary>
     public void SaveScore()
     {
-        if (scoreSaved)
+        if (scoreSaved || !IsEndless)
             return;
 
         scoreSaved = true;
 
         string name = nameField != null ? nameField.text : string.Empty;
-        int position = ScoreBoard.Submit(name, Elapsed);
+        int position = ScoreBoard.Submit(name, Distance);
 
-        if (victoryPlacementLabel != null)
+        if (placementLabel != null)
         {
-            victoryPlacementLabel.text = position >= 0
+            placementLabel.text = position >= 0
                 ? $"{position + 1}º lugar na tabela!"
-                : "Tempo guardado, mas fora do top 10.";
+                : "Fora do top 10 desta vez.";
         }
 
-        if (victoryBoard != null)
-            victoryBoard.Refresh();
+        if (recordsBoard != null)
+            recordsBoard.Refresh();
 
         if (nameField != null)
             nameField.interactable = false;
     }
 
-    /// <summary>Botão "Voltar ao menu", nos dois painéis de fim.</summary>
+    /// <summary>Botão "Voltar ao menu", nos três painéis de fim.</summary>
     public void BackToMenu()
     {
         Time.timeScale = 1f;

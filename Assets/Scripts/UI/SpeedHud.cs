@@ -37,8 +37,9 @@ public class SpeedHud : MonoBehaviour
             director = RaceDirector.Instance;
 
         // A meta de dobra é fixa durante a corrida, então a string sai pronta
-        // uma vez e não é remontada a cada frame.
-        if (director != null)
+        // uma vez e não é remontada a cada frame. Na fase sem fim não há dobra:
+        // mostrar a meta lá seria anunciar um número que nunca vai valer nada.
+        if (director != null && !director.IsEndless)
             goalSuffix = " / " + Mathf.RoundToInt(director.WarpSpeed * displayScale);
 
         if (speed != null)

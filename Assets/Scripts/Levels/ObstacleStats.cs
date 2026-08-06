@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// A ficha de um tipo de obstáculo — o equivalente ao <see cref="ShipStats"/> da
@@ -36,8 +37,12 @@ public class ObstacleStats : ScriptableObject
     [Tooltip("Dano na nave ao bater. A defesa da nave desconta disto.")]
     [Min(0f)] public float contactDamage = 20f;
 
-    [Tooltip("Quanto a corrida ganha de velocidade quando este obstáculo é destruído.")]
-    [Min(0f)] public float speedBonusOnKill = 1.5f;
+    [Tooltip("Quanto ESTE obstáculo vale em relação aos outros quando destruído. Não é velocidade: " +
+             "a velocidade que um abate rende sai da ficha da NAVE (ShipStats.KillSpeedGain) e é " +
+             "multiplicada por este peso. A Barcaça vale mais que o Detrito porque custa mais " +
+             "para derrubar, e isso continua verdade em qualquer nave.")]
+    [FormerlySerializedAs("speedBonusOnKill")]
+    [Min(0f)] public float killWeight = 1.5f;
 
     [Tooltip("Quanto a corrida perde de velocidade na batida.")]
     [Min(0f)] public float speedPenaltyOnCrash = 2f;
