@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c4c868a300e6345bdb166d5095cc52, type: 3}
+  m_Name: Fase3
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
+  displayName: "Fase 3 \u2014 Ninho"
+  order: 3
+  warpSpeed: 16
+  warpChargeSeconds: 7
+  startInterval: 1.2
+  endInterval: 0.85
+  rampSeconds: 60
+  intervalJitter: 0.3
+  obstacles:
+  - stats: {fileID: 11400000, guid: 509473fa05c12ba4dbd38c3ce00144a9, type: 2}
+    earliestSeconds: 0
+    latestSeconds: 0
+    weight: 2
+  - stats: {fileID: 11400000, guid: e380381f306cd714f97b72faba17f0df, type: 2}
+    earliestSeconds: 5
+    latestSeconds: 10
+    weight: 1
+  - stats: {fileID: 11400000, guid: 1448116241811324f95a961f54c2828f, type: 2}
+    earliestSeconds: 12
+    latestSeconds: 20
+    weight: 1.5
+  endless: 0

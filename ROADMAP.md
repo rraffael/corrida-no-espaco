@@ -50,13 +50,17 @@ Marque cada item conforme for concluído: `[ ]` → `[x]`.
 - **A corrida anda** (06/08/2026) — `RaceSpeed` (velocidade do zero ao cruzeiro), campo de
   estrelas rolando na velocidade dela e HUD no rodapé. **O jogo virou uma corrida**: até ontem
   era um seletor de faixa parado no vazio.
+- **O jogo está jogável de ponta a ponta** (06/08/2026) — ficha da nave, tiro automático,
+  obstáculos com vida e dano, derrota por vida em zero, vitória por dobra, tempo como pontuação,
+  tabela de recordes com nome, e o menu com Recordes e a transição do pódio. Aprovado no
+  aparelho, com o equilíbrio acertando de primeira.
 - **Unity Analytics desligado** — `UnityConnectSettings.asset` com tudo em `0`, e o módulo
   `com.unity.modules.unityanalytics` fora do `manifest.json`. A configuração agora concorda
   com o que a política de privacidade afirma.
 
 **Faltando**
-- Parte 3 (nave com ficha, obstáculos, tiro, vitória, derrota, recordes): **escrita em
-  06/08/2026, não montada nem testada.**
+- Variedade: um tipo de obstáculo só, ritmo constante, uma nave. Toda partida é igual — é a
+  Parte 4.
 - Áudio: nenhum `.wav`/`.mp3`/`.ogg` no projeto.
 - Ícone e splash próprios.
 - `AndroidTargetSdkVersion` ainda em `0` (Automatic) — **prazo: 31/08/2026**.
@@ -330,9 +334,10 @@ aprovada no aparelho; **código escrito no mesmo dia, falta montar e testar**.
 > **Sem paralaxe de propósito** (decidido em 05/08/2026): primeiro tudo funcionando, o enfeite
 > depois. O `speedFactor` do `ScrollingBackground` é o gancho para quando essa hora chegar.
 
-### Parte 3 — O jogo inteiro 🟡
+### Parte 3 — O jogo inteiro ✅
 Decidida pelo Raffael em 06/08/2026: **tudo de uma vez**, em vez de uma mecânica por parte.
-Escrito no mesmo dia; **falta montar e testar**.
+Escrita, montada e **aprovada no mesmo dia, no Editor e no aparelho**. Com ela o projeto deixou
+de ser uma demonstração e virou um jogo: tem começo, meio, derrota, vitória e recorde.
 
 **A ficha da nave**
 - [x] `Assets/Scripts/Gameplay/ShipStats.cs` — velocidade de cruzeiro, dano, velocidade de ataque
@@ -372,22 +377,99 @@ Escrito no mesmo dia; **falta montar e testar**.
       3 segundos, ou até tocar na tela, e só então carrega a fase
 - [x] **Botões maiores** — de 300x65 para 440x110, com o texto crescendo junto
 
-**Falta**
-- [ ] **Commitar antes de rodar** as três ferramentas de montagem
-- [ ] Rodar **Montar combate** e **Montar menu**, nesta ordem
-- [ ] Testar no Editor e no aparelho — ver a lista de etapas de teste
-- [ ] Equilibrar os números depois de jogar: vida 100, dano 25, 3 tiros/s, obstáculo com 50 de
-      vida e 20 de dano, +1,5 de velocidade por obstáculo destruído, dobra em 15
-- [ ] Apagar as ferramentas de montagem depois de rodadas
+**Montagem e teste**
+- [x] Rodadas as montagens de combate e de menu, nesta ordem
+- [x] **Testado no Editor e no aparelho** (06/08/2026)
+- [x] **Equilíbrio aprovado de primeira** — "rápido o suficiente para ser difícil, mas não
+      impossível". Vida 100, dano 25, 3 tiros/s, obstáculo com 50 de vida e 20 de dano,
+      +1,5 de velocidade por obstáculo destruído, -2 por batida, dobra em 15.
+      **Mexer nestes números é mexer na dificuldade do jogo inteiro** — anotados aqui porque a
+      partir de agora qualquer mecânica nova é comparada com este ponto de partida que funciona
+- [ ] Apagar as ferramentas de montagem já rodadas (`RaceSetup`, `BattleSetup`, `MenuSetup`),
+      depois de commitadas
 
-**Ainda em aberto, para depois**
+> A ficha da loja (`docs/play-console/ficha-da-loja.md`) descreve só a corrida, "sem tiro".
+> **Agora tem tiro** — as descrições pt-BR e en-US precisam ser reescritas antes de publicar.
+
+### Parte 4 — Variedade e desafio ⬜ ← **próxima**
+O jogo funciona, mas toda partida é igual à anterior: um tipo de obstáculo, um ritmo, uma nave.
+O objetivo desta parte é dar ao jogador motivo para jogar de novo.
+
+**A ficha completa** *(proposta do Raffael em 06/08/2026, ajustada por ele no mesmo dia)*
+- [x] **Aceleração** saiu do `RaceSpeed` e entrou no `ShipStats`. Continua no `RaceSpeed` como
+      valor de partida, para a cena funcionar sem nave; a ficha impõe o dela em
+      `ApplyShipStats(cruzeiro, aceleração)`. Manda em quão rápido a nave se recupera de uma freada
+- [x] **Defesa em %** — `ShipStats.DamageAfterDefense()` reduz e **arredonda para cima**, com
+      mínimo de 1. Decisão do Raffael: *"se fosse 1 de dano e a redução fosse 99%, ainda toma 1"*.
+      Um golpe que acerta nunca é de graça, então defesa alta não vira imunidade e o número não
+      precisa de teto artificial
+- [x] Bater na nave passou a ser `ShipStats.TakeHit()`, e não mais direto no `Health`: é o único
+      caminho por onde a defesa desconta
+- [x] ~~**Velocidade de dobra** como atributo da nave~~ — **descartada pelo Raffael**: ela fica
+      sendo **regra da fase**, que é quem decide o quanto se exige para completar a dobra. Some
+      junto a inversão esquisita de "menor é melhor" num atributo de nave
+- [x] **Validação da fase invencível** — `RaceDirector` acusa no Console se a dobra exigir mais
+      que o teto de velocidade do `RaceSpeed`. Sem ela, o jogador corre atrás de uma meta que a
+      física do jogo não alcança e nada avisa
+- [x] **Dobra com tempo de carga** (decidido pelo Raffael em 06/08/2026) — chegar à velocidade
+      não vence mais na hora: a nave precisa **segurar** a velocidade pelo tempo que a fase pedir
+      (5 s hoje). Abaixo da velocidade a carga **escoa** pela metade do ritmo, em vez de zerar:
+      uma batida no fim custa caro sem apagar a corrida inteira.
+      `warpChargeSeconds` e `warpDecayRate` ficam no `RaceDirector`
+      - Serve de **ajuste de dificuldade principal da fase**: mexer no tempo de dobra é mexer em
+        quanto o jogador tem de aguentar já correndo depressa demais para desviar com folga
+- [x] `UI/WarpChargeHud.cs` — contagem regressiva acima do velocímetro, aparecendo só quando há
+      carga. Muda de cor quando a carga está escoando
+
+**Bloco A — obstáculos e fichas de fase** *(escrito em 06/08/2026, falta rodar e testar)*
+- [x] `Levels/ObstacleStats.cs` — **ficha do obstáculo**, no mesmo espírito da ficha da nave, mas
+      como ScriptableObject: o dado é igual para todos os obstáculos daquele tipo. Vida, dano,
+      quantas faixas ocupa, bônus de velocidade ao morrer, estilhaços. Pedido do Raffael para
+      obstáculo novo não passar por código
+- [x] `Levels/LevelDefinition.cs` — **ficha da fase**: velocidade e tempo de dobra, ritmo de
+      spawn (com rampa do início ao fim da corrida) e a **agenda de obstáculos** — que tipo entra
+      e a partir de que segundo, com a estreia **sorteada dentro de uma janela** para duas
+      partidas da mesma fase não ficarem idênticas
+- [x] `Levels/LevelCatalog.cs` — as fases, a fase sem fim e as três dificuldades num arquivo só,
+      em `Resources/`. A dificuldade **não troca obstáculo** (isso é papel da fase): ela soma na
+      velocidade de dobra e multiplica ritmo, vida e dano
+- [x] `Levels/LevelSelection.cs` — a escolha atravessa a troca de cena. Abrir a `Game.unity`
+      direto no Editor cai na Fase 1, então dá para testar sem navegar pelo menu
+- [x] **Três tipos de obstáculo**, como o Raffael desenhou:
+      **Detrito** (o atual, desde o segundo 0 em toda fase), **Barcaça** (mais vida, **ocupa 2
+      faixas**, entra entre o segundo 5 e 10 a partir da fase 2) e **Casulo** (ao ser destruído
+      solta **estilhaços que descem pela própria faixa**, a partir da fase 3)
+- [x] `Shrapnel.cs` — os estilhaços descem mais rápido que a corrida. **É o primeiro elemento que
+      obriga a trocar de faixa**: até aqui dava para vencer parado no meio, segurando o gatilho
+- [x] **Regra da fuga garantida** — o spawner olha a **leva inteira** que está descendo e nunca
+      fecha todas as faixas; se não houver posição que deixe saída, ele pula a batida. Sem isso,
+      a Barcaça de 2 faixas mais um Detrito na faixa restante matariam por sorteio, e não por erro
+- [ ] Rodar **Criar fases e fichas de obstáculo** e depois **Montar combate**
+- [ ] Testar por etapas no Editor e no aparelho
+- [ ] Equilibrar: vida e dano dos três tipos, janelas de estreia e os fatores de dificuldade
+
+**Bloco B — fases, progressão e leaderboard** *(a fazer)*
+- [ ] Seleção de fase e dificuldade no menu — 3 fases × 3 dificuldades, mais a sem fim
+- [ ] **Progressão**: vencer a fase N destrava a N+1; fechar as três destrava a dificuldade
+      seguinte; fechar o Difícil destrava a fase sem fim
+- [ ] **Fase sem fim** — sem dobra, endurece sozinha, acaba quando a nave cai
+- [ ] **Leaderboard só da fase sem fim.** Cuidado registrado: a pontuação **inverte de sentido**.
+      Hoje é *tempo até a dobra* e menor é melhor; lá é *tempo sobrevivido* e **maior é melhor**.
+      O `ScoreBoard` ordena crescente e precisa mudar junto
+- [ ] As fases normais deixam de ter placar: o painel de vitória delas troca o campo de nome por
+      "fase concluída" e o que foi destravado
+
+**Depois**
+- [ ] Barreira que impede naves fracas de avançar *(ideia do Raffael, adiada por ele)*
+- [ ] **Itens** — reparo, escudo temporário, tiro rápido
+- [ ] **Escolha de nave** — duas ou três fichas diferentes. É onde aceleração e defesa passam a
+      valer de verdade: hoje afinam uma nave só
+
+**Depois disso**
 - [ ] Decidir se o tiro vira comando do jogador, com munição, ou continua automático
 - [ ] Áudio: motor, tiro, impacto, vitória, derrota
 - [ ] Arte de verdade no lugar dos marcadores de `Assets/Art/Placeholder/`
 - [ ] Pool de objetos para tiro e obstáculo, se o `Instantiate`/`Destroy` pesar no aparelho
-
-> A ficha da loja (`docs/play-console/ficha-da-loja.md`) descreve só a corrida, "sem tiro".
-> **Agora tem tiro** — as descrições pt-BR e en-US precisam ser reescritas antes de publicar.
 
 ## Fase 7 — Fechar login e conquistas ⬜
 Depende do projeto GPGS novo (Fase 5). **O plugin não está mais no projeto** — foi removido na
@@ -437,11 +519,9 @@ Depois do lançamento. Anúncios antes de compras.
 
 **Próximo passo, nesta ordem:**
 
-1. **Commitar**, depois rodar **Montar combate** e **Montar menu** (nesta ordem), depois testar
-   por etapas — Editor primeiro, aparelho depois.
-2. **Equilibrar os números** com o jogo na mão: é a primeira vez que o projeto tem dificuldade
-   para ajustar.
-3. **Fase 4, a SDK Platform 36** — **prazo 31/08/2026**, e é instalação pelo Android SDK Manager,
+1. **Fase 6, Parte 4 — variedade e desafio.** A ficha completa primeiro (é base e é barato),
+   depois a curva de dificuldade, depois os tipos de obstáculo.
+2. **Fase 4, a SDK Platform 36** — **prazo 31/08/2026**, e é instalação pelo Android SDK Manager,
    não código. Quanto mais perto do fim do mês, mais chance de dar errado na pressa.
 4. **Fase 5, os 12 testadores** — o relógio mais lento do projeto e ainda não começou a correr.
 5. Reescrever a ficha da loja: agora o jogo tem tiro, e o texto atual diz que não tem.

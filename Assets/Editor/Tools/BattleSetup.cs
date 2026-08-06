@@ -21,6 +21,7 @@ static class BattleSetup
     const string PauseButtonObject = "BotaoMenu";
     const string SpeedHudObject = "HudVelocidade";
     const string HealthHudObject = "HudVida";
+    const string WarpHudObject = "HudDobra";
     const string VictoryPanelObject = "PainelVitoria";
     const string DefeatPanelObject = "PainelDerrota";
 
@@ -72,6 +73,7 @@ static class BattleSetup
         }
 
         var healthHud = BuildHealthHud(canvas.transform);
+        var warpHud = BuildWarpHud(canvas.transform, director);
         var victory = BuildVictoryPanel(canvas.transform, director);
         var defeat = BuildDefeatPanel(canvas.transform, director);
 
@@ -92,6 +94,7 @@ static class BattleSetup
         var pauseButton = canvas.transform.Find(PauseButtonObject);
         UiBuilder.SetReferenceArray(director, "hideOnEnd",
                                     healthHud,
+                                    warpHud,
                                     speedHud != null ? speedHud.gameObject : null,
                                     pauseButton != null ? pauseButton.gameObject : null);
 
@@ -108,8 +111,8 @@ static class BattleSetup
 
         Debug.Log(
             "[Combate] Nave com ficha (vida 100, dano 25, 3 tiros/s), obstáculos, HUD de vida e " +
-            "painéis de vitória e derrota montados em " + ScenePath + ". " +
-            "Vitória é chegar a 15 u/s; cada obstáculo destruído acelera 1,5.",
+            "de dobra, e painéis de vitória e derrota montados em " + ScenePath + ". " +
+            "Vitória é segurar 15 u/s por 5 segundos; cada obstáculo destruído acelera 1,5.",
             ship);
     }
 
@@ -132,7 +135,7 @@ static class BattleSetup
         var canvas = FindInScene(scene, CanvasObject);
         if (canvas != null)
         {
-            foreach (var name in new[] { HealthHudObject, VictoryPanelObject, DefeatPanelObject })
+            foreach (var name in new[] { HealthHudObject, WarpHudObject, VictoryPanelObject, DefeatPanelObject })
             {
                 var target = canvas.transform.Find(name);
                 if (target == null)
@@ -177,6 +180,33 @@ static class BattleSetup
         label.alignment = TextAlignmentOptions.Left;
 
         hud.AddComponent<HealthHud>();
+        return hud;
+    }
+
+    /// <summary>Contagem da dobra, logo acima do velocímetro do rodapé.</summary>
+    static GameObject BuildWarpHud(Transform canvas, RaceDirector director)
+    {
+        var existing = canvas.Find(WarpHudObject);
+        if (existing != null)
+            Undo.DestroyObjectImmediate(existing.gameObject);
+
+        var hud = UiBuilder.NewUI(WarpHudObject, canvas);
+        Undo.RegisterCreatedObjectUndo(hud, "Montar combate");
+        hud.transform.SetAsFirstSibling();
+
+        var rect = (RectTransform)hud.transform;
+        rect.anchorMin = new Vector2(0.5f, 0f);
+        rect.anchorMax = new Vector2(0.5f, 0f);
+        rect.pivot = new Vector2(0.5f, 0f);
+        rect.sizeDelta = new Vector2(700f, 80f);
+        // Acima do HudVelocidade, que ocupa de 48 a 168.
+        rect.anchoredPosition = new Vector2(0f, 180f);
+
+        UiBuilder.Label(hud, string.Empty, 44f, new Color(0.6f, 1f, 1f, 1f));
+
+        var component = hud.AddComponent<WarpChargeHud>();
+        UiBuilder.SetReference(component, "director", director);
+
         return hud;
     }
 

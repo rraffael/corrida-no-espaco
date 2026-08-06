@@ -20,7 +20,8 @@ public class RaceSpeed : MonoBehaviour
     [SerializeField, Min(0f)] float cruiseSpeed = 8f;
 
     [Header("Regras da corrida")]
-    [Tooltip("Quanto a velocidade muda por segundo. 4 = leva 2s do zero até a de cruzeiro.")]
+    [Tooltip("Valor de partida da aceleração. Também vem da ficha da nave — este só vale " +
+             "enquanto não houver nave na cena.")]
     [SerializeField, Min(0.1f)] float acceleration = 4f;
 
     [Tooltip("Teto de velocidade. Nada consegue empurrar a nave além disto.")]
@@ -93,13 +94,14 @@ public class RaceSpeed : MonoBehaviour
     public void Nudge(float delta) => SetTarget(Target + delta);
 
     /// <summary>
-    /// Ponto único onde a ficha da nave impõe a velocidade dela. Chamado pelo
-    /// <see cref="ShipStats"/> no início da fase; o valor do Inspector aqui é só
-    /// o que vale enquanto não há nave na cena.
+    /// Ponto único onde a ficha da nave impõe os números dela. Chamado pelo
+    /// <see cref="ShipStats"/> no início da fase; os valores do Inspector aqui
+    /// são só o que vale enquanto não há nave na cena.
     /// </summary>
-    public void ApplyShipStats(float cruise)
+    public void ApplyShipStats(float cruise, float accelerationPerSecond)
     {
         cruiseSpeed = Mathf.Max(0f, cruise);
+        acceleration = Mathf.Max(0.1f, accelerationPerSecond);
 
         // Só puxa o alvo para a nova velocidade de cruzeiro se ninguém tiver
         // mexido nele ainda: no meio da corrida, o ganho dos obstáculos vale mais.

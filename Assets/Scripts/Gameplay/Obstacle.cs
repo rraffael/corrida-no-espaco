@@ -2,42 +2,37 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Coisa que vem vindo pela faixa. Tem vida — dá para destruir a tiro — e dá
-/// dano na nave se bater. Destruir acelera a corrida; bater freia e machuca.
+/// Coisa que vem vindo pelo corredor. O comportamento é um só; o que muda de um
+/// tipo para outro está na ficha (<see cref="ObstacleStats"/>) — vida, dano,
+/// quantas faixas ocupa e se explode em estilhaços.
 ///
-/// Sem Physics2D de propósito: o jogo inteiro é matemática de posição
-/// (<see cref="LaneTrack"/>, <see cref="ScrollingBackground"/>), e distância
-/// entre dois pontos é mais previsível que colisor mal configurado.
+/// Sem Physics2D de propósito: o jogo inteiro é matemática de posição, e
+/// distância entre dois pontos é mais previsível que colisor mal configurado.
 /// </summary>
 [RequireComponent(typeof(Health))]
 public class Obstacle : MonoBehaviour
 {
-    /// <summary>Todos os obstáculos vivos. O projétil percorre esta lista para achar no que bateu.</summary>
+    /// <summary>Todos os obstáculos vivos. O tiro percorre isto, e o spawner também.</summary>
     public static readonly List<Obstacle> Active = new List<Obstacle>();
 
-    [Tooltip("Dano na nave quando encosta nela.")]
-    [SerializeField, Min(0f)] float contactDamage = 20f;
-
-    [Tooltip("Quanto a corrida perde de velocidade na batida.")]
-    [SerializeField, Min(0f)] float speedPenaltyOnCrash = 2f;
-
-    [Tooltip("Quanto a corrida ganha de velocidade quando este obstáculo é destruído.")]
-    [SerializeField, Min(0f)] float speedBonusOnKill = 1.5f;
-
-    [Tooltip("Distância que conta como batida na nave, em unidades de mundo.")]
-    [SerializeField, Min(0.1f)] float crashDistance = 0.7f;
-
-    [Tooltip("Distância que conta como acerto de tiro, em unidades de mundo.")]
-    [SerializeField, Min(0.1f)] float hitDistance = 0.5f;
+    [SerializeField] ObstacleStats stats;
 
     [Tooltip("Abaixo deste Y o obstáculo já passou da nave e some.")]
     [SerializeField] float despawnY = -7f;
 
-    /// <summary>Raio de acerto para o projétil consultar.</summary>
-    public float HitDistance => hitDistance;
+    /// <summary>Primeira faixa ocupada. Com laneSpan 2, ocupa esta e a seguinte.</summary>
+    public int Lane { get; private set; }
+
+    public int LaneSpan => stats != null ? Mathf.Max(1, stats.laneSpan) : 1;
+
+    public float HitDistance => stats != null ? stats.hitDistance : 0.5f;
+
+    public ObstacleStats Stats => stats;
 
     Health health;
     RaceSpeed race;
+    LaneTrack track;
+    float contactDamage;
 
     void Awake()
     {
@@ -57,15 +52,27 @@ public class Obstacle : MonoBehaviour
         health.Died -= OnDied;
     }
 
-    /// <summary>Configuração vinda do spawner, para o obstáculo não carregar os números dele.</summary>
-    public void Configure(float maxHealth, float damage)
+    /// <summary>
+    /// Configuração vinda do spawner. Os fatores são os da dificuldade: a mesma
+    /// ficha rende um obstáculo mais duro no Difícil sem existir uma ficha por
+    /// dificuldade.
+    /// </summary>
+    public void Configure(ObstacleStats ficha, LaneTrack laneTrack, int lane,
+                          float healthFactor, float damageFactor)
     {
+        stats = ficha;
+        track = laneTrack;
+        Lane = lane;
+
         health = GetComponent<Health>();
-        health.Configure(maxHealth);
-        contactDamage = damage;
+        health.Configure(stats.maxHealth * healthFactor);
+        contactDamage = stats.contactDamage * damageFactor;
     }
 
     public void TakeDamage(float amount) => health.TakeDamage(amount);
+
+    /// <summary>True se este obstáculo ocupa a faixa indicada.</summary>
+    public bool Occupies(int lane) => lane >= Lane && lane < Lane + LaneSpan;
 
     void Update()
     {
@@ -86,25 +93,73 @@ public class Obstacle : MonoBehaviour
     void CheckCrash()
     {
         var ship = ShipStats.Instance;
-        if (ship == null || !ship.Health.IsAlive)
+        if (ship == null || !ship.Health.IsAlive || stats == null)
             return;
 
-        // Distância no plano, e não faixa contra faixa: assim bater no meio de
-        // uma troca de faixa conta, que é o que o jogador vê acontecer.
-        if (Vector2.Distance(transform.position, ship.transform.position) > crashDistance)
+        // Distância no plano, e não faixa contra faixa: bater no meio de uma
+        // troca de faixa conta, que é o que o jogador vê acontecer. Com obstáculo
+        // largo, a folga horizontal cresce junto com a largura dele.
+        var delta = ship.transform.position - transform.position;
+        float horizontalReach = stats.crashDistance + (LaneSpan - 1) * 0.5f * LaneWidth();
+
+        if (Mathf.Abs(delta.x) > horizontalReach || Mathf.Abs(delta.y) > stats.crashDistance)
             return;
 
-        ship.Health.TakeDamage(contactDamage);
-        race?.Nudge(-speedPenaltyOnCrash);
+        // Pela ficha, e não direto na vida: é lá que a defesa da nave desconta.
+        ship.TakeHit(contactDamage);
+        race?.Nudge(-stats.speedPenaltyOnCrash);
 
-        // O obstáculo se desfaz na batida: ele já cobrou o preço dele, e deixá-lo
+        // O obstáculo se desfaz na batida: já cobrou o preço dele, e deixá-lo
         // grudado na nave cobraria de novo no frame seguinte.
         Destroy(gameObject);
     }
 
+    float LaneWidth() => track != null ? track.LaneWidth : 1.6f;
+
     void OnDied()
     {
-        race?.Nudge(speedBonusOnKill);
+        if (stats != null)
+        {
+            race?.Nudge(stats.speedBonusOnKill);
+
+            if (stats.shrapnelOnDeath)
+                SpawnShrapnel();
+        }
+
         Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// Estilhaços descem pelas faixas que o obstáculo ocupava. É o que impede o
+    /// jogador de ficar parado numa faixa só atirando em tudo: destruir este tipo
+    /// cria um perigo exatamente onde ele está.
+    /// </summary>
+    void SpawnShrapnel()
+    {
+        int count = Mathf.Max(1, stats.shrapnelCount);
+
+        for (int i = 0; i < count; i++)
+        {
+            // Espalha pelas faixas ocupadas; com uma faixa só, todos saem dela.
+            int lane = Lane + (LaneSpan > 1 ? i % LaneSpan : 0);
+            float x = track != null ? track.LaneCenterX(lane) : transform.position.x;
+
+            var piece = new GameObject("Estilhaco");
+            piece.transform.position = new Vector3(x, transform.position.y, 0f);
+
+            var renderer = piece.AddComponent<SpriteRenderer>();
+            renderer.sprite = stats.sprite;
+            renderer.color = new Color(1f, 0.85f, 0.4f, 1f);
+            renderer.sortingOrder = 9;
+
+            if (stats.sprite != null)
+            {
+                var size = stats.sprite.bounds.size;
+                if (size.x > 0f && size.y > 0f)
+                    piece.transform.localScale = new Vector3(0.25f / size.x, 0.25f / size.y, 1f);
+            }
+
+            piece.AddComponent<Shrapnel>().Configure(stats.shrapnelDamage, stats.shrapnelSpeed, despawnY);
+        }
     }
 }

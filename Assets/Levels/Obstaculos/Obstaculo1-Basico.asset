@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbb839d7f3cffe743828f5c41d3d575c, type: 3}
+  m_Name: Obstaculo1-Basico
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleStats
+  displayName: Detrito
+  sprite: {fileID: 21300000, guid: 04092d4273808164f9876d6f6aa611aa, type: 3}
+  color: {r: 1, g: 0.55, b: 0.4, a: 1}
+  laneSpan: 1
+  height: 0.9
+  lanePadding: 0.15
+  maxHealth: 50
+  contactDamage: 20
+  speedBonusOnKill: 1.5
+  speedPenaltyOnCrash: 2
+  crashDistance: 0.7
+  hitDistance: 0.5
+  shrapnelOnDeath: 0
+  shrapnelDamage: 15
+  shrapnelSpeed: 6
+  shrapnelCount: 1
