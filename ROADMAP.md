@@ -17,8 +17,7 @@ Marque cada item conforme for concluído: `[ ]` → `[x]`.
 
 **Os Blocos A e B fecharam.** Montados, rodados e **aprovados no Editor em 07/08** — seleção de
 fase, progressão, fase sem fim, leaderboard de distância, os três tipos de obstáculo, os dois
-regimes de velocidade e os números novos da dobra. Nada ficou pendente de montagem: a lista `Steps`
-do `Montar.cs` está vazia, e o conserto pontual da dobra já rodou e foi apagado.
+regimes de velocidade e os números novos da dobra. O conserto pontual da dobra rodou e foi apagado.
 
 Foi a rodada que fechou o desenho de **como bater dói**: a batida virou um tranco de 25% com
 retomada em dois trechos (~3,5 s), o estilhaço virou um raspão de menos de 1 s, e a aceleração
@@ -27,9 +26,14 @@ as numeradas ensinam, a sem fim compete.
 
 ### Retomar por aqui
 
-- [ ] **Build And Run e repetir o essencial no aparelho.** É o que falta desta rodada: tudo acima
-      foi aprovado no Editor, e o aparelho ainda não viu nada disso. O tato da batida é o que mais
-      pede aparelho — no Editor o toque é mouse
+- [x] ~~Rodar o `ReleaseSettingsFix`~~ — rodou em 07/08 e foi apagado. Conferido no disco:
+      `AndroidTargetSdkVersion: 36`, `productName: "Corrida no Espaço"`, `bundleVersion: 0.1.0`
+- [x] ~~Build And Run com Target API 36~~ — **funcionou em 07/08/2026**, e o app aparece como
+      **"Corrida no Espaço"** na lista de apps. Os dois riscos de estreia passaram: o target 36
+      não quebrou nada, e o `productName` pegou
+- [ ] **Repetir o essencial do jogo no aparelho** — o build subiu, mas o *tato* da rodada de 07/08
+      ainda não foi julgado no celular: o arranque bravo, a batida de ~3,5 s, o raspão do estilhaço
+      na Fase 3 e a dobra de 2,5 s. No Editor o toque é mouse, então é aqui que se decide
 - [ ] **Equilibrar o que incomodar no aparelho.** Os botões, todos no Inspector ou nas fichas:
       `killGainFactor` (ganho por abate, `ShipStats`), `passiveGainFactor` (ritmo acima do
       cruzeiro, `RaceSpeed`), `lowSpeedAccelerationBonus` (o arranque, `RaceSpeed`),
@@ -45,9 +49,9 @@ as numeradas ensinam, a sem fim compete.
       fichas desconta por cima do tempo perdido. Zerar o campo nas três fichas de
       `Assets/Levels/Obstaculos/` deixa a batida custando **só os segundos**
 
-**Depois do aparelho**, o caminho crítico sai do jogo: a **SDK 36** (prazo 31/08) e os
-**12 testadores**. Dentro do jogo, o que sobra da Fase 6 é o backlog "Depois" — refazer a tela de
-seleção de fase, barreira, itens e escolha de nave.
+**Depois do aparelho**, o caminho crítico sai do jogo: keystore novo, `.aab` assinado e o app em
+teste interno na Play. Dentro do jogo, o que sobra da Fase 6 é o backlog "Depois" — refazer a tela
+de seleção de fase, barreira, itens e escolha de nave.
 
 ---
 
@@ -246,7 +250,7 @@ Herdadas da Parte 4 do escopo. Decididas em 02/08/2026.
       `ProjectSettings.asset:172`. O `PreflightCheck` compara com o antigo, então ele para de
       acusar sozinho
 
-> **Consequência para a ficha da loja:** `docs/play-console/ficha-da-loja.md` descreve só a
+> **Consequência para a página do app:** `docs/play-console/pagina-do-app.md` descreve só a
 > corrida ("um toque muda de faixa", "sem tiro"). Quando a parte de tiro entrar, as descrições
 > pt-BR e en-US precisam ser reescritas. Não é urgente — nada é publicado antes da Fase 4.
 
@@ -254,8 +258,14 @@ Herdadas da Parte 4 do escopo. Decididas em 02/08/2026.
 Fase 3 decidida, então esta está liberada. Fecha o assunto "publicar" de uma vez.
 **O item da SDK 36 tem prazo: 31/08/2026.**
 
-- [ ] Instalar a **Android SDK Platform 36** e fixar o Target API Level em 36 — sem isso a Play
-      não aceita upload a partir de 31/08/2026, e hoje o valor está em Automatic
+- [x] ~~Instalar a **Android SDK Platform 36**~~ — **já estava instalada.** O item novo
+      **Tools → Corrida no Espaço → Conferir SDK do Android** mostrou em 07/08/2026 que a
+      `6000.3.20f1` traz **34, 35 e 36**. Ou seja: **o build que quebrou em 31/07 tinha outra
+      causa**, e o item ficou um mês no ROADMAP assustando à toa. Lição registrada — medir antes
+      de acreditar no diagnóstico velho
+- [ ] **Fixar o Target API Level em 36** — hoje está em Automatic. Sem isso a Play não aceita
+      upload a partir de 31/08/2026. Vai no **Montar** (`ReleaseSettingsFix`), junto com o nome do
+      app e a versão
 - [ ] Gerar keystore novo, guardar **fora** do repositório, senha e alias num gerenciador
 - [x] Tirar o caminho absoluto do keystore do `ProjectSettings.asset` — `AndroidKeystoreName` e
       `AndroidKeyaliasName` agora vazios; o projeto não está mais amarrado a uma máquina
@@ -278,18 +288,31 @@ Não depende de código. **O relógio mais lento do projeto** — começar cedo.
 
 - [x] Preparar o teste fechado no papel — `docs/play-console/teste-fechado.md`: regra, planilha
       para 16 e-mails (convidar mais que 12, porque gente some), texto de convite e checklist
+- [x] **Conta de desenvolvedor verificada** (07/08/2026) — era o que travava criar o app no
+      Console. Com isso a Fase 5 deixou de depender de espera e virou o caminho crítico
+- [x] **Caminho até a Play Store escrito** — `docs/play-console/caminho-ate-a-play-store.md`,
+      dividido em duas etapas: **teste interno agora** (o app na loja, para ele testar baixando
+      pela Play) e **teste fechado depois** (a regra dos 12/14 dias, que destrava produção)
+- [ ] **Etapa 1 — subir em teste interno.** É o alvo de agora; ver o topo do arquivo
 - [ ] Montar a lista de **12 testadores** para o teste fechado (opt-in contínuo por 14 dias)
-      — **é você quem junta os e-mails; nada mais no projeto trava isto**
+      — **adiado de propósito em 07/08/2026.** Junte **16** quando a hora chegar (se a contagem
+      cair de 12, o contador reinicia), mas não agora: é uma ficha social que se joga uma vez, e
+      gastá-la numa versão que ainda vai mudar muito é desperdício
 - [x] Escrever a política de privacidade — `docs/politica-de-privacidade.md` e `docs/privacy-policy.md`
 - [ ] Publicar a política numa URL pública (GitHub Pages do portfólio) e guardar o link
 - [x] Desligar o Unity Analytics legado antes de publicar — feito em 02/08/2026:
       `UnityConnectSettings.asset` com `m_Enabled: 0` no topo e no bloco `UnityAnalyticsSettings`
       (`m_InitializeOnStartup: 0` junto), e o módulo `com.unity.modules.unityanalytics` fora do
       `manifest.json`. A configuração agora concorda com o texto da política
-- [x] Escrever a ficha da loja PT e EN — `docs/play-console/ficha-da-loja.md`
+- [x] Escrever a página do app PT e EN — `docs/play-console/pagina-do-app.md`
+      *(renomeado de `ficha-da-loja.md` em 07/08/2026 — "ficha" não dizia nada)*
       *(textos escritos para o conceito das 3 faixas; se a Fase 3 decidir outra coisa, reescrever)*
-- [ ] Produzir os gráficos da ficha: ícone 512×512, feature graphic 1024×500, screenshots — **arte, é sua**
-- [ ] Quando a conta sair da verificação: criar o app e testar se o pacote antigo é aceito
+- [ ] Produzir os gráficos: ícone 512×512, gráfico de destaque 1024×500, screenshots — **arte, é
+      sua**. *Não trava o teste interno: lá só você vê a página, então marcador de lugar basta.
+      Vira item de verdade na hora do teste fechado*
+- [ ] ~~Quando a conta sair da verificação:~~ **criar o app no Console** — a conta já está
+      verificada, então isto está liberado. O `applicationId` é novo
+      (`br.com.raffael.corridanoespaco`), então deve ser aceito sem briga
 - [ ] Criar o projeto novo no Play Games Services
 - [x] Rascunhar o Data Safety coerente com a política — `docs/play-console/data-safety.md`
 - [ ] Preencher o Data Safety no Console
@@ -443,7 +466,7 @@ de ser uma demonstração e virou um jogo: tem começo, meio, derrota, vitória 
 - [x] ~~Apagar as ferramentas de montagem já rodadas (`RaceSetup`, `BattleSetup`, `MenuSetup`)~~
       — **cancelado em 06/08/2026**, ver a nota no fim da Parte 4
 
-> A ficha da loja (`docs/play-console/ficha-da-loja.md`) descreve só a corrida, "sem tiro".
+> A página do app (`docs/play-console/pagina-do-app.md`) descreve só a corrida, "sem tiro".
 > **Agora tem tiro** — as descrições pt-BR e en-US precisam ser reescritas antes de publicar.
 
 ### Parte 4 — Variedade e desafio 🟡
@@ -692,6 +715,7 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
 | Ferramenta | O que fez | Estado |
 |---|---|---|
 | `Correções/WarpTuningFix.cs` | Pôs 2,5 s de carga e dobra 15 nas três fichas de fase, e a escada de dobra por dificuldade (+1 · +2,5 · +4) no catálogo. Existiu porque o `LevelSetup` não sobrescreve asset criado antes. | **Rodou e foi apagado** (07/08/2026) |
+| `Correções/ReleaseSettingsFix.cs` | Target API Level 36, nome no celular "Corrida no Espaço" (era `corrida-no-espaco`) e versão `0.1.0` (era `1`). O version code ficou em 1, intocado. | **Rodou e foi apagado** (07/08/2026) |
 
 O resultado do `WarpTuningFix` foi **conferido nos assets** antes de ele sair: `Fase1`, `Fase2` e
 `Fase3` com `warpSpeed: 15` e `warpChargeSeconds: 2.5`, `FaseInfinita` intocada (999 / 0), e o
@@ -763,29 +787,49 @@ Depois do lançamento. Anúncios antes de compras.
 *Revisto em 07/08/2026. Fases 0, 1, 2 e 3 fechadas. Da Fase 6, as Partes 1, 2 e 3 estão aprovadas
 no aparelho, e a Parte 4 aprovada no Editor — falta só levá-la ao aparelho.*
 
-**Próximo passo, nesta ordem:**
+### O alvo de agora: **o app na Play em teste interno** *(decidido em 07/08/2026)*
 
-1. **Build And Run e testar no aparelho** — os Blocos A e B passaram no Editor em 07/08; o
-   aparelho ainda não viu nada. Ver "Onde estamos", no topo do arquivo.
-2. **Equilibrar o que incomodar no aparelho** — os botões estão listados lá.
-3. **Fase 4, a SDK Platform 36** — **prazo 31/08/2026**, e é instalação pelo Android SDK Manager,
-   não código. Quanto mais perto do fim do mês, mais chance de dar errado na pressa.
-4. **Fase 5, os 12 testadores** — o relógio mais lento do projeto e ainda não começou a correr.
-5. Reescrever a ficha da loja: agora o jogo tem tiro, e o texto atual diz que não tem.
+Não é lançar. **O objetivo é parar de instalar por cabo:** ter o jogo na Play Store em trilha de
+teste interno, para o Raffael baixar e receber atualização pela loja como qualquer app. Ele foi
+explícito — o jogo ainda tem muito o que melhorar antes de ser lançado.
+
+Isto trocou o alvo anterior, que era o beta *fechado*, e a troca importa:
+
+- **Teste interno** aceita até 100 testadores por e-mail, pode ser só ele, e a atualização fica no
+  ar em minutos. É o que resolve o problema.
+- **Teste fechado** é o que exige **12 testadores em opt-in contínuo por 14 dias** — e essa regra
+  serve para destravar **produção**, que não é o objetivo agora.
+- **Teste interno não conta para os 12/14 dias.** É o preço, e é barato: o teste fechado continua
+  existindo, só que quando o jogo estiver pronto de verdade.
+
+> **Por que não adiantar os 12/14 dias:** pedir a 16 pessoas que instalem e mantenham instalado
+> por 14 dias é uma ficha social que se joga uma vez. Gastá-la numa versão que ainda vai mudar
+> muito desperdiça a única chance de ter os 12 firmes no dia do lançamento.
+
+O passo a passo está em `docs/play-console/caminho-ate-a-play-store.md`, dividido nas duas etapas.
+O resumo do que é para fazer agora:
+
+1. **Build And Run e testar no aparelho** — fecha a rodada de 07/08, e é rápido.
+2. **SDK Platform 36 + keystore novo** — **prazo 31/08/2026** para o SDK. Juntos destravam o
+   `.aab` assinado.
+3. **Três ajustes no `ProjectSettings`** por editor script: target 36, `productName` legível
+   ("Corrida no Espaço", não `corrida-no-espaco`) e `bundleVersion`.
+4. **Criar o app no Console**, ligar o Play App Signing, publicar a política numa URL e preencher
+   Data Safety e IARC. Página do app: marcador de lugar basta, só ele vê.
+5. **Subir o `.aab` em teste interno** e instalar pelo link de opt-in.
+
+> ⚠️ **Decisão irreversível na hora de criar o app:** publicado em qualquer trilha, o
+> `applicationId` (`br.com.raffael.corridanoespaco`) não muda mais. Trocar depois é app novo, do
+> zero. É agora ou nunca.
+
+**Depois disso, com o app já atualizando pela Play:** o backlog "Depois" da Parte 4 — barreira,
+itens, escolha de nave —, refazer a tela de seleção de fase, arte de verdade, áudio. E só quando
+o jogo estiver bom: a página do app reescrita, os 16 e-mails e o teste fechado.
+
+**Por último:** Fases 7 (Play Games), 8 (acabamento) e 9 (monetização).
 
 > O modelo híbrido de faixas segue adiado de propósito (ver Parte 1) — é arquitetura para um
 > problema que o jogo ainda não tem.
 
-**Em paralelo, sem depender de código:**
-- Fase 5, os 12 testadores — o relógio mais lento do projeto, e ainda não começou a correr
-- Fase 4, a SDK Platform 36 — **prazo 31/08/2026**, e é instalação pelo Android SDK Manager
-
-**Na sequência:** Fase 6 parte por parte, cada uma testada no aparelho antes da próxima.
-
-**Quando o jogo tiver forma:** Fase 4 até o marco do `.aab` assinado, e reescrever a ficha da
-loja com o tiro incluído.
-
-**Por último:** Fases 7, 8 e 9.
-
-**Caminho crítico real:** Fase 6, parte por parte. Todo o resto ou é barato, ou roda em
-paralelo, ou não depende de você.
+**Caminho crítico real:** o keystore e o `.aab` assinado. Depois deles, distribuir versão nova
+deixa de ser um problema, e todo o resto do trabalho fica mais barato de testar.

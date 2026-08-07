@@ -1,7 +1,13 @@
 # Teste fechado — 12 testadores
 
-Este é **o relógio mais lento do projeto**. Comece a montar a lista mesmo com o jogo incompleto:
-o prazo só começa a correr depois que o teste está no ar.
+> **Adiado de propósito em 07/08/2026.** O alvo de agora é o **teste interno**, que põe o app na
+> Play sem exigir os 12 testadores — ver `caminho-ate-a-play-store.md`. Este documento vale para
+> quando o jogo estiver bom de lançar; até lá, **não junte os e-mails**. Pedir a 16 pessoas que
+> instalem e mantenham instalado por 14 dias é uma ficha social que se joga uma vez, e gastá-la
+> numa versão que ainda vai mudar muito desperdiça a única chance de ter os 12 firmes no dia.
+
+Este é **o relógio mais lento do projeto**. Quando a hora chegar, ele é o caminho crítico: o prazo
+só começa a correr depois que o teste está no ar.
 
 ---
 
@@ -80,5 +86,10 @@ Não precisa jogar todo dia — se jogar e me falar o que achou, melhor ainda. �
 ## Ordem de dependência
 
 O teste fechado precisa de um `.aab` assinado, que precisa do keystore novo e do
-`applicationId` definitivo (Fases 3 e 4). Mas **juntar os 16 e-mails não depende de nada** — é
-o que dá para adiantar hoje, e é justamente o que trava o cronograma se ficar para depois.
+`applicationId` definitivo (Fases 3 e 4) — tudo isso fica pronto na Etapa 1 do
+`caminho-ate-a-play-store.md`, então quando esta fase começar só faltará gente.
+
+**Juntar os 16 e-mails não depende de nada tecnicamente** — e mesmo assim está adiado de
+propósito. É o único item do projeto que se atrasa *de graça*: convidar cedo demais gasta a
+disposição das pessoas numa versão que ainda vai mudar, e não adianta um dia sequer, porque o
+contador só corre com o `.aab` no ar. Ver o aviso no topo.

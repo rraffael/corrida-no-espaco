@@ -36,10 +36,9 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 07/08/2026, depois do Montar da tarde: **vazia**. Os cinco
-    /// passos do Bloco B rodaram em 06/08 e o ajuste da dobra rodou hoje, com os
-    /// valores conferidos nos assets. O que restou da rodada de hoje é só código,
-    /// que não precisa de montagem nenhuma.
+    /// Estado em 07/08/2026, fim do dia: **vazia**. Tudo o que a rodada do dia
+    /// exigia já rodou — os cinco passos do Bloco B, o ajuste da dobra e a
+    /// preparação do ProjectSettings para a Play, os três conferidos no disco.
     /// </summary>
     static readonly Step[] Steps = { };
 

@@ -42,7 +42,7 @@ diferença de público é pequena perto do custo de conformidade.
 
 - [ ] Faixas etárias-alvo: 13-15, 16-17, 18+
 - [ ] "O app atrai crianças?" → **Não**
-- [ ] Conferir se a ficha da loja não usa arte ou linguagem infantilizada — a Play olha o
+- [ ] Conferir se a página do app não usa arte ou linguagem infantilizada — a Play olha o
       material da vitrine para contestar essa declaração
 
 ## Outras declarações da mesma seção

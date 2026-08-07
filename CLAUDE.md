@@ -68,6 +68,9 @@ quê**, não o que a linha já diz.
 - Build: menu **Tools → Corrida no Espaço → Build**, ou `-executeMethod BuildAndroid.Release`
   com as variáveis `CNE_KEYSTORE_*` definidas.
 - Log do aparelho: `.\tools\logcat.ps1`
+- SDK do Android: menu **Tools → Corrida no Espaço → Conferir SDK do Android** diz qual SDK o
+  Editor usa, quais Platforms estão nele e o Target API Level atual. A `6000.3.20f1` traz 34, 35
+  e 36 (conferido em 07/08/2026).
 
 ## Não fazer
 

@@ -1,10 +1,18 @@
-# Ficha da loja — Corrida no Espaço
+# Página do app na Play Store — Corrida no Espaço
 
-Rascunho pronto para colar no Play Console (*Crescer → Presença na loja → Ficha principal*).
+O que o usuário vê na página do app: nome, descrição curta, descrição completa, ícone e
+screenshots. Rascunho pronto para colar no Play Console (*Crescer → Presença na loja*).
 
-> **Depende da Fase 3.** Os textos abaixo descrevem o conceito do escopo: foguete trocando de
-> faixa, velocidade como única barra de vida. Se a decisão for retomar um shoot-'em-up, o título
-> continua servindo mas as descrições precisam ser reescritas.
+> *O Console chama isto de "ficha da loja" (**store listing**). O arquivo se chamava
+> `ficha-da-loja.md` e foi renomeado em 07/08/2026, porque "ficha" não dizia nada.*
+
+> ⚠️ **OS TEXTOS ABAIXO ESTÃO DESATUALIZADOS E NÃO PODEM SER COLADOS COMO ESTÃO.** Eles descrevem
+> o conceito de 02/08/2026, que o jogo abandonou: prometem que *não há barra de vida* e que *a sua
+> vida é a velocidade*, que *um toque muda de faixa*, que existem *impulsos para coletar*, e não
+> mencionam tiro. Hoje o jogo tem vida e defesa, troca de faixa por **arraste**, tiro automático,
+> três tipos de obstáculo, três dificuldades, progressão de fases e uma fase sem fim com placar de
+> distância. Também citam conquistas do Play Games, que saiu do projeto na limpeza de 02/08 e só
+> volta na Fase 7. **Reescrita pendente.**
 
 ---
 

@@ -28,6 +28,7 @@ static class ProjectTools
     public const string SetupAllItem = MenuRoot + "Montar";
 
     public const string PreflightItem = MenuRoot + "Conferir configuração";
+    public const string AndroidSdkItem = MenuRoot + "Conferir SDK do Android";
     public const string BuildApkItem = MenuRoot + "Build/APK de teste";
     public const string BuildAabItem = MenuRoot + "Build/AAB de release";
 
@@ -131,6 +132,14 @@ static class ProjectTools
             Summary = "Confere cenas na build list, orientação, target SDK, keystore vazado e applicationId. " +
                       "Rodar sempre antes de um build.",
             MenuPath = PreflightItem,
+        },
+        new Tool
+        {
+            Title = "Conferir SDK do Android",
+            Summary = "Diz qual SDK o Editor usa e quais Platforms estão instaladas nele — o Unity " +
+                      "Hub não instala nível de API, só o conjunto de ferramentas. Rodar antes de " +
+                      "mexer no Target API Level, que é o que quebrou o build de 31/07/2026.",
+            MenuPath = AndroidSdkItem,
         },
         new Tool
         {
