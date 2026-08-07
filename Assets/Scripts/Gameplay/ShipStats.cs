@@ -19,7 +19,9 @@ public class ShipStats : MonoBehaviour
     [SerializeField, Min(0f)] float cruiseSpeed = 8f;
 
     [Tooltip("Quanto a velocidade muda por segundo. Manda em quão rápido a nave se recupera " +
-             "de uma freada — 4 leva 2s do zero até a velocidade de cruzeiro.")]
+             "de uma freada. É o valor BASE: abaixo da velocidade de cruzeiro o RaceSpeed " +
+             "multiplica isto pelo bônus de baixa velocidade (até 3x com a nave parada), " +
+             "então 4 leva perto de 1s do zero ao cruzeiro, e não 2s.")]
     [SerializeField, Min(0.1f)] float acceleration = 4f;
 
     [Tooltip("Dano de cada tiro.")]

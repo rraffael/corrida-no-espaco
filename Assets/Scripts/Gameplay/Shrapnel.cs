@@ -4,6 +4,9 @@ using UnityEngine;
 /// Estilhaço solto por um obstáculo destruído. Desce pela faixa mais rápido que
 /// o resto do cenário e machuca quem estiver embaixo — é o que torna caro
 /// destruir um obstáculo desses de frente.
+///
+/// Ser atingido custa vida e um **raspão** na velocidade (<see cref="RaceSpeed.Graze"/>):
+/// um tropeço curto, e não a parada de quatro segundos que um obstáculo cobra.
 /// </summary>
 public class Shrapnel : MonoBehaviour
 {
@@ -52,6 +55,12 @@ public class Shrapnel : MonoBehaviour
             return;
 
         ship.TakeHit(damage);
+
+        // Raspão, e não batida: um tropeço de menos de um segundo. Um Casulo
+        // solta vários estilhaços, então dar aqui o preço da batida cobraria
+        // quatro segundos por caco e faria da Fase 3 um castigo.
+        race?.Graze();
+
         Destroy(gameObject);
     }
 }

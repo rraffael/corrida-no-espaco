@@ -36,11 +36,13 @@ public class LevelDefinition : ScriptableObject
     [Min(1)] public int order = 1;
 
     [Header("Dobra")]
-    [Tooltip("Velocidade que começa a carregar a dobra. A dificuldade soma em cima disto.")]
+    [Tooltip("Velocidade que começa a carregar a dobra. Mantenha IGUAL em todas as fases: quem " +
+             "sobe a exigência é a dificuldade, pelo warpSpeedBonus do catálogo. Fase difícil se " +
+             "faz com obstáculo e ritmo, não pedindo mais velocidade.")]
     [Min(1f)] public float warpSpeed = 15f;
 
     [Tooltip("Segundos segurando a velocidade para a dobra completar.")]
-    [Min(0f)] public float warpChargeSeconds = 5f;
+    [Min(0f)] public float warpChargeSeconds = 2.5f;
 
     [Header("Ritmo")]
     [Tooltip("Segundos entre obstáculos no começo da corrida.")]

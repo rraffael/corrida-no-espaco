@@ -107,7 +107,7 @@ public class Obstacle : MonoBehaviour
 
         // Pela ficha, e não direto na vida: é lá que a defesa da nave desconta.
         ship.TakeHit(contactDamage);
-        race?.Nudge(-stats.speedPenaltyOnCrash);
+        race?.Crash(stats.speedPenaltyOnCrash);
 
         // O obstáculo se desfaz na batida: já cobrou o preço dele, e deixá-lo
         // grudado na nave cobraria de novo no frame seguinte.

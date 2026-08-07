@@ -12,10 +12,17 @@ using UnityEngine;
 ///
 /// - **Até o cruzeiro** manda a nave. A aceleração da ficha é o caminho
 ///   principal para essa velocidade, e é rápida: bater não deixa o jogador
-///   arrastado por meio minuto.
+///   arrastado por meio minuto. Mais que isso, ela é **mais forte quanto mais
+///   devagar a nave estiver** (ver <see cref="AccelerationNow"/>) — o arranque
+///   é bravo e vai perdendo força ao se aproximar do cruzeiro.
 /// - **Acima do cruzeiro** manda a paciência ou o tiro. O ganho passivo é lento,
 ///   e destruir obstáculo é o atalho — um **bônus**, não o meio principal de
 ///   andar depressa.
+///
+/// **Bater é caso à parte** — ver <see cref="Crash"/>. A velocidade despenca na
+/// hora, a nave fica um instante sem reagir e a volta tem dois trechos, o último
+/// arrastado. A batida custa **tempo**, e não velocidade: é um preço que o
+/// jogador vê acontecendo, em vez de ler num número que baixou duas unidades.
 /// </summary>
 [DefaultExecutionOrder(-60)]
 public class RaceSpeed : MonoBehaviour
@@ -32,6 +39,43 @@ public class RaceSpeed : MonoBehaviour
              "enquanto não houver nave na cena.")]
     [SerializeField, Min(0.1f)] float acceleration = 4f;
 
+    [Tooltip("Quanto a aceleração ganha a mais com a nave parada, em multiplicador. 2 = +200%, " +
+             "ou seja, 300% da aceleração da ficha no zero. O bônus derrete de forma proporcional " +
+             "conforme a nave sobe e chega a zero na velocidade de cruzeiro — de lá para cima a " +
+             "aceleração é a da ficha, limpa. Zero desliga o bônus.")]
+    [SerializeField, Range(0f, 4f)] float lowSpeedAccelerationBonus = 2f;
+
+    [Header("Batida")]
+    [Tooltip("Que fatia da velocidade SOBRA na hora da batida. 0,25: a nave despenca para um " +
+             "quarto do que estava. A queda é instantânea, e é ela que o jogador sente. " +
+             "É fração e não número fixo para a nave nunca parecer PARAR de vez — o tranco pesa " +
+             "igual em qualquer velocidade, e a corrida continua andando.")]
+    [SerializeField, Range(0.05f, 1f)] float crashSpeedFraction = 0.25f;
+
+    [Tooltip("Pausa depois da batida, em segundos, antes de a nave voltar a acelerar. É o instante " +
+             "de nave morta: sem isto a recuperação começa no mesmo frame do impacto. " +
+             "Não conta com o jogo pausado.")]
+    [SerializeField, Range(0f, 2f)] float recoveryDelaySeconds = 0.5f;
+
+    [Tooltip("Que fatia da retomada é rápida. 0,8: a nave recupera os primeiros 80% da velocidade " +
+             "na aceleração normal e o resto se arrasta.")]
+    [SerializeField, Range(0.1f, 1f)] float fastRecoveryFraction = 0.8f;
+
+    [Tooltip("Quantos segundos leva o ÚLTIMO trecho da retomada — os 20% finais. É o que faz a " +
+             "batida doer depois de já parecer resolvida: a nave chega perto do que era e agoniza " +
+             "para fechar a conta.")]
+    [SerializeField, Range(0f, 6f)] float finalStretchSeconds = 2f;
+
+    [Header("Raspão (estilhaço)")]
+    [Tooltip("Fatia da velocidade que um estilhaço tira na hora. 0,15: a nave perde 15% e já " +
+             "começa a retomar. É uma fração e não um número fixo para o tranco parecer o mesmo " +
+             "em qualquer velocidade.")]
+    [SerializeField, Range(0f, 0.5f)] float grazeSpeedLoss = 0.15f;
+
+    [Tooltip("Pausa depois de um raspão, em segundos. Bem menor que a da batida — é um tropeço, " +
+             "não uma parada.")]
+    [SerializeField, Range(0f, 1f)] float grazeDelaySeconds = 0.15f;
+
     [Header("Início da fase")]
     [Tooltip("Velocidade no primeiro frame. Zero: a fase começa com a nave parada.")]
     [SerializeField, Min(0f)] float startSpeed = 0f;
@@ -40,7 +84,7 @@ public class RaceSpeed : MonoBehaviour
     [Tooltip("Fração da aceleração da nave que vira velocidade a cada segundo ACIMA da velocidade " +
              "de cruzeiro. 0,04 com aceleração 4 dá 0,16 u/s por segundo — do cruzeiro até a dobra " +
              "leva perto de 45s. Abaixo do cruzeiro este fator não vale: lá a nave se recupera na " +
-             "aceleração cheia da ficha.")]
+             "aceleração da ficha com o bônus de baixa velocidade por cima.")]
     [SerializeField, Range(0f, 0.5f)] float passiveGainFactor = 0.04f;
 
     /// <summary>Velocidade agora, em unidades de mundo por segundo.</summary>
@@ -50,6 +94,57 @@ public class RaceSpeed : MonoBehaviour
     public float Target { get; private set; }
 
     public float CruiseSpeed => cruiseSpeed;
+
+    /// <summary>
+    /// A partir de que instante a nave volta a acelerar. Uma batida empurra isto
+    /// para a frente; <see cref="Time.time"/> e não <c>unscaledTime</c>, para a
+    /// pausa do jogo não gastar o tempo do baque.
+    /// </summary>
+    float recoveryResumesAt;
+
+    /// <summary>Se a nave está subindo de volta de uma batida.</summary>
+    bool inCrashRecovery;
+
+    /// <summary>
+    /// Velocidade que a retomada persegue: o que a nave tinha antes de bater,
+    /// menos a punição da ficha do obstáculo. É contra este número que se mede o
+    /// trecho rápido e o arrastado — e não contra o <see cref="Target"/>, que
+    /// pode subir no meio da retomada por abate ou ganho passivo.
+    /// </summary>
+    float crashRecoveryTarget;
+
+    /// <summary>
+    /// Aceleração valendo **neste frame**, já com o bônus de baixa velocidade.
+    ///
+    /// A regra, pedida pelo Raffael em 07/08/2026: quanto mais longe do cruzeiro
+    /// para baixo, mais forte a nave puxa. Parada, ela acelera
+    /// <c>1 + lowSpeedAccelerationBonus</c> vezes o que diz a ficha (300% no
+    /// ajuste atual); no cruzeiro, exatamente o que diz a ficha; entre os dois, a
+    /// proporção do caminho que falta andar.
+    ///
+    /// Acima do cruzeiro **não há bônus** — lá quem manda é o ganho passivo, e
+    /// dobrar a aceleração ali só faria a nave alcançar mais depressa um alvo que
+    /// já sobe devagar de propósito.
+    /// </summary>
+    public float AccelerationNow
+    {
+        get
+        {
+            if (lowSpeedAccelerationBonus <= 0f || cruiseSpeed <= 0f || Current >= cruiseSpeed)
+                return acceleration;
+
+            // 1 com a nave parada, 0 no cruzeiro.
+            float belowCruise = 1f - Current / cruiseSpeed;
+            return acceleration * (1f + lowSpeedAccelerationBonus * belowCruise);
+        }
+    }
+
+    /// <summary>
+    /// Se a nave ainda está no baque de uma freada. Enquanto for verdade ela não
+    /// acelera nem ganha velocidade passiva — só desacelera, se o alvo estiver
+    /// abaixo dela.
+    /// </summary>
+    public bool InCrashRecoil => Time.time < recoveryResumesAt;
 
     /// <summary>
     /// Até onde o **ganho passivo** empurra sozinho. O RaceDirector põe a dobra
@@ -87,11 +182,34 @@ public class RaceSpeed : MonoBehaviour
 
     void Update()
     {
-        AdvanceTarget();
+        // A retomada acaba quando a nave chega no que perseguia — ou quando o
+        // alvo, mais baixo, a alcança primeiro. Aqui em cima porque o resto do
+        // método tem saídas antecipadas, e ficar preso em "retomando" para
+        // sempre travaria a nave no ritmo arrastado.
+        if (inCrashRecovery && (Current >= crashRecoveryTarget || Current >= Target))
+            inCrashRecovery = false;
+
+        bool recoiling = InCrashRecoil;
+
+        if (!recoiling)
+            AdvanceTarget();
 
         // Time.deltaTime é zero com o jogo pausado, então a corrida congela
         // junto com o menu sem precisar de nenhuma checagem aqui.
-        float next = Mathf.MoveTowards(Current, Target, acceleration * Time.deltaTime);
+        float step = acceleration * Time.deltaTime;
+
+        if (Target > Current)
+        {
+            // Subir é que fica travado no baque; a queda da batida é instantânea
+            // e já aconteceu no Crash. Segurar a subida é o que faz o impacto
+            // durar mais que um frame.
+            if (recoiling)
+                return;
+
+            step = ClimbRate() * Time.deltaTime;
+        }
+
+        float next = Mathf.MoveTowards(Current, Target, step);
 
         if (Mathf.Approximately(next, Current))
             return;
@@ -101,14 +219,50 @@ public class RaceSpeed : MonoBehaviour
     }
 
     /// <summary>
+    /// A que ritmo a velocidade sobe neste frame.
+    ///
+    /// Fora de uma batida é a aceleração da nave, com o bônus de baixa velocidade
+    /// (<see cref="AccelerationNow"/>). Voltando de uma batida são **dois
+    /// trechos**, e é essa quebra que dá o peso do impacto (desenho do Raffael,
+    /// 07/08/2026):
+    ///
+    /// - **Os primeiros 80%** voltam na aceleração normal. Como a nave despencou
+    ///   para um quarto do que tinha, boa parte desse trecho corre abaixo do
+    ///   cruzeiro, com o bônus de baixa velocidade ajudando: a nave "recarrega"
+    ///   e o jogador vê que está voltando.
+    /// - **Os 20% finais** se arrastam por <see cref="finalStretchSeconds"/>. É
+    ///   aqui que a batida cobra de verdade — a nave parece recuperada, mas
+    ///   custa a fechar a conta.
+    /// </summary>
+    float ClimbRate()
+    {
+        if (!inCrashRecovery)
+            return AccelerationNow;
+
+        float fastUntil = crashRecoveryTarget * fastRecoveryFraction;
+
+        if (Current < fastUntil)
+            return AccelerationNow;
+
+        if (finalStretchSeconds <= 0f)
+            return AccelerationNow;
+
+        // O trecho final dividido pelo tempo que ele deve levar: quanto mais
+        // rápida a nave estava, mais velocidade tem de recuperar no mesmo prazo.
+        return (crashRecoveryTarget - fastUntil) / finalStretchSeconds;
+    }
+
+    /// <summary>
     /// Para onde a corrida caminha sozinha, sem destruir nada. São **dois ritmos
     /// muito diferentes**, e a diferença entre eles é a regra do jogo (decidida
     /// pelo Raffael em 06/08/2026):
     ///
-    /// - **Abaixo da velocidade de cruzeiro**, a nave se recupera na **aceleração
-    ///   cheia da ficha**. Voltar ao cruzeiro é atributo da nave, não prêmio por
-    ///   atirar: uma sequência de batidas custa alguns segundos, não a corrida.
-    ///   Com aceleração 4, sair de 1 e chegar aos 8 do cruzeiro leva menos de 2s.
+    /// - **Abaixo da velocidade de cruzeiro**, a nave se recupera na aceleração
+    ///   da ficha **turbinada pelo bônus de baixa velocidade**
+    ///   (<see cref="AccelerationNow"/>). Voltar ao cruzeiro é atributo da nave,
+    ///   não prêmio por atirar: uma sequência de batidas custa alguns segundos,
+    ///   não a corrida. Com aceleração 4 e bônus 2, sair de 1 e chegar aos 8 do
+    ///   cruzeiro leva perto de 1s — mais a pausa e o trecho arrastado da batida.
     /// - **Acima do cruzeiro**, o ganho é uma fração pequena disso
     ///   (<see cref="passiveGainFactor"/>). É o que leva até a dobra para quem
     ///   prefere desviar, e é aí que destruir obstáculo vira um bônus que vale a
@@ -121,9 +275,14 @@ public class RaceSpeed : MonoBehaviour
     {
         // Recuperação até o cruzeiro: rápida, e independente do que a fase ou os
         // obstáculos tenham feito com a velocidade.
+        //
+        // Aqui vai a aceleração **com o bônus** de propósito. Abaixo do cruzeiro
+        // o alvo e a velocidade sobem colados, então é o alvo quem dita o ritmo:
+        // deixar este passo na aceleração limpa esconderia o bônus justamente no
+        // caso que ele existe para resolver.
         if (Target < cruiseSpeed)
         {
-            Target = Mathf.Min(cruiseSpeed, Target + acceleration * Time.deltaTime);
+            Target = Mathf.Min(cruiseSpeed, Target + AccelerationNow * Time.deltaTime);
             return;
         }
 
@@ -152,13 +311,82 @@ public class RaceSpeed : MonoBehaviour
     /// batida freia. Mexe no <see cref="Target"/> e não na velocidade atual, de
     /// propósito — o ganho fica, e a nave chega nele acelerando, sem salto.
     ///
-    /// A punição da batida pesa diferente conforme onde ela acontece, e é assim
-    /// que tem de ser: **acima do cruzeiro** ela custa caro, porque recuperar
-    /// aquilo é no ritmo lento e é progresso perdido rumo à dobra; **abaixo do
-    /// cruzeiro** ela custa poucos segundos, porque a nave volta na aceleração
-    /// dela. Bater dói, mas não mata a corrida.
+    /// Bater é pelo <see cref="Crash"/>, que é outra coisa: lá a velocidade cai
+    /// na hora. Aqui é só o empurrão do abate, que a nave vai buscar acelerando.
     /// </summary>
     public void Nudge(float delta) => SetTarget(Target + delta);
+
+    /// <summary>
+    /// A nave bateu. **Não é um empurrão para baixo** — é um tranco, e o
+    /// desenho é do Raffael (07/08/2026):
+    ///
+    /// 1. A velocidade **despenca na hora** para <see cref="crashSpeedFraction"/>
+    ///    do que era — um quarto. Nada de desacelerar bonitinho: é um tranco.
+    ///    Fração, e não um valor fixo, para a nave nunca parecer *parar de vez*:
+    ///    a corrida segue andando, só que humilhada.
+    /// 2. Fica <see cref="recoveryDelaySeconds"/> sem reagir.
+    /// 3. Volta correndo até 80% do que tinha, e **se arrasta nos 20% finais**
+    ///    por <see cref="finalStretchSeconds"/>. Ver <see cref="ClimbRate"/>.
+    ///
+    /// O que mudou de fundo: a batida passou a custar **tempo**, e não
+    /// velocidade. É um custo que o jogador enxerga acontecendo, em vez de ler
+    /// num número que baixou 2 unidades. O <paramref name="speedPenalty"/> da
+    /// ficha do obstáculo continua valendo por cima, como custo permanente —
+    /// zerá-lo nas fichas deixa a batida custando só os segundos.
+    /// </summary>
+    public void Crash(float speedPenalty)
+    {
+        float penalty = Mathf.Max(0f, speedPenalty);
+
+        // O que o jogador via antes de bater é a referência da retomada — e não
+        // o Target, que pode estar bem acima por causa de abates recentes.
+        float before = Current;
+
+        SetTarget(Target - penalty);
+
+        // O piso é o cruzeiro: abaixo dele a nave voltaria para lá de qualquer
+        // jeito, e mirar mais baixo criaria um degrau lento no meio da subida.
+        crashRecoveryTarget = Mathf.Max(cruiseSpeed, before - penalty);
+        inCrashRecovery = true;
+        recoveryResumesAt = Time.time + recoveryDelaySeconds;
+
+        float dropped = before * crashSpeedFraction;
+
+        if (dropped >= Current)
+            return;
+
+        Current = dropped;
+        Changed?.Invoke(Current);
+    }
+
+    /// <summary>
+    /// Raspão: a nave levou um estilhaço. **É um tropeço, não uma batida** — a
+    /// diferença entre os dois é o ponto todo desta função (pedido do Raffael em
+    /// 07/08/2026).
+    ///
+    /// A nave perde uma fatia da velocidade e um instante de reação, e retoma no
+    /// ritmo normal — **sem o trecho arrastado do <see cref="Crash"/>**, que é o
+    /// que faz a batida custar quatro segundos. Aqui o custo é um pisão no freio:
+    /// menos de um segundo.
+    ///
+    /// **Não mexe no <see cref="Target"/> de propósito.** O raspão cobra só o
+    /// tempo perdido; a velocidade que a nave tinha conquistado continua lá
+    /// esperando. Um Casulo solta vários estilhaços, e cada um levar velocidade
+    /// embora somaria uma punição de batida em prestações.
+    /// </summary>
+    public void Graze()
+    {
+        if (grazeDelaySeconds > 0f)
+            recoveryResumesAt = Mathf.Max(recoveryResumesAt, Time.time + grazeDelaySeconds);
+
+        float loss = Current * grazeSpeedLoss;
+
+        if (loss <= 0f)
+            return;
+
+        Current = Mathf.Max(0f, Current - loss);
+        Changed?.Invoke(Current);
+    }
 
     /// <summary>
     /// Ponto único onde a ficha da nave impõe os números dela. Chamado pelo

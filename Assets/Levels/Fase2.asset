@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: "Fase 2 \u2014 Comboio"
   order: 2
   warpSpeed: 15
-  warpChargeSeconds: 6
+  warpChargeSeconds: 2.5
   startInterval: 1.3
   endInterval: 0.95
   rampSeconds: 60

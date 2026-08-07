@@ -36,18 +36,12 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 06/08/2026: o Bloco B inteiro está por rodar, e ele mexeu nas
-    /// fichas de obstáculo, nos painéis de fim, nos textos do menu e criou a tela
-    /// de seleção de fase. Por isso, hoje, tudo entra.
+    /// Estado em 07/08/2026, depois do Montar da tarde: **vazia**. Os cinco
+    /// passos do Bloco B rodaram em 06/08 e o ajuste da dobra rodou hoje, com os
+    /// valores conferidos nos assets. O que restou da rodada de hoje é só código,
+    /// que não precisa de montagem nenhuma.
     /// </summary>
-    static readonly Step[] Steps =
-    {
-        new Step("Fases e fichas de obstáculo (assets)", LevelSetup.Setup),
-        new Step("Corrida — fundo e HUD (Game.unity)", RaceSetup.Setup),
-        new Step("Combate — nave, obstáculos e os três painéis de fim (Game.unity)", BattleSetup.Setup),
-        new Step("Menu — recordes e transição (Menu.unity)", MenuSetup.Setup),
-        new Step("Seleção de fase (Menu.unity)", LevelSelectSetup.Setup),
-    };
+    static readonly Step[] Steps = { };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]
     static void Run()

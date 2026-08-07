@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
   displayName: "Fase 3 \u2014 Ninho"
   order: 3
-  warpSpeed: 16
-  warpChargeSeconds: 7
+  warpSpeed: 15
+  warpChargeSeconds: 2.5
   startInterval: 1.2
   endInterval: 0.85
   rampSeconds: 60

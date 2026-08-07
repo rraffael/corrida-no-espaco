@@ -13,87 +13,47 @@ Marque cada item conforme for concluído: `[ ]` → `[x]`.
 
 ---
 
-## ⏸️ Retomar aqui — parado em 06/08/2026, à noite
+## ✅ Onde estamos — 07/08/2026
 
-**Onde paramos:** o **Bloco B inteiro está escrito e nada dele foi rodado nem testado.** Nenhuma
-linha desta rodada passou por compilação — o Editor estava aberto o tempo todo, então o batchmode
-não rodou. O Console é quem fala primeiro.
+**Os Blocos A e B fecharam.** Montados, rodados e **aprovados no Editor em 07/08** — seleção de
+fase, progressão, fase sem fim, leaderboard de distância, os três tipos de obstáculo, os dois
+regimes de velocidade e os números novos da dobra. Nada ficou pendente de montagem: a lista `Steps`
+do `Montar.cs` está vazia, e o conserto pontual da dobra já rodou e foi apagado.
 
-O **Bloco A** está rodado desde 06/08 às 02:15 (o diário `UserSettings/corrida-ferramentas.json`
-registra `fases-e-obstaculos` e `combate`, nessa ordem), mas **não há registro de que tenha sido
-testado**. Os testes abaixo cobrem os dois blocos de uma vez.
+Foi a rodada que fechou o desenho de **como bater dói**: a batida virou um tranco de 25% com
+retomada em dois trechos (~3,5 s), o estilhaço virou um raspão de menos de 1 s, e a aceleração
+cresce quanto mais devagar a nave estiver. E fechou também a divisão entre os dois tipos de fase —
+as numeradas ensinam, a sem fim compete.
 
-### Passo 0 — antes de qualquer coisa
+### Retomar por aqui
 
-- [ ] Conferir o Console depois da recompilação. Se acusar erro, é aí que para.
-- [ ] `git add -A && git commit` — **antes** do Montar. Se um passo estragar uma cena, o
-      `git checkout` é a saída.
-- [ ] **Tools → Corrida no Espaço → Montar.** Um item só. Hoje ele roda cinco passos: fases e
-      fichas, corrida, combate, menu e seleção de fase.
-
-### Testes no Editor
-
-**Tela de seleção de fase** *(o "Jogar" agora abre ela, não a partida)*
-- [ ] A lista mostra as 3 fases mais a **Sem fim**
-- [ ] Só a **Fase 1 no Fácil** está aberta; Fases 2 e 3 com cadeado, dizendo o que vencer antes
-- [ ] A **Sem fim está aberta desde já** — ela saiu da corrente de progressão
-- [ ] **O dropdown de dificuldade** — *é a peça de maior risco desta rodada.* Foi montada sem
-      nunca ter sido vista rodando: TMP_Dropdown exige uma hierarquia exata. Conferir se a lista
-      abre, se cabem as três opções e se trocar a dificuldade redesenha os cadeados.
-      Se a altura sair errada, os números são `itemHeight` (72) e `listHeight` (224) em
-      `UiBuilder.Dropdown`
-- [ ] O rodapé conta o andamento ("0 de 9 vencidas")
-- [ ] "Voltar" fecha e devolve os botões do menu
-
-**Velocidade da nave** *(o ajuste dos dois regimes)*
-- [ ] Bater várias vezes seguidas e derrubar a velocidade para perto de 1: ela tem de voltar ao
-      cruzeiro em **menos de 2 segundos**, não em 45. Era este o "devagarzinho" que se queria matar
-- [ ] Acima do cruzeiro, o ganho é lento — sem atirar em nada, do cruzeiro à dobra leva ~45s
-- [ ] **Dá para vencer a Fase 1 sem atirar**, só desviando. Devagar, mas dá
-- [ ] Destruir obstáculo continua compensando: 0,64 u/s por Detrito, ou ~11 deles até a dobra
-
-**Fase de progressão vencida**
-- [ ] O painel é "Fase concluída!", com o tempo e **o que destravou** — sem campo de nome,
-      sem botão salvar, sem tabela
-- [ ] Voltar ao menu e conferir que a **Fase 2 destravou** na lista
-- [ ] Repetir a Fase 1 já vencida: o painel diz "Você já tinha vencido esta fase"
-
-**Fase sem fim**
-- [ ] A **distância sobe no HUD**, na linha acima do velocímetro (onde ficava a contagem da dobra)
-- [ ] O velocímetro **não** mostra meta de dobra lá — o "/ 9990" tinha de sumir
-- [ ] A corrida não acaba nunca por dobra; acaba quando a nave cai
-- [ ] Cair leva ao **"Corrida encerrada"**, e não ao painel de derrota
-- [ ] Salvar a distância entra na tabela, e a tabela ordena **maior primeiro**
-- [ ] A velocidade sobe sem teto ao longo do tempo
-
-**Menu e recordes**
-- [ ] O painel Recordes diz "Distância na fase sem fim — maior é melhor"
-- [ ] A tabela começa **vazia**: a chave do PlayerPrefs mudou, e os recordes de tempo antigos
-      não foram migrados de propósito
-- [ ] O pódio da transição, antes da partida, diz "Maiores distâncias"
-
-**Fase de progressão perdida**
-- [ ] Morrer numa fase numerada leva ao painel de derrota de sempre
-
-### Depois de passar no Editor
-
-- [ ] Build And Run e repetir o essencial no aparelho
-- [ ] Equilibrar o que incomodar. Os botões, todos no Inspector ou nas fichas:
+- [ ] **Build And Run e repetir o essencial no aparelho.** É o que falta desta rodada: tudo acima
+      foi aprovado no Editor, e o aparelho ainda não viu nada disso. O tato da batida é o que mais
+      pede aparelho — no Editor o toque é mouse
+- [ ] **Equilibrar o que incomodar no aparelho.** Os botões, todos no Inspector ou nas fichas:
       `killGainFactor` (ganho por abate, `ShipStats`), `passiveGainFactor` (ritmo acima do
-      cruzeiro, `RaceSpeed`), `speedPenaltyOnCrash` e `killWeight` (fichas em
-      `Assets/Levels/Obstaculos/`), `warpChargeSeconds` (fichas de fase)
-- [ ] **Cuidado registrado:** abaixo do cruzeiro a freada da batida se desfaz em menos de um
-      segundo. Lá o custo real de bater virou o **dano na vida**, não a velocidade. Se ficar
-      barato demais, o botão é o `speedPenaltyOnCrash`
+      cruzeiro, `RaceSpeed`), `lowSpeedAccelerationBonus` (o arranque, `RaceSpeed`),
+      `crashSpeedFraction` · `recoveryDelaySeconds` · `fastRecoveryFraction` · `finalStretchSeconds`
+      (o peso da batida, `RaceSpeed`), `grazeSpeedLoss` e `grazeDelaySeconds` (o raspão do
+      estilhaço, `RaceSpeed`), `speedPenaltyOnCrash` e `killWeight` (fichas em
+      `Assets/Levels/Obstaculos/`), `warpSpeedBonus` (dificuldades, no catálogo)
+- [ ] **Cuidado registrado, agora invertido:** o custo de bater deixou de ser velocidade e virou
+      **tempo** — ~3,5 segundos. O risco mudou de lado: não é mais "bater sai barato", é **"bater
+      sai caro demais"**, ainda mais numa sequência. O estilhaço já foi separado disso, mas a
+      **Fase 3 é onde isso se mede**: é lá que os dois acontecem juntos
+- [ ] **Se quiser tirar a punição de velocidade que ainda sobra:** o `speedPenaltyOnCrash` das
+      fichas desconta por cima do tempo perdido. Zerar o campo nas três fichas de
+      `Assets/Levels/Obstaculos/` deixa a batida custando **só os segundos**
 
-**Com isso o Bloco B fecha.** O que sobra da Fase 6 são os "Depois" — barreira, itens e escolha
-de nave. Fora do jogo, o caminho crítico passa a ser a SDK 36 (prazo 31/08) e os 12 testadores.
+**Depois do aparelho**, o caminho crítico sai do jogo: a **SDK 36** (prazo 31/08) e os
+**12 testadores**. Dentro do jogo, o que sobra da Fase 6 é o backlog "Depois" — refazer a tela de
+seleção de fase, barreira, itens e escolha de nave.
 
 ---
 
 ## Estado atual
 
-*Revisto em 06/08/2026.*
+*Revisto em 07/08/2026.*
 
 **Funcional**
 - Cena `Menu.unity` com fiação correta: `Menu.cs` no Canvas, BotaoJogar → `OnPlayButton`,
@@ -135,13 +95,23 @@ de nave. Fora do jogo, o caminho crítico passa a ser a SDK 36 (prazo 31/08) e o
 - **Unity Analytics desligado** — `UnityConnectSettings.asset` com tudo em `0`, e o módulo
   `com.unity.modules.unityanalytics` fora do `manifest.json`. A configuração agora concorda
   com o que a política de privacidade afirma.
+- **O jogo tem variedade e progressão** (07/08/2026, aprovado no Editor) — três tipos de obstáculo
+  com ficha própria, três fases com ficha própria, três dificuldades, tela de seleção de fase com
+  cadeado, progressão em corrente única (Fácil 1→2→3, e assim por diante) e a **fase sem fim** como
+  o modo avulso onde se compete. O leaderboard é de **distância**, maior é melhor, e só a fase sem
+  fim pontua.
+- **Bater dói de um jeito que se vê** (07/08/2026) — a batida derruba a velocidade para 25%, trava
+  a nave por meio segundo e devolve o resto em dois trechos, o último arrastado: ~3,5 s de corrida.
+  O estilhaço dá um raspão de menos de 1 s, que é outra coisa de propósito. E a aceleração cresce
+  quanto mais devagar a nave estiver, até 300% com ela parada — o arranque ficou bravo.
+- **A dobra é regra de fase, e a exigência é da dificuldade** (07/08/2026) — 2,5 s segurando a
+  velocidade em todas as fases, e a velocidade pedida sobe só com a dificuldade: 16 · 17,5 · 19.
+  Fase difícil se faz com obstáculo e ritmo, não pedindo mais velocidade.
 
 **Faltando**
-- **Bloco A da Parte 4 rodado, mas sem teste registrado.** As duas montagens rodaram em
-  06/08 às 02:15; ninguém anotou se o resultado foi testado. Ver "Retomar aqui", no topo.
-- **Bloco B inteiro escrito, não rodado e não compilado** — ganho passivo, dois regimes de
-  velocidade, ganho por abate na ficha da nave, tela de seleção de fase, progressão, fase sem fim
-  e o leaderboard de distância. **A lista de testes está no topo do arquivo.**
+- **Nada da rodada de 07/08 foi visto no aparelho.** Tudo acima está aprovado **no Editor**, e só
+  nele. O tato da batida e do raspão é o que mais pede aparelho — no Editor o toque é mouse.
+  Ver "Onde estamos", no topo.
 - Áudio: nenhum `.wav`/`.mp3`/`.ogg` no projeto.
 - Ícone e splash próprios.
 - `AndroidTargetSdkVersion` ainda em `0` (Automatic) — **prazo: 31/08/2026**.
@@ -480,6 +450,9 @@ de ser uma demonstração e virou um jogo: tem começo, meio, derrota, vitória 
 O jogo funciona, mas toda partida é igual à anterior: um tipo de obstáculo, um ritmo, uma nave.
 O objetivo desta parte é dar ao jogador motivo para jogar de novo.
 
+> **Blocos A e B fechados e aprovados no Editor em 07/08/2026.** O que mantém esta parte em 🟡 é
+> só o que sempre foi futuro: o teste no aparelho e o backlog "Depois", no fim da seção.
+
 **A ficha completa** *(proposta do Raffael em 06/08/2026, ajustada por ele no mesmo dia)*
 - [x] **Aceleração** saiu do `RaceSpeed` e entrou no `ShipStats`. Continua no `RaceSpeed` como
       valor de partida, para a cena funcionar sem nave; a ficha impõe o dela em
@@ -508,7 +481,7 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
 - [x] `UI/WarpChargeHud.cs` — contagem regressiva acima do velocímetro, aparecendo só quando há
       carga. Muda de cor quando a carga está escoando
 
-**Bloco A — obstáculos e fichas de fase** *(escrito em 06/08/2026, falta rodar e testar)*
+**Bloco A — obstáculos e fichas de fase** *(escrito em 06/08/2026, aprovado no Editor em 07/08)*
 - [x] `Levels/ObstacleStats.cs` — **ficha do obstáculo**, no mesmo espírito da ficha da nave, mas
       como ScriptableObject: o dado é igual para todos os obstáculos daquele tipo. Vida, dano,
       quantas faixas ocupa, bônus de velocidade ao morrer, estilhaços. Pedido do Raffael para
@@ -533,10 +506,14 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
       a Barcaça de 2 faixas mais um Detrito na faixa restante matariam por sorteio, e não por erro
 - [x] **Rodadas em 06/08/2026 às 02:15** — `fases-e-obstaculos` e, em seguida, `combate`.
       O registro está em `UserSettings/corrida-ferramentas.json`, fora do git
-- [ ] Testar por etapas no Editor e no aparelho — **não há registro de que isto tenha acontecido**
-- [ ] Equilibrar: vida e dano dos três tipos, janelas de estreia e os fatores de dificuldade
+- [x] **Testado no Editor em 07/08/2026** — os três tipos aparecem na fase certa, a Barcaça tranca
+      duas faixas, o Casulo solta estilhaço e a regra da fuga garantida segura a leva
+- [ ] Repetir no aparelho — **é o que falta desta rodada**
+- [x] ~~Equilibrar: vida e dano dos três tipos, janelas de estreia e os fatores de dificuldade~~ —
+      **nada incomodou no teste de 07/08.** Fica em aberto para o teste no aparelho, que é onde o
+      ritmo costuma parecer outro
 
-**Bloco B — fases, progressão e leaderboard** *(escrito em 06/08/2026, falta rodar e testar)*
+**Bloco B — fases, progressão e leaderboard** *(escrito em 06/08/2026, aprovado no Editor em 07/08)*
 
 > **A divisão que o Bloco B assentou**, decidida pelo Raffael em 06/08/2026: as fases numeradas
 > **ensinam o jogo** — obstáculo novo, desafio novo, e o prêmio é a próxima fase; a **fase sem fim
@@ -555,10 +532,77 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
             O motivo: **o caminho principal até o cruzeiro é a aceleração da nave, não destruir
             obstáculo**. Acima do cruzeiro é que o tiro vira atalho — um bônus, não o foco.
             *(O Raffael cogitou remover o tiro no futuro; este desenho já deixa o jogo de pé sem ele.)*
-            - Consequência a vigiar: abaixo do cruzeiro a freada da batida se desfaz em menos de um
-              segundo, então **lá o custo real de bater é o dano na vida**, não a velocidade
+            - ~~Consequência a vigiar: abaixo do cruzeiro a freada da batida se desfaz em menos de
+              um segundo~~ — **sem efeito desde 07/08/2026**: bater deixou de ser uma freada e virou
+              uma parada com retomada em dois trechos, que custa o mesmo em qualquer velocidade
       - [x] `ResumeCruise()` apagado — ficou sem uso e passou a mentir: ele saltava para o cruzeiro
             de uma vez, que é justamente o contrário da recuperação por aceleração
+- [x] **Aceleração que cresce quanto mais devagar a nave estiver** *(pedido do Raffael em
+      07/08/2026)* — abaixo do cruzeiro a aceleração da ficha é multiplicada por um bônus que vai
+      de **+200% com a nave parada** (300% do total) a **0% no cruzeiro**, proporcional ao caminho
+      que falta andar. Acima do cruzeiro não há bônus nenhum: lá quem manda é o ganho passivo, e
+      turbinar a aceleração só faria a nave alcançar mais depressa um alvo que sobe devagar de
+      propósito.
+      `RaceSpeed.AccelerationNow` é a conta, e o botão é o `lowSpeedAccelerationBonus` (2)
+      - **Vale nos dois lugares**, e tem de valer: o `AdvanceTarget` sobe o alvo com o bônus e o
+        `Update` sobe a velocidade com o bônus. Abaixo do cruzeiro os dois andam colados, então
+        deixar o alvo na aceleração limpa esconderia o bônus justamente no caso que ele resolve
+      - Efeito: com aceleração 4 e cruzeiro 8, o zero-ao-cruzeiro caiu de **2s para ~1,1s**. O
+        arranque da fase ficou bravo, e a volta depois de uma freada também
+- [x] **A batida virou um tranco, e não um desconto** *(desenho do Raffael em 07/08/2026)* — era
+      um empurrão de −2 u/s no alvo, que o jogador não sentia: o número baixava e voltava.
+      Agora `RaceSpeed.Crash()` faz três coisas, nesta ordem:
+      1. **A velocidade despenca na hora** para `crashSpeedFraction` (25%) do que era — nada de
+         desacelerar bonitinho, é um tranco. **Fração e não valor fixo** *(ajuste do Raffael em
+         07/08/2026)*: com o número fixo de 1 u/s a nave parecia **parar de vez**, o que era
+         drástico demais e matava a sensação de corrida. Em 25% o tranco pesa igual em qualquer
+         velocidade e o cenário continua andando
+      2. **`recoveryDelaySeconds` (0,5 s) sem reagir** — o instante de nave morta
+      3. **A volta em dois trechos:** corre até `fastRecoveryFraction` (80%) do que tinha, e se
+         **arrasta nos 20% finais** por `finalStretchSeconds` (2 s). O trecho rápido é rápido de
+         graça — a nave está lá embaixo, então o bônus de baixa velocidade está no talo
+      - **A troca de fundo:** bater passou a custar **tempo**, não velocidade. Custo que o jogador
+        vê acontecendo, em vez de ler num número duas unidades menor. Uma batida a 14 u/s tira
+        perto de **3,5 segundos** da corrida — e quem manda nesse número é o trecho arrastado, não
+        a profundidade da queda
+      - O `speedPenaltyOnCrash` das fichas **continua valendo por cima**, como custo permanente: é
+        ele que decide o destino da retomada (`velocidade anterior − punição`). **Zerar o campo nas
+        três fichas de `Assets/Levels/Obstaculos/` deixa a batida custando só os segundos** — é a
+        ideia original do Raffael em estado puro, e é um valor no Inspector, não código
+      - O piso do destino é o **cruzeiro**: abaixo dele a nave voltaria para lá de qualquer jeito, e
+        mirar mais baixo criaria um degrau lento no meio da subida
+      - `Nudge` voltou a ser só o empurrão do abate. Bater é `Crash`, que é outra coisa —
+        `Obstacle.CheckCrash` chama o novo
+      - **Quem manda no custo é o trecho arrastado**, e não a profundidade da queda. Mexer no
+        `crashSpeedFraction` muda o susto; mexer no `finalStretchSeconds` muda o preço
+- [x] **Estilhaço dá um raspão** *(decidido pelo Raffael em 07/08/2026, no mesmo dia)* —
+      `RaceSpeed.Graze()`: a nave perde 15% da velocidade e 0,15 s de reação, e **retoma no ritmo
+      normal, sem o trecho arrastado**. Custa menos de um segundo, contra os ~3,5 da batida.
+      - **Não mexe no alvo de propósito.** O raspão cobra só o tempo perdido; a velocidade
+        conquistada continua esperando. Um Casulo solta vários estilhaços, e cada um levar
+        velocidade embora somaria uma punição de batida em prestações
+      - Um raspão durante a retomada de uma batida **não encurta** a pausa da batida — a pausa
+        maior é que manda
+      - Botões: `grazeSpeedLoss` (0,15) e `grazeDelaySeconds` (0,15), no `RaceSpeed`
+- [x] **A dobra recalibrada** *(pedido do Raffael em 07/08/2026)* — carga mais curta, velocidade
+      mais alta, e a exigência saiu da fase:
+      - **`warpChargeSeconds` = 2,5 s em todas as fases** (era 5, 6 e 7). Segurar a velocidade por
+        7 segundos era o pedaço mais longo da corrida
+      - **`warpSpeed` = 15 em todas as fases.** A Fase 3 pedia 16, e essa diferença por fase
+        acabou: **fase difícil se faz com obstáculo e ritmo, não pedindo mais velocidade**
+      - **A escada de exigência é da dificuldade**, e só dela: Fácil **+1**, Normal **+2,5**,
+        Difícil **+4** (eram 0, +1,5 e +3). Dá 16 · 17,5 · 19, igual nas três fases. Até o Fácil
+        soma, porque a carga caiu pela metade e a exigência tinha de subir para todo mundo
+      - O `LevelDefinition.warpSpeed` ganhou tooltip dizendo para manter igual entre as fases —
+        é o tipo de regra que se perde se ficar só aqui
+      - **Precisou de conserto pontual.** O `LevelSetup` promete não sobrescrever asset existente,
+        e as fichas são de 06/08 — mexer só nos padrões dele não chegaria nos assets do Raffael.
+        Ver "Consertos pontuais", abaixo
+      - A **fase sem fim não foi tocada**: lá não há dobra, e os 999 dela são o jeito de dizer isso
+- [x] **Regra de projeto: toda fase tem de ser vencível sem atirar** *(Raffael, 07/08/2026)* —
+      valia para a Fase 1 e passou a valer para **todas**, inclusive as que ainda não existem.
+      Amarra o equilíbrio de qualquer fase nova: se o ganho passivo sozinho não fecha a dobra no
+      tempo da fase, a fase está errada — não o jogador
 - [x] **Ganho por abate virou atributo da nave** *(pedido do Raffael em 06/08/2026)* —
       `ShipStats.KillSpeedGain` = aceleração × `killGainFactor` (0,16), ou **0,64 u/s por abate**
       na nave inicial. A ficha do obstáculo deixou de guardar velocidade: `speedBonusOnKill` virou
@@ -578,9 +622,10 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
             paciente vence sem um tiro. O tiro passa a ser atalho, não obrigação.
             Quem impõe o teto é o `RaceDirector.ApplyPassiveCeiling`, que é o único lugar que
             sabe qual é a dobra da fase
-      - [ ] Cuidado ao equilibrar: o ganho passivo também **desfaz sozinho a punição da batida**.
-            Se ficar generoso demais, bater deixa de doer. Com 0,16 u/s, recuperar a freada de
-            2 u/s leva uns 12s — o botão de ajuste é o `passiveGainFactor` no `RaceSpeed`
+      - [x] ~~Cuidado ao equilibrar: o ganho passivo desfaz sozinho a punição da batida~~ —
+            **resolvido em 07/08/2026 pelo desenho novo de batida.** O grosso do custo passou a ser
+            a parada e a retomada arrastada, que o ganho passivo não encurta. O que ele ainda
+            desfaz é só o `speedPenaltyOnCrash` que sobra por cima
       - [x] Na fase sem fim não há dobra, então lá o ganho passivo **não para nunca**: a corrida
             fica perigosa com o tempo mesmo para quem não atira em nada
 - [x] **Teto de velocidade removido** *(pedido do Raffael em 06/08/2026)* — o `maxSpeed` saiu do
@@ -642,7 +687,27 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
 > A regra continua valendo para **conserto pontual** (`Correções/`), que é o caso em que ela
 > nasceu: script que arruma uma coisa uma vez e não tem por que sobreviver.
 
+### Consertos pontuais
+
+| Ferramenta | O que fez | Estado |
+|---|---|---|
+| `Correções/WarpTuningFix.cs` | Pôs 2,5 s de carga e dobra 15 nas três fichas de fase, e a escada de dobra por dificuldade (+1 · +2,5 · +4) no catálogo. Existiu porque o `LevelSetup` não sobrescreve asset criado antes. | **Rodou e foi apagado** (07/08/2026) |
+
+O resultado do `WarpTuningFix` foi **conferido nos assets** antes de ele sair: `Fase1`, `Fase2` e
+`Fase3` com `warpSpeed: 15` e `warpChargeSeconds: 2.5`, `FaseInfinita` intocada (999 / 0), e o
+catálogo com os bônus 1 · 2,5 · 4. Saíram junto o `.meta`, a pasta `Correções/` (que ficou vazia),
+o passo no `Montar.cs` e as entradas no `ProjectTools`.
+
+Para trazê-lo de volta, se um dia fizer falta:
+`git checkout <commit de 07/08/2026> -- "Assets/Editor/Tools/Correções/"`. **Na prática ele não
+faz falta:** os números dele agora são os padrões do `LevelSetup`, então um projeto gerado do zero
+já nasce certo — ele só existia para alcançar os assets criados em 06/08.
+
 **Depois**
+- [ ] **Refazer a tela de seleção de fase inteira** *(decidido pelo Raffael em 07/08/2026)* —
+      layout, dropdown de dificuldade e o resto, para ficar bonita em vez de só funcionar. A de
+      hoje é montada em runtime a partir do `LevelCatalog` e serve para testar a progressão; o
+      acabamento vem depois. **Enquanto isso, feiúra nela não é bug** — só falta de função conta
 - [ ] Barreira que impede naves fracas de avançar *(ideia do Raffael, adiada por ele)*
 - [ ] **Itens** — reparo, escudo temporário, tiro rápido
 - [ ] **Escolha de nave** — duas ou três fichas diferentes. É onde aceleração e defesa passam a
@@ -695,16 +760,14 @@ Depois do lançamento. Anúncios antes de compras.
 
 ## Ordem recomendada
 
-*Reordenado em 05/08/2026, com as Fases 0, 1 e 3 fechadas.*
-
-*Build And Run de 05/08/2026 aprovado: troca de faixa, pausa e saída para o menu. Fases 0, 1, 2 e
-3 fechadas, e a Parte 1 da Fase 6 junto.*
+*Revisto em 07/08/2026. Fases 0, 1, 2 e 3 fechadas. Da Fase 6, as Partes 1, 2 e 3 estão aprovadas
+no aparelho, e a Parte 4 aprovada no Editor — falta só levá-la ao aparelho.*
 
 **Próximo passo, nesta ordem:**
 
-1. **Rodar "Montar seleção de fase" e testar** o Bloco A junto com o primeiro pedaço do Bloco B
-   — ver "Retomar aqui", no topo do arquivo.
-2. **Resto do Bloco B** — fase sem fim de verdade e o leaderboard invertido.
+1. **Build And Run e testar no aparelho** — os Blocos A e B passaram no Editor em 07/08; o
+   aparelho ainda não viu nada. Ver "Onde estamos", no topo do arquivo.
+2. **Equilibrar o que incomodar no aparelho** — os botões estão listados lá.
 3. **Fase 4, a SDK Platform 36** — **prazo 31/08/2026**, e é instalação pelo Android SDK Manager,
    não código. Quanto mais perto do fim do mês, mais chance de dar errado na pressa.
 4. **Fase 5, os 12 testadores** — o relógio mais lento do projeto e ainda não começou a correr.

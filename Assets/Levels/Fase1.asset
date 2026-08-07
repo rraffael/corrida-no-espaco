@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: "Fase 1 \u2014 Cintur\xE3o"
   order: 1
   warpSpeed: 15
-  warpChargeSeconds: 5
+  warpChargeSeconds: 2.5
   startInterval: 1.4
   endInterval: 1.1
   rampSeconds: 60
