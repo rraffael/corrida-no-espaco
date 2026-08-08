@@ -6,7 +6,7 @@ This policy explains what data the game **Corrida no Espaço** ("the game") hand
 what you can do about it. The game is developed by **Raffael de Castro Rodrigues**, an
 individual developer, and distributed through Google Play.
 
-Contact: **raffaelcr.ti@gmail.com**
+Contact: **suporte.raffael@gmail.com**
 
 ---
 
@@ -85,7 +85,7 @@ description.
 
 ## Contact
 
-Questions about this policy: **raffaelcr.ti@gmail.com**
+Questions about this policy: **suporte.raffael@gmail.com**
 
 ---
 

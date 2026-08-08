@@ -6,7 +6,7 @@ Esta política explica quais dados o jogo **Corrida no Espaço** ("o jogo") trat
 que você pode fazer a respeito. O jogo é desenvolvido por **Raffael de Castro Rodrigues**,
 desenvolvedor pessoa física, e distribuído pela Google Play.
 
-Contato: **raffaelcr.ti@gmail.com**
+Contato: **suporte.raffael@gmail.com**
 
 ---
 
@@ -86,7 +86,7 @@ jogo na Google Play.
 
 ## Contato
 
-Dúvidas sobre esta política: **raffaelcr.ti@gmail.com**
+Dúvidas sobre esta política: **suporte.raffael@gmail.com**
 
 ---
 

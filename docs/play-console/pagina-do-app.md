@@ -121,7 +121,7 @@ velocidade, não o menu. Screenshot de tela de menu vazia é desperdício de vit
 
 - [ ] Categoria: **Jogos → Arcade** (alternativa: Casual)
 - [ ] Tags (até 5) — sugestão: Arcade, Corrida infinita, Espaço, Um toque, Casual
-- [ ] E-mail de contato do desenvolvedor: `raffaelcr.ti@gmail.com`
+- [ ] E-mail de contato do desenvolvedor: `suporte.raffael@gmail.com`
 - [ ] Site (opcional): o portfólio, o mesmo que hospeda a política de privacidade
 - [ ] URL da política de privacidade: preencher depois de publicar `docs/politica-de-privacidade.md`
 - [ ] Idiomas da ficha: pt-BR (padrão) + en-US
