@@ -1,6 +1,6 @@
 # Privacy Policy — Corrida no Espaço
 
-**Last updated:** July 31, 2026
+**Last updated:** August 8, 2026
 
 This policy explains what data the game **Corrida no Espaço** ("the game") handles, why, and
 what you can do about it. The game is developed by **Raffael de Castro Rodrigues**, an
@@ -13,10 +13,7 @@ Contact: **raffaelcr.ti@gmail.com**
 ## Summary
 
 The game **has no server of its own and does not collect your data**. There is no sign-up, no
-form, and nothing you do in the game is sent to the developer.
-
-The only data processing that happens at all occurs if **you choose** to sign in with your
-Google Play Games account — and in that case the data is handled by Google, not by this game.
+sign-in, no form, and nothing you do in the game is sent to the developer.
 
 ---
 
@@ -27,27 +24,22 @@ photos, microphone or camera. There is no account system and no server to send a
 
 ## Data stored on your device
 
-The game stores your **score** and **preferences** (such as volume) locally, using standard
-Android storage. This information:
+The game stores your **high scores** — including the name you type when saving a score — and your
+**preferences** locally, using standard Android storage. This information:
 
 - stays on your device only;
 - is never sent to the developer or to third parties;
+- is not visible to other players: the score table is yours alone;
 - is erased when you uninstall the game or clear the app data under
   *Settings → Apps → Corrida no Espaço → Storage*.
 
-## Google Play Games Services (optional)
+The name you type is free text: nothing requires you to use your real name, and the game neither
+verifies it nor links it to you.
 
-The game offers sign-in with **Google Play Games Services** to save achievements. Signing in is
-**optional**: if you decline, the game works normally, just without achievements.
+## Accounts and sign-in
 
-If you do sign in, Google processes your games account data — player identifier, display name
-(*gamertag*), avatar and achievement progress. That processing is performed by Google under
-Google's own privacy policy. The developer **receives no copy** of this data and cannot view it
-on an individual basis.
-
-- Google Privacy Policy: <https://policies.google.com/privacy>
-- Manage or delete your Play Games data:
-  <https://support.google.com/googleplay/answer/7383445>
+The game has **no sign-in of any kind**. There is no account to create, and no service to sign in
+with in order to play any part of it.
 
 ## Google Play
 
@@ -74,8 +66,10 @@ Because the game collects no personal data, there is nothing to request, correct
 the developer. Even so, under the Brazilian LGPD (Law 13.709/2018) and the GDPR, you may write to
 the contact e-mail to confirm this, ask for clarification, or complain about data processing.
 
-For data processed by Google through Play Games or Google Play, requests must be made directly
-to Google, using the links in the section above.
+For data processed by Google as a result of store distribution, requests must be made directly to
+Google:
+
+- Google Privacy Policy: <https://policies.google.com/privacy>
 
 ## Security
 
@@ -84,9 +78,10 @@ could leak. Local data is protected by Android's own app sandboxing.
 
 ## Changes to this policy
 
-This policy may be updated — particularly if the game adds ads, purchases or online features.
-The "Last updated" date at the top always identifies the version in force, and relevant changes
-will be announced in the game's Google Play description.
+This policy may be updated — particularly if the game adds ads, purchases, sign-in or online
+features such as a leaderboard shared between players. The "Last updated" date at the top always
+identifies the version in force, and relevant changes will be announced in the game's Google Play
+description.
 
 ## Contact
 

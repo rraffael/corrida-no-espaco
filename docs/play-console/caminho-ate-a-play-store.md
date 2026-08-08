@@ -98,6 +98,9 @@ sobre ele, é agora — depois de criar o app, acabou.
 - [ ] Conferir que o `ProjectSettings.asset` continua **sem** o caminho do keystore depois do
       build. O `BuildAndroid` limpa sozinho, mas confere uma vez
 
+> **Etapas 1.1 e 1.2 fechadas em 08/08/2026.** O `.aab` assinado está em
+> `Builds/Corrida no Espaço-0.1.0-1-release.aab`. Daqui para a frente é tudo Play Console.
+
 ### 1.3 No Play Console
 
 - [ ] **Criar o app.** Nome, idioma padrão pt-BR, *App*, *Gratuito*
@@ -106,9 +109,9 @@ sobre ele, é agora — depois de criar o app, acabou.
 - [ ] **Publicar a política de privacidade numa URL pública** e colar o link. Texto pronto em
       `docs/politica-de-privacidade.md` (e `privacy-policy.md`); falta hospedar — GitHub Pages do
       portfólio resolve
-- [ ] **Preencher a seção de conteúdo do app:** Data Safety (rascunho em `data-safety.md`),
-      classificação IARC e público-alvo (`iarc-e-publico-alvo.md`, recomendação **13+**), acesso ao
-      app e declaração de anúncios (não tem)
+- [ ] **Preencher a seção de conteúdo do app** — são **dez declarações**, e as respostas estão
+      todas em `declaracoes-do-app.md`, junto com o questionário IARC pergunta por pergunta.
+      Nove são rápidas; a única que trava é a política de privacidade, acima
 - [ ] **Preencher o mínimo da página do app.** Para teste interno só você vê, então **texto e arte
       marcador de lugar bastam** — a reescrita de verdade fica para o lançamento.
       Ver `pagina-do-app.md`, que hoje está desatualizado de propósito

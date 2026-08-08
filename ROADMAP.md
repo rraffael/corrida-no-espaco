@@ -266,7 +266,11 @@ Fase 3 decidida, então esta está liberada. Fecha o assunto "publicar" de uma v
 - [ ] **Fixar o Target API Level em 36** — hoje está em Automatic. Sem isso a Play não aceita
       upload a partir de 31/08/2026. Vai no **Montar** (`ReleaseSettingsFix`), junto com o nome do
       app e a versão
-- [ ] Gerar keystore novo, guardar **fora** do repositório, senha e alias num gerenciador
+- [x] **Keystore novo gerado** (08/08/2026), fora do repositório, pelo *Keystore Manager* da
+      própria Unity — alias `upload`. Foi refeito no mesmo dia com senha mais simples, decisão do
+      Raffael: como ela mora em variável de ambiente sem criptografia, não fazia sentido uma senha
+      forte ali. **Custou nada porque nada tinha sido enviado ainda** — depois do primeiro upload,
+      trocar a chave custa um reset no Console
 - [x] Tirar o caminho absoluto do keystore do `ProjectSettings.asset` — `AndroidKeystoreName` e
       `AndroidKeyaliasName` agora vazios; o projeto não está mais amarrado a uma máquina
 - [x] Script de build — `Assets/Editor/Tools/BuildAndroid.cs`. Menu **Tools → Corrida no Espaço →
@@ -280,7 +284,13 @@ Fase 3 decidida, então esta está liberada. Fecha o assunto "publicar" de uma v
 - [x] Aplicar o novo `applicationId` — `br.com.raffael.corridanoespaco` em
       `ProjectSettings.asset:172` (02/08/2026, com a Unity fechada)
 - [ ] Ativar Play App Signing (padrão) — permite reset se a chave de upload sumir de novo
-- [ ] **Marco:** gerar um `.aab` de release assinado, mesmo com o jogo incompleto
+- [x] **Marco batido em 08/08/2026:** `.aab` de release assinado —
+      `Builds/Corrida no Espaço-0.1.0-1-release.aab`, 25,2 MB. Target API 36, versão 0.1.0,
+      version code 1. Era o item que a Fase 4 perseguia desde o começo do projeto
+      - **Efeito colateral inofensivo no `ProjectSettings.asset`:** o `AndroidKeystoreName` deixou
+        de ser vazio e virou `'{inproject}: '`, que é como a Unity serializa "sem keystore
+        próprio". **Não é vazamento** — não tem caminho nem nome de arquivo, e não há `.keystore`
+        dentro do projeto. Vai aparecer no diff do próximo commit; pode passar
 - [x] ~~Adicionar `/.utmp/` ao `.gitignore`~~ — já estava lá (`.gitignore:14`); item era engano meu
 
 ## Fase 5 — Play Console, em paralelo 🟡
@@ -299,7 +309,21 @@ Não depende de código. **O relógio mais lento do projeto** — começar cedo.
       cair de 12, o contador reinicia), mas não agora: é uma ficha social que se joga uma vez, e
       gastá-la numa versão que ainda vai mudar muito é desperdício
 - [x] Escrever a política de privacidade — `docs/politica-de-privacidade.md` e `docs/privacy-policy.md`
-- [ ] Publicar a política numa URL pública (GitHub Pages do portfólio) e guardar o link
+- [x] **Página web da política pronta** — `docs/privacidade/index.html`, autocontida (sem CSS nem
+      fonte externa), com **pt-BR e en-US na mesma página**, então uma URL só serve aos dois
+      idiomas. É só publicar onde quiser
+      - **Os dois textos foram corrigidos em 08/08/2026:** descreviam o login do Play Games, que
+        saiu do projeto em 02/08. Publicar assim contradiria a declaração de Segurança dos dados
+        ("não coleta nada") — e é exatamente esse tipo de divergência que a Play compara
+- [ ] **Publicar e colar o link no Console.** A página já foi colocada no portfólio, em
+      `Portfolio/public/corrida-no-espaco/privacidade/index.html` — falta só o Raffael commitar e
+      dar push em `master`, que o workflow do GitHub Pages publica sozinho.
+      URL final: **`https://rraffael.github.io/Portfolio/corrida-no-espaco/privacidade/`**
+      - Por que dentro de `public/`: o Next copia essa pasta literalmente para o `out/`, sem
+        passar pelo build. HTML solto ali funciona como está, e não vira componente
+      - Por que sob `corrida-no-espaco/`: a política é **do jogo**, não do portfólio. Num site
+        pessoal, uma rota `/privacidade/` seria lida como a política do próprio site — e o dia em
+        que houver um segundo app, cada um tem a sua
 - [x] Desligar o Unity Analytics legado antes de publicar — feito em 02/08/2026:
       `UnityConnectSettings.asset` com `m_Enabled: 0` no topo e no bloco `UnityAnalyticsSettings`
       (`m_InitializeOnStartup: 0` junto), e o módulo `com.unity.modules.unityanalytics` fora do
@@ -314,11 +338,18 @@ Não depende de código. **O relógio mais lento do projeto** — começar cedo.
       verificada, então isto está liberado. O `applicationId` é novo
       (`br.com.raffael.corridanoespaco`), então deve ser aceito sem briga
 - [ ] Criar o projeto novo no Play Games Services
-- [x] Rascunhar o Data Safety coerente com a política — `docs/play-console/data-safety.md`
-- [ ] Preencher o Data Safety no Console
-- [x] Rascunhar IARC e público-alvo — `docs/play-console/iarc-e-publico-alvo.md`
-      *(recomendação: declarar 13+ e ficar fora da Política para Famílias)*
-- [ ] Responder o questionário IARC no Console
+- [x] **As dez declarações de conteúdo do app documentadas** —
+      `docs/play-console/declaracoes-do-app.md` (08/08/2026), com a resposta de cada uma, o
+      questionário IARC pergunta por pergunta e — o que mais importa a longo prazo — uma seção
+      **"Gatilhos de revisão"**: que feature futura muda qual declaração. Anúncios, compras, gacha,
+      Play Games, leaderboard online, arte e áudio já estão mapeados.
+      *Reúne os antigos `data-safety.md` e `iarc-e-publico-alvo.md`, apagados — três arquivos para
+      conferir era o oposto do que se queria*
+      - **A declaração de ID de publicidade foi verificada no bundle**, não chutada: o `.aab`
+        declara só `android.permission.INTERNET`, sem `AD_ID`
+- [ ] **Preencher as dez declarações no Console** — respostas prontas em
+      `docs/play-console/declaracoes-do-app.md`, incluindo o IARC e a Segurança dos dados. Nove são
+      rápidas; a política de privacidade é a que trava, porque exige URL pública
 
 > Regras da Play mudam com frequência — reconfirmar cada item no Console, não tratar como fato.
 

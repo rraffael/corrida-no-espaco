@@ -272,8 +272,8 @@ PlayerSettings:
   AndroidAllowedArchitectures: -1
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Projeto Pessoal/keys/corridaNoEspaco.keystore
-  AndroidKeyaliasName: upload
+  AndroidKeystoreName: '{inproject}: '
+  AndroidKeyaliasName: 
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidEnableArm64MTE: 0
   AndroidBuildApkPerCpuArchitecture: 0
