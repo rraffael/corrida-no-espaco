@@ -13,28 +13,27 @@ Marque cada item conforme for concluído: `[ ]` → `[x]`.
 
 ---
 
-## ✅ Onde estamos — 07/08/2026
+## 🚀 Onde estamos — 08/08/2026
 
-**Os Blocos A e B fecharam.** Montados, rodados e **aprovados no Editor em 07/08** — seleção de
-fase, progressão, fase sem fim, leaderboard de distância, os três tipos de obstáculo, os dois
-regimes de velocidade e os números novos da dobra. O conserto pontual da dobra rodou e foi apagado.
+**O jogo está na Play Store.** Teste interno, instalado no celular do Raffael pela loja. Era o
+objetivo do dia, e ele muda o resto do projeto: **distribuir versão nova deixou de custar cabo e
+Build And Run.** Daqui para a frente é subir o `.aab` e o celular atualiza sozinho.
 
-Foi a rodada que fechou o desenho de **como bater dói**: a batida virou um tranco de 25% com
-retomada em dois trechos (~3,5 s), o estilhaço virou um raspão de menos de 1 s, e a aceleração
-cresce quanto mais devagar a nave estiver. E fechou também a divisão entre os dois tipos de fase —
-as numeradas ensinam, a sem fim compete.
+Em dois dias fecharam **a Fase 4 inteira** — SDK 36 (três semanas antes do prazo), keystore novo
+com Play App Signing, `.aab` assinado — e **o grosso da Fase 5**: app criado, dez declarações,
+política de privacidade publicada, página do app escrita e arte provisória gerada.
+
+Do lado do jogo, a rodada de 07/08 fechou o desenho de **como bater dói**: a batida virou um tranco
+de 25% com retomada em dois trechos (~3,5 s), o estilhaço virou um raspão de menos de 1 s, e a
+aceleração cresce quanto mais devagar a nave estiver.
 
 ### Retomar por aqui
 
-- [x] ~~Rodar o `ReleaseSettingsFix`~~ — rodou em 07/08 e foi apagado. Conferido no disco:
-      `AndroidTargetSdkVersion: 36`, `productName: "Corrida no Espaço"`, `bundleVersion: 0.1.0`
-- [x] ~~Build And Run com Target API 36~~ — **funcionou em 07/08/2026**, e o app aparece como
-      **"Corrida no Espaço"** na lista de apps. Os dois riscos de estreia passaram: o target 36
-      não quebrou nada, e o `productName` pegou
-- [ ] **Repetir o essencial do jogo no aparelho** — o build subiu, mas o *tato* da rodada de 07/08
-      ainda não foi julgado no celular: o arranque bravo, a batida de ~3,5 s, o raspão do estilhaço
-      na Fase 3 e a dobra de 2,5 s. No Editor o toque é mouse, então é aqui que se decide
-- [ ] **Equilibrar o que incomodar no aparelho.** Os botões, todos no Inspector ou nas fichas:
+- [ ] **Jogar no celular e julgar o tato.** O app está instalado, mas o *toque* da rodada de 07/08
+      nunca foi avaliado num aparelho: o arranque bravo, a batida de ~3,5 s, o raspão do estilhaço
+      na Fase 3 e a dobra de 2,5 s. No Editor o toque é mouse — é aqui que se decide.
+      **É a primeira coisa a fazer**, porque tudo o que vier depois se equilibra contra isto
+- [ ] **Equilibrar o que incomodar.** Os botões, todos no Inspector ou nas fichas:
       `killGainFactor` (ganho por abate, `ShipStats`), `passiveGainFactor` (ritmo acima do
       cruzeiro, `RaceSpeed`), `lowSpeedAccelerationBonus` (o arranque, `RaceSpeed`),
       `crashSpeedFraction` · `recoveryDelaySeconds` · `fastRecoveryFraction` · `finalStretchSeconds`
@@ -48,10 +47,17 @@ as numeradas ensinam, a sem fim compete.
 - [ ] **Se quiser tirar a punição de velocidade que ainda sobra:** o `speedPenaltyOnCrash` das
       fichas desconta por cima do tempo perdido. Zerar o campo nas três fichas de
       `Assets/Levels/Obstaculos/` deixa a batida custando **só os segundos**
+- [ ] **Confirmar a promessa da página do app:** ela diz *"dá para vencer só desviando"*. É regra
+      de projeto, mas nunca foi verificada nas três fases. Se não se sustentar, a frase sai do
+      texto antes de qualquer público real ver
 
-**Depois do aparelho**, o caminho crítico sai do jogo: keystore novo, `.aab` assinado e o app em
-teste interno na Play. Dentro do jogo, o que sobra da Fase 6 é o backlog "Depois" — refazer a tela
-de seleção de fase, barreira, itens e escolha de nave.
+> **Como subir uma atualização:** seis passos, em `docs/play-console/caminho-ate-a-play-store.md`.
+> O que mais derruba envio é esquecer de subir o `AndroidBundleVersionCode` — a Play recusa dois
+> arquivos com o mesmo número.
+
+**Depois disso**, o trabalho volta a ser jogo: refazer a tela de seleção de fase, o backlog
+"Depois" da Parte 4 (barreira, itens, escolha de nave), áudio e arte de verdade. E só quando o
+jogo estiver bom: os 16 e-mails e o teste fechado.
 
 ---
 
@@ -99,6 +105,10 @@ de seleção de fase, barreira, itens e escolha de nave.
 - **Unity Analytics desligado** — `UnityConnectSettings.asset` com tudo em `0`, e o módulo
   `com.unity.modules.unityanalytics` fora do `manifest.json`. A configuração agora concorda
   com o que a política de privacidade afirma.
+- **O jogo está na Play Store** (08/08/2026) — teste interno, instalado no celular pela loja.
+  App criado, dez declarações de conteúdo preenchidas, política de privacidade publicada em
+  `https://rraffael.github.io/Portfolio/corrida-no-espaco/privacidade/`, página do app escrita e
+  arte provisória gerada. **Distribuir versão nova deixou de custar cabo e Build And Run.**
 - **O jogo tem variedade e progressão** (07/08/2026, aprovado no Editor) — três tipos de obstáculo
   com ficha própria, três fases com ficha própria, três dificuldades, tela de seleção de fase com
   cadeado, progressão em corrente única (Fácil 1→2→3, e assim por diante) e a **fase sem fim** como
@@ -113,14 +123,17 @@ de seleção de fase, barreira, itens e escolha de nave.
   Fase difícil se faz com obstáculo e ritmo, não pedindo mais velocidade.
 
 **Faltando**
-- **Nada da rodada de 07/08 foi visto no aparelho.** Tudo acima está aprovado **no Editor**, e só
-  nele. O tato da batida e do raspão é o que mais pede aparelho — no Editor o toque é mouse.
-  Ver "Onde estamos", no topo.
+- **O tato da rodada de 07/08 nunca foi julgado num aparelho.** O jogo está instalado pela Play,
+  mas ninguém sentiu no dedo o arranque, a batida de ~3,5 s, o raspão e a dobra de 2,5 s. No
+  Editor o toque é mouse. Ver "Onde estamos", no topo.
+- **Um passo de Montar pendente:** o `ApplicationIdFix`. Commitar antes de rodar; depois de
+  conferir com o *Conferir configuração*, o script sai do projeto.
 - Áudio: nenhum `.wav`/`.mp3`/`.ogg` no projeto.
-- Ícone e splash próprios.
-- `AndroidTargetSdkVersion` ainda em `0` (Automatic) — **prazo: 31/08/2026**.
-- Keystore de upload novo (o antigo está perdido).
+- Ícone e splash **dentro do app** — hoje são os padrões da Unity. *(A arte da página da loja já
+  tem marcador de lugar; esta linha é sobre o que aparece no celular.)*
+- Arte de verdade no lugar dos marcadores de lugar, dentro e fora do jogo.
 - Play Games inteiro — plugin, login e conquistas voltam na Fase 7, do zero.
+- Os 16 testadores e o teste fechado — **adiados de propósito** até o jogo estar bom de lançar.
 
 ---
 
@@ -254,9 +267,9 @@ Herdadas da Parte 4 do escopo. Decididas em 02/08/2026.
 > corrida ("um toque muda de faixa", "sem tiro"). Quando a parte de tiro entrar, as descrições
 > pt-BR e en-US precisam ser reescritas. Não é urgente — nada é publicado antes da Fase 4.
 
-## Fase 4 — Destravar o build de release 🟡
-Fase 3 decidida, então esta está liberada. Fecha o assunto "publicar" de uma vez.
-**O item da SDK 36 tem prazo: 31/08/2026.**
+## Fase 4 — Destravar o build de release ✅
+*Fechada em 08/08/2026, com o `.aab` assinado aceito pela Play e o jogo instalado pelo celular.
+O prazo da SDK 36 (31/08) foi cumprido com três semanas de folga.*
 
 - [x] ~~Instalar a **Android SDK Platform 36**~~ — **já estava instalada.** O item novo
       **Tools → Corrida no Espaço → Conferir SDK do Android** mostrou em 07/08/2026 que a
@@ -283,7 +296,9 @@ Fase 3 decidida, então esta está liberada. Fecha o assunto "publicar" de uma v
       orientação, target SDK, keystore vazado no projeto e `applicationId` antigo
 - [x] Aplicar o novo `applicationId` — `br.com.raffael.corridanoespaco` em
       `ProjectSettings.asset:172` (02/08/2026, com a Unity fechada)
-- [ ] Ativar Play App Signing (padrão) — permite reset se a chave de upload sumir de novo
+- [x] ~~Ativar Play App Signing~~ — **não existe o que ativar.** Para app criado novo é obrigatório
+      e automático: entra em vigor sozinho no primeiro `.aab`. A consequência é a que importava —
+      a chave de upload agora **pode ser resetada** se sumir, que era o buraco da chave anterior
 - [x] **Marco batido em 08/08/2026:** `.aab` de release assinado —
       `Builds/Corrida no Espaço-0.1.0-1-release.aab`, 25,2 MB. Target API 36, versão 0.1.0,
       version code 1. Era o item que a Fase 4 perseguia desde o começo do projeto
@@ -348,6 +363,11 @@ Não depende de código. **O relógio mais lento do projeto** — começar cedo.
       entrariam no `.aab`. **A `StoreArt.cs` sai do projeto no dia da arte de verdade**
 - [ ] **Arte de verdade** — ícone, gráfico de destaque e screenshots caprichadas. *Não trava o
       teste interno; vira item de verdade na hora do teste fechado*
+- [ ] **Ligar os símbolos de depuração antes de haver testadores** — o Console avisa a cada envio
+      que faltam o arquivo de desofuscação e os símbolos nativos. **Ignorados de propósito
+      enquanto o único aparelho for o seu**, porque `.\tools\logcat.ps1` dá mais detalhe que o
+      Console. Viram necessários quando alguém disser "fechou sozinho" e você não puder pegar o
+      celular da pessoa. Ver `caminho-ate-a-play-store.md`, Etapa 2
 - [ ] ~~Quando a conta sair da verificação:~~ **criar o app no Console** — a conta já está
       verificada, então isto está liberado. O `applicationId` é novo
       (`br.com.raffael.corridanoespaco`), então deve ser aceito sem briga
@@ -851,49 +871,32 @@ Depois do lançamento. Anúncios antes de compras.
 *Revisto em 07/08/2026. Fases 0, 1, 2 e 3 fechadas. Da Fase 6, as Partes 1, 2 e 3 estão aprovadas
 no aparelho, e a Parte 4 aprovada no Editor — falta só levá-la ao aparelho.*
 
-### O alvo de agora: **o app na Play em teste interno** *(decidido em 07/08/2026)*
+### O alvo de 07/08 foi cumprido em 08/08: **o app está na Play, em teste interno**
 
-Não é lançar. **O objetivo é parar de instalar por cabo:** ter o jogo na Play Store em trilha de
-teste interno, para o Raffael baixar e receber atualização pela loja como qualquer app. Ele foi
-explícito — o jogo ainda tem muito o que melhorar antes de ser lançado.
+Não era lançar. Era **parar de instalar por cabo** — e está feito. O jogo baixa e atualiza pela
+loja, no celular do Raffael.
 
-Isto trocou o alvo anterior, que era o beta *fechado*, e a troca importa:
+> **O teste fechado segue adiado de propósito.** Ele exige **12 testadores em opt-in contínuo por
+> 14 dias**, e serve para destravar **produção**. Pedir a 16 pessoas que instalem e mantenham
+> instalado por duas semanas é uma ficha social que se joga uma vez — gastá-la numa versão que
+> ainda vai mudar muito desperdiça a única chance de ter os 12 firmes no dia do lançamento.
+> Teste interno **não conta** para esses 14 dias, e tudo bem: é o preço, e é barato.
 
-- **Teste interno** aceita até 100 testadores por e-mail, pode ser só ele, e a atualização fica no
-  ar em minutos. É o que resolve o problema.
-- **Teste fechado** é o que exige **12 testadores em opt-in contínuo por 14 dias** — e essa regra
-  serve para destravar **produção**, que não é o objetivo agora.
-- **Teste interno não conta para os 12/14 dias.** É o preço, e é barato: o teste fechado continua
-  existindo, só que quando o jogo estiver pronto de verdade.
+**Próximo passo, nesta ordem:**
 
-> **Por que não adiantar os 12/14 dias:** pedir a 16 pessoas que instalem e mantenham instalado
-> por 14 dias é uma ficha social que se joga uma vez. Gastá-la numa versão que ainda vai mudar
-> muito desperdiça a única chance de ter os 12 firmes no dia do lançamento.
-
-O passo a passo está em `docs/play-console/caminho-ate-a-play-store.md`, dividido nas duas etapas.
-O resumo do que é para fazer agora:
-
-1. **Build And Run e testar no aparelho** — fecha a rodada de 07/08, e é rápido.
-2. **SDK Platform 36 + keystore novo** — **prazo 31/08/2026** para o SDK. Juntos destravam o
-   `.aab` assinado.
-3. **Três ajustes no `ProjectSettings`** por editor script: target 36, `productName` legível
-   ("Corrida no Espaço", não `corrida-no-espaco`) e `bundleVersion`.
-4. **Criar o app no Console**, ligar o Play App Signing, publicar a política numa URL e preencher
-   Data Safety e IARC. Página do app: marcador de lugar basta, só ele vê.
-5. **Subir o `.aab` em teste interno** e instalar pelo link de opt-in.
-
-> ⚠️ **Decisão irreversível na hora de criar o app:** publicado em qualquer trilha, o
-> `applicationId` (`br.com.raffael.corridanoespaco`) não muda mais. Trocar depois é app novo, do
-> zero. É agora ou nunca.
-
-**Depois disso, com o app já atualizando pela Play:** o backlog "Depois" da Parte 4 — barreira,
-itens, escolha de nave —, refazer a tela de seleção de fase, arte de verdade, áudio. E só quando
-o jogo estiver bom: a página do app reescrita, os 16 e-mails e o teste fechado.
+1. **Jogar no celular e julgar o tato** da rodada de 07/08 — arranque, batida, raspão, dobra.
+   Tudo o que vier depois se equilibra contra o que este teste mostrar.
+2. **Equilibrar o que incomodar** e subir uma versão nova. Os botões estão em "Onde estamos".
+3. **Voltar ao jogo:** refazer a tela de seleção de fase, o backlog "Depois" da Parte 4 (barreira,
+   itens, escolha de nave), áudio e arte de verdade.
+4. **Só quando o jogo estiver bom de lançar:** símbolos de depuração, os 16 e-mails e o teste
+   fechado. E aí sim a página do app com arte caprichada.
 
 **Por último:** Fases 7 (Play Games), 8 (acabamento) e 9 (monetização).
 
-> O modelo híbrido de faixas segue adiado de propósito (ver Parte 1) — é arquitetura para um
-> problema que o jogo ainda não tem.
+> O modelo híbrido de faixas segue adiado de propósito (ver Parte 1) — mas deixou de ser puramente
+> teórico: a página do app foi escrita **sem citar número de faixas**, justamente porque o Raffael
+> pretende mecânicas que aumentem e reduzam a quantidade delas.
 
-**Caminho crítico real:** o keystore e o `.aab` assinado. Depois deles, distribuir versão nova
-deixa de ser um problema, e todo o resto do trabalho fica mais barato de testar.
+**Caminho crítico real: o jogo.** A publicação deixou de ser problema — o app está no ar, o
+processo de atualizar está escrito e leva minutos. O que decide o projeto agora é o que se joga.

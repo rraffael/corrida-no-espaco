@@ -116,21 +116,38 @@ sobre ele, é agora — depois de criar o app, acabou.
       sem pendência. Gabarito em `declaracoes-do-app.md`
 - [x] ~~Preencher a página do app~~ — textos reescritos e arte provisória gerada em 08/08/2026.
       Tudo em `pagina-do-app.md`
-- [ ] **Subir o `.aab` em *Testes → Teste interno*** → *Criar nova versão*. O arquivo é
-      `Builds/Corrida no Espaço-0.1.0-1-release.aab`
-      - O Console pede **notas da versão** por idioma. Texto pronto em `pagina-do-app.md`
-      - **O primeiro envio pode passar por uma análise** de algumas horas antes de ficar
-        disponível, mesmo em teste interno. É só na primeira vez
-- [ ] **Adicionar seu e-mail à lista de testadores** dessa trilha e copiar o link de opt-in
-- [ ] Abrir o link **no celular**, aceitar e instalar pela Play
+- [x] ~~Subir o `.aab`, adicionar-se como testador e instalar~~ — **feito em 08/08/2026.**
+
+> ## ✅ Etapa 1 concluída em 08/08/2026
+>
+> **O jogo está na Play Store, em teste interno, instalado pelo celular do Raffael.** Era o
+> objetivo: parar de instalar por cabo. Daqui para a frente, versão nova chega pela loja.
+
+### Como subir uma atualização
+
+O caminho inteiro, toda vez. São seis passos e nenhum deles é o Play App Signing ou os
+formulários — aquilo tudo já está feito e não se repete.
+
+1. **Fazer e testar a mudança** no Editor, como sempre.
+2. **Subir o `AndroidBundleVersionCode` em 1.** *Project Settings → Player → Other Settings.*
+   **A Play recusa dois envios com o mesmo código** — é o erro mais comum aqui. O `bundleVersion`
+   (`0.1.0`) é o número que o usuário vê, e sobe quando você achar que a mudança merece.
+3. **Tools → Corrida no Espaço → Conferir configuração.** Ele agora barra pacote errado, cena
+   fora de ordem, orientação e keystore vazado. **Rodar sempre** — foi pular isto que deixou o
+   primeiro `.aab` sair com o pacote errado.
+4. **Tools → Corrida no Espaço → Build → AAB de release.** Se reclamar de variável de ambiente,
+   feche a Unity **e o Unity Hub**, e abra de novo: o Editor herda o ambiente do Hub, e o Hub só
+   lê na inicialização.
+5. **Play Console → Testes → Teste interno → Criar nova versão**, subir o `.aab` de `Builds/`,
+   escrever as notas da versão e lançar.
+6. **O celular atualiza sozinho pela Play**, em minutos. Sem análise demorada — aquilo foi só na
+   primeira vez.
+
+**O que NÃO se repete:** declarações de conteúdo, política de privacidade, arte da página,
+categoria, lista de testadores. Só mudam se você quiser mudar.
 
 > O Console mostra uma lista do que ainda falta preencher antes de deixar publicar. **Ele é a
 > autoridade, não este arquivo** — as exigências mudam com frequência.
-
-### Daqui para a frente
-
-Cada versão nova é: subir o `AndroidBundleVersionCode`, gerar o `.aab`, subir no teste interno.
-A atualização chega no seu celular pela Play em minutos.
 
 ---
 
@@ -139,7 +156,24 @@ A atualização chega no seu celular pela Play em minutos.
 Não fazer agora. Quando a hora chegar, o passo a passo, a regra dos 12/14 dias, o texto de convite
 e a tabela de acompanhamento estão em **`teste-fechado.md`**.
 
-O que ainda vai faltar naquele momento, e que a Etapa 1 não resolve:
+### Ligar os símbolos de depuração antes de haver testadores
+
+O Console avisa, a cada envio, que faltam **dois arquivos** e que os relatórios de falha ficam
+ilegíveis sem eles:
+
+| Aviso | O que é | Onde se liga |
+|---|---|---|
+| Arquivo de desofuscação | O `mapping.txt` do R8/ProGuard, que devolve os nomes reais das classes. **Só existe se o *Minify* estiver ligado** | *Player Settings → Publishing Settings → Minify* |
+| Símbolos nativos | O jogo roda em IL2CPP, então quase tudo é biblioteca nativa. Sem símbolos, um crash chega como endereço de memória | *Player Settings → Publishing Settings*, a opção que gera o `symbols.zip` |
+
+**Ignorados de propósito no teste interno** (08/08/2026): o único aparelho é o do Raffael, e para
+ele existe `.\tools\logcat.ps1`, que dá a pilha completa em tempo real — mais do que o Console
+mostraria.
+
+**Viram obrigatórios quando houver testadores**, porque aí alguém diz "fechou sozinho" e não há
+como pedir o celular emprestado. O `symbols.zip` sai junto do build e sobe ao lado do `.aab`.
+
+### O que ainda vai faltar, e que a Etapa 1 não resolve
 
 - Os **16 e-mails** de conta Google (dezesseis, não doze: se a contagem cair de 12, o contador
   reinicia)
