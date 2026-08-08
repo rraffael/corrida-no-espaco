@@ -126,8 +126,9 @@ jogo estiver bom: os 16 e-mails e o teste fechado.
 - **O tato da rodada de 07/08 nunca foi julgado num aparelho.** O jogo está instalado pela Play,
   mas ninguém sentiu no dedo o arranque, a batida de ~3,5 s, o raspão e a dobra de 2,5 s. No
   Editor o toque é mouse. Ver "Onde estamos", no topo.
-- **Um passo de Montar pendente:** o `ApplicationIdFix`. Commitar antes de rodar; depois de
-  conferir com o *Conferir configuração*, o script sai do projeto.
+- ~~Um passo de Montar pendente~~ — **rodou em 08/08 e o conserto foi apagado.** Conferido no
+  disco: `br.com.raffael.corridanoespaco`, target 36, `productName` "Corrida no Espaço",
+  versão `0.1.0`. **Não há montagem pendente.**
 - Áudio: nenhum `.wav`/`.mp3`/`.ogg` no projeto.
 - Ícone e splash **dentro do app** — hoje são os padrões da Unity. *(A arte da página da loja já
   tem marcador de lugar; esta linha é sobre o que aparece no celular.)*
@@ -781,7 +782,7 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
 |---|---|---|
 | `Correções/WarpTuningFix.cs` | Pôs 2,5 s de carga e dobra 15 nas três fichas de fase, e a escada de dobra por dificuldade (+1 · +2,5 · +4) no catálogo. Existiu porque o `LevelSetup` não sobrescreve asset criado antes. | **Rodou e foi apagado** (07/08/2026) |
 | `Correções/ReleaseSettingsFix.cs` | Target API Level 36, nome no celular "Corrida no Espaço" (era `corrida-no-espaco`) e versão `0.1.0` (era `1`). O version code ficou em 1, intocado. **Tinha um defeito — ver abaixo.** | **Rodou e foi apagado** (07/08/2026) |
-| `Correções/ApplicationIdFix.cs` | Devolveu o pacote a `br.com.raffael.corridanoespaco`, desfazendo o estrago do anterior. | **A rodar** (08/08/2026) |
+| `Correções/ApplicationIdFix.cs` | Devolveu o pacote a `br.com.raffael.corridanoespaco`, desfazendo o estrago do anterior. | **Rodou e foi apagado** (08/08/2026) |
 
 ### O bug do `applicationId` — 08/08/2026
 

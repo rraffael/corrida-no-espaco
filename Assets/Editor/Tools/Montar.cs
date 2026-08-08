@@ -36,15 +36,12 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 08/08/2026: **um passo, e é conserto de um estrago**. O
-    /// ReleaseSettingsFix mudou o productName sem reafirmar o pacote, e a Unity
-    /// regerou o applicationId a partir de com.&lt;Company&gt;.&lt;Product&gt; — o
-    /// primeiro .aab foi para a Play com o pacote errado e voltou recusado.
+    /// Estado em 08/08/2026, fim do dia: **vazia**. O jogo está publicado em
+    /// teste interno e tudo o que precisava de montagem já rodou — os cinco
+    /// passos do Bloco B, o ajuste da dobra, o ProjectSettings da Play e o
+    /// conserto do applicationId, todos conferidos no disco.
     /// </summary>
-    static readonly Step[] Steps =
-    {
-        new Step("Devolver o applicationId correto", ApplicationIdFix.Run),
-    };
+    static readonly Step[] Steps = { };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]
     static void Run()
