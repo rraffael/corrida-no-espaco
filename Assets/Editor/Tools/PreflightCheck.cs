@@ -24,7 +24,7 @@ static class PreflightCheck
         CheckOrientation(problems, notes);
         CheckSdk(warnings, notes);
         CheckSigning(problems, notes);
-        CheckIdentity(warnings, notes);
+        CheckIdentity(problems, warnings, notes);
 
         Report(problems, warnings, notes);
     }
@@ -91,7 +91,14 @@ static class PreflightCheck
             "limpa a assinatura sozinho: rode Tools → Corrida no Espaço → Build → AAB de release.");
     }
 
-    static void CheckIdentity(List<string> warnings, List<string> notes)
+    /// <summary>
+    /// O pacote é conferido contra o valor exato, e divergência é **problema**,
+    /// não aviso. Aqui antes só se olhava se o valor era o antigo — e em
+    /// 08/08/2026 a Unity regerou o identificador sozinha ao ver o `productName`
+    /// mudar, produzindo um terceiro valor que passou calado por esta função.
+    /// O `.aab` foi até a Play antes de alguém descobrir.
+    /// </summary>
+    static void CheckIdentity(List<string> problems, List<string> warnings, List<string> notes)
     {
         string id = PlayerSettings.applicationIdentifier;
         notes.Add($"Pacote: {id}  ·  versão {PlayerSettings.bundleVersion} ({PlayerSettings.Android.bundleVersionCode})");
@@ -102,7 +109,24 @@ static class PreflightCheck
                 $"applicationId ainda é '{OldApplicationId}', o da conta antiga. " +
                 "Decidir o definitivo antes do primeiro upload — depois de publicado não muda mais (Fase 3).");
         }
+        else if (id != ProjectIdentity.ApplicationId)
+        {
+            problems.Add(
+                $"O pacote é '{id}', e tem de ser '{ProjectIdentity.ApplicationId}'. " +
+                "A Play recusa upload com pacote diferente do registrado no app. " +
+                "Cuidado conhecido: mexer no productName faz a Unity regerar o pacote a partir " +
+                "de com.<Company>.<Product> — depois de mudar o nome, reafirme o identificador.");
+        }
+
+        if (PlayerSettings.productName != ExpectedProductName)
+        {
+            warnings.Add(
+                $"O nome que aparece no celular é '{PlayerSettings.productName}', e o esperado é " +
+                $"'{ExpectedProductName}'.");
+        }
     }
+
+    const string ExpectedProductName = "Corrida no Espaço";
 
     static void Report(List<string> problems, List<string> warnings, List<string> notes)
     {

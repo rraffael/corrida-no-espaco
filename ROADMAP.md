@@ -315,10 +315,13 @@ Não depende de código. **O relógio mais lento do projeto** — começar cedo.
       - **Os dois textos foram corrigidos em 08/08/2026:** descreviam o login do Play Games, que
         saiu do projeto em 02/08. Publicar assim contradiria a declaração de Segurança dos dados
         ("não coleta nada") — e é exatamente esse tipo de divergência que a Play compara
-- [ ] **Publicar e colar o link no Console.** A página já foi colocada no portfólio, em
-      `Portfolio/public/corrida-no-espaco/privacidade/index.html` — falta só o Raffael commitar e
-      dar push em `master`, que o workflow do GitHub Pages publica sozinho.
-      URL final: **`https://rraffael.github.io/Portfolio/corrida-no-espaco/privacidade/`**
+- [x] **Publicada e aceita pelo Console** (08/08/2026). Mora no portfólio, em
+      `Portfolio/public/corrida-no-espaco/privacidade/index.html`, e vai ao ar sozinha no push
+      para `master` pelo workflow do GitHub Pages.
+      URL: **`https://rraffael.github.io/Portfolio/corrida-no-espaco/privacidade/`**
+      - **E-mail de contato do app: `suporte.raffael@gmail.com`** (trocado em 08/08/2026, em toda
+        a documentação e na página publicada). O `raffaelcr.ti@gmail.com` segue sendo só a conta
+        Google dona do Console e do repositório — identidade de conta, não contato do app
       - Por que dentro de `public/`: o Next copia essa pasta literalmente para o `out/`, sem
         passar pelo build. HTML solto ali funciona como está, e não vira componente
       - Por que sob `corrida-no-espaco/`: a política é **do jogo**, não do portfólio. Num site
@@ -328,12 +331,23 @@ Não depende de código. **O relógio mais lento do projeto** — começar cedo.
       `UnityConnectSettings.asset` com `m_Enabled: 0` no topo e no bloco `UnityAnalyticsSettings`
       (`m_InitializeOnStartup: 0` junto), e o módulo `com.unity.modules.unityanalytics` fora do
       `manifest.json`. A configuração agora concorda com o texto da política
-- [x] Escrever a página do app PT e EN — `docs/play-console/pagina-do-app.md`
-      *(renomeado de `ficha-da-loja.md` em 07/08/2026 — "ficha" não dizia nada)*
-      *(textos escritos para o conceito das 3 faixas; se a Fase 3 decidir outra coisa, reescrever)*
-- [ ] Produzir os gráficos: ícone 512×512, gráfico de destaque 1024×500, screenshots — **arte, é
-      sua**. *Não trava o teste interno: lá só você vê a página, então marcador de lugar basta.
-      Vira item de verdade na hora do teste fechado*
+- [x] **Página do app reescrita para o jogo que existe** (08/08/2026) —
+      `docs/play-console/pagina-do-app.md`, pt-BR e en-US: nome, descrição curta com contagem de
+      caracteres, descrição completa e a tabela de arte com o que é obrigatório e o que dá para
+      pular. *(Renomeado de `ficha-da-loja.md` em 07/08 — "ficha" não dizia nada.)*
+      - O texto anterior era de 02/08 e prometia um jogo abandonado: sem barra de vida, um toque
+        para trocar de faixa, impulsos para coletar, e nenhuma menção a tiro
+      - **Decidido não traduzir o nome:** "Space Race" é genérico demais — termo histórico, muitos
+        produtos homônimos, afundaria na busca. "Corrida no Espaço" nos dois idiomas
+      - ⚠️ **Uma frase depende do teste no aparelho:** *"dá para vencer só desviando"*. É regra de
+        projeto, mas não foi verificada nas três fases. Se não se sustentar, sai antes de publicar
+- [x] **Ícone e gráfico de destaque provisórios gerados** (08/08/2026) — menu **Gerar arte da
+      loja** (`Assets/Editor/Tools/StoreArt.cs`) escreve `docs/play-console/arte/icone-512.png`
+      (82 KB) e `destaque-1024x500.png` (108 KB), opacos e no tamanho exato.
+      **Fora de `Assets/` de propósito:** lá dentro a Unity os importaria como textura e eles
+      entrariam no `.aab`. **A `StoreArt.cs` sai do projeto no dia da arte de verdade**
+- [ ] **Arte de verdade** — ícone, gráfico de destaque e screenshots caprichadas. *Não trava o
+      teste interno; vira item de verdade na hora do teste fechado*
 - [ ] ~~Quando a conta sair da verificação:~~ **criar o app no Console** — a conta já está
       verificada, então isto está liberado. O `applicationId` é novo
       (`br.com.raffael.corridanoespaco`), então deve ser aceito sem briga
@@ -347,9 +361,9 @@ Não depende de código. **O relógio mais lento do projeto** — começar cedo.
       conferir era o oposto do que se queria*
       - **A declaração de ID de publicidade foi verificada no bundle**, não chutada: o `.aab`
         declara só `android.permission.INTERNET`, sem `AD_ID`
-- [ ] **Preencher as dez declarações no Console** — respostas prontas em
-      `docs/play-console/declaracoes-do-app.md`, incluindo o IARC e a Segurança dos dados. Nove são
-      rápidas; a política de privacidade é a que trava, porque exige URL pública
+- [x] **As dez declarações preenchidas no Console** (08/08/2026) — incluindo o IARC, a Segurança
+      dos dados e a URL da política. A seção *Conteúdo do app* ficou **sem pendência**. O gabarito
+      do que foi respondido está em `docs/play-console/declaracoes-do-app.md`
 
 > Regras da Play mudam com frequência — reconfirmar cada item no Console, não tratar como fato.
 
@@ -746,7 +760,26 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
 | Ferramenta | O que fez | Estado |
 |---|---|---|
 | `Correções/WarpTuningFix.cs` | Pôs 2,5 s de carga e dobra 15 nas três fichas de fase, e a escada de dobra por dificuldade (+1 · +2,5 · +4) no catálogo. Existiu porque o `LevelSetup` não sobrescreve asset criado antes. | **Rodou e foi apagado** (07/08/2026) |
-| `Correções/ReleaseSettingsFix.cs` | Target API Level 36, nome no celular "Corrida no Espaço" (era `corrida-no-espaco`) e versão `0.1.0` (era `1`). O version code ficou em 1, intocado. | **Rodou e foi apagado** (07/08/2026) |
+| `Correções/ReleaseSettingsFix.cs` | Target API Level 36, nome no celular "Corrida no Espaço" (era `corrida-no-espaco`) e versão `0.1.0` (era `1`). O version code ficou em 1, intocado. **Tinha um defeito — ver abaixo.** | **Rodou e foi apagado** (07/08/2026) |
+| `Correções/ApplicationIdFix.cs` | Devolveu o pacote a `br.com.raffael.corridanoespaco`, desfazendo o estrago do anterior. | **A rodar** (08/08/2026) |
+
+### O bug do `applicationId` — 08/08/2026
+
+O `ReleaseSettingsFix` mudou o `productName` e **não reafirmou o pacote**. A Unity deriva o
+`applicationIdentifier` de `com.<companyName>.<productName>` enquanto ele não for imposto de novo,
+então trocar o nome do produto **regerou o pacote**: `br.com.raffael.corridanoespaco` virou
+`com.Raffael.CorridanoEspao`. O `.aab` saiu com o pacote errado e a Play recusou o upload — foi a
+recusa que revelou o problema, não nenhuma checagem nossa.
+
+**Duas defesas entraram para o erro não voltar calado:**
+
+- `Assets/Editor/Tools/ProjectIdentity.cs` — o pacote definitivo virou uma constante, num lugar só
+- O `PreflightCheck` passou a **exigir esse valor exato**, e divergência agora é **erro**, não
+  aviso. Antes ele só reclamava se o pacote fosse o antigo (`com.Raffael.corridanoespaco`); um
+  terceiro valor passava calado, que foi exatamente o que aconteceu
+
+**Regra que fica:** mexeu no `productName`, reafirme o `applicationIdentifier` na sequência — e
+rode **Conferir configuração** antes de todo build de release. Era para isso que ele existia.
 
 O resultado do `WarpTuningFix` foi **conferido nos assets** antes de ele sair: `Fase1`, `Fase2` e
 `Fase3` com `warpSpeed: 15` e `warpChargeSeconds: 2.5`, `FaseInfinita` intocada (999 / 0), e o

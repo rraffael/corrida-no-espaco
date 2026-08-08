@@ -29,6 +29,9 @@ static class ProjectTools
 
     public const string PreflightItem = MenuRoot + "Conferir configuração";
     public const string AndroidSdkItem = MenuRoot + "Conferir SDK do Android";
+    public const string StoreArtItem = MenuRoot + "Gerar arte da loja";
+
+    public const string ApplicationIdItem = MenuRoot + "Correções/Devolver o applicationId correto";
     public const string BuildApkItem = MenuRoot + "Build/APK de teste";
     public const string BuildAabItem = MenuRoot + "Build/AAB de release";
 
@@ -47,6 +50,7 @@ static class ProjectTools
     public const string BattleId = "combate";
     public const string MenuSceneId = "menu-recordes";
     public const string LevelSelectId = "selecao-de-fase";
+    public const string ApplicationIdId = "applicationid-correto";
 
     /// <summary>
     /// O diário vive em <c>UserSettings/</c>, que o .gitignore já ignora: é
@@ -132,6 +136,23 @@ static class ProjectTools
             Summary = "Confere cenas na build list, orientação, target SDK, keystore vazado e applicationId. " +
                       "Rodar sempre antes de um build.",
             MenuPath = PreflightItem,
+        },
+        new Tool
+        {
+            Id = ApplicationIdId,
+            Title = "Devolver o applicationId correto",
+            Summary = "Reescreve o pacote do Android para br.com.raffael.corridanoespaco. Mexer no " +
+                      "productName fez a Unity regerar o pacote sozinha, e o primeiro .aab saiu " +
+                      "errado. Conserto de uma vez só — some depois de rodar.",
+            MenuPath = ApplicationIdItem,
+        },
+        new Tool
+        {
+            Title = "Gerar arte da loja",
+            Summary = "Ícone 512×512 e gráfico de destaque 1024×500 em docs/play-console/arte/, " +
+                      "opacos e no tamanho exato que a Play exige. Marcador de lugar para " +
+                      "destravar o teste interno — sai fora no dia da arte de verdade.",
+            MenuPath = StoreArtItem,
         },
         new Tool
         {

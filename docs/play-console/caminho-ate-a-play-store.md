@@ -103,20 +103,26 @@ sobre ele, é agora — depois de criar o app, acabou.
 
 ### 1.3 No Play Console
 
-- [ ] **Criar o app.** Nome, idioma padrão pt-BR, *App*, *Gratuito*
-- [ ] **Ligar o Play App Signing** — é o que permite resetar a chave de upload se ela sumir de
-      novo. Foi exatamente o problema que custou caro antes
-- [ ] **Publicar a política de privacidade numa URL pública** e colar o link. Texto pronto em
-      `docs/politica-de-privacidade.md` (e `privacy-policy.md`); falta hospedar — GitHub Pages do
-      portfólio resolve
-- [ ] **Preencher a seção de conteúdo do app** — são **dez declarações**, e as respostas estão
-      todas em `declaracoes-do-app.md`, junto com o questionário IARC pergunta por pergunta.
-      Nove são rápidas; a única que trava é a política de privacidade, acima
-- [ ] **Preencher o mínimo da página do app.** Para teste interno só você vê, então **texto e arte
-      marcador de lugar bastam** — a reescrita de verdade fica para o lançamento.
-      Ver `pagina-do-app.md`, que hoje está desatualizado de propósito
-- [ ] **Subir o `.aab` em *Testes → Teste interno*** e adicionar seu e-mail à lista
-- [ ] Abrir o link de opt-in no celular, aceitar e instalar pela Play
+- [x] ~~Criar o app~~ — feito em 08/08/2026. Nome "Corrida no Espaço", **idioma padrão en-US**,
+      Jogo, Gratuito, pacote `br.com.raffael.corridanoespaco`
+      - ⚠️ **Lembrete do idioma padrão:** ficou en-US, então **pt-BR precisa ser adicionado como
+        idioma extra**, senão brasileiro vê a página em inglês. Não trava o teste interno, mas não
+        pode ser esquecido no lançamento
+- [x] ~~Ligar o Play App Signing~~ — **não existe o que ligar.** Para app criado novo é
+      obrigatório e automático: entra em vigor sozinho quando o primeiro `.aab` sobe
+- [x] ~~Publicar a política de privacidade~~ — no ar em
+      `https://rraffael.github.io/Portfolio/corrida-no-espaco/privacidade/`
+- [x] ~~Preencher a seção de conteúdo do app~~ — **as dez declarações fechadas em 08/08/2026**,
+      sem pendência. Gabarito em `declaracoes-do-app.md`
+- [x] ~~Preencher a página do app~~ — textos reescritos e arte provisória gerada em 08/08/2026.
+      Tudo em `pagina-do-app.md`
+- [ ] **Subir o `.aab` em *Testes → Teste interno*** → *Criar nova versão*. O arquivo é
+      `Builds/Corrida no Espaço-0.1.0-1-release.aab`
+      - O Console pede **notas da versão** por idioma. Texto pronto em `pagina-do-app.md`
+      - **O primeiro envio pode passar por uma análise** de algumas horas antes de ficar
+        disponível, mesmo em teste interno. É só na primeira vez
+- [ ] **Adicionar seu e-mail à lista de testadores** dessa trilha e copiar o link de opt-in
+- [ ] Abrir o link **no celular**, aceitar e instalar pela Play
 
 > O Console mostra uma lista do que ainda falta preencher antes de deixar publicar. **Ele é a
 > autoridade, não este arquivo** — as exigências mudam com frequência.
