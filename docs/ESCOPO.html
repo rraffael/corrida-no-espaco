@@ -269,12 +269,17 @@
 <h2>Parte 5</h2>
 <p class="h2sub">O que falta para o jogo estar completo</p>
 
-<p>O jogo hoje é uma corrida boa que acaba quando a partida acaba. <strong>Falta o lado de fora da partida</strong> — o motivo para abrir o jogo amanhã. São quatro blocos, e a ordem entre eles não é arbitrária: cada um existe porque o seguinte precisa dele pronto.</p>
+<p>O jogo hoje é uma corrida boa que acaba quando a partida acaba. <strong>Falta o lado de fora da partida</strong> — o motivo para abrir o jogo amanhã. São cinco blocos, e a ordem entre eles não é arbitrária: cada um existe porque o seguinte precisa dele pronto.</p>
+
+<div class="panel note">
+<p style="margin-bottom:0"><strong>Uma regra vale para todos eles: primeiro a fábrica, depois o produto.</strong> Nenhum bloco começa pelo conteúdo. Começa pela <strong>estrutura que permite criar aquele conteúdo aos montes</strong> — a ficha em disco, o catálogo, o lugar onde se pendura um item novo sem escrever uma linha de código. Só depois vêm o primeiro poder, a primeira nave, a primeira fase. Feito ao contrário, o segundo item de cada tipo custa o mesmo que o primeiro, e o décimo custa dez vezes o primeiro.</p>
+</div>
 
 <div class="phase">
   <div class="head"><span class="n">Bloco 1</span><span class="t">Poderes em partida</span><span class="when">o primeiro, porque é o mais barato de julgar</span></div>
   <div class="body">
-    <p>Reparo, escudo temporário, tiro rápido — e o outro lado da moeda, os <strong>poderes ruins</strong>, que podem cair como item a desviar ou vir de obstáculo. É pura jogabilidade: ciclo curto, sem depender de nave nem de economia, e se avalia no dedo em uma tarde.</p>
+    <p><strong>Começa pela fábrica:</strong> uma ficha de poder em disco e um catálogo, de modo que poder novo seja um arquivo — o que ele faz, quanto dura, quão raro é, como aparece — e não um script novo toda vez.</p>
+    <p>Com isso de pé, os poderes entram em série: reparo, escudo temporário, tiro rápido — e o outro lado da moeda, os <strong>poderes ruins</strong>, que podem cair como item a desviar ou vir de obstáculo. É pura jogabilidade: ciclo curto, sem depender de nave nem de economia, e se avalia no dedo em uma tarde.</p>
     <p><strong>A decisão de equilíbrio deste bloco é o escudo</strong>, e ela é séria: a batida custa ~3,5 segundos, e foi assim que o jogo ficou bom. Um escudo que <em>anula</em> a batida anula o peso que dá tensão à corrida inteira. Um escudo que a <em>rebaixa a raspão</em> preserva esse peso e ainda assim vale a pena pegar.</p>
   </div>
 </div>
@@ -282,26 +287,54 @@
 <div class="phase">
   <div class="head"><span class="n">Bloco 2</span><span class="t">Naves: variedade, diferença e evolução</span><span class="when">o eixo do qual o resto pende</span></div>
   <div class="body">
-    <p>Hoje existe uma nave só, e os atributos dela — aceleração, cruzeiro, vida, defesa, ganho por abate — servem para afiná-la. Com naves diferentes, esses mesmos atributos passam a <strong>significar escolhas</strong>: uma nave que se recupera rápido de batida é outro jogo que uma que aguenta mais golpes.</p>
-    <p>A pergunta de projeto deste bloco é se a diferença fica nos números ou se cada nave ganha <strong>algo que só ela faz</strong>. É a diferença entre “uma nave melhor” e “uma nave outra” — e a segunda é a que faz alguém querer a terceira.</p>
-    <p style="margin-bottom:0">O passo técnico que abre o bloco é pequeno: a <strong>ficha da nave precisa sair da cena e virar arquivo em disco</strong>, como já são as fichas de fase e de obstáculo. Sem isso, cinco naves viram cinco cópias com números digitados à mão.</p>
+    <p><strong>Também começa pela fábrica, e aqui ela é obrigatória:</strong> a ficha da nave precisa <strong>sair da cena e virar arquivo em disco</strong>, como já são as fichas de fase e de obstáculo. Hoje ela vive pendurada num objeto da cena — e enquanto for assim, cinco naves são cinco cópias com números digitados à mão, e evolução vira código em vez de número.</p>
+    <p>Com a ficha em disco e um catálogo, nave nova passa a ser um arquivo, e a evolução passa a ser aritmética sobre ele.</p>
+    <p>Aí a pergunta deixa de ser técnica e vira de projeto. Hoje existe uma nave só, e os atributos dela — aceleração, cruzeiro, vida, defesa, ganho por abate — servem para afiná-la. Com naves diferentes, esses mesmos atributos passam a <strong>significar escolhas</strong>: uma nave que se recupera rápido de batida é outro jogo que uma que aguenta mais golpes.</p>
+    <p style="margin-bottom:0">E a decisão central do bloco: se a diferença fica nos números ou se cada nave ganha <strong>algo que só ela faz</strong>. É a diferença entre “uma nave melhor” e “uma nave outra” — e a segunda é a que faz alguém querer a terceira.</p>
   </div>
 </div>
 
 <div class="phase">
-  <div class="head"><span class="n">Bloco 3</span><span class="t">Recursos, nível, recompensas e conquistas</span><span class="when">por último dos três, e há motivo</span></div>
+  <div class="head"><span class="n">Bloco 3</span><span class="t">Fases: a arquitetura, e uma experiência <span class="badge b-warn">experimental</span></span><span class="when">a estrutura fica; a experiência se valida</span></div>
+  <div class="body">
+    <p>Este bloco tem <strong>duas metades com pesos diferentes</strong>, e vale separá-las bem, porque uma é compromisso e a outra é aposta.</p>
+
+    <p class="q">A metade que fica: a arquitetura de fases</p>
+    <p>Hoje uma fase já é um arquivo de dados, e é por isso que ela é barata. Mas o que ela consegue variar ainda é pouco: ritmo de aparição, agenda de obstáculos e a exigência da dobra. <strong>O cenário é sempre o mesmo, o repertório de obstáculos é sempre o mesmo, e o número de faixas é sempre três.</strong> O resultado é que toda fase se parece com a anterior — muda a pressão, não muda o lugar.</p>
+    <p>A arquitetura a construir é a que deixa a ficha da fase escolher também <strong>o cenário, o conjunto de obstáculos que ela usa e a própria largura da pista</strong>. Feito isso, fase nova deixa de ser “a mesma corrida mais difícil” e passa a ser um lugar diferente — e continua custando um arquivo. <strong>Esta metade acontece de qualquer jeito</strong>, independentemente do que a experiência abaixo mostrar.</p>
+
+    <p class="q">A metade experimental: mudar o número de faixas</p>
+    <p>A pergunta é direta: <strong>como o jogo se comporta com cinco faixas em vez de três?</strong> Fica melhor, fica confuso, fica fácil demais? Ninguém sabe, e não dá para saber no papel — a única resposta honesta vem de construir e jogar.</p>
+    <p>Por isso este pedaço é <strong>marcado como experimental de propósito</strong>: será desenvolvido e testado ao mesmo tempo, e o critério de continuidade é o teste. <strong>Se a ideia se sustentar, segue e vira parte do jogo. Se não se sustentar, é retirada, e o trabalho segue para o bloco seguinte</strong> — sem dó, e sem que isso tenha custado a arquitetura, que fica de pé nos dois casos.</p>
+
+    <div class="panel flag">
+      <p><strong>Três coisas que a largura da pista mexe, e que precisam ser olhadas no mesmo teste:</strong></p>
+      <ul style="margin-bottom:0">
+        <li>A <strong>regra da fuga garantida</strong> conta faixas para nunca fechar todas. Com cinco, a conta muda.</li>
+        <li>A <strong>Barcaça</strong> ocupa duas faixas. Duas de três é meia pista bloqueada; duas de cinco é bem menos ameaça — o obstáculo perde peso sem ninguém mexer nele.</li>
+        <li>Mais faixas é <strong>mais espaço para desviar</strong>, e desviar é o caminho garantido de vitória do jogo. A dificuldade da fase provavelmente precisa ser recalibrada junto.</li>
+      </ul>
+    </div>
+
+    <p style="margin-bottom:0">Vale registrar que esta experiência <strong>não é uma ideia nova</strong>: o jogo sempre pretendeu ter número variável de faixas, e a reforma técnica que isso exige foi adiada de propósito no começo do projeto, quando ainda não havia jogo o bastante para justificá-la. É aqui que ela vence. Foi também por causa dela que <strong>o texto da loja foi escrito sem dizer quantas faixas o jogo tem</strong>.</p>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="head"><span class="n">Bloco 4</span><span class="t">Recursos, nível, recompensas e conquistas</span><span class="when">por último dos de mecânica, e há motivo</span></div>
   <div class="body">
     <p>Duas moedas, como o documento original já previa: uma <strong>comum</strong>, que se ganha jogando, e uma <strong>premium</strong>. A pergunta que define o jogo inteiro não é o que a premium compra — é <strong>o que ela não compra</strong>. Essa linha separa “atalho” de “pagar para vencer”, e é infinitamente mais fácil de traçar agora, no papel, do que depois, tirando coisa da mão de quem já pagou.</p>
     <p>Junto vêm o <strong>nível do jogador</strong> e as <strong>conquistas próprias</strong> — conquistas do jogo, com regra e prêmio em moeda ou nave. São a melhor torneira de recurso que existe, porque recompensam <em>jogar de um jeito específico</em> em vez de simplesmente jogar muito.</p>
-    <p style="margin-bottom:0"><strong>Por que este bloco vem depois dos outros dois:</strong> o valor de uma moeda é definido pelo que ela compra. Sem naves e sem poderes para comprar, qualquer preço é um chute.</p>
+    <p>Também começa pela fábrica: <strong>conquista nova precisa ser um arquivo</strong> com condição e prêmio, como tudo o mais. Vinte conquistas escritas à mão, uma a uma, é o tipo de trabalho que se faz uma vez e nunca mais se tem vontade de ampliar.</p>
+    <p style="margin-bottom:0"><strong>Por que este bloco vem depois dos outros três:</strong> o valor de uma moeda é definido pelo que ela compra. Sem naves, sem poderes e sem fases para desbloquear, qualquer preço é um chute.</p>
   </div>
 </div>
 
 <div class="phase">
-  <div class="head"><span class="n">Bloco 4</span><span class="t">A interface refeita</span><span class="when">no fim, e de propósito</span></div>
+  <div class="head"><span class="n">Bloco 5</span><span class="t">A interface refeita</span><span class="when">no fim, e de propósito</span></div>
   <div class="body">
-    <p>Cada bloco acima cria tela nova: loja, oficina de evolução, seleção de nave, recompensas, conquistas. A interface de hoje é funcional e feia — a tela de seleção de fase é montada em tempo de execução só para permitir testar a progressão.</p>
-    <p style="margin-bottom:0"><strong>Enquanto os três primeiros blocos correm, tela feia não é defeito</strong> — só falta de função conta. Esta é a passada única que unifica tudo, e fazê-la antes seria fazê-la duas vezes. Fechar este bloco é fechar o jogo completo.</p>
+    <p>Cada bloco acima cria tela nova: loja, oficina de evolução, seleção de nave, recompensas, conquistas — e a seleção de fase muda junto, porque agora as fases têm cara própria para mostrar. A interface de hoje é funcional e feia: a tela de seleção de fase é montada em tempo de execução só para permitir testar a progressão.</p>
+    <p style="margin-bottom:0"><strong>Enquanto os quatro primeiros blocos correm, tela feia não é defeito</strong> — só falta de função conta. Esta é a passada única que unifica tudo, e fazê-la antes seria fazê-la duas vezes. Fechar este bloco é fechar o jogo completo.</p>
   </div>
 </div>
 
@@ -317,7 +350,7 @@
 <thead><tr><th class="step">Etapa</th><th>O que acontece</th><th>Por que nessa posição</th></tr></thead>
 <tbody>
 <tr><td class="step">1</td><td><strong>Mecânica crua</strong> <span class="badge b-ok">feita</span></td><td>Fechada em 21/08/2026, aprovada no aparelho.</td></tr>
-<tr><td class="step">2</td><td><strong>O jogo completo</strong> — os quatro blocos da Parte 5</td><td>É o que transforma uma corrida boa num jogo com motivo para voltar.</td></tr>
+<tr><td class="step">2</td><td><strong>O jogo completo</strong> — os cinco blocos da Parte 5</td><td>É o que transforma uma corrida boa num jogo com motivo para voltar.</td></tr>
 <tr><td class="step">3</td><td><strong>Análise de dados</strong></td><td>Precisa estar recolhendo <em>antes</em> do teste fechado, que é quando as respostas importam.</td></tr>
 <tr><td class="step">4</td><td><strong>Conta, nuvem, arte e áudio</strong></td><td>Arte feita antes da interface final é arte feita duas vezes. Hoje o projeto não tem um único arquivo de som.</td></tr>
 <tr><td class="step">5</td><td><strong>Monetização</strong></td><td>Depois de a economia existir e estar equilibrada, nunca antes.</td></tr>
@@ -350,7 +383,7 @@
 <ul>
   <li><strong>Inimigos e chefe de fase</strong> — a ideia nova do documento original. Inimigos que reagem em vez de só descer, espólio ao vencê-los, e um chefe fechando a fase. O tiro, a vida e a defesa já existem: falta o que usa isso.</li>
   <li><strong>Corrida como fonte de recurso, combate como campanha</strong> — a ideia extravagante do documento original, e a forma final possível do jogo: correr para juntar, lutar para avançar, e missões que liberam naves.</li>
-  <li><strong>Número variável de faixas</strong> — mecânicas que aumentem ou diminuam a quantidade de faixas durante a corrida. Por causa desta ideia, <strong>o texto da loja foi escrito sem citar quantas faixas o jogo tem</strong>.</li>
+  <li><strong>Faixas que mudam durante a corrida</strong> — a pista alargando ou estreitando no meio da partida. É o passo seguinte ao Bloco 3, que trata de fases com larguras <em>diferentes</em>; aqui a largura muda <em>dentro</em> da mesma corrida. Só faz sentido se a experiência do Bloco 3 se sustentar.</li>
   <li><strong>Barreira de avanço</strong> — um ponto que só deixa passar quem trouxe nave forte o bastante. Só faz sentido depois de existir nave fraca e nave forte.</li>
   <li><strong>Tiro como comando do jogador</strong>, com munição, em vez de automático. É escolha de projeto, não conserto: o ganho passivo já deixa o jogo de pé sem tiro nenhum.</li>
   <li><strong>Eventos de calendário</strong> — conteúdo por data, ao longo do ano.</li>

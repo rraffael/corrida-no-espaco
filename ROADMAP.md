@@ -5,6 +5,10 @@ Marque cada item conforme for concluído: `[ ]` → `[x]`.
 
 **Legenda de status das fases:** ⬜ Não iniciada · 🟡 Em andamento · ✅ Concluída
 
+**Asterisco no título** = parte **experimental**: será desenvolvida e testada ao mesmo tempo, e
+**pode ser retirada** se o teste não a sustentar. Hoje só a Parte 7 da Fase 6 tem um, e só na
+metade dela — ver lá.
+
 > **Este arquivo é o estado; `docs/ESCOPO.html` é o jogo.** O documento do jogo (reescrito em
 > 21/08/2026) descreve os conceitos, as regras e o futuro — é o que se lê para *entender* o jogo.
 > Aqui fica o acompanhamento tarefa por tarefa, com data e caixinha marcada. **Onde os dois
@@ -37,10 +41,10 @@ seguinte reescreve o equilíbrio de qualquer jeito** — nave com mais defesa mu
 dói, escudo temporário muda a Fase 3 inteira. Polimento fino feito hoje seria refeito depois.
 
 O alvo passa a ser o **MVP completo**, na definição do Raffael: poderes em partida, variedade de
-naves com diferenciação real, evolução, recursos e economia, nível do jogador, recompensas e
-conquistas, e a UI refeita. **Só quando isso estiver tão bom e tão testado quanto a mecânica
-crua** é que entram arte, áudio e acabamento; depois conta e monetização; e só então o teste
-fechado.
+naves com diferenciação real, evolução, fases com cara própria, recursos e economia, nível do
+jogador, recompensas e conquistas, e a UI refeita. **Só quando isso estiver tão bom e tão testado
+quanto a mecânica crua** é que entram arte, áudio e acabamento; depois conta e monetização; e só
+então o teste fechado.
 
 Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
 
@@ -62,9 +66,12 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
 - [ ] **Parte 5 — poderes em partida.** Primeiro bloco de feature, porque é pura jogabilidade:
       ciclo curto e julgado no polegar, exatamente como foi a batida
 - [ ] **Parte 6 — naves, diferenciação e evolução.** É o eixo do qual o resto pende
-- [ ] **Parte 7 — recursos, nível, recompensas e conquistas.** Por último dos três, porque **o
-      valor da moeda é definido pelo que ela compra**: os gastos têm de existir antes do dinheiro
-- [ ] **Parte 8 — UI refeita.** No fim do bloco, não no começo: cada parte acima cria tela nova
+- [ ] **Parte 7 — fases: arquitetura e a experiência das 5 faixas.** ⚠️ A arquitetura fica; a
+      experiência pode ser retirada se não se sustentar no teste
+- [ ] **Parte 8 — recursos, nível, recompensas e conquistas.** Por último dos de mecânica, porque
+      **o valor da moeda é definido pelo que ela compra**: os gastos têm de existir antes do
+      dinheiro
+- [ ] **Parte 9 — UI refeita.** No fim do bloco, não no começo: cada parte acima cria tela nova
       (loja, oficina, recompensa), e refazer a UI antes é refazê-la duas vezes
 - [ ] ⚠️ **Fora da fila, e não depende de nada: ligar os símbolos de depuração.** Passou a
       importar em 21/08, quando entrou gente no teste interno — ver Fase 5. Entra no próximo
@@ -148,8 +155,9 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
   que encerra a lapidação da jogabilidade crua e abre o meta-jogo — ver "Onde estamos", no topo.
 
 **Faltando**
-- **Todo o meta-jogo** — poderes em partida, variedade e evolução de naves, recursos e economia,
-  nível do jogador e recompensas, UI refeita. É o trabalho a partir de 21/08; ver Partes 5 a 8.
+- **Todo o meta-jogo** — poderes em partida, variedade e evolução de naves, fases com cara própria,
+  recursos e economia, nível do jogador, recompensas e a UI refeita. É o trabalho a partir de
+  21/08; ver Partes 5 a 9.
 - ~~O tato da rodada de 07/08 nunca foi julgado num aparelho~~ — **julgado e aprovado em
   21/08/2026.**
 - ~~Um passo de Montar pendente~~ — **rodou em 08/08 e o conserto foi apagado.** Conferido no
@@ -453,8 +461,15 @@ antes de a próxima começar. O Raffael decide o conceito de cada uma na hora, v
 funcionar.
 
 **Partes 1 a 4 fechadas e aprovadas no aparelho** — é a mecânica crua, e ela está pronta.
-**Partes 5 a 8 são o meta-jogo**, aberto em 21/08/2026: poderes, naves, recursos e UI. Fechar a
-Parte 8 é fechar o **MVP**.
+**Partes 5 a 9 são o meta-jogo**, aberto em 21/08/2026: poderes, naves, fases, recursos e UI.
+Fechar a Parte 9 é fechar o **MVP**.
+
+> **Regra que vale para as cinco: primeiro a fábrica, depois o produto** *(reafirmado pelo Raffael
+> em 21/08/2026)*. Nenhuma das partes começa pelo conteúdo — começa pela **estrutura que permite
+> criar aquele conteúdo aos montes**: ficha em disco, catálogo, e o lugar onde se pendura item
+> novo sem escrever código. Só depois vêm o primeiro poder, a primeira nave, a primeira fase.
+> Feito ao contrário, o segundo item de cada tipo custa o mesmo que o primeiro, e o décimo custa
+> dez vezes o primeiro.
 
 ### Parte 1 — Faixas e troca de faixa ✅
 A base de tudo: se a nave não anda direito entre as faixas, nada em cima disso presta.
@@ -492,13 +507,15 @@ A base de tudo: se a nave não anda direito entre as faixas, nada em cima disso 
 - [x] Ajustar o tato — **não precisou**. `swipeInchesPerLane` (0.18") e `laneChangeSpeed`
       (12 u/s) passaram no primeiro teste; seguem no Inspector se o tato mudar quando o fundo
       estiver em movimento
-- [ ] **Refatorar para o modelo híbrido** — *adiado de propósito em 05/08/2026.* Hoje as faixas
-      são só matemática no `LaneTrack` e as divisas foram desenhadas uma vez. Mudar `laneCount`
-      no meio da fase moveria a nave sem redesenhar nada. O combinado é o `LaneTrack` passar a
-      **gerar as faixas como objetos em runtime** e avisar quem depende quando o número muda —
-      o que também dá onde pendurar coisa por faixa (spawn, faixa que fecha, faixa que acelera).
-      **Só vale a pena quando existir um mecanismo que precise disso**; enquanto o corredor for
-      fixo em 3 faixas, é arquitetura para problema que ninguém tem
+- [ ] **Refatorar para o modelo híbrido** — *adiado em 05/08/2026, **e a hora chegou em
+      21/08/2026**: a Parte 7 é o mecanismo que precisava disso.* Hoje as faixas são só matemática
+      no `LaneTrack` e as divisas foram desenhadas uma vez, então mudar `laneCount` moveria a nave
+      sem redesenhar nada. O combinado é o `LaneTrack` passar a **gerar as faixas como objetos em
+      runtime** e avisar quem depende quando o número muda — o que também dá onde pendurar coisa
+      por faixa (spawn, faixa que fecha, faixa que acelera)
+      - **A Parte 7 precisa só da metade disto:** largura escolhida pela ficha e montada **no
+        começo da corrida**. A outra metade — largura mudando **durante** a partida — continua
+        adiada, e a decisão abaixo continua pendurada nela
       - [ ] **Decisão pendente do Raffael, e só quando a hora chegar:** ao ganhar uma faixa no
             meio da fase, o corredor cresce **para os dois lados mantendo o centro** (todas as
             faixas se deslocam, a nave junto) ou **só para um lado** (as faixas existentes ficam
@@ -604,7 +621,7 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
 
 > **Fechada em 21/08/2026**, com os Blocos A e B aprovados no Editor em 07/08 e a rodada inteira
 > **aprovada no aparelho** em 21/08 — tato bom, nada a equilibrar. O backlog "Depois" que ficava
-> no fim desta seção **virou as Partes 5 a 8**, que é o trabalho a partir de agora.
+> no fim desta seção **virou as Partes 5 a 9**, que é o trabalho a partir de agora.
 
 **A ficha completa** *(proposta do Raffael em 06/08/2026, ajustada por ele no mesmo dia)*
 - [x] **Aceleração** saiu do `RaceSpeed` e entrou no `ShipStats`. Continua no `RaceSpeed` como
@@ -928,13 +945,63 @@ penduram na resposta a "o que é uma nave".*
         nave. Nave nova que não fecha a dobra no tempo da fase sem um tiro está errada — ou a fase
         está
 - [ ] **Evolução** *(decisão do Raffael)* — sobe atributo por atributo? Sobe a nave inteira em
-      níveis? Tem teto? O que ela consome sai da Parte 7, então aqui se define **a forma**, e o
+      níveis? Tem teto? O que ela consome sai da Parte 8, então aqui se define **a forma**, e o
       preço fica para depois
 - [ ] **Barreira que impede naves fracas de avançar** *(ideia antiga do Raffael, adiada por ele —
       é aqui que ela cabe)*. Só faz sentido quando existe nave forte e nave fraca
 - [ ] Testar no aparelho antes de a Parte 7 começar
 
-### Parte 7 — Recursos, nível, recompensas e conquistas ⬜
+### Parte 7 — Fases: a arquitetura, e uma experiência ⬜ *
+*Aberta em 21/08/2026, a pedido do Raffael. **O asterisco é de propósito** — esta parte tem duas
+metades de peso diferente, e só uma delas é compromisso.*
+
+**O diagnóstico que a abre:** a fase já é ficha em disco, e por isso é barata. Mas o que ela
+consegue variar ainda é pouco — ritmo de aparição, agenda de obstáculos e exigência da dobra.
+**O cenário é sempre o mesmo, o repertório de obstáculos é sempre o mesmo, e a pista tem sempre
+três faixas.** O resultado é que toda fase se parece com a anterior: muda a pressão, não muda o
+lugar.
+
+**Metade 1 — a arquitetura. Esta acontece de qualquer jeito.**
+
+- [ ] **A ficha da fase passa a escolher o cenário** — fundo próprio por fase, em vez do mesmo
+      campo de estrelas em todas
+- [ ] **A ficha da fase passa a escolher o repertório de obstáculos** — hoje a agenda diz *quando*
+      cada tipo entra, mas os tipos são os mesmos três em toda parte. Fase com repertório próprio
+      é o que faz duas fases parecerem lugares diferentes, e não a mesma corrida mais apertada
+- [ ] **A ficha da fase passa a escolher a largura da pista** — `laneCount` sai de constante e vira
+      campo. É o passo que a Metade 2 precisa, e é a única parte da arquitetura que exige a reforma
+      do `LaneTrack` (ver Parte 1)
+- [ ] **Fase nova continua custando um `.asset`** — é o critério de pronto desta metade. Se criar
+      uma fase com cara nova exigir tocar em código, a arquitetura não ficou pronta
+
+**Metade 2 — a experiência das cinco faixas.** ⚠️ **Experimental, e pode ser retirada.**
+
+- [ ] **A pergunta:** como o jogo se comporta com **5 faixas** em vez de 3? Fica melhor, fica
+      confuso, fica fácil demais? **Não dá para saber no papel** — a resposta honesta vem de
+      construir e jogar
+- [ ] **Como o Raffael quer conduzir** *(decidido por ele em 21/08/2026)*: desenvolve e testa ao
+      mesmo tempo, e o teste é o critério. **Se a ideia se sustentar, segue e vira parte do jogo.
+      Se não se sustentar, é retirada e o trabalho vai para a Parte 8** — sem dó. A arquitetura da
+      Metade 1 fica de pé nos dois casos
+- [ ] ⚠️ **Três efeitos colaterais para olhar no mesmo teste**, senão o resultado engana:
+      - A **regra da fuga garantida** conta faixas para nunca fechar todas. Com cinco, a conta muda
+      - A **Barcaça** ocupa duas faixas. Duas de três é meia pista bloqueada; duas de cinco é bem
+        menos ameaça — **o obstáculo perde peso sem ninguém encostar nele**
+      - Mais faixas é **mais espaço para desviar**, e desviar é o caminho garantido de vitória do
+        jogo (regra de projeto da Parte 4). A dificuldade da fase provavelmente precisa ser
+        recalibrada junto
+- [ ] Testar no aparelho antes de a Parte 8 começar
+
+> **Não é ideia nova, e é aqui que a conta vence.** O jogo sempre pretendeu ter número variável de
+> faixas, e a reforma do `LaneTrack` que isso exige foi **adiada de propósito em 05/08/2026** com a
+> justificativa de que era "arquitetura para problema que ninguém tem". O problema agora existe.
+> Ver o item do modelo híbrido na Parte 1.
+>
+> **Distinção que importa:** esta parte trata de fases com **larguras diferentes entre si** — a
+> largura é fixa dentro de uma corrida. Largura que **muda no meio da corrida** é outra coisa,
+> continua no futuro, e só faz sentido se esta experiência se sustentar.
+
+### Parte 8 — Recursos, nível, recompensas e conquistas ⬜
 *Aberta em 21/08/2026. **Por último dos três blocos de mecânica**, e o motivo é simples: o valor da
 moeda é definido pelo que ela compra. Os gastos têm de existir antes do dinheiro.*
 
@@ -971,17 +1038,19 @@ moeda é definido pelo que ela compra. Os gastos têm de existir antes do dinhei
 - [ ] **Gatilho de documentação:** economia com compra real **muda declarações da Play**. Segue a
       regra da Fase 5 — atualiza no dia em que entrar, e não antes
 
-### Parte 8 — UI refeita ⬜
+### Parte 9 — UI refeita ⬜
 *Aberta em 21/08/2026. **No fim do bloco, e é de propósito:** cada parte acima cria tela nova
 (loja, oficina, recompensa, seleção de nave). Refazer a UI antes é refazê-la duas vezes.*
 
-Enquanto as Partes 5 a 7 correm, **tela feia não é bug** — só falta de função conta. As telas
+Enquanto as Partes 5 a 8 correm, **tela feia não é bug** — só falta de função conta. As telas
 nascem funcionais e sem acabamento; esta parte é a passada única que unifica tudo.
 
 - [ ] **Refazer a tela de seleção de fase inteira** *(decidido pelo Raffael em 07/08/2026)* —
       layout, dropdown de dificuldade e o resto. A de hoje é montada em runtime a partir do
-      `LevelCatalog` e serve para testar a progressão
-- [ ] Telas novas que as Partes 5 a 7 criarem — loja, oficina/evolução, seleção de nave,
+      `LevelCatalog` e serve para testar a progressão.
+      **Ganhou peso com a Parte 7:** se cada fase passa a ter cenário e repertório próprios, a
+      tela de seleção deixa de ser uma lista de nomes e passa a ter o que mostrar
+- [ ] Telas novas que as Partes 5 a 8 criarem — loja, oficina/evolução, seleção de nave,
       recompensas, nível do jogador
 - [ ] HUD revisto, agora que há poderes ativos e recursos para mostrar durante a corrida
 - [ ] **Navegação inteira** — é aqui que se decide como se anda entre menu, loja, oficina e
@@ -1013,7 +1082,7 @@ Segurança dos dados de uma vez só, porque passa a haver identificador de usuá
 jogador guardado fora do aparelho**. Vale a regra da Fase 5 — atualiza no dia em que a conta
 entrar, não antes.
 
-**A ordem em relação à economia importa:** a Parte 7 da Fase 6 decide o formato da persistência
+**A ordem em relação à economia importa:** a Parte 8 da Fase 6 decide o formato da persistência
 já sabendo que ele vai viajar, e cria as conquistas do jogo já anotando o ID da Play de cada uma.
 Esta fase é a que **liga o fio**, não a que inventa o sistema.
 
@@ -1021,7 +1090,7 @@ Esta fase é a que **liga o fio**, não a que inventa o sistema.
       pegar a versão que declare suporte a Unity 6). Conferir logo depois se o External
       Dependency Manager resolve as dependências Android sem erro; se falhar de novo, o log
       verboso do Console diz se é rede, JDK/Gradle ou incompatibilidade de versão
-- [ ] **Salvamento em nuvem** (*Saved Games* do Play Games) — o bloco de progresso da Parte 7 sobe
+- [ ] **Salvamento em nuvem** (*Saved Games* do Play Games) — o bloco de progresso da Parte 8 sobe
       e desce sozinho. **Decidir a regra de conflito antes de codar:** dois aparelhos, dois saldos,
       quem ganha? O de maior progresso, o mais recente, ou pergunta ao jogador? É a decisão que
       dói se for tomada depois de existir jogador com saldo
@@ -1029,7 +1098,7 @@ Esta fase é a que **liga o fio**, não a que inventa o sistema.
         igual, salva local, sincroniza quando der. Login que trava a entrada é o jeito mais rápido
         de perder jogador na primeira tela
 - [ ] **Espelhar as conquistas do jogo na Play** *(desenho do Raffael em 21/08/2026)* — cada
-      conquista criada na Parte 7 ganha a gêmea no Console, e **completar no jogo dispara a da
+      conquista criada na Parte 8 ganha a gêmea no Console, e **completar no jogo dispara a da
       Play**. A do jogo é a dona da verdade e paga o prêmio; a da Play é vitrine e facilita
       acompanhar quem completou o quê
       - Recriar as conquistas no novo projeto GPGS e regerar `GPGSIds.cs`
@@ -1051,7 +1120,7 @@ Esta fase é a que **liga o fio**, não a que inventa o sistema.
 - [ ] Cadastrar a SHA-1 de debug no Console para conseguir testar login sem build de release
 
 ## Fase 8 — Arte, áudio e acabamento ⬜
-**Começa quando o MVP fechar** (Parte 8 da Fase 6 aprovada no aparelho), e não antes. O motivo é o
+**Começa quando o MVP fechar** (Parte 9 da Fase 6 aprovada no aparelho), e não antes. O motivo é o
 mesmo que adiou a UI: arte feita para uma tela que ainda vai mudar é arte feita duas vezes.
 
 - [ ] **Arte de verdade** no lugar dos marcadores de `Assets/Art/Placeholder/` — nave, obstáculos,
@@ -1077,7 +1146,7 @@ Depois do lançamento. Anúncios antes de compras.
 *Revisto em 21/08/2026, com o plano de lançamento que o Raffael desenhou no mesmo dia.*
 
 **Fases 0 a 4 fechadas.** Da Fase 6, as **Partes 1 a 4 estão aprovadas no aparelho** — a mecânica
-crua acabou. O que resta do jogo são as Partes 5 a 8, e depois arte, áudio e monetização.
+crua acabou. O que resta do jogo são as Partes 5 a 9, e depois arte, áudio e monetização.
 
 ### O plano de lançamento, em etapas
 
@@ -1087,7 +1156,7 @@ quando a anterior estiver tão boa e tão testada quanto a mecânica crua está 
 | # | Etapa | O que fecha |
 |---|---|---|
 | 1 | **Mecânica crua** | ✅ **Feita.** Partes 1 a 4, aprovadas no aparelho em 21/08 |
-| 2 | **Meta-jogo** | Partes 5 a 8: poderes, naves, recursos, conquistas, UI. **Fecha o MVP** |
+| 2 | **Meta-jogo** | Partes 5 a 9: poderes, naves, fases, recursos, conquistas, UI. **Fecha o MVP** |
 | 3 | **Análise de dados** | Entre o teste interno e o fechado. Fase 5 |
 | 4 | **Arte, áudio e acabamento** | Fase 8, com a Fase 7 (conta Google + nuvem) no caminho |
 | 5 | **Monetização** | Fase 9 |
@@ -1100,8 +1169,12 @@ quando a anterior estiver tão boa e tão testada quanto a mecânica crua está 
 1. **Converter o `ShipStats` em ficha de disco** — pequeno, é só código, e destrava a Parte 6.
 2. **Parte 5 — poderes em partida.** Ciclo curto, julgado no polegar.
 3. **Parte 6 — naves, diferenciação e evolução.**
-4. **Parte 7 — recursos, nível e recompensas.**
-5. **Parte 8 — UI refeita.** Fecha o MVP.
+4. **Parte 7 — fases: arquitetura e a experiência das 5 faixas.** ⚠️ Metade experimental.
+5. **Parte 8 — recursos, nível, recompensas e conquistas.**
+6. **Parte 9 — UI refeita.** Fecha o MVP.
+
+**Em cada uma delas, a fábrica vem antes do produto** — a ficha e o catálogo primeiro, o conteúdo
+depois. É a regra registrada na abertura da Fase 6.
 
 > **O teste fechado segue adiado de propósito, e agora com prazo definido: depois de tudo pronto.**
 > Ele exige **12 testadores em opt-in contínuo por 14 dias** e destrava **produção**. Pedir a 16
@@ -1121,9 +1194,11 @@ declaração atualiza a sua no dia em que entra — o mapa de quem mexe em quê 
 `docs/play-console/declaracoes-do-app.md`, seção *"Gatilhos de revisão"*. Ver a "Regra de
 documentação" na Fase 5.
 
-> O modelo híbrido de faixas segue adiado de propósito (ver Parte 1) — mas deixou de ser puramente
-> teórico: a página do app foi escrita **sem citar número de faixas**, justamente porque o Raffael
-> pretende mecânicas que aumentem e reduzam a quantidade delas.
+> **O modelo híbrido de faixas deixou de ser adiado** (21/08/2026): a Parte 7 é o mecanismo que
+> faltava para justificá-lo, e a metade dele que a Parte 7 precisa — largura escolhida pela ficha
+> da fase — entra junto. A outra metade, largura mudando **durante** a corrida, continua no
+> futuro. Detalhe que já vinha se preparando para este dia: a página do app foi escrita **sem
+> citar número de faixas**, justamente por causa disso.
 
 **Caminho crítico real: o jogo.** A publicação deixou de ser problema — o app está no ar, o
 processo de atualizar está escrito e leva minutos, e não há pressa de lançar. O que decide o
