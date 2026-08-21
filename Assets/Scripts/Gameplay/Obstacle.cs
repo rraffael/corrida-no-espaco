@@ -105,9 +105,33 @@ public class Obstacle : MonoBehaviour
         if (Mathf.Abs(delta.x) > horizontalReach || Mathf.Abs(delta.y) > stats.crashDistance)
             return;
 
-        // Pela ficha, e não direto na vida: é lá que a defesa da nave desconta.
-        ship.TakeHit(contactDamage);
-        race?.Crash(stats.speedPenaltyOnCrash);
+        // Pela nave, e não direto na vida: é lá que a defesa desconta e que os
+        // poderes têm chance de segurar o golpe.
+        var hit = ship.TakeHit(contactDamage);
+
+        if (hit.BlockTimeCost)
+        {
+            // A batida não aconteceu — foi o escudo que desfez o obstáculo. Então
+            // ele morre como quem é destruído, e um Casulo solta estilhaço na
+            // cara da nave. E o escudo já foi gasto neste mesmo golpe: se era a
+            // última carga, ele some antes de o estilhaço chegar, e a nave leva.
+            //
+            // A troca é essa, e é de propósito: o escudo transforma uma batida
+            // grande em vários raspões. Ainda vale muito a pena, mas não sai de
+            // graça — e destruir Casulo com escudo continua sendo escolha, não
+            // resposta automática.
+            //
+            // A menos que o poder diga o contrário: um escudo melhorado pode
+            // calar o que o obstáculo soltaria, e aí a batida some inteira.
+            if (stats.shrapnelOnDeath && !hit.BlockDeathEffects)
+                SpawnShrapnel();
+        }
+        else
+        {
+            // O custo de tempo é cobrado à parte do dano, e um poder pode segurar
+            // só um dos dois. Quem decide é o poder; aqui só se obedece.
+            race?.Crash(stats.speedPenaltyOnCrash);
+        }
 
         // O obstáculo se desfaz na batida: já cobrou o preço dele, e deixá-lo
         // grudado na nave cobraria de novo no frame seguinte.
@@ -121,6 +145,11 @@ public class Obstacle : MonoBehaviour
         if (stats != null)
         {
             race?.Nudge(SpeedGainOnKill());
+
+            // Morreu de tiro (a batida destrói o objeto por outro caminho), então
+            // é abate de verdade e os poderes podem reagir.
+            if (ShipPowerUps.Instance != null)
+                ShipPowerUps.Instance.NotifyObstacleDestroyed(stats);
 
             if (stats.shrapnelOnDeath)
                 SpawnShrapnel();

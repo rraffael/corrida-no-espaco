@@ -36,6 +36,7 @@ static class ProjectTools
     public const string RaceItem = MenuRoot + "Montagem/Montar corrida (fundo + HUD)";
     public const string RaceUndoItem = MenuRoot + "Montagem/Desmontar corrida";
     public const string LevelsItem = MenuRoot + "Montagem/Criar fases e fichas de obstáculo";
+    public const string ShipsItem = MenuRoot + "Montagem/Criar ficha da nave";
     public const string BattleItem = MenuRoot + "Montagem/Montar combate (nave, obstáculos, fim)";
     public const string BattleUndoItem = MenuRoot + "Montagem/Desmontar combate";
     public const string MenuSceneItem = MenuRoot + "Montagem/Montar menu (recordes + transição)";
@@ -45,6 +46,7 @@ static class ProjectTools
 
     public const string RaceId = "corrida-fundo-hud";
     public const string LevelsId = "fases-e-obstaculos";
+    public const string ShipsId = "ficha-da-nave";
     public const string BattleId = "combate";
     public const string MenuSceneId = "menu-recordes";
     public const string LevelSelectId = "selecao-de-fase";
@@ -101,10 +103,20 @@ static class ProjectTools
         },
         new Tool
         {
+            Id = ShipsId,
+            Title = "Criar ficha da nave",
+            Summary = "Gera a ficha da nave inicial em Assets/Ships/ — os números da nave viraram " +
+                      "arquivo de dados, e nave nova é arquivo novo. Rodar de novo não sobrescreve " +
+                      "o que você ajustou. O 'Montar combate' liga a ficha na nave da cena.",
+            MenuPath = ShipsItem,
+        },
+        new Tool
+        {
             Id = BattleId,
             Title = "Montar combate (nave, obstáculos, fim)",
-            Summary = "Ficha da nave com vida e tiro automático, obstáculos descendo pelas faixas, " +
-                      "HUD de vida e os painéis de vitória e derrota. Depende do 'Montar corrida'.",
+            Summary = "Nave com vida e tiro automático, obstáculos descendo pelas faixas, HUD de " +
+                      "vida e os painéis de vitória e derrota. Depende do 'Montar corrida' e do " +
+                      "'Criar ficha da nave'.",
             MenuPath = BattleItem,
             UndoMenuPath = BattleUndoItem,
         },

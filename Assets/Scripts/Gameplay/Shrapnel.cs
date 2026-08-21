@@ -54,12 +54,13 @@ public class Shrapnel : MonoBehaviour
         if (Vector2.Distance(transform.position, ship.transform.position) > hitDistance)
             return;
 
-        ship.TakeHit(damage);
+        var hit = ship.TakeHit(damage);
 
         // Raspão, e não batida: um tropeço de menos de um segundo. Um Casulo
         // solta vários estilhaços, então dar aqui o preço da batida cobraria
         // quatro segundos por caco e faria da Fase 3 um castigo.
-        race?.Graze();
+        if (!hit.BlockTimeCost)
+            race?.Graze();
 
         Destroy(gameObject);
     }

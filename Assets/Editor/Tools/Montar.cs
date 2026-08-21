@@ -36,15 +36,18 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 21/08/2026: **vazia**, e segue vazia. Tudo o que precisava de
-    /// montagem já rodou — os cinco passos do Bloco B, o ajuste da dobra, o
-    /// ProjectSettings da Play e o conserto do applicationId, todos conferidos
-    /// no disco. A mudança de 21/08 foi de plano, não de cena: a mecânica crua
-    /// foi aprovada no aparelho e o trabalho virou o meta-jogo (ROADMAP,
-    /// Partes 5 a 8). A primeira montagem nova só aparece quando a Parte 5
-    /// puser poder em cena.
+    /// Estado em 21/08/2026: **dois passos**, para duas mudanças do mesmo dia.
+    /// Os números da nave saíram do componente e viraram um asset em
+    /// <c>Assets/Ships/</c>, então é preciso criar a ficha e ligá-la na nave da
+    /// <c>Game.unity</c> — sem isso o Console acusa "Nenhuma ficha ligada no
+    /// ShipStats" na primeira corrida. E a nave ganhou o componente que carrega
+    /// os poderes da corrida, que o segundo passo também põe.
     /// </summary>
-    static readonly Step[] Steps = { };
+    static readonly Step[] Steps =
+    {
+        new Step("Criar a ficha da nave (Assets/Ships/)", ShipSetup.Setup),
+        new Step("Ligar a ficha na nave da Game.unity", BattleSetup.Setup),
+    };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]
     static void Run()

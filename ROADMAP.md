@@ -58,11 +58,8 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
 
 ### Retomar por aqui
 
-- [ ] **`ShipStats` vira ficha em disco** — é o primeiro passo, e é pequeno. Hoje ele é
-      `MonoBehaviour` (`Assets/Scripts/Gameplay/ShipStats.cs:13`), ou seja: a ficha da nave vive
-      pendurada num objeto de cena, enquanto obstáculo e fase já são `ScriptableObject` em
-      `Assets/Levels/`. Sem essa conversão, "cinco naves" vira cinco prefabs com números copiados
-      na mão e evolução vira código. **Depois dela, nave nova é um `.asset`** — ver Parte 6
+- [x] **`ShipStats` virou ficha em disco** (21/08/2026) — **código escrito, falta rodar o Montar.**
+      Ver Parte 6 para o que mudou e por quê
 - [ ] **Parte 5 — poderes em partida.** Primeiro bloco de feature, porque é pura jogabilidade:
       ciclo curto e julgado no polegar, exatamente como foi a batida
 - [ ] **Parte 6 — naves, diferenciação e evolução.** É o eixo do qual o resto pende
@@ -903,12 +900,130 @@ economia, e o Raffael julga no polegar — exatamente como julgou a batida. Alé
 mesmo tecido que a mecânica crua, então é onde eventuais pormenores do cru vão aparecer de novo,
 já no contexto novo.
 
-- [ ] **Passo zero: `PowerUpDefinition` como `ScriptableObject`**, no espírito do
-      `ObstacleStats` — o que o poder faz, quanto dura, com que frequência aparece, arte. Mais um
-      catálogo em `Resources/`, como o `LevelCatalog`. **Poder novo tem de ser um `.asset`**, nunca
-      código: é a mesma aposta que fez fase nova sair de graça
-- [ ] **Quais poderes** *(decisão do Raffael)*. Os três que ele já tinha listado no backlog antigo:
-      **reparo**, **escudo temporário** e **tiro rápido**
+- [x] **A estrutura base dos poderes** (21/08/2026) — *código escrito; falta o Raffael rodar o
+      **Montar**.* O desenho é o que ele pediu: **uma base com o que todo poder tem, e uma classe
+      filha por poder** com o que só ele faz
+      - `PowerUps/PowerUpDefinition.cs` — a **base abstrata**. Identidade (nome, descrição, arte,
+        cor), natureza (bom ou ruim, peso de sorteio) e **duração em três formas**:
+        `Instantaneo`, `PorTempo` e `PorUso`. As três cobrem reparo, tiro rápido e proteção sem
+        filha nenhuma precisar reimplementar contagem
+      - **Os ganchos, todos vazios por padrão:** `OnGained`, `OnTick`, `ModifyIncomingHit`,
+        `OnObstacleDestroyed`, `OnLaneChanged`, `OnShotFired` e `OnLost`. A filha escreve só o que
+        lhe interessa
+        - Os três do meio entraram em 21/08 **a pedido do Raffael**, para ele ter liberdade de
+          desenhar poder ligado a abate, a movimento e a tiro sem depender de eu abrir gancho
+          depois. `OnLaneChanged` recebe a faixa como **número**, não como "esquerda ou direita" —
+          já pensando na Parte 7, em que a pista pode ter outra largura
+        - **A troca de faixa não custou edição no controlador:** o `ShipLaneController` já
+          anunciava `LaneChanged` por evento, e o `ShipPowerUps` se pendura nele
+        - Os três laços são escritos à mão, sem delegate genérico: o tiro dispara uma três vezes
+          por segundo, e fechar closure a cada um é lixo para o coletor sem necessidade
+      - **Camada de modificadores de atributo** *(pedido do Raffael em 21/08/2026)* — era o buraco
+        que impedia metade dos poderes previstos: a arma lia a cadência da ficha, e ficha é só
+        leitura, então "cadência dobrada por 8 segundos" não tinha onde encostar
+        - `Gameplay/StatModifier.cs` — o enum `ShipStat` com os sete números mexíveis e o
+          modificador, criado por `StatModifier.Plus(...)` ou `.Times(...)`. **Imutável**, porque
+          um modificador que mudasse depois de aplicado deixaria o cache mentindo
+        - **Todo modificador mede o bônus dele contra o valor de base, e os bônus se somam**
+          *(regra do Raffael, 21/08/2026)*. Com aceleração 4, um `+2` e um `×1,5` valem 2 e 2 —
+          os dois medidos contra o 4 — e o total é **8**
+          - **A ordem nunca importa:** não existe "quem pegou primeiro leva vantagem"
+          - **Empilhar não estoura:** dois `×1,5` dão o dobro da base, não 2,25 vezes. Com
+            multiplicação encadeada, quatro poderes modestos viram um número que nenhuma fase foi
+            equilibrada para aguentar
+        - **`ActivePowerUp.ApplyModifier` desfaz sozinho.** Poder por tempo não precisa escrever
+          `OnLost`: o que ele aplicou sai quando ele acaba, por tempo, por carga ou por fim de
+          corrida. **Tiro rápido virou uma linha**
+        - **Os limites da ficha valem para o resultado, e teto é teto** *(confirmado pelo Raffael
+          em 21/08/2026)*: quem já está com 99% de defesa e ganha mais defesa **continua com 99%**.
+          Cadência e aceleração têm piso, vida mínima 1. Sem isso, dois poderes de defesa somando
+          120% fariam o dano virar negativo
+        - **O preço da batida virou atributo** *(pedido do Raffael em 21/08/2026)* —
+          `ShipStat.CrashCost`, com campo na ficha da nave. Multiplica o atraso, o trecho
+          arrastado e a punição de velocidade; **não mexe na profundidade da queda**, porque o
+          susto de bater deve ser o mesmo em qualquer nave — o que muda é o tempo que custa voltar.
+          Abre a categoria de poder defensivo que não é escudo, e vira eixo de diferença entre
+          naves na Parte 6
+        - **A aceleração encurta o trecho arrastado, com retorno decrescente e teto** *(desenho do
+          Raffael em 21/08/2026)* — quanto mais aceleração acima da base da própria nave, menos
+          cada ponto novo alivia, e **o trecho nunca some por completo** (teto de 50% no
+          `accelerationStretchRelief`). Sem o teto, bastaria empilhar aceleração para bater sair
+          de graça, e o trecho arrastado é justamente o que dá o preço da batida
+          - **Nave sem nada aplicado tem razão 1 e alívio zero**, então **o equilíbrio aprovado no
+            aparelho fica intacto** enquanto não houver poder nem evolução
+          - É a razão contra a **própria base**, e não a aceleração crua: nave que já nasce
+            acelerada não leva alívio de graça por isso
+        - **O ganho por abate acompanha a aceleração modificada**, e não a gravada: poder que
+          acelera a nave já faz o abate render mais, que é a promessa do atributo desde 06/08
+        - **Empurra para quem guardou cópia:** o `RaceSpeed` (cruzeiro e aceleração) e o `Health`
+          (vida cheia) recebem o valor novo na hora. **A vida não enche ao subir o teto** — poder
+          de vida máxima dá espaço, não cura; quem quiser curar que cure no próprio efeito
+      - **A regra que decide o que é genérico:** se é um *momento* da partida, vira gancho na base;
+        se é *o que acontece* naquele momento, fica na filha. Assim a base não cresce a cada poder
+        novo — só quando o jogo ganhar um momento novo
+      - **Cargas** *(pedido do Raffael em 21/08/2026)* — quantos usos o poder tem antes de se
+        esvair é o campo `charges` da base, e vale para qualquer poder `PorUso`, não só o escudo.
+        A Proteção nasce com **1**. Chamava-se `uses`; virou `charges` porque é a palavra que ele
+        usa, e a troca saiu de graça porque ainda não existe ficha de poder nenhuma em disco
+      - `Editor/PowerUpDefinitionEditor.cs` — o Inspector de qualquer poder **esconde o campo de
+        duração que não vale** para a forma escolhida e rotula o que sobra em português
+        ("Cargas", "Duração (s)"). Sem isso, uma ficha de Proteção mostrava "Duration Seconds 5"
+        embaixo de "Cargas 1" e os dois pareciam valer juntos
+      - `PowerUps/ActivePowerUp.cs` — **a cópia viva** do poder nesta corrida, com tempo e cargas.
+        Existe pelo mesmo motivo que a ficha da nave virou asset de leitura: **escrever estado na
+        ficha mudaria o arquivo em disco** e o valor sobreviveria ao fim da partida. Não é selada,
+        então um poder que precise de memória própria devolve a própria classe em `CreateRuntime()`
+      - `PowerUps/ShipPowerUps.cs` — o componente na nave que guarda os poderes valendo, conta o
+        tempo, gasta as cargas e chama `OnLost` na hora certa. **`Grant(ficha)` é a porta de
+        entrada** — quem vai chamar é o item da pista, que ainda não existe porque *como o poder
+        chega* é decisão em aberto
+      - **Dano e custo de tempo viraram coisas separadas no golpe.** `ShipStats.TakeHit` agora
+        devolve um `Hit` com o dano que sobrou e se o custo de tempo foi cancelado; `Obstacle` e
+        `Shrapnel` perguntam antes de cobrar a freada. Sem isso, um escudo só saberia salvar vida,
+        e a batida continuaria custando os ~3,5 s
+      - **A ordem é defesa e depois poderes**, e ela importa: o desconto da defesa tem piso de 1 de
+        dano de propósito, então um poder que rodasse antes veria o golpe que segurou ressuscitar
+        como 1
+- [ ] **Catálogo de poderes** — fica para quando existir quem leia: sem sorteio nem item na pista,
+      um catálogo seria uma lista que ninguém abre
+- [ ] **Quais poderes — o Raffael desenha, e desenha todos** *(combinado em 21/08/2026)*. Ele
+      escolheu fazer essa parte por gosto; **avisa quando terminar a lista e aí pede opinião.**
+      Nada de poder inventado por conta própria antes disso — a fábrica acima é o que se constrói
+      enquanto ele desenha
+      - **Exemplo inicial que ele já deu:** um poder de **proteção que segura um golpe**.
+        **Escrito em 21/08/2026** — `PowerUps/ShieldPowerUp.cs`, dez linhas de efeito, tudo o mais
+        vindo da base. Serve de modelo de como se escreve um poder, e continua valendo mesmo que
+        ele o descarte depois
+        - **Segura o golpe inteiro** *(definido pelo Raffael em 21/08/2026)*: some o dano **e** o
+          custo de tempo — **é como se a nave nunca tivesse batido**. Cheguei a pôr um botão para
+          escolher entre segurar só a vida ou as duas coisas; **o botão saiu**, porque um escudo
+          que deixasse a freada seria outro poder, não uma variação deste
+        - **O obstáculo se desfaz no escudo, e os dois somem juntos** — o obstáculo porque bateu,
+          o escudo porque foi gasto. **Já era o comportamento**: quem bate na nave se destrói no
+          mesmo instante, protegido ou não. Falta só mostrar isso em tela, e isso é da arte
+        - **Casulo desfeito no escudo SOLTA estilhaço, e a nave leva** *(decidido pelo Raffael em
+          21/08/2026)*. O obstáculo morre como quem é destruído, e o escudo **se gasta no mesmo
+          golpe**: na hora em que o caco chega, ele já não existe. **A troca fica sendo uma batida
+          grande virando vários raspões** — vale muito a pena e ainda assim não sai de graça
+        - **...mas é opcional, e é aí que mora a melhoria do poder** *(pedido do Raffael em
+          21/08/2026)*. `blocksDeathEffects` na ficha da Proteção: marcado, o obstáculo desfeito
+          no escudo **não solta nada**, e a batida some inteira. **Nasce desmarcado.** Com as
+          cargas, são os dois botões de melhoria do poder: proteção básica tem 1 carga e deixa o
+          estilhaço sair; a melhorada sobe carga, cala o estilhaço, ou as duas
+        - **Onde cada botão mora, e por quê:** cargas ficam na **base**, porque todo poder por
+          carga precisa; calar o que o obstáculo solta fica na **filha**, porque só um poder
+          defensivo se pergunta isso. O canal entre os dois é o `Hit`, que ganhou
+          `BlockDeathEffects` — genérico, para qualquer poder futuro poder usar
+        - **A regra que isso fixou: gastar a última carga encerra o poder na hora**, não no fim do
+          quadro. O `ShipPowerUps` pula quem já acabou já no golpe seguinte, mesmo vindo no mesmo
+          instante. Vale para qualquer poder por carga, não só o escudo
+        - **O que continua valendo "não": abate por escudo não rende velocidade.** Senão o poder
+          viraria fonte de aceleração que ninguém mirou, e bater de propósito com escudo viraria
+          estratégia
+      - **Esse exemplo já responde, em parte, a decisão de equilíbrio do escudo** (abaixo):
+        segurar **um golpe** limita o poder por *contagem*, não por *tempo*. Um escudo de duração
+        pode comer três batidas seguidas se o jogador tiver azar ou sorte; um que segura um golpe
+        cobra sempre o mesmo, e **o custo de ~3,5 s continua existindo a partir da segunda batida**
 - [ ] **Poderes ruins (power-down)** *(ideia do Raffael em 21/08/2026)* — o outro lado da moeda.
       Decidir se caem como o bom e o jogador precisa **desviar do item**, se são efeito de
       obstáculo, ou os dois
@@ -927,13 +1042,29 @@ já no contexto novo.
 *Aberta em 21/08/2026. **É o eixo do qual o resto pende** — evolução, loja e recompensa todas se
 penduram na resposta a "o que é uma nave".*
 
-- [ ] **`ShipStats` vira `ScriptableObject`** — o passo que destrava tudo, e é pequeno. Hoje é
-      `MonoBehaviour` (`Assets/Scripts/Gameplay/ShipStats.cs:13`): a ficha vive pendurada num
-      objeto de cena, enquanto obstáculo e fase já são asset em disco. **Feito isso, nave nova é um
-      `.asset`**, e evolução vira número, não código
-      - Cuidado na conversão: quem lê a ficha hoje é `ApplyShipStats(cruzeiro, aceleração)`,
-        `TakeHit()`, `DamageAfterDefense()` e `KillSpeedGain`. A parte *de cena* (a instância da
-        nave viva) continua sendo componente; o que sai para o asset são os **números**
+- [x] **A ficha da nave virou asset em disco** (21/08/2026) — *código escrito; falta o Raffael
+      rodar o **Montar** e conferir uma corrida.* A partir daqui, **nave nova é um `.asset`** e
+      evolução é número, não código
+      - `Assets/Scripts/Gameplay/ShipDefinition.cs` — **a ficha**, `ScriptableObject`, com os sete
+        números da nave. Tem `[CreateAssetMenu]`, então dá para criar uma segunda pelo menu de
+        criação sem ferramenta nenhuma
+      - `ShipStats` **continua existindo e continua sendo componente**, mas mudou de papel: virou
+        *a nave viva*. Lê os números da ficha e guarda o que só existe durante a partida — a vida,
+        o desconto da defesa, a ponte com corrida e arma
+      - **A divisão não é cosmética, e é o que a Parte 5 vai precisar:** a ficha é um asset
+        compartilhado, então escrever nela em tempo de jogo mudaria o arquivo em disco e o valor
+        sobreviveria ao fim da corrida. **Poder e evolução mexem no componente**, nunca na ficha
+      - **Zero mudança em quem lê.** `ShipStats.Instance.KillSpeedGain`, `.Health`, `.ShotInterval`,
+        `.Damage` e `.TakeHit()` continuam iguais — `Obstacle`, `Shrapnel`, `ShipWeapon`,
+        `RaceDirector` e `HealthHud` não foram tocados. O componente repassa para a ficha
+      - **Sem ficha ligada, o jogo não para:** o `ShipStats` grita no Console dizendo para rodar o
+        Montar e usa valores de fábrica. Cena que morre na primeira linha é pior de diagnosticar
+        do que uma que roda errado avisando
+      - `Assets/Editor/Tools/ShipSetup.cs` cria `Assets/Ships/NaveInicial.asset` e **não sobrescreve
+        o que já existir**; o `BattleSetup` liga a ficha na nave da cena, e cria a ficha se faltar
+      - **A ficha inicial não repete número nenhum:** os valores de fábrica do `ShipDefinition` já
+        são os que foram equilibrados e aprovados no aparelho, e duplicá-los no `ShipSetup` criaria
+        dois lugares para manter iguais — um deles ficaria para trás
 - [ ] **Catálogo de naves**, no mesmo molde do `LevelCatalog`, para a loja e a seleção lerem de um
       lugar só e nave nova aparecer sem rodar ferramenta
 - [ ] **O que diferencia uma nave da outra** *(decisão do Raffael)*. Os atributos que já existem e
@@ -1166,8 +1297,9 @@ quando a anterior estiver tão boa e tão testada quanto a mecânica crua está 
 
 **Próximo passo, nesta ordem:**
 
-1. **Converter o `ShipStats` em ficha de disco** — pequeno, é só código, e destrava a Parte 6.
-2. **Parte 5 — poderes em partida.** Ciclo curto, julgado no polegar.
+1. ~~Converter o `ShipStats` em ficha de disco~~ — **feito em 21/08/2026**, falta rodar o Montar.
+2. **Parte 5 — poderes em partida.** Ciclo curto, julgado no polegar. **O Raffael desenha os
+   poderes**; enquanto isso, a estrutura que os suporta.
 3. **Parte 6 — naves, diferenciação e evolução.**
 4. **Parte 7 — fases: arquitetura e a experiência das 5 faixas.** ⚠️ Metade experimental.
 5. **Parte 8 — recursos, nível, recompensas e conquistas.**

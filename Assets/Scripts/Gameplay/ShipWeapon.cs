@@ -75,5 +75,11 @@ public class ShipWeapon : MonoBehaviour
 
         shot.AddComponent<Projectile>()
             .Configure(stats.Damage, projectileSpeed, projectileHitDistance, despawnY);
+
+        // Depois de o tiro sair, e não antes: o gancho serve para contar tiros e
+        // reagir, não para mexer no dano — esse já veio da ficha com os
+        // modificadores aplicados.
+        if (ShipPowerUps.Instance != null)
+            ShipPowerUps.Instance.NotifyShotFired();
     }
 }

@@ -57,7 +57,18 @@ static class BattleSetup
 
         // ── Nave: vida, ficha e arma ─────────────────────────────────────
         GetOrAdd<Health>(ship);
-        GetOrAdd<ShipStats>(ship);
+        var stats = GetOrAdd<ShipStats>(ship);
+
+        // A ficha é um asset, e sem ela a nave não tem número nenhum. Criar aqui
+        // se faltar, em vez de só reclamar: quem roda o Montar não deveria ter de
+        // saber que existe uma ordem entre os passos.
+        var definition = ShipSetup.GetOrCreateStarter();
+        UiBuilder.SetReference(stats, "definition", definition);
+
+        // Onde os poderes da corrida ficam pendurados. Entra vazio: quem dá poder
+        // à nave é o item da pista, que ainda não existe.
+        GetOrAdd<ShipPowerUps>(ship);
+
         var weapon = GetOrAdd<ShipWeapon>(ship);
         UiBuilder.SetReference(weapon, "projectileSprite", pixel);
 
@@ -161,6 +172,7 @@ static class BattleSetup
         }
 
         RemoveComponent<ShipWeapon>(FindInScene(scene, ShipObject), ref removed);
+        RemoveComponent<ShipPowerUps>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<ShipStats>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<Health>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<RaceDirector>(FindInScene(scene, RaceObject), ref removed);

@@ -66,6 +66,29 @@ public class RaceSpeed : MonoBehaviour
              "para fechar a conta.")]
     [SerializeField, Range(0f, 6f)] float finalStretchSeconds = 2f;
 
+    [Tooltip("Quanto do trecho arrastado a aceleração consegue comer, no máximo. 0,5 quer dizer " +
+             "que nem a nave mais acelerada do mundo tira mais que metade dele.\n\n" +
+             "O teto existe porque o trecho arrastado É o preço da batida: deixá-lo sumir de todo " +
+             "tornaria bater indolor para quem investiu em aceleração.")]
+    [SerializeField, Range(0f, 0.9f)] float accelerationStretchRelief = 0.5f;
+
+    [Tooltip("Quanta aceleração EXTRA (em frações da base) rende metade do alívio máximo. " +
+             "1 quer dizer: com o dobro da aceleração de fábrica, a nave ganha metade do que " +
+             "poderia ganhar. Daí em diante cada ponto rende cada vez menos.")]
+    [SerializeField, Min(0.01f)] float accelerationStretchHalfPoint = 1f;
+
+    /// <summary>
+    /// Preço da batida vindo da nave — atraso, trecho arrastado e punição de
+    /// velocidade, todos multiplicados por ele. 1 enquanto não houver nave.
+    /// </summary>
+    float crashCostFactor = 1f;
+
+    /// <summary>
+    /// Aceleração de agora dividida pela de fábrica. 1 é nave sem nada aplicado;
+    /// 2 é uma nave com o dobro da aceleração por poder ou evolução.
+    /// </summary>
+    float accelerationRatio = 1f;
+
     [Header("Raspão (estilhaço)")]
     [Tooltip("Fatia da velocidade que um estilhaço tira na hora. 0,15: a nave perde 15% e já " +
              "começa a retomar. É uma fração e não um número fixo para o tranco parecer o mesmo " +
@@ -244,12 +267,46 @@ public class RaceSpeed : MonoBehaviour
         if (Current < fastUntil)
             return AccelerationNow;
 
-        if (finalStretchSeconds <= 0f)
+        float stretch = StretchSeconds();
+
+        if (stretch <= 0f)
             return AccelerationNow;
 
         // O trecho final dividido pelo tempo que ele deve levar: quanto mais
         // rápida a nave estava, mais velocidade tem de recuperar no mesmo prazo.
-        return (crashRecoveryTarget - fastUntil) / finalStretchSeconds;
+        return (crashRecoveryTarget - fastUntil) / stretch;
+    }
+
+    /// <summary>
+    /// Quanto o trecho arrastado deve durar nesta nave, agora.
+    ///
+    /// Duas coisas o encurtam, e são diferentes de propósito:
+    ///
+    /// **O preço da batida** (<see cref="ShipStat.CrashCost"/>) multiplica direto:
+    /// metade do preço, metade do trecho. É o botão para poder e para nave que
+    /// aguentam melhor uma pancada.
+    ///
+    /// **A aceleração acima da de fábrica** encurta com **retorno decrescente** e
+    /// **teto** (regra do Raffael, 21/08/2026): quanto mais aceleração, menos
+    /// cada ponto novo alivia, e o trecho **nunca some por completo**. Sem isso,
+    /// bastaria empilhar aceleração para bater sair de graça — e o trecho
+    /// arrastado é justamente o que faz a batida custar os ~3,5 s que deram
+    /// tensão à corrida.
+    ///
+    /// Nave sem nada aplicado tem razão 1 e nenhum alívio: **o equilíbrio
+    /// aprovado no aparelho fica intacto** enquanto não houver poder nem evolução.
+    /// </summary>
+    float StretchSeconds()
+    {
+        float extra = Mathf.Max(0f, accelerationRatio - 1f);
+
+        // extra/(extra+meio) sobe rápido no começo e vai encostando no 1 sem
+        // nunca chegar; multiplicado pelo teto, dá o alívio máximo possível.
+        float relief = extra > 0f
+            ? accelerationStretchRelief * extra / (extra + accelerationStretchHalfPoint)
+            : 0f;
+
+        return finalStretchSeconds * crashCostFactor * (1f - relief);
     }
 
     /// <summary>
@@ -336,7 +393,11 @@ public class RaceSpeed : MonoBehaviour
     /// </summary>
     public void Crash(float speedPenalty)
     {
-        float penalty = Mathf.Max(0f, speedPenalty);
+        // O preço da batida é atributo da nave: pesa na punição de velocidade e
+        // no atraso aqui, e no trecho arrastado lá no StretchSeconds. Fora dele
+        // fica só a profundidade da queda — o susto de bater é o mesmo em
+        // qualquer nave, o que muda é quanto tempo custa voltar.
+        float penalty = Mathf.Max(0f, speedPenalty) * crashCostFactor;
 
         // O que o jogador via antes de bater é a referência da retomada — e não
         // o Target, que pode estar bem acima por causa de abates recentes.
@@ -348,7 +409,7 @@ public class RaceSpeed : MonoBehaviour
         // jeito, e mirar mais baixo criaria um degrau lento no meio da subida.
         crashRecoveryTarget = Mathf.Max(cruiseSpeed, before - penalty);
         inCrashRecovery = true;
-        recoveryResumesAt = Time.time + recoveryDelaySeconds;
+        recoveryResumesAt = Time.time + recoveryDelaySeconds * crashCostFactor;
 
         float dropped = before * crashSpeedFraction;
 
@@ -401,5 +462,20 @@ public class RaceSpeed : MonoBehaviour
     {
         cruiseSpeed = Mathf.Max(0f, cruise);
         acceleration = Mathf.Max(0.1f, accelerationPerSecond);
+    }
+
+    /// <summary>
+    /// O que a nave diz sobre o preço de bater. Vem junto com
+    /// <see cref="ApplyShipStats"/> e é reenviado sempre que um poder ou uma
+    /// evolução mexe nos atributos.
+    ///
+    /// São dois números separados porque agem por caminhos diferentes: o preço
+    /// multiplica direto, e a razão de aceleração alivia o trecho arrastado com
+    /// retorno decrescente. Ver <see cref="StretchSeconds"/>.
+    /// </summary>
+    public void ApplyCrashProfile(float crashCost, float accelerationOverBase)
+    {
+        crashCostFactor = Mathf.Max(0f, crashCost);
+        accelerationRatio = Mathf.Max(0f, accelerationOverBase);
     }
 }
