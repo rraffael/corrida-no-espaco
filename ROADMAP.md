@@ -5,65 +5,86 @@ Marque cada item conforme for concluído: `[ ]` → `[x]`.
 
 **Legenda de status das fases:** ⬜ Não iniciada · 🟡 Em andamento · ✅ Concluída
 
-> Complementa `docs/ESCOPO.html` (28/07/2026). O escopo foi escrito **antes** do commit
-> `Rebuilding in unity 6.3` e descreve um estado que não existe mais — os scripts do
-> template Space Shooter foram removidos e a `Game.unity` foi esvaziada. Onde os dois
-> divergirem, **este arquivo é o atual**. A análise de publicação e política da Play no
-> escopo continua válida.
+> **Este arquivo é o estado; `docs/ESCOPO.html` é o jogo.** O documento do jogo (reescrito em
+> 21/08/2026) descreve os conceitos, as regras e o futuro — é o que se lê para *entender* o jogo.
+> Aqui fica o acompanhamento tarefa por tarefa, com data e caixinha marcada. **Onde os dois
+> divergirem, este arquivo é o atual**, porque é o que se mexe todo dia.
+>
+> *O escopo anterior, de 28/07/2026, era um diagnóstico do projeto de antes do commit
+> `Rebuilding in unity 6.3` — descrevia o template Space Shooter, que não existe mais. Foi
+> substituído, não arquivado; o Raffael guardou cópia do original fora do repositório.*
 
 ---
 
-## 🚀 Onde estamos — 08/08/2026
+## 🚀 Onde estamos — 21/08/2026
 
-**O jogo está na Play Store.** Teste interno, instalado no celular do Raffael pela loja. Era o
-objetivo do dia, e ele muda o resto do projeto: **distribuir versão nova deixou de custar cabo e
-Build And Run.** Daqui para a frente é subir o `.aab` e o celular atualiza sozinho.
+**A mecânica crua está pronta, testada no aparelho e aprovada.** O tato da rodada de 07/08 foi
+julgado no celular: o arranque bravo, a batida de ~3,5 s, o raspão do estilhaço e a dobra de
+2,5 s — os quatro bons, sem nada a equilibrar. E a promessa da página do app **se confirmou**:
+dá para vencer só desviando, então a frase fica no texto publicado.
 
-Em dois dias fecharam **a Fase 4 inteira** — SDK 36 (três semanas antes do prazo), keystore novo
-com Play App Signing, `.aab` assinado — e **o grosso da Fase 5**: app criado, dez declarações,
-política de privacidade publicada, página do app escrita e arte provisória gerada.
+Com isso fecha o ciclo aberto em 05/08. O jogo é uma corrida completa — variedade de obstáculo,
+três fases, três dificuldades, progressão, placar e um custo de erro que o dedo sente —, está na
+Play Store em teste interno, e **atualizar custa minutos**: sobe o `.aab`, o celular baixa sozinho.
 
-Do lado do jogo, a rodada de 07/08 fechou o desenho de **como bater dói**: a batida virou um tranco
-de 25% com retomada em dois trechos (~3,5 s), o estilhaço virou um raspão de menos de 1 s, e a
-aceleração cresce quanto mais devagar a nave estiver.
+### A virada de 21/08: parar de lapidar o cru, construir o meta-jogo
+
+*Decisão do Raffael, e é o eixo de todo o resto do projeto.*
+
+A jogabilidade crua ainda tem pormenores lapidáveis, mas lapidar mais **agora** é otimizar no
+escuro, por dois motivos: ele já esgotou o que consegue julgar sozinho no polegar, e **a camada
+seguinte reescreve o equilíbrio de qualquer jeito** — nave com mais defesa muda o quanto a batida
+dói, escudo temporário muda a Fase 3 inteira. Polimento fino feito hoje seria refeito depois.
+
+O alvo passa a ser o **MVP completo**, na definição do Raffael: poderes em partida, variedade de
+naves com diferenciação real, evolução, recursos e economia, nível do jogador, recompensas e
+conquistas, e a UI refeita. **Só quando isso estiver tão bom e tão testado quanto a mecânica
+crua** é que entram arte, áudio e acabamento; depois conta e monetização; e só então o teste
+fechado.
+
+Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
+
+- **Não há pressa de lançar.** É o que permite fazer por etapas sem sobrecarga, e é o que tira do
+  caminho crítico qualquer tentativa de adiantar prazo da Play.
+- **Já há gente no teste interno dando retorno**, e vai continuar havendo durante o
+  desenvolvimento. A resposta *verdadeira* sobre equilíbrio, porém, ele espera do **teste
+  fechado** — o interno serve para descobrir feature ruim, não para calibrar economia.
+- **Documentação da Play se atualiza por etapa**, quando a feature entra — não por antecipação.
+  Ver "Regra de documentação", na Fase 5.
 
 ### Retomar por aqui
 
-- [ ] **Jogar no celular e julgar o tato.** O app está instalado, mas o *toque* da rodada de 07/08
-      nunca foi avaliado num aparelho: o arranque bravo, a batida de ~3,5 s, o raspão do estilhaço
-      na Fase 3 e a dobra de 2,5 s. No Editor o toque é mouse — é aqui que se decide.
-      **É a primeira coisa a fazer**, porque tudo o que vier depois se equilibra contra isto
-- [ ] **Equilibrar o que incomodar.** Os botões, todos no Inspector ou nas fichas:
-      `killGainFactor` (ganho por abate, `ShipStats`), `passiveGainFactor` (ritmo acima do
-      cruzeiro, `RaceSpeed`), `lowSpeedAccelerationBonus` (o arranque, `RaceSpeed`),
-      `crashSpeedFraction` · `recoveryDelaySeconds` · `fastRecoveryFraction` · `finalStretchSeconds`
-      (o peso da batida, `RaceSpeed`), `grazeSpeedLoss` e `grazeDelaySeconds` (o raspão do
-      estilhaço, `RaceSpeed`), `speedPenaltyOnCrash` e `killWeight` (fichas em
-      `Assets/Levels/Obstaculos/`), `warpSpeedBonus` (dificuldades, no catálogo)
-- [ ] **Cuidado registrado, agora invertido:** o custo de bater deixou de ser velocidade e virou
-      **tempo** — ~3,5 segundos. O risco mudou de lado: não é mais "bater sai barato", é **"bater
-      sai caro demais"**, ainda mais numa sequência. O estilhaço já foi separado disso, mas a
-      **Fase 3 é onde isso se mede**: é lá que os dois acontecem juntos
-- [ ] **Se quiser tirar a punição de velocidade que ainda sobra:** o `speedPenaltyOnCrash` das
-      fichas desconta por cima do tempo perdido. Zerar o campo nas três fichas de
-      `Assets/Levels/Obstaculos/` deixa a batida custando **só os segundos**
-- [ ] **Confirmar a promessa da página do app:** ela diz *"dá para vencer só desviando"*. É regra
-      de projeto, mas nunca foi verificada nas três fases. Se não se sustentar, a frase sai do
-      texto antes de qualquer público real ver
+- [ ] **`ShipStats` vira ficha em disco** — é o primeiro passo, e é pequeno. Hoje ele é
+      `MonoBehaviour` (`Assets/Scripts/Gameplay/ShipStats.cs:13`), ou seja: a ficha da nave vive
+      pendurada num objeto de cena, enquanto obstáculo e fase já são `ScriptableObject` em
+      `Assets/Levels/`. Sem essa conversão, "cinco naves" vira cinco prefabs com números copiados
+      na mão e evolução vira código. **Depois dela, nave nova é um `.asset`** — ver Parte 6
+- [ ] **Parte 5 — poderes em partida.** Primeiro bloco de feature, porque é pura jogabilidade:
+      ciclo curto e julgado no polegar, exatamente como foi a batida
+- [ ] **Parte 6 — naves, diferenciação e evolução.** É o eixo do qual o resto pende
+- [ ] **Parte 7 — recursos, nível, recompensas e conquistas.** Por último dos três, porque **o
+      valor da moeda é definido pelo que ela compra**: os gastos têm de existir antes do dinheiro
+- [ ] **Parte 8 — UI refeita.** No fim do bloco, não no começo: cada parte acima cria tela nova
+      (loja, oficina, recompensa), e refazer a UI antes é refazê-la duas vezes
+- [ ] ⚠️ **Fora da fila, e não depende de nada: ligar os símbolos de depuração.** Passou a
+      importar em 21/08, quando entrou gente no teste interno — ver Fase 5. Entra no próximo
+      `.aab` que subir
+
+> **Princípio de construção que atravessa as quatro partes: fábrica, não estoque.** Fase nova hoje
+> não é código — é um `.asset` em `Assets/Levels/`. Se poder, nave e recompensa nascerem com a
+> mesma estrutura (ficha em disco + catálogo, zero código por item novo), um ano de conteúdo custa
+> **horas de autoria**, e não meses de programação. É o que torna viável ter roadmap de futuro sem
+> precisar ter o futuro construído antes de lançar.
 
 > **Como subir uma atualização:** seis passos, em `docs/play-console/caminho-ate-a-play-store.md`.
 > O que mais derruba envio é esquecer de subir o `AndroidBundleVersionCode` — a Play recusa dois
 > arquivos com o mesmo número.
 
-**Depois disso**, o trabalho volta a ser jogo: refazer a tela de seleção de fase, o backlog
-"Depois" da Parte 4 (barreira, itens, escolha de nave), áudio e arte de verdade. E só quando o
-jogo estiver bom: os 16 e-mails e o teste fechado.
-
 ---
 
 ## Estado atual
 
-*Revisto em 07/08/2026.*
+*Revisto em 21/08/2026.*
 
 **Funcional**
 - Cena `Menu.unity` com fiação correta: `Menu.cs` no Canvas, BotaoJogar → `OnPlayButton`,
@@ -121,11 +142,16 @@ jogo estiver bom: os 16 e-mails e o teste fechado.
 - **A dobra é regra de fase, e a exigência é da dificuldade** (07/08/2026) — 2,5 s segurando a
   velocidade em todas as fases, e a velocidade pedida sobe só com a dificuldade: 16 · 17,5 · 19.
   Fase difícil se faz com obstáculo e ritmo, não pedindo mais velocidade.
+- **A mecânica crua está aprovada no aparelho** (21/08/2026) — arranque, batida, raspão e dobra
+  julgados no celular, os quatro bons, **nada a equilibrar**. E as três fases se vencem **só
+  desviando**, o que confirma a regra de projeto de 07/08 e a frase da página do app. É o marco
+  que encerra a lapidação da jogabilidade crua e abre o meta-jogo — ver "Onde estamos", no topo.
 
 **Faltando**
-- **O tato da rodada de 07/08 nunca foi julgado num aparelho.** O jogo está instalado pela Play,
-  mas ninguém sentiu no dedo o arranque, a batida de ~3,5 s, o raspão e a dobra de 2,5 s. No
-  Editor o toque é mouse. Ver "Onde estamos", no topo.
+- **Todo o meta-jogo** — poderes em partida, variedade e evolução de naves, recursos e economia,
+  nível do jogador e recompensas, UI refeita. É o trabalho a partir de 21/08; ver Partes 5 a 8.
+- ~~O tato da rodada de 07/08 nunca foi julgado num aparelho~~ — **julgado e aprovado em
+  21/08/2026.**
 - ~~Um passo de Montar pendente~~ — **rodou em 08/08 e o conserto foi apagado.** Conferido no
   disco: `br.com.raffael.corridanoespaco`, target 36, `productName` "Corrida no Espaço",
   versão `0.1.0`. **Não há montagem pendente.**
@@ -277,9 +303,10 @@ O prazo da SDK 36 (31/08) foi cumprido com três semanas de folga.*
       `6000.3.20f1` traz **34, 35 e 36**. Ou seja: **o build que quebrou em 31/07 tinha outra
       causa**, e o item ficou um mês no ROADMAP assustando à toa. Lição registrada — medir antes
       de acreditar no diagnóstico velho
-- [ ] **Fixar o Target API Level em 36** — hoje está em Automatic. Sem isso a Play não aceita
-      upload a partir de 31/08/2026. Vai no **Montar** (`ReleaseSettingsFix`), junto com o nome do
-      app e a versão
+- [x] **Target API Level fixado em 36** — o `ReleaseSettingsFix` pôs 36, o nome no celular e a
+      versão `0.1.0`, e o resultado foi **conferido no disco em 08/08**. O prazo da Play
+      (31/08/2026) estava cumprido três semanas antes. *(Este item ficou marcado como aberto até
+      21/08 por descuido de escrita — a Fase 4 já estava fechada desde 08/08.)*
 - [x] **Keystore novo gerado** (08/08/2026), fora do repositório, pelo *Keystore Manager* da
       própria Unity — alias `upload`. Foi refeito no mesmo dia com senha mais simples, decisão do
       Raffael: como ela mora em variável de ambiente sem criptografia, não fazia sentido uma senha
@@ -310,7 +337,9 @@ O prazo da SDK 36 (31/08) foi cumprido com três semanas de folga.*
 - [x] ~~Adicionar `/.utmp/` ao `.gitignore`~~ — já estava lá (`.gitignore:14`); item era engano meu
 
 ## Fase 5 — Play Console, em paralelo 🟡
-Não depende de código. **O relógio mais lento do projeto** — começar cedo.
+Não depende de código. **Deixou de ser o relógio mais lento do projeto** em 08/08/2026: o app está
+no ar, as declarações estão preenchidas e atualizar leva minutos. O que sobra aqui não é mais
+espera — é o que só se resolve perto do lançamento.
 
 - [x] Preparar o teste fechado no papel — `docs/play-console/teste-fechado.md`: regra, planilha
       para 16 e-mails (convidar mais que 12, porque gente some), texto de convite e checklist
@@ -319,11 +348,20 @@ Não depende de código. **O relógio mais lento do projeto** — começar cedo.
 - [x] **Caminho até a Play Store escrito** — `docs/play-console/caminho-ate-a-play-store.md`,
       dividido em duas etapas: **teste interno agora** (o app na loja, para ele testar baixando
       pela Play) e **teste fechado depois** (a regra dos 12/14 dias, que destrava produção)
-- [ ] **Etapa 1 — subir em teste interno.** É o alvo de agora; ver o topo do arquivo
+- [x] **Etapa 1 — teste interno no ar** (08/08/2026), e **com testadores de verdade desde então**:
+      o Raffael pôs gente conhecida na faixa interna e já colhe retorno sobre as features. Isso
+      **não gasta** a ficha social do teste fechado — teste interno não conta para os 14 dias
+- [ ] **Análise de dados — entre o teste interno e o teste fechado** *(decidido pelo Raffael em
+      21/08/2026)*. Entra depois de o meta-jogo existir e antes de o teste fechado começar, que é
+      quando os dados precisam estar fluindo para a resposta verdadeira sobre equilíbrio aparecer.
+      **Mexe na política de privacidade e na Segurança dos dados** — as duas se atualizam junto,
+      no dia em que a telemetria entrar, e não antes
 - [ ] Montar a lista de **12 testadores** para o teste fechado (opt-in contínuo por 14 dias)
-      — **adiado de propósito em 07/08/2026.** Junte **16** quando a hora chegar (se a contagem
-      cair de 12, o contador reinicia), mas não agora: é uma ficha social que se joga uma vez, e
-      gastá-la numa versão que ainda vai mudar muito é desperdício
+      — **adiado de propósito em 07/08/2026, reafirmado em 21/08.** Junte **16** quando a hora
+      chegar (se a contagem cair de 12, o contador reinicia), mas não agora: é uma ficha social
+      que se joga uma vez, e gastá-la numa versão que ainda vai mudar muito é desperdício.
+      A hora é **depois do MVP completo, com arte, áudio e monetização prontos** — é lá que o
+      Raffael quer a leitura verdadeira do equilíbrio
 - [x] Escrever a política de privacidade — `docs/politica-de-privacidade.md` e `docs/privacy-policy.md`
 - [x] **Página web da política pronta** — `docs/privacidade/index.html`, autocontida (sem CSS nem
       fonte externa), com **pt-BR e en-US na mesma página**, então uma URL só serve aos dois
@@ -355,24 +393,25 @@ Não depende de código. **O relógio mais lento do projeto** — começar cedo.
         para trocar de faixa, impulsos para coletar, e nenhuma menção a tiro
       - **Decidido não traduzir o nome:** "Space Race" é genérico demais — termo histórico, muitos
         produtos homônimos, afundaria na busca. "Corrida no Espaço" nos dois idiomas
-      - ⚠️ **Uma frase depende do teste no aparelho:** *"dá para vencer só desviando"*. É regra de
-        projeto, mas não foi verificada nas três fases. Se não se sustentar, sai antes de publicar
+      - ✅ **A frase que dependia do teste está confirmada** (21/08/2026): *"dá para vencer só
+        desviando"* se sustenta nas três fases, no aparelho. **Fica no texto publicado.**
 - [x] **Ícone e gráfico de destaque provisórios gerados** (08/08/2026) — menu **Gerar arte da
       loja** (`Assets/Editor/Tools/StoreArt.cs`) escreve `docs/play-console/arte/icone-512.png`
       (82 KB) e `destaque-1024x500.png` (108 KB), opacos e no tamanho exato.
       **Fora de `Assets/` de propósito:** lá dentro a Unity os importaria como textura e eles
       entrariam no `.aab`. **A `StoreArt.cs` sai do projeto no dia da arte de verdade**
-- [ ] **Arte de verdade** — ícone, gráfico de destaque e screenshots caprichadas. *Não trava o
-      teste interno; vira item de verdade na hora do teste fechado*
-- [ ] **Ligar os símbolos de depuração antes de haver testadores** — o Console avisa a cada envio
-      que faltam o arquivo de desofuscação e os símbolos nativos. **Ignorados de propósito
-      enquanto o único aparelho for o seu**, porque `.\tools\logcat.ps1` dá mais detalhe que o
-      Console. Viram necessários quando alguém disser "fechou sozinho" e você não puder pegar o
-      celular da pessoa. Ver `caminho-ate-a-play-store.md`, Etapa 2
-- [ ] ~~Quando a conta sair da verificação:~~ **criar o app no Console** — a conta já está
-      verificada, então isto está liberado. O `applicationId` é novo
-      (`br.com.raffael.corridanoespaco`), então deve ser aceito sem briga
-- [ ] Criar o projeto novo no Play Games Services
+- [ ] **Arte de verdade da loja** — ícone, gráfico de destaque e screenshots caprichadas.
+      **Migrou para a Fase 8**, junto com a arte do jogo: são o mesmo trabalho, e fazer a arte da
+      loja antes da arte do jogo é fotografar marcador de lugar
+- [ ] ⚠️ **Ligar os símbolos de depuração — a hora chegou.** O Console avisa a cada envio que
+      faltam o arquivo de desofuscação e os símbolos nativos. Ficaram ignorados de propósito
+      enquanto o único aparelho era o do Raffael, porque `.\tools\logcat.ps1` dá mais detalhe que
+      o Console. **Isso mudou: já há outras pessoas no teste interno** (21/08/2026), e quando
+      alguém disser "fechou sozinho" não vai dar para pegar o celular da pessoa. Sobe junto do
+      próximo `.aab`. Ver `caminho-ate-a-play-store.md`, Etapa 2
+- [x] ~~Quando a conta sair da verificação:~~ **app criado no Console** (08/08/2026), com o
+      `applicationId` novo `br.com.raffael.corridanoespaco`, aceito sem briga
+- [ ] Criar o projeto novo no Play Games Services — **só na Fase 7**, junto com login e conta
 - [x] **As dez declarações de conteúdo do app documentadas** —
       `docs/play-console/declaracoes-do-app.md` (08/08/2026), com a resposta de cada uma, o
       questionário IARC pergunta por pergunta e — o que mais importa a longo prazo — uma seção
@@ -386,12 +425,36 @@ Não depende de código. **O relógio mais lento do projeto** — começar cedo.
       dos dados e a URL da política. A seção *Conteúdo do app* ficou **sem pendência**. O gabarito
       do que foi respondido está em `docs/play-console/declaracoes-do-app.md`
 
+### Regra de documentação — atualizar por etapa, nunca por antecipação
+
+*Decidida pelo Raffael em 21/08/2026.* O jogo vai mexer em várias declarações da Play até o
+lançamento — conta de jogador, monetização, análise de dados, anúncios. **Nada disso se declara
+antes de existir.** A regra é uma só:
+
+> **Entrou a feature → atualiza no mesmo dia o que ela mexe.** Entrou conta? política de
+> privacidade e Segurança dos dados. Entrou monetização? declaração de compras, público-alvo e
+> página do app. Entrou telemetria? política e Segurança dos dados de novo.
+
+**Por que não adiantar:** o futuro é incerto, feature planejada sai de escopo e feature não
+planejada entra na frente. Declarar hoje o que talvez exista em três meses cria divergência entre
+o que o Console afirma e o que o `.aab` faz — e é exatamente esse tipo de divergência que a Play
+compara. Já aconteceu neste projeto: a política descrevia o login do Play Games depois de ele ter
+saído do código, e foi preciso corrigir antes de publicar.
+
+**O mapa de quem mexe em quê já existe:** `docs/play-console/declaracoes-do-app.md`, seção
+*"Gatilhos de revisão"* — anúncios, compras, gacha, Play Games, leaderboard online, arte e áudio
+já estão mapeados feature por feature. É o arquivo a abrir toda vez que uma dessas entrar.
+
 > Regras da Play mudam com frequência — reconfirmar cada item no Console, não tratar como fato.
 
 ## Fase 6 — O jogo em si 🟡
 O grosso do trabalho. Construído **por partes**: cada parte tem de estar rodando no aparelho
-antes de a próxima começar. O conceito das partes 3 em diante ainda está aberto — o Raffael
-decide cada uma na hora, vendo a anterior funcionar.
+antes de a próxima começar. O Raffael decide o conceito de cada uma na hora, vendo a anterior
+funcionar.
+
+**Partes 1 a 4 fechadas e aprovadas no aparelho** — é a mecânica crua, e ela está pronta.
+**Partes 5 a 8 são o meta-jogo**, aberto em 21/08/2026: poderes, naves, recursos e UI. Fechar a
+Parte 8 é fechar o **MVP**.
 
 ### Parte 1 — Faixas e troca de faixa ✅
 A base de tudo: se a nave não anda direito entre as faixas, nada em cima disso presta.
@@ -535,12 +598,13 @@ de ser uma demonstração e virou um jogo: tem começo, meio, derrota, vitória 
 > A página do app (`docs/play-console/pagina-do-app.md`) descreve só a corrida, "sem tiro".
 > **Agora tem tiro** — as descrições pt-BR e en-US precisam ser reescritas antes de publicar.
 
-### Parte 4 — Variedade e desafio 🟡
+### Parte 4 — Variedade e desafio ✅
 O jogo funciona, mas toda partida é igual à anterior: um tipo de obstáculo, um ritmo, uma nave.
 O objetivo desta parte é dar ao jogador motivo para jogar de novo.
 
-> **Blocos A e B fechados e aprovados no Editor em 07/08/2026.** O que mantém esta parte em 🟡 é
-> só o que sempre foi futuro: o teste no aparelho e o backlog "Depois", no fim da seção.
+> **Fechada em 21/08/2026**, com os Blocos A e B aprovados no Editor em 07/08 e a rodada inteira
+> **aprovada no aparelho** em 21/08 — tato bom, nada a equilibrar. O backlog "Depois" que ficava
+> no fim desta seção **virou as Partes 5 a 8**, que é o trabalho a partir de agora.
 
 **A ficha completa** *(proposta do Raffael em 06/08/2026, ajustada por ele no mesmo dia)*
 - [x] **Aceleração** saiu do `RaceSpeed` e entrou no `ShipStats`. Continua no `RaceSpeed` como
@@ -597,10 +661,11 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
       O registro está em `UserSettings/corrida-ferramentas.json`, fora do git
 - [x] **Testado no Editor em 07/08/2026** — os três tipos aparecem na fase certa, a Barcaça tranca
       duas faixas, o Casulo solta estilhaço e a regra da fuga garantida segura a leva
-- [ ] Repetir no aparelho — **é o que falta desta rodada**
+- [x] **Repetido no aparelho em 21/08/2026** — os três tipos, a Barcaça de duas faixas, o Casulo
+      com estilhaço e a regra da fuga garantida, todos se comportando como no Editor
 - [x] ~~Equilibrar: vida e dano dos três tipos, janelas de estreia e os fatores de dificuldade~~ —
-      **nada incomodou no teste de 07/08.** Fica em aberto para o teste no aparelho, que é onde o
-      ritmo costuma parecer outro
+      **nada incomodou nem no Editor (07/08) nem no aparelho (21/08).** Os números ficam como
+      estão até o meta-jogo mexer com eles, que é quando serão reavaliados de qualquer forma
 
 **Bloco B — fases, progressão e leaderboard** *(escrito em 06/08/2026, aprovado no Editor em 07/08)*
 
@@ -777,6 +842,7 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
 > nasceu: script que arruma uma coisa uma vez e não tem por que sobreviver.
 
 ### Consertos pontuais
+*Registro histórico das Partes 1 a 4. As partes novas do meta-jogo começam logo abaixo, na Parte 5.*
 
 | Ferramenta | O que fez | Estado |
 |---|---|---|
@@ -812,33 +878,163 @@ Para trazê-lo de volta, se um dia fizer falta:
 faz falta:** os números dele agora são os padrões do `LevelSetup`, então um projeto gerado do zero
 já nasce certo — ele só existia para alcançar os assets criados em 06/08.
 
-**Depois**
+### Parte 5 — Poderes em partida ⬜
+*Aberta em 21/08/2026. Primeiro bloco do meta-jogo.*
+
+**Por que esta é a primeira:** é pura jogabilidade. Ciclo curto, sem depender de nave nova nem de
+economia, e o Raffael julga no polegar — exatamente como julgou a batida. Além disso ela mexe no
+mesmo tecido que a mecânica crua, então é onde eventuais pormenores do cru vão aparecer de novo,
+já no contexto novo.
+
+- [ ] **Passo zero: `PowerUpDefinition` como `ScriptableObject`**, no espírito do
+      `ObstacleStats` — o que o poder faz, quanto dura, com que frequência aparece, arte. Mais um
+      catálogo em `Resources/`, como o `LevelCatalog`. **Poder novo tem de ser um `.asset`**, nunca
+      código: é a mesma aposta que fez fase nova sair de graça
+- [ ] **Quais poderes** *(decisão do Raffael)*. Os três que ele já tinha listado no backlog antigo:
+      **reparo**, **escudo temporário** e **tiro rápido**
+- [ ] **Poderes ruins (power-down)** *(ideia do Raffael em 21/08/2026)* — o outro lado da moeda.
+      Decidir se caem como o bom e o jogador precisa **desviar do item**, se são efeito de
+      obstáculo, ou os dois
+- [ ] **Como o poder chega** — cai na faixa e se pega passando por cima? Solta de obstáculo
+      destruído? Aparece por tempo? Muda o desenho da corrida: item que cai numa faixa é mais uma
+      razão para trocar de faixa, que é o que o estilhaço já faz
+- [ ] **Cuidado herdado, e é o mesmo de sempre:** a **regra da fuga garantida** olha a leva inteira
+      para nunca fechar todas as faixas. Item que ocupa faixa entra nessa conta, ou volta a matar
+      por sorteio
+- [ ] **Cuidado novo — o escudo mexe no que já foi aprovado.** A batida custa ~3,5 s, e foi assim
+      que ficou boa. Escudo que anula batida anula o custo que dá peso à corrida inteira; decidir
+      se ele **absorve** (vira raspão) ou **anula** é a decisão de equilíbrio desta parte
+- [ ] Testar no aparelho antes de a Parte 6 começar — regra das partes, vale aqui como valeu antes
+
+### Parte 6 — Naves: variedade, diferenciação e evolução ⬜
+*Aberta em 21/08/2026. **É o eixo do qual o resto pende** — evolução, loja e recompensa todas se
+penduram na resposta a "o que é uma nave".*
+
+- [ ] **`ShipStats` vira `ScriptableObject`** — o passo que destrava tudo, e é pequeno. Hoje é
+      `MonoBehaviour` (`Assets/Scripts/Gameplay/ShipStats.cs:13`): a ficha vive pendurada num
+      objeto de cena, enquanto obstáculo e fase já são asset em disco. **Feito isso, nave nova é um
+      `.asset`**, e evolução vira número, não código
+      - Cuidado na conversão: quem lê a ficha hoje é `ApplyShipStats(cruzeiro, aceleração)`,
+        `TakeHit()`, `DamageAfterDefense()` e `KillSpeedGain`. A parte *de cena* (a instância da
+        nave viva) continua sendo componente; o que sai para o asset são os **números**
+- [ ] **Catálogo de naves**, no mesmo molde do `LevelCatalog`, para a loja e a seleção lerem de um
+      lugar só e nave nova aparecer sem rodar ferramenta
+- [ ] **O que diferencia uma nave da outra** *(decisão do Raffael)*. Os atributos que já existem e
+      já estão equilibrados: **aceleração** (manda no arranque, na retomada da batida e no ganho
+      passivo), **velocidade de cruzeiro**, **defesa em %**, **vida** e **ganho por abate**
+      (`killGainFactor`). A pergunta de projeto é se a diferença fica só nesses números ou se cada
+      nave ganha **algo que só ela faz** — e essa é a diferença entre "nave melhor" e "nave outra"
+      - **Amarra que continua valendo:** toda fase tem de ser vencível **sem atirar**, em qualquer
+        nave. Nave nova que não fecha a dobra no tempo da fase sem um tiro está errada — ou a fase
+        está
+- [ ] **Evolução** *(decisão do Raffael)* — sobe atributo por atributo? Sobe a nave inteira em
+      níveis? Tem teto? O que ela consome sai da Parte 7, então aqui se define **a forma**, e o
+      preço fica para depois
+- [ ] **Barreira que impede naves fracas de avançar** *(ideia antiga do Raffael, adiada por ele —
+      é aqui que ela cabe)*. Só faz sentido quando existe nave forte e nave fraca
+- [ ] Testar no aparelho antes de a Parte 7 começar
+
+### Parte 7 — Recursos, nível, recompensas e conquistas ⬜
+*Aberta em 21/08/2026. **Por último dos três blocos de mecânica**, e o motivo é simples: o valor da
+moeda é definido pelo que ela compra. Os gastos têm de existir antes do dinheiro.*
+
+- [ ] **Moeda comum e moeda premium** *(desenho do Raffael: "normalmente um free e um vip")* —
+      definir o que cada uma compra e, principalmente, **o que a premium NÃO compra**. É a linha
+      que separa "atalho" de "pagar para vencer", e ela é mais fácil de traçar agora do que depois
+- [ ] **De onde vem a moeda comum** — corrida terminada, distância na fase sem fim, primeira
+      vitória de cada fase, missão diária? Cada torneira dessas muda o ritmo do jogo todo
+- [ ] **Nível do jogador e recompensas** — o que sobe o nível e o que o nível dá. Cuidado de
+      projeto: se o nível dá poder, ele vira uma segunda evolução paralela à da nave e as duas
+      brigam pelo mesmo espaço
+- [ ] **Conquistas próprias, que pagam em recurso** *(pedido do Raffael em 21/08/2026)* — conquista
+      do **jogo**, com regra e recompensa em moeda, nave ou o que a economia tiver. É mais uma
+      torneira de recurso, e das boas: recompensa quem joga de um jeito específico, não quem joga
+      muito
+      - **Ficha em disco**, como todo o resto: `AchievementDefinition` + catálogo. Conquista nova
+        é um `.asset` com condição e prêmio
+      - **A conquista do jogo é a dona da verdade, a da Play é o espelho** — desenho decidido em
+        21/08/2026. Completou no jogo → dispara a da Play. Isso tem uma consequência boa de
+        sequência: **esta parte não espera a Fase 7.** As conquistas nascem funcionando e pagando
+        offline, e o espelho da Play é um gancho que se liga depois, num lugar só
+      - Ao criar cada conquista, já anotar o **ID correspondente na Play** para o dia em que o
+        `GPGSIds.cs` for regerado. Sem isso, casar dezenas de conquistas depois vira trabalho de
+        conferência manual
+- [ ] **Persistência** — hoje tudo mora em `PlayerPrefs` (`Services/LevelProgress.cs`, recordes).
+      Economia é outra coisa: mais dados, mais estruturado. Decidir aqui o formato **sabendo que
+      ele vai viajar para a nuvem** (Fase 7) — um bloco serializável só, com versão, e não vinte
+      chaves soltas de `PlayerPrefs`. Migrar formato depois de haver jogador com saldo é o tipo de
+      dor que se evita agora, de graça
+- [ ] **Equilíbrio da economia é o que o teste fechado vai responder** *(posição do Raffael em
+      21/08/2026)*. O teste interno acha feature ruim; ritmo de grind e "vale a pena a segunda
+      nave?" só aparecem com gente que não sabe onde estão os números. Esta parte nasce **sabendo
+      que vai ser recalibrada** — então nada de número mágico espalhado por código: tudo em ficha
+- [ ] **Gatilho de documentação:** economia com compra real **muda declarações da Play**. Segue a
+      regra da Fase 5 — atualiza no dia em que entrar, e não antes
+
+### Parte 8 — UI refeita ⬜
+*Aberta em 21/08/2026. **No fim do bloco, e é de propósito:** cada parte acima cria tela nova
+(loja, oficina, recompensa, seleção de nave). Refazer a UI antes é refazê-la duas vezes.*
+
+Enquanto as Partes 5 a 7 correm, **tela feia não é bug** — só falta de função conta. As telas
+nascem funcionais e sem acabamento; esta parte é a passada única que unifica tudo.
+
 - [ ] **Refazer a tela de seleção de fase inteira** *(decidido pelo Raffael em 07/08/2026)* —
-      layout, dropdown de dificuldade e o resto, para ficar bonita em vez de só funcionar. A de
-      hoje é montada em runtime a partir do `LevelCatalog` e serve para testar a progressão; o
-      acabamento vem depois. **Enquanto isso, feiúra nela não é bug** — só falta de função conta
-- [ ] Barreira que impede naves fracas de avançar *(ideia do Raffael, adiada por ele)*
-- [ ] **Itens** — reparo, escudo temporário, tiro rápido
-- [ ] **Escolha de nave** — duas ou três fichas diferentes. É onde aceleração e defesa passam a
-      valer de verdade: hoje afinam uma nave só
+      layout, dropdown de dificuldade e o resto. A de hoje é montada em runtime a partir do
+      `LevelCatalog` e serve para testar a progressão
+- [ ] Telas novas que as Partes 5 a 7 criarem — loja, oficina/evolução, seleção de nave,
+      recompensas, nível do jogador
+- [ ] HUD revisto, agora que há poderes ativos e recursos para mostrar durante a corrida
+- [ ] **Navegação inteira** — é aqui que se decide como se anda entre menu, loja, oficina e
+      corrida sem o jogador se perder. Hoje são duas cenas e uma transição de pódio
+- [ ] Testar no aparelho — fecha o MVP e abre a fase de arte, áudio e acabamento
 
-**Depois disso**
-- [ ] Decidir se o tiro vira comando do jogador, com munição, ou continua automático
-- [ ] Áudio: motor, tiro, impacto, vitória, derrota
-- [ ] Arte de verdade no lugar dos marcadores de `Assets/Art/Placeholder/`
-- [ ] Pool de objetos para tiro e obstáculo, se o `Instantiate`/`Destroy` pesar no aparelho
+### Backlog solto da Fase 6
+*Coisas que não pertencem a nenhuma parte e não bloqueiam nada.*
 
-## Fase 7 — Fechar login e conquistas ⬜
+- [ ] Decidir se o tiro vira comando do jogador, com munição, ou continua automático.
+      *O ganho passivo já deixa o jogo de pé sem tiro nenhum, então isto é escolha, não conserto*
+- [ ] Pool de objetos para tiro e obstáculo, se o `Instantiate`/`Destroy` pesar no aparelho.
+      **Vira prioridade se a Parte 5 encher a tela de itens caindo**
+- [ ] Áudio e arte de verdade — **saíram daqui**: são a fase seguinte ao MVP, junto com o
+      acabamento. Ver "Ordem recomendada"
+
+## Fase 7 — Conta do jogador, login e conquistas ⬜
 Depende do projeto GPGS novo (Fase 5). **O plugin não está mais no projeto** — foi removido na
 limpeza de 02/08/2026 junto com a configuração da conta antiga. Esta fase começa por instalar
 o plugin atual, e não por consertar o velho.
+
+**A conta do jogador é o Google Play, e o salvamento é na nuvem por padrão** *(decidido pelo
+Raffael em 21/08/2026)*. Nada de conta própria, nada de senha: entra com a conta Google que já
+está no aparelho, e o progresso — nível, moedas, naves, evolução, conquistas — sobe para a nuvem
+sem o jogador pedir. Trocar de celular não pode custar o saldo.
+
+**É o gatilho de documentação mais pesado do projeto:** mexe na política de privacidade e na
+Segurança dos dados de uma vez só, porque passa a haver identificador de usuário **e dado de
+jogador guardado fora do aparelho**. Vale a regra da Fase 5 — atualiza no dia em que a conta
+entrar, não antes.
+
+**A ordem em relação à economia importa:** a Parte 7 da Fase 6 decide o formato da persistência
+já sabendo que ele vai viajar, e cria as conquistas do jogo já anotando o ID da Play de cada uma.
+Esta fase é a que **liga o fio**, não a que inventa o sistema.
 
 - [ ] **Instalar o plugin do Play Games atual** (o removido era 0.11.01, anterior à Unity 6.3 —
       pegar a versão que declare suporte a Unity 6). Conferir logo depois se o External
       Dependency Manager resolve as dependências Android sem erro; se falhar de novo, o log
       verboso do Console diz se é rede, JDK/Gradle ou incompatibilidade de versão
-- [ ] Recriar as conquistas no novo projeto GPGS e regerar `GPGSIds.cs`
-      *(as antigas se chamavam "Conquista?" e "Mais uma tentativa?")*
+- [ ] **Salvamento em nuvem** (*Saved Games* do Play Games) — o bloco de progresso da Parte 7 sobe
+      e desce sozinho. **Decidir a regra de conflito antes de codar:** dois aparelhos, dois saldos,
+      quem ganha? O de maior progresso, o mais recente, ou pergunta ao jogador? É a decisão que
+      dói se for tomada depois de existir jogador com saldo
+      - **O jogo tem de funcionar sem nuvem.** Sem internet, sem login, sem Play Services: joga
+        igual, salva local, sincroniza quando der. Login que trava a entrada é o jeito mais rápido
+        de perder jogador na primeira tela
+- [ ] **Espelhar as conquistas do jogo na Play** *(desenho do Raffael em 21/08/2026)* — cada
+      conquista criada na Parte 7 ganha a gêmea no Console, e **completar no jogo dispara a da
+      Play**. A do jogo é a dona da verdade e paga o prêmio; a da Play é vitrine e facilita
+      acompanhar quem completou o quê
+      - Recriar as conquistas no novo projeto GPGS e regerar `GPGSIds.cs`
+        *(as antigas se chamavam "Conquista?" e "Mais uma tentativa?" — não sobreviveram e nem
+        deviam: nasceram como teste de pipeline, não como conquista de jogo)*
 - [ ] Devolver o `PlayGamesAuth.cs` de `docs/fase-7/` para `Assets/Scripts/Services/`
 - [x] Reescrever o login — `PlayGamesAuth.cs` (hoje guardado em `docs/fase-7/`) substitui o antigo
       `Google-Login.cs`, que foi apagado. Login silencioso opcional, login manual em botão,
@@ -850,13 +1046,22 @@ o plugin atual, e não por consertar o velho.
 - [ ] Colocar o `PlayGamesAuth` numa cena (raiz da `Menu.unity`) — só depois do projeto GPGS novo
       e por editor script, nunca editando a cena na mão
 - [ ] Ligar um botão de login manual na UI, para quando o silencioso falhar
-- [ ] Chamar `UnlockAchievement` de fato no jogo (passo 4.4 do escopo, nunca fechado)
+- [ ] Ligar o `UnlockAchievement` no ponto único onde a conquista do jogo se completa — **um
+      lugar só**, e não espalhado pelo código. É o que torna o espelho da Play barato
 - [ ] Cadastrar a SHA-1 de debug no Console para conseguir testar login sem build de release
 
-## Fase 8 — Acabamento ⬜
+## Fase 8 — Arte, áudio e acabamento ⬜
+**Começa quando o MVP fechar** (Parte 8 da Fase 6 aprovada no aparelho), e não antes. O motivo é o
+mesmo que adiou a UI: arte feita para uma tela que ainda vai mudar é arte feita duas vezes.
 
+- [ ] **Arte de verdade** no lugar dos marcadores de `Assets/Art/Placeholder/` — nave, obstáculos,
+      poderes, fundo, UI
+- [ ] **Áudio** — motor, tiro, impacto, poder pego, vitória, derrota. Hoje **não há um único
+      arquivo de som no projeto**
 - [ ] Ícone próprio (hoje usa o padrão do Unity)
 - [ ] Splash própria (hoje "Made with Unity")
+- [ ] **Arte da loja de verdade** — ícone, gráfico de destaque e screenshots caprichadas, no lugar
+      das provisórias. **A `StoreArt.cs` sai do projeto neste dia** (ver Fase 5)
 - [ ] Leaderboard do Play Games (opcional)
 
 ## Fase 9 — Monetização ⬜
@@ -869,35 +1074,57 @@ Depois do lançamento. Anúncios antes de compras.
 
 ## Ordem recomendada
 
-*Revisto em 07/08/2026. Fases 0, 1, 2 e 3 fechadas. Da Fase 6, as Partes 1, 2 e 3 estão aprovadas
-no aparelho, e a Parte 4 aprovada no Editor — falta só levá-la ao aparelho.*
+*Revisto em 21/08/2026, com o plano de lançamento que o Raffael desenhou no mesmo dia.*
 
-### O alvo de 07/08 foi cumprido em 08/08: **o app está na Play, em teste interno**
+**Fases 0 a 4 fechadas.** Da Fase 6, as **Partes 1 a 4 estão aprovadas no aparelho** — a mecânica
+crua acabou. O que resta do jogo são as Partes 5 a 8, e depois arte, áudio e monetização.
 
-Não era lançar. Era **parar de instalar por cabo** — e está feito. O jogo baixa e atualiza pela
-loja, no celular do Raffael.
+### O plano de lançamento, em etapas
 
-> **O teste fechado segue adiado de propósito.** Ele exige **12 testadores em opt-in contínuo por
-> 14 dias**, e serve para destravar **produção**. Pedir a 16 pessoas que instalem e mantenham
-> instalado por duas semanas é uma ficha social que se joga uma vez — gastá-la numa versão que
-> ainda vai mudar muito desperdiça a única chance de ter os 12 firmes no dia do lançamento.
-> Teste interno **não conta** para esses 14 dias, e tudo bem: é o preço, e é barato.
+Escrito pelo Raffael em 21/08/2026. A regra que atravessa todas as etapas: **cada uma só começa
+quando a anterior estiver tão boa e tão testada quanto a mecânica crua está hoje.**
+
+| # | Etapa | O que fecha |
+|---|---|---|
+| 1 | **Mecânica crua** | ✅ **Feita.** Partes 1 a 4, aprovadas no aparelho em 21/08 |
+| 2 | **Meta-jogo** | Partes 5 a 8: poderes, naves, recursos, conquistas, UI. **Fecha o MVP** |
+| 3 | **Análise de dados** | Entre o teste interno e o fechado. Fase 5 |
+| 4 | **Arte, áudio e acabamento** | Fase 8, com a Fase 7 (conta Google + nuvem) no caminho |
+| 5 | **Monetização** | Fase 9 |
+| 6 | **Teste fechado** | Os 16 e-mails, 12 firmes por 14 dias. **A leitura verdadeira do equilíbrio** |
+| 7 | **Roadmap de futuro** | Conteúdo e eventos planejados para ~1 ano, antes de abrir |
+| 8 | **Lançamento aberto** | Com divulgação, e o jogo inteiro de pé |
 
 **Próximo passo, nesta ordem:**
 
-1. **Jogar no celular e julgar o tato** da rodada de 07/08 — arranque, batida, raspão, dobra.
-   Tudo o que vier depois se equilibra contra o que este teste mostrar.
-2. **Equilibrar o que incomodar** e subir uma versão nova. Os botões estão em "Onde estamos".
-3. **Voltar ao jogo:** refazer a tela de seleção de fase, o backlog "Depois" da Parte 4 (barreira,
-   itens, escolha de nave), áudio e arte de verdade.
-4. **Só quando o jogo estiver bom de lançar:** símbolos de depuração, os 16 e-mails e o teste
-   fechado. E aí sim a página do app com arte caprichada.
+1. **Converter o `ShipStats` em ficha de disco** — pequeno, é só código, e destrava a Parte 6.
+2. **Parte 5 — poderes em partida.** Ciclo curto, julgado no polegar.
+3. **Parte 6 — naves, diferenciação e evolução.**
+4. **Parte 7 — recursos, nível e recompensas.**
+5. **Parte 8 — UI refeita.** Fecha o MVP.
 
-**Por último:** Fases 7 (Play Games), 8 (acabamento) e 9 (monetização).
+> **O teste fechado segue adiado de propósito, e agora com prazo definido: depois de tudo pronto.**
+> Ele exige **12 testadores em opt-in contínuo por 14 dias** e destrava **produção**. Pedir a 16
+> pessoas que instalem e mantenham instalado por duas semanas é uma ficha social que se joga uma
+> vez. Teste interno **não conta** para esses 14 dias — e é justamente por isso que ele pode
+> continuar rodando com gente de verdade o tempo todo, de graça, como já está rodando.
+
+### As duas apostas que sustentam este plano
+
+**1. Fábrica, não estoque.** O Raffael quer um ano de conteúdo previsto antes de abrir o jogo.
+Isso não exige um ano de conteúdo *construído* — exige que cada item novo custe horas. Fase nova
+já é um `.asset`; poder, nave e recompensa têm de nascer iguais. **É a diferença entre planejar
+doze features e planejar doze linhas numa tabela.**
+
+**2. Documentação por etapa.** Nada se declara na Play antes de existir. Cada feature que mexe em
+declaração atualiza a sua no dia em que entra — o mapa de quem mexe em quê está em
+`docs/play-console/declaracoes-do-app.md`, seção *"Gatilhos de revisão"*. Ver a "Regra de
+documentação" na Fase 5.
 
 > O modelo híbrido de faixas segue adiado de propósito (ver Parte 1) — mas deixou de ser puramente
 > teórico: a página do app foi escrita **sem citar número de faixas**, justamente porque o Raffael
 > pretende mecânicas que aumentem e reduzam a quantidade delas.
 
 **Caminho crítico real: o jogo.** A publicação deixou de ser problema — o app está no ar, o
-processo de atualizar está escrito e leva minutos. O que decide o projeto agora é o que se joga.
+processo de atualizar está escrito e leva minutos, e não há pressa de lançar. O que decide o
+projeto agora é o que se joga.

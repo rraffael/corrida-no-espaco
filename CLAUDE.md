@@ -5,8 +5,9 @@
 ## Antes de qualquer coisa
 
 Ler `ROADMAP.md` na raiz — é a fonte de verdade do plano e do estado atual.
-`docs/ESCOPO.html` é de 28/07/2026, anterior ao rebuild, e está desatualizado na parte técnica;
-só a análise de publicação e política da Play continua boa.
+`docs/ESCOPO.html` é o **documento do jogo** (reescrito em 21/08/2026): conceitos, regras,
+o que já funciona e o futuro. Serve para entender o jogo; o estado de cada tarefa é o ROADMAP.
+Mudou uma regra do jogo ou entrou feature nova? **os dois se atualizam juntos.**
 
 ## O que é
 

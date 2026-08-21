@@ -36,10 +36,13 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 08/08/2026, fim do dia: **vazia**. O jogo está publicado em
-    /// teste interno e tudo o que precisava de montagem já rodou — os cinco
-    /// passos do Bloco B, o ajuste da dobra, o ProjectSettings da Play e o
-    /// conserto do applicationId, todos conferidos no disco.
+    /// Estado em 21/08/2026: **vazia**, e segue vazia. Tudo o que precisava de
+    /// montagem já rodou — os cinco passos do Bloco B, o ajuste da dobra, o
+    /// ProjectSettings da Play e o conserto do applicationId, todos conferidos
+    /// no disco. A mudança de 21/08 foi de plano, não de cena: a mecânica crua
+    /// foi aprovada no aparelho e o trabalho virou o meta-jogo (ROADMAP,
+    /// Partes 5 a 8). A primeira montagem nova só aparece quando a Parte 5
+    /// puser poder em cena.
     /// </summary>
     static readonly Step[] Steps = { };
 

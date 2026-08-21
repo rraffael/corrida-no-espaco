@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Corrida no Espaço — Escopo atualizado</title>
+<title>Corrida no Espaço — documento do jogo</title>
 <style>
   :root {
     --bg: #fbfaf8;
@@ -101,255 +101,295 @@
 <div class="wrap">
 
 <header class="top">
-  <div class="kicker">Projeto pessoal · Unity · Google Play</div>
-  <h1>Corrida no Espaço — escopo atualizado</h1>
-  <p class="sub">Revisão do passo-a-passo original cruzada com o estado real do repositório <code>C:\Projeto Pessoal\Jogo</code> · 28/07/2026</p>
+  <div class="kicker">Projeto pessoal · Unity 6000.3.20f1 · Google Play</div>
+  <h1>Corrida no Espaço — documento do jogo</h1>
+  <p class="sub">O que o jogo é, como ele funciona por dentro e para onde vai · 21/08/2026 · substitui o escopo de 28/07/2026</p>
 </header>
 
 <h2>Resumo</h2>
-<p class="h2sub">Onde você realmente está</p>
+<p class="h2sub">O jogo em uma página</p>
 
-<p class="lead">Você fechou os passos <strong>1 a 4</strong> do seu escopo — em nível de protótipo — e nunca chegou nos passos <strong>5, 6 e 7</strong>. O detalhe importante: o passo 6 era <em>“Fazer o jogo abaixo”</em>. Ou seja, <strong>o jogo que você descreveu no documento nunca foi feito.</strong> O que está publicado é o template gratuito <em>Space Shooter Template FREE</em> com um menu por cima.</p>
+<p class="lead"><strong>Corrida no Espaço</strong> é um jogo de corrida vertical para Android, de uma mão só. A nave desce por três faixas, o dedo arrasta para trocar de faixa, e a <strong>velocidade é ao mesmo tempo a vida e a vitória</strong>: ela sobe sozinha com o tempo, sobe mais rápido quando você destrói alguma coisa, e desaba quando você bate. Vencer é segurar a velocidade alta o suficiente pelo tempo que a fase pedir.</p>
+
+<p>O jogo está publicado na Google Play em <strong>teste interno</strong> desde 08/08/2026, com testadores de verdade instalando pela loja. A mecânica de corrida — a parte “crua” — foi aprovada no aparelho em <strong>21/08/2026</strong> e está fechada. O que se constrói a partir de agora é a camada de fora da partida: poderes, naves, evolução, economia, recompensas e a interface.</p>
 
 <div class="panel note">
-<p><strong>Isso não é um problema — é exatamente o que o projeto se propôs a ser.</strong> O objetivo declarado era “entender a pipeline e as ferramentas”, e isso foi cumprido: você fez o ciclo completo de conta → build → assinatura → upload → teste interno → login → conquistas. O que sobra agora é converter esse aprendizado em um jogo de verdade, numa conta nova.</p>
+<p><strong>O que este documento é.</strong> A descrição estável do jogo: os conceitos, as regras, o que já funciona e o que ainda vai existir. É o documento que se lê para <em>entender o jogo</em>.</p>
+<p style="margin-bottom:0"><strong>O que ele não é.</strong> Não é o acompanhamento da obra. Quem guarda o estado de cada tarefa, com data e caixinha marcada, é o <code>ROADMAP.md</code> na raiz do projeto — <strong>onde os dois divergirem, o ROADMAP é o atual</strong>. E a papelada da loja mora em <code>docs/play-console/</code>.</p>
 </div>
-
-<p>A boa notícia é que a parte que costuma travar iniciante (assinar, subir .aab, versionar, plugar o Play Games) você já atravessou uma vez. A parte pesada que resta é a que você ainda não encostou: <strong>o gameplay</strong>.</p>
 
 <hr>
 
 <h2>Parte 1</h2>
-<p class="h2sub">Seu escopo original × o que existe no repositório</p>
+<p class="h2sub">De onde o jogo veio</p>
 
-<p>As legendas de cor do seu documento (“funciona e criamos” / “funciona mas já veio pronto” / “não funciona”) se perderam na exportação do texto, então refiz o status a partir dos arquivos.</p>
+<p>O documento original do projeto tinha três ideias para o mesmo jogo, escritas em ordem de ambição crescente. Nenhuma foi descartada — o que aconteceu é que a primeira foi construída, e as outras duas viraram o futuro.</p>
 
 <div class="tablewrap">
 <table>
-<thead><tr><th>Passo</th><th>Item</th><th>Status</th><th>Evidência no projeto</th></tr></thead>
+<thead><tr><th>A ideia original</th><th>O que ela dizia</th><th>Onde está hoje</th></tr></thead>
 <tbody>
-<tr><td class="step">1</td><td><strong>Jogo com loop simples + menu</strong></td><td><span class="badge b-warn">Parcial</span></td><td>O loop existe, mas é 100% do template.</td></tr>
-<tr><td class="step">1.1</td><td>Touch funcionando</td><td><span class="badge b-ok">Feito</span></td><td><code>PlayerMoving.cs</code> trata <code>Input.touches</code> sob <code>#if UNITY_ANDROID</code>. Veio pronto do template.</td></tr>
-<tr><td class="step">1.2</td><td>Criar um menu</td><td><span class="badge b-ok">Feito</span></td><td>Seu. <code>Assets/Scenes/Menu.unity</code> — título “Corrida no Espaço”, botões Jogar/Sair.</td></tr>
-<tr><td class="step">1.3</td><td>Opções de inicializar um jogo</td><td><span class="badge b-ok">Feito</span></td><td>Seu. <code>Menu.cs</code> → <code>SceneManager.LoadScene(1)</code>.</td></tr>
-<tr><td class="step">1.4</td><td>Ao morrer, volta ao menu</td><td><span class="badge b-ok">Feito</span></td><td>Seu. Linha 34 de <code>Player.cs</code>: <code>SceneManager.LoadScene(0)</code> — é a <em>única</em> linha que você alterou dentro do template.</td></tr>
-<tr><td class="step">2</td><td><strong>Configurar a Play Store</strong></td><td><span class="badge b-info">Refazer</span></td><td>Foi feito na conta antiga. Conta nova = tudo de novo.</td></tr>
-<tr><td class="step">3</td><td><strong>Lançar na Play Store</strong></td><td><span class="badge b-info">Refazer</span></td><td><code>bundleVersion 1.3</code> / <code>versionCode 4</code> → houve pelo menos 4 uploads. Ciclo dominado.</td></tr>
-<tr><td class="step">3.1</td><td>Criação da chave de acesso</td><td><span class="badge b-bad">Perdida</span></td><td><code>ProjectSettings.asset</code> aponta para <code>C:/Users/raffa/Desktop/Projeto/key/user.keystore</code>, alias <code>user</code>. Essa pasta <strong>não existe nesta máquina</strong>. Ver Parte 2.</td></tr>
-<tr><td class="step">4</td><td><strong>Update com conquista e login</strong></td><td><span class="badge b-warn">Parcial</span></td><td></td></tr>
-<tr><td class="step">4.1</td><td>Adicionar sistema de login</td><td><span class="badge b-warn">Cru</span></td><td><code>Google-Login.cs</code> é o exemplo copiado da documentação, sem adaptação: classe ainda se chama <code>GooglePlayGamesExampleScript</code>, campo <code>Token</code> público, autentica no <code>Awake()</code> sem UI e sem tratamento de falha.</td></tr>
-<tr><td class="step">4.2</td><td>Testar se o login funciona</td><td><span class="badge b-ok">Feito</span></td><td>Configuração GPGS presente e completa (<code>AppId 1042052166444</code>).</td></tr>
-<tr><td class="step">4.3</td><td>Adicionar conquistas na Google Play</td><td><span class="badge b-ok">Feito</span></td><td>2 conquistas criadas no Console e geradas em <code>GPGSIds.cs</code>: <em>Conquista</em> e <em>Mais uma tentativa</em>.</td></tr>
-<tr><td class="step">4.4</td><td>Testar se a conquista funciona</td><td><span class="badge b-bad">Não feito</span></td><td><strong>Nenhuma linha de código chama <code>ReportProgress</code>.</strong> As conquistas existem no Console mas são inalcançáveis no jogo. <code>GPGSIds</code> nunca é referenciado.</td></tr>
-<tr><td class="step">5</td><td><strong>Monetização (ads + compras)</strong></td><td><span class="badge b-bad">Não feito</span></td><td>Nenhum pacote de Ads ou IAP em <code>Packages/manifest.json</code>.</td></tr>
-<tr><td class="step">6</td><td><strong>Fazer “o Jogo” descrito no doc</strong></td><td><span class="badge b-bad">Não feito</span></td><td>Não existe nada do conceito foguete/caminhos/velocidade. O que roda é a <code>Demo_Scene</code> do template.</td></tr>
-<tr><td class="step">6.1</td><td>Verificar touch “New” ou “Old”</td><td><span class="badge b-ok">Respondido</span></td><td>Hoje é <strong>Old</strong>: <code>activeInputHandler: 0</code> (Input Manager). O pacote novo está instalado (<code>com.unity.inputsystem 1.9.0</code>) e o asset <code>InputSystem_Actions.inputactions</code> existe, mas <strong>não está em uso</strong>.</td></tr>
-<tr><td class="step">6.2</td><td>Entender Version e Bundle Version Code</td><td><span class="badge b-ok">Na prática</span></td><td>Você já subiu 4 versões variando os dois; o mecanismo está entendido.</td></tr>
-<tr><td class="step">7</td><td><strong>Lançar alpha, beta e pública</strong></td><td><span class="badge b-bad">Não feito</span></td><td>Nunca passou de teste interno/fechado.</td></tr>
+<tr>
+  <td><strong>Ideia antiga</strong></td>
+  <td>Um foguete em três faixas; obstáculos que aceleram ou freiam; velocidade zero é derrota, velocidade X é vitória.</td>
+  <td><span class="badge b-ok">Construída</span> É o jogo que existe. Sobreviveu quase intacta — só a derrota mudou de dono: quem mata é a vida da nave, não a velocidade em zero.</td>
+</tr>
+<tr>
+  <td><strong>Ideia nova</strong></td>
+  <td>Combate: inimigos durante a fase, espólio ao vencê-los, e um <strong>chefe no fim da fase</strong> que só cai se a nave estiver forte.</td>
+  <td><span class="badge b-warn">Meio caminho</span> O tiro, a vida e a defesa existem e funcionam. Faltam o inimigo que reage e o chefe. Continua no plano — ver Parte 7.</td>
+</tr>
+<tr>
+  <td><strong>Ideia extravagante</strong></td>
+  <td>As duas juntas: a <strong>corrida vira o lugar de juntar recursos</strong> e o <strong>combate vira campanha</strong>, com missões que liberam naves novas.</td>
+  <td><span class="badge b-info">Guardada</span> É a forma final que o jogo pode tomar, e a metade “corrida como fonte de recurso” começa a ser construída agora, na economia.</td>
+</tr>
 </tbody>
 </table>
+</div>
+
+<p>O objetivo declarado no documento original era <em>“entender a pipeline e as ferramentas de desenvolvimento do jogo”</em>. <strong>Esse objetivo foi cumprido</strong> — conta, build, assinatura, envio, loja e teste interno, o ciclo inteiro, duas vezes. O projeto deixou de ser um exercício de ferramenta e virou um jogo.</p>
+
+<div class="panel flag">
+<p style="margin-bottom:0"><strong>Uma coisa que o documento original já pedia e que continua valendo:</strong> duas moedas, dificuldades diferentes, foguetes diferentes e upgrades. As dificuldades já existem. As outras três são exatamente o trabalho que começa agora.</p>
 </div>
 
 <hr>
 
 <h2>Parte 2</h2>
-<p class="h2sub">Raio-X técnico: o que está te esperando</p>
+<p class="h2sub">Como o jogo funciona hoje</p>
 
-<p>Coisas que hoje impedem ou atrapalham gerar um build publicável. Cada uma é rápida de resolver isoladamente — o custo é ir descobrindo uma por uma no meio do trabalho.</p>
+<p>Tudo o que está nesta parte existe, roda e foi <strong>aprovado no celular</strong>. É a mecânica crua, e ela está fechada.</p>
+
+<h3>A corrida</h3>
+<p>A nave ocupa uma de <strong>três faixas</strong> e o cenário desce por baixo dela. Um arraste do dedo move a nave <strong>uma faixa por vez</strong> — não é um controle contínuo, é um passo por gesto, e foi assim que ficou bom no aparelho. O tiro é automático e constante. O menu de pausa é um botão no canto que congela a partida.</p>
+
+<h3>A velocidade é a moeda de tudo</h3>
+<p>É o coração do jogo, e vale entender por quê: a velocidade não é só um número na tela, é <strong>o placar, o relógio e o risco ao mesmo tempo</strong>. Ela se move por quatro forças:</p>
+<ul>
+  <li><strong>Velocidade de cruzeiro</strong> — o patamar de conforto da nave. Abaixo dele, a nave volta sozinha e depressa; a aceleração fica até <strong>três vezes maior com a nave parada</strong>, e some conforme ela se aproxima do cruzeiro. É o que faz o arranque ser bravo em vez de arrastado.</li>
+  <li><strong>Ganho passivo</strong> — acima do cruzeiro a velocidade continua subindo sozinha, mas devagar, no ritmo da aceleração da nave. É o que garante que <strong>dá para vencer sem atirar</strong>, só com paciência e desvio.</li>
+  <li><strong>Abate</strong> — destruir um obstáculo empurra a velocidade para cima na hora. É o atalho: chega mais rápido, mas exige encarar o que está na frente.</li>
+  <li><strong>Dobra</strong> — a linha de chegada. Alcançar a velocidade pedida não vence: é preciso <strong>segurá-la por 2,5 segundos</strong>. Abaixo dela a carga escoa pela metade do ritmo, então uma batida no fim custa caro sem apagar a corrida inteira.</li>
+</ul>
+
+<h3>O custo de errar</h3>
+<p>Foi o último desenho da mecânica crua, e o que mais mudou o jogo. <strong>Bater custa tempo, não velocidade</strong> — e é uma diferença enorme, porque tempo é um custo que o jogador vê acontecendo, enquanto um número dois pontos menor ele só lê.</p>
 
 <div class="tablewrap">
 <table>
-<thead><tr><th>Achado</th><th>Onde</th><th>Impacto</th></tr></thead>
+<thead><tr><th>Acidente</th><th>O que acontece</th><th>Quanto custa</th></tr></thead>
 <tbody>
 <tr>
-  <td><strong>Keystore não está na máquina</strong></td>
-  <td><code>ProjectSettings.asset</code>: <code>AndroidKeystoreName: C:/Users/raffa/Desktop/Projeto/key/user.keystore</code>, <code>androidUseCustomKeystore: 1</code></td>
-  <td><span class="badge b-bad">Bloqueia build</span> O build de release falha até apontar para uma chave existente. Como você vai para uma conta nova, o certo é <strong>gerar uma chave nova</strong> — a antiga não serve mesmo.</td>
+  <td><strong>Batida</strong><br><span style="color:var(--muted);font-size:13px">obstáculo na cara</span></td>
+  <td>A velocidade despenca para <strong>25%</strong> na hora; meio segundo de nave morta, sem responder; a volta vem em dois trechos, e o último se arrasta.</td>
+  <td><strong>~3,5 segundos</strong> de corrida</td>
 </tr>
 <tr>
-  <td><strong>Caminho absoluto de keystore versionado no repo</strong></td>
-  <td>mesmo arquivo</td>
-  <td><span class="badge b-warn">Higiene</span> Amarra o projeto a uma máquina específica. Some no dia que você trocar de PC — que é literalmente o que aconteceu.</td>
-</tr>
-<tr>
-  <td><strong>Versão do Unity divergente</strong></td>
-  <td>Projeto: <code>6000.0.14f1</code> · Instalada aqui: <code>6000.3.6f1</code></td>
-  <td><span class="badge b-warn">Cuidado</span> Abrir força upgrade sem volta. Some com o fato de <strong>não existir pasta <code>Library/</code></strong> (primeira abertura = reimport completo) e você não vai saber distinguir “o upgrade quebrou” de “o reimport quebrou”.</td>
-</tr>
-<tr>
-  <td><strong><code>AndroidTargetSdkVersion: 0</code></strong></td>
-  <td><code>ProjectSettings.asset</code></td>
-  <td><span class="badge b-warn">Risco Play</span> “Automatic” = o que o módulo instalado oferecer. Não determinístico entre máquinas, e a Play exige um alvo mínimo fixo. Deve ser explícito.</td>
-</tr>
-<tr>
-  <td><strong>Orientação em auto-rotação</strong></td>
-  <td><code>defaultScreenOrientation: 4</code></td>
-  <td><span class="badge b-warn">UX</span> Um jogo vertical girando para paisagem no meio da partida. Deve travar em retrato.</td>
-</tr>
-<tr>
-  <td><strong>Sem ícone e sem splash próprios</strong></td>
-  <td><code>m_BuildTargetIcons: []</code> · <code>androidSplashScreen: {fileID: 0}</code></td>
-  <td><span class="badge b-warn">Ficha da loja</span> O app usa o ícone padrão do Unity e a splash “Made with Unity”. Precisa de arte antes de qualquer publicação séria.</td>
-</tr>
-<tr>
-  <td><strong>Jogo sem áudio</strong></td>
-  <td>Nenhum <code>.wav/.mp3/.ogg</code> em <code>Assets/</code></td>
-  <td><span class="badge b-warn">Qualidade</span> Zero som. Para um jogo de arcade isso é metade da sensação de jogo.</td>
-</tr>
-<tr>
-  <td><strong><code>.utmp/</code> fora do <code>.gitignore</code></strong></td>
-  <td>raiz do projeto</td>
-  <td><span class="badge b-info">Higiene</span> Cache de build Android IL2CPP. Não deve ser versionado.</td>
-</tr>
-<tr>
-  <td><strong>Arquitetura e backend</strong></td>
-  <td><code>AndroidTargetArchitectures: 2</code> (ARM64), IL2CPP</td>
-  <td><span class="badge b-ok">OK</span> Já está conforme o exigido pela Play. Nada a fazer.</td>
+  <td><strong>Raspão</strong><br><span style="color:var(--muted);font-size:13px">estilhaço de Casulo</span></td>
+  <td>Perde 15% da velocidade e um piscar de reação, e retoma no ritmo normal — <strong>sem o trecho arrastado</strong>. E não mexe no alvo: o que foi conquistado continua esperando.</td>
+  <td><strong>menos de 1 segundo</strong></td>
 </tr>
 </tbody>
 </table>
 </div>
 
+<p>São dois eventos de propósito diferentes. Um Casulo solta vários estilhaços, e se cada um cobrasse preço de batida a punição viraria uma dívida em prestações.</p>
+
+<h3>O que atrapalha</h3>
+<p>Três tipos de obstáculo, cada um com <strong>ficha própria</strong> — vida, dano, quantas faixas ocupa, o que solta ao morrer. Cada um estreia numa fase diferente, e é assim que o jogo ensina a si mesmo:</p>
+<ul>
+  <li><strong>Detrito</strong> — o básico, presente desde o primeiro segundo de qualquer fase.</li>
+  <li><strong>Barcaça</strong> — mais vida e <strong>ocupa duas faixas</strong>. Aparece a partir da fase 2 e é a primeira coisa que obriga a escolher o lado.</li>
+  <li><strong>Casulo</strong> — ao morrer solta <strong>estilhaços que descem pela própria faixa</strong>, mais rápido que a corrida. Entra na fase 3, e é o primeiro elemento que <strong>obriga a trocar de faixa</strong>: até ele, dava para vencer parado no meio segurando o gatilho.</li>
+</ul>
+
+<div class="panel note">
+<p style="margin-bottom:0"><strong>A regra da fuga garantida.</strong> Ao soltar uma leva, o jogo olha <strong>tudo o que já está descendo</strong> e nunca fecha as três faixas de uma vez; se não sobrar saída, ele simplesmente não solta. Sem isso, uma Barcaça de duas faixas mais um Detrito na faixa restante matariam por sorteio, e não por erro do jogador — que é a única morte que um jogo deste tipo não pode oferecer.</p>
+</div>
+
+<h3>Fases, dificuldades e progressão</h3>
+<p>Três fases numeradas e três dificuldades, numa <strong>corrente única</strong>: Fácil 1→2→3, depois Normal 1→2→3, depois Difícil. Cada fase é uma <strong>ficha em disco</strong> — velocidade e tempo de dobra, ritmo de aparição com rampa do início ao fim, e a agenda de que obstáculo entra a partir de que segundo, com a estreia <strong>sorteada dentro de uma janela</strong> para duas partidas da mesma fase não saírem idênticas.</p>
+
+<p>A dificuldade <strong>não troca o obstáculo</strong> — isso é papel da fase. Ela soma na velocidade exigida pela dobra (16 · 17,5 · 19) e multiplica ritmo, vida e dano. <strong>Fase difícil se faz com obstáculo e ritmo, não pedindo mais velocidade</strong>: por isso as três fases pedem a mesma coisa dentro de uma mesma dificuldade.</p>
+
+<h3>A fase sem fim, e onde se compete</h3>
+<p>Existe uma quarta fase, <strong>fora da corrente e aberta desde o começo</strong>. Ela não tem dobra e não tem fim: endurece sozinha até a nave cair. É a <strong>única com placar</strong>, e a pontuação é a <strong>distância percorrida</strong> — maior é melhor, e ela é medida integrando a velocidade a cada quadro, de modo que acelerar cedo vale mais do que acelerar no último segundo.</p>
+
+<p>A divisão é deliberada e vale para tudo o que vier: <strong>as fases numeradas ensinam o jogo</strong> — obstáculo novo, desafio novo, e o prêmio é a próxima fase; <strong>a fase sem fim é onde se compete</strong>. Por isso o painel de vitória das numeradas mostra o que foi destravado, e o da sem fim mostra a tabela de recordes. E cair na fase sem fim <strong>não é derrota</strong>: é a única coisa que ela permite que aconteça, e chamar isso de derrota seria punir o jogador por jogar.</p>
+
 <hr>
 
 <h2>Parte 3</h2>
-<p class="h2sub">O que mudou desde a última vez</p>
+<p class="h2sub">As regras que não se quebram</p>
 
-<div class="panel flag">
-<p><strong>Aviso de validade.</strong> Meu conhecimento sobre as regras da Play tem corte em maio de 2026, e essas políticas mudam com frequência. Trate os itens abaixo como <em>“verificar no Console assim que a conta for aprovada”</em>, não como fato consolidado. O Console mostra as exigências atuais na própria tela de publicação.</p>
+<p>Quatro decisões de projeto que valem para tudo o que já existe e para tudo o que ainda vai ser feito. Elas são o filtro: <strong>feature nova que esbarra numa delas está errada</strong>, ou a regra muda de propósito e por escrito.</p>
+
+<div class="panel">
+<p class="q">1 · Toda fase tem de ser vencível sem atirar</p>
+<p class="qa">O ganho passivo sozinho precisa fechar a dobra dentro do tempo da fase. Se não fecha, a fase está errada — não o jogador. É o que torna “desviar” uma estratégia completa em vez de um jeito pobre de jogar, e é o que permitiu prometer isso na página da loja.</p>
+<p class="q">2 · Nunca fechar todas as faixas</p>
+<p class="qa">Sempre existe uma saída. Morte por sorteio não conta como desafio, e vale para obstáculo, para estilhaço e para qualquer item que venha a ocupar faixa.</p>
+<p class="q">3 · Defesa reduz dano, mas nunca zera</p>
+<p class="qa">A conta arredonda para cima e o mínimo é 1. Um golpe que acerta nunca sai de graça, então defesa alta não vira imunidade — e o número não precisa de um teto artificial para se comportar.</p>
+<p class="q" style="margin-bottom:2px">4 · Cada parte é testada no celular antes de a próxima começar</p>
+<p class="qa" style="margin-bottom:0">No Editor o toque é mouse, e mouse mente. Nenhuma parte deste projeto foi dada como pronta sem passar pelo dedo num aparelho de verdade.</p>
 </div>
-
-<h3>Conta nova = projeto novo, não continuação</h3>
-<ul>
-  <li><strong>O <code>applicationId</code> provavelmente está queimado.</strong> Um pacote já enviado à Play fica reservado pela conta que o enviou — inclusive vindo só de teste interno/fechado, e inclusive depois de apagado. Planeje trocar <code>com.Raffael.corridanoespaco</code> por um novo. <em>Confirme no Console tentando criar o app com o nome antigo; se aceitar, ótimo, economiza retrabalho.</em></li>
-  <li><strong>Trocar o pacote arrasta o Play Games Services junto.</strong> O App ID <code>1042052166444</code>, as duas conquistas (<code>CgkIrOaY-akeEAIQAA</code>, <code>CgkIrOaY-akeEAIQAQ</code>) e o cliente OAuth pertencem ao projeto antigo. Tudo isso é recriado do zero e o <code>GPGSIds.cs</code> é regerado.</li>
-  <li><strong>Chave nova, obrigatoriamente.</strong> App novo, chave de upload nova. Ative o Play App Signing (é o padrão) — assim, se você perder a chave de upload de novo, dá para pedir reset sem perder o app.</li>
-</ul>
-
-<h3>O gargalo real do cronograma</h3>
-<div class="panel alert">
-<p><strong>Contas pessoais de desenvolvedor precisam rodar um teste fechado com um mínimo de testadores (na última regra que conheço: 12 pessoas, com opt-in contínuo por 14 dias) antes de poder solicitar acesso à produção.</strong></p>
-<p style="margin-bottom:0">Isso não depende de código nenhum. É o único item do caminho crítico que você pode começar <em>hoje</em>, com a conta ainda em verificação: <strong>montar a lista de 12 pessoas</strong> (amigos, família, colegas) e confirmar que cada uma topa instalar e aceitar o convite. Se você deixar isso para quando o jogo estiver pronto, são duas semanas de espera parada no fim do projeto.</p>
-</div>
-
-<h3>Itens de conformidade que não existiam no seu escopo</h3>
-<ul>
-  <li><strong>Política de privacidade com URL pública.</strong> Obrigatória. Com login do Google Play Games — e mais ainda se entrar publicidade — você coleta dados e precisa declarar. <em>Sugestão:</em> você já tem o portfólio no GitHub Pages; hospedar a política lá é o caminho mais barato.</li>
-  <li><strong>Formulário de segurança de dados</strong> (Data Safety) na ficha da Play, coerente com a política acima.</li>
-  <li><strong>Classificação indicativa</strong> (questionário IARC) e declaração de público-alvo — a exigência aperta bastante se o app for direcionado a crianças, o que muda inclusive quais anúncios você pode servir.</li>
-  <li><strong>Verificação de identidade e endereço</strong> da conta — é onde você está agora.</li>
-</ul>
 
 <hr>
 
 <h2>Parte 4</h2>
-<p class="h2sub">Duas decisões suas antes de eu escrever qualquer linha</p>
+<p class="h2sub">Os botões do equilíbrio</p>
 
-<p class="q">1. “O jogo” é o conceito do documento ou o shoot-'em-up que está no projeto?</p>
-<p class="qa">Seu doc descreve um jogo de <strong>foguete em caminhos com velocidade</strong> — nada a ver com o shooter do template. O passo 6 (“fazer o Jogo abaixo”) nunca foi feito. Estou assumindo que <strong>“fazer o jogo em si” = construir o conceito do documento</strong>, e o plano abaixo parte disso. Se na verdade você quer polir o shooter e lançar, o plano muda bastante — me avise.</p>
+<p>Nenhum número de equilíbrio mora escondido no código. Tudo o que decide como o jogo se sente é <strong>campo no Inspector ou valor numa ficha em disco</strong>, e isso é uma decisão de projeto: equilibrar não pode custar recompilação.</p>
 
-<p class="q">2. Qual vai ser o novo <code>applicationId</code>?</p>
-<p class="qa">Precisa ser decidido antes de qualquer build, porque ele aparece no keystore, no GPGS, no Console e não pode mais mudar depois de publicado. Sugestões: <code>br.com.raffael.corridanoespaco</code> ou <code>com.raffaelrodrigues.corridanoespaco</code>. Evite repetir a capitalização estranha do antigo (<code>com.Raffael.…</code>).</p>
+<div class="tablewrap">
+<table>
+<thead><tr><th>Se você quer mudar…</th><th>Mexa em</th><th>Onde fica</th></tr></thead>
+<tbody>
+<tr><td>Quão bravo é o arranque</td><td><code>lowSpeedAccelerationBonus</code></td><td><code>RaceSpeed</code></td></tr>
+<tr><td>O ritmo de quem só desvia</td><td><code>passiveGainFactor</code></td><td><code>RaceSpeed</code></td></tr>
+<tr><td>O quanto vale destruir</td><td><code>killGainFactor</code> · <code>killWeight</code></td><td>ficha da nave · ficha do obstáculo</td></tr>
+<tr><td>O susto da batida</td><td><code>crashSpeedFraction</code></td><td><code>RaceSpeed</code></td></tr>
+<tr><td><strong>O preço da batida</strong></td><td><code>finalStretchSeconds</code></td><td><code>RaceSpeed</code></td></tr>
+<tr><td>O peso do raspão</td><td><code>grazeSpeedLoss</code> · <code>grazeDelaySeconds</code></td><td><code>RaceSpeed</code></td></tr>
+<tr><td>O tamanho da fase</td><td><code>warpChargeSeconds</code> · <code>warpSpeed</code></td><td>ficha da fase</td></tr>
+<tr><td>A escada de dificuldade</td><td><code>warpSpeedBonus</code></td><td>catálogo de fases</td></tr>
+<tr><td>Quanto cada obstáculo aguenta</td><td>vida · dano · faixas ocupadas</td><td>ficha do obstáculo</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="panel flag">
+<p style="margin-bottom:0"><strong>O botão que menos parece o que é:</strong> quem manda no preço da batida não é o tamanho da queda, é o <strong>trecho arrastado</strong> do fim da retomada. Mexer na queda muda o susto; mexer no trecho arrastado muda quanto custa.</p>
+</div>
 
 <hr>
 
 <h2>Parte 5</h2>
-<p class="h2sub">O plano — do jeito que você pediu</p>
+<p class="h2sub">O que falta para o jogo estar completo</p>
 
-<p>A ordem abaixo é montada com um objetivo só: <strong>quando você chegar na fase de fazer o jogo, não sobrar nenhuma pendência de infraestrutura para te interromper.</strong> As fases 0 a 2 não dependem da aprovação da conta e podem ser feitas agora.</p>
+<p>O jogo hoje é uma corrida boa que acaba quando a partida acaba. <strong>Falta o lado de fora da partida</strong> — o motivo para abrir o jogo amanhã. São quatro blocos, e a ordem entre eles não é arbitrária: cada um existe porque o seguinte precisa dele pronto.</p>
 
 <div class="phase">
-  <div class="head"><span class="n">Fase 0</span><span class="t">Higiene, antes de abrir o Unity</span><span class="when">~1 hora</span></div>
+  <div class="head"><span class="n">Bloco 1</span><span class="t">Poderes em partida</span><span class="when">o primeiro, porque é o mais barato de julgar</span></div>
   <div class="body">
-    <ul>
-      <li><strong>Garantir o repositório limpo e commitado</strong> antes de qualquer coisa. A primeira abertura no Unity vai mexer em muito arquivo; você quer um ponto de retorno.</li>
-      <li><strong>Decidir a versão do Unity.</strong> Recomendo <strong>instalar a linha <code>6000.0</code> pelo Hub</strong> e abrir o projeto com ela, em vez de deixar a <code>6000.3.6f1</code> fazer o upgrade. Motivo: sem <code>Library/</code>, a primeira abertura já é um reimport completo — juntar upgrade de engine com reimport é a receita para passar um dia caçando erro que não é seu. Migrar de versão vira uma tarefa própria, em branch separada, depois que o projeto estiver comprovadamente rodando.</li>
-      <li>Adicionar <code>/.utmp/</code> ao <code>.gitignore</code>.</li>
-      <li>Abrir o projeto e confirmar que a <code>Demo_Scene</code> ainda roda no Editor. Esse é o marco “projeto vivo”.</li>
-    </ul>
+    <p>Reparo, escudo temporário, tiro rápido — e o outro lado da moeda, os <strong>poderes ruins</strong>, que podem cair como item a desviar ou vir de obstáculo. É pura jogabilidade: ciclo curto, sem depender de nave nem de economia, e se avalia no dedo em uma tarde.</p>
+    <p><strong>A decisão de equilíbrio deste bloco é o escudo</strong>, e ela é séria: a batida custa ~3,5 segundos, e foi assim que o jogo ficou bom. Um escudo que <em>anula</em> a batida anula o peso que dá tensão à corrida inteira. Um escudo que a <em>rebaixa a raspão</em> preserva esse peso e ainda assim vale a pena pegar.</p>
   </div>
 </div>
 
 <div class="phase">
-  <div class="head"><span class="n">Fase 1</span><span class="t">Destravar o build</span><span class="when">~2 horas</span></div>
+  <div class="head"><span class="n">Bloco 2</span><span class="t">Naves: variedade, diferença e evolução</span><span class="when">o eixo do qual o resto pende</span></div>
   <div class="body">
-    <ul>
-      <li>Definir o novo <code>applicationId</code> (decisão 2 acima).</li>
-      <li><strong>Gerar keystore novo</strong>, guardá-lo <em>fora</em> do repositório, e anotar senha/alias num gerenciador de senhas. Nunca commitar o arquivo nem a senha.</li>
-      <li>Tirar o caminho absoluto do <code>ProjectSettings.asset</code> — a chave deve ser referenciada de um lugar que não amarre o projeto a uma máquina.</li>
-      <li>Fixar <code>AndroidTargetSdkVersion</code> explicitamente no que a Play exigir hoje.</li>
-      <li>Travar a orientação em retrato.</li>
-      <li><strong>Marco:</strong> gerar um <code>.aab</code> de release assinado, mesmo com o jogo ainda sendo o template. A partir daqui, “publicar” deixa de ser um mistério e vira um botão.</li>
-    </ul>
+    <p>Hoje existe uma nave só, e os atributos dela — aceleração, cruzeiro, vida, defesa, ganho por abate — servem para afiná-la. Com naves diferentes, esses mesmos atributos passam a <strong>significar escolhas</strong>: uma nave que se recupera rápido de batida é outro jogo que uma que aguenta mais golpes.</p>
+    <p>A pergunta de projeto deste bloco é se a diferença fica nos números ou se cada nave ganha <strong>algo que só ela faz</strong>. É a diferença entre “uma nave melhor” e “uma nave outra” — e a segunda é a que faz alguém querer a terceira.</p>
+    <p style="margin-bottom:0">O passo técnico que abre o bloco é pequeno: a <strong>ficha da nave precisa sair da cena e virar arquivo em disco</strong>, como já são as fichas de fase e de obstáculo. Sem isso, cinco naves viram cinco cópias com números digitados à mão.</p>
   </div>
 </div>
 
 <div class="phase">
-  <div class="head"><span class="n">Fase 2</span><span class="t">Play Console — o que dá para adiantar</span><span class="when">em paralelo</span></div>
+  <div class="head"><span class="n">Bloco 3</span><span class="t">Recursos, nível, recompensas e conquistas</span><span class="when">por último dos três, e há motivo</span></div>
   <div class="body">
-    <ul>
-      <li><strong style="color:var(--accent)">Montar a lista dos 12 testadores. Comece hoje.</strong> É o item mais longo e o único que não depende de nada seu.</li>
-      <li>Escrever a política de privacidade e publicá-la (GitHub Pages do portfólio).</li>
-      <li>Preparar a arte da ficha: ícone 512×512, feature graphic, screenshots, descrição curta e longa. Vale fazer em PT e EN.</li>
-      <li>Assim que a conta sair da verificação: criar o app, testar se o pacote antigo é aceito, criar o projeto novo no Play Games Services.</li>
-    </ul>
+    <p>Duas moedas, como o documento original já previa: uma <strong>comum</strong>, que se ganha jogando, e uma <strong>premium</strong>. A pergunta que define o jogo inteiro não é o que a premium compra — é <strong>o que ela não compra</strong>. Essa linha separa “atalho” de “pagar para vencer”, e é infinitamente mais fácil de traçar agora, no papel, do que depois, tirando coisa da mão de quem já pagou.</p>
+    <p>Junto vêm o <strong>nível do jogador</strong> e as <strong>conquistas próprias</strong> — conquistas do jogo, com regra e prêmio em moeda ou nave. São a melhor torneira de recurso que existe, porque recompensam <em>jogar de um jeito específico</em> em vez de simplesmente jogar muito.</p>
+    <p style="margin-bottom:0"><strong>Por que este bloco vem depois dos outros dois:</strong> o valor de uma moeda é definido pelo que ela compra. Sem naves e sem poderes para comprar, qualquer preço é um chute.</p>
   </div>
 </div>
 
 <div class="phase">
-  <div class="head"><span class="n">Fase 3</span><span class="t">Fechar o que ficou pela metade</span><span class="when">~meio dia</span></div>
+  <div class="head"><span class="n">Bloco 4</span><span class="t">A interface refeita</span><span class="when">no fim, e de propósito</span></div>
   <div class="body">
-    <ul>
-      <li>Recriar as conquistas no novo projeto GPGS e regerar <code>GPGSIds.cs</code>.</li>
-      <li>Reescrever o <code>Google-Login.cs</code>: nome de classe decente, sem campo público de token, com tratamento de falha e sem autenticar cegamente no <code>Awake()</code>.</li>
-      <li><strong>Fechar o passo 4.4 do seu escopo</strong> — fazer o jogo efetivamente reportar as conquistas. Hoje elas existem e são inalcançáveis.</li>
-    </ul>
-  </div>
-</div>
-
-<div class="phase">
-  <div class="head"><span class="n">Fase 4</span><span class="t">O jogo em si — o passo 6, enfim</span><span class="when">o grosso do trabalho</span></div>
-  <div class="body">
-    <p><strong>Sobre reaproveitar o template:</strong> o gameplay dele não serve — movimento livre, tiro, ondas de inimigos, nada disso existe no seu conceito. Mas a arte e os sistemas de apoio servem muito bem: sprites de nave e planetas, VFX de explosão e motor, <code>RepeatingBackground</code>, <code>PoolingController</code>, <code>DirectMoving</code>. <strong>Recomendação: manter o template como biblioteca de arte e escrever o gameplay do zero em cena nova</strong>, em vez de tentar dobrar a <code>Demo_Scene</code> até virar outra coisa.</p>
-    <p>O conceito, destrinchado a partir do seu documento:</p>
-    <ul>
-      <li>Foguete que troca entre um número <strong>ímpar</strong> de caminhos (3 é o começo natural — permite “centro + laterais”).</li>
-      <li>Obstáculos que <strong>aceleram ou freiam</strong> em vez de dar dano. A velocidade é a única barra de vida.</li>
-      <li>Velocidade ≤ 0 → derrota. Velocidade ≥ X → vitória por dobra espacial.</li>
-      <li>Entradas: toque para trocar de faixa. Aqui vale decidir de vez se migra para o Input System novo ou fica no legado — <strong>para trocar de faixa, o legado resolve; migrar agora é custo sem retorno.</strong></li>
-      <li>Áudio: pelo menos motor, impacto positivo, impacto negativo, vitória e derrota.</li>
-      <li>Pontuação persistente e, se quiser, leaderboard do Play Games.</li>
-    </ul>
-    <p style="margin-bottom:14px">Os “plus” do seu doc — tempo limite, dificuldades, foguetes alternativos, duas moedas, upgrades — são <strong>pós-lançamento</strong>. Duas moedas e loja de upgrades é, sozinho, um projeto do tamanho do jogo base.</p>
-  </div>
-</div>
-
-<div class="phase">
-  <div class="head"><span class="n">Fase 5</span><span class="t">Monetização — por último</span><span class="when">depois do lançamento</span></div>
-  <div class="body">
-    <ul>
-      <li>Anúncios primeiro, compras depois. Anúncio é integração; compra com moeda dupla é design de economia.</li>
-      <li>Só faz sentido colocar anúncio em jogo que as pessoas querem jogar. Antes disso você está otimizando receita de zero jogadores.</li>
-      <li>Entrar com Ads muda o formulário de segurança de dados e a classificação indicativa — outro motivo para não misturar isso com o primeiro lançamento.</li>
-    </ul>
+    <p>Cada bloco acima cria tela nova: loja, oficina de evolução, seleção de nave, recompensas, conquistas. A interface de hoje é funcional e feia — a tela de seleção de fase é montada em tempo de execução só para permitir testar a progressão.</p>
+    <p style="margin-bottom:0"><strong>Enquanto os três primeiros blocos correm, tela feia não é defeito</strong> — só falta de função conta. Esta é a passada única que unifica tudo, e fazê-la antes seria fazê-la duas vezes. Fechar este bloco é fechar o jogo completo.</p>
   </div>
 </div>
 
 <hr>
 
 <h2>Parte 6</h2>
-<p class="h2sub">Se você só ler uma coisa</p>
+<p class="h2sub">Do jogo completo até o lançamento</p>
 
-<ol>
-  <li><strong>Hoje:</strong> comece a juntar os 12 testadores. É o relógio mais lento do projeto e ele nem começou a correr.</li>
-  <li><strong>Esta semana:</strong> Fases 0 e 1 — versão do Unity resolvida, keystore novo, pacote novo, e um <code>.aab</code> assinado saindo do forno. Depois disso, publicar nunca mais é assunto.</li>
-  <li><strong>Depois:</strong> Fase 4, sem culpa e sem distração. É aí que o projeto deixa de ser um exercício de pipeline e vira um jogo.</li>
-</ol>
+<p>O plano é por etapas, e cada uma só começa quando a anterior estiver <strong>tão boa e tão testada quanto a mecânica crua está hoje</strong>. Não há pressa de lançar, e é essa ausência de pressa que torna o plano possível.</p>
 
-<p class="foot">
-  Documento gerado a partir do passo-a-passo original (Google Docs) cruzado com a leitura de <code>C:\Projeto Pessoal\Jogo</code> em 28/07/2026.<br>
-  Itens de política da Google Play devem ser reconfirmados no Console — as regras mudam e este documento não é fonte oficial.
-</p>
+<div class="tablewrap">
+<table>
+<thead><tr><th class="step">Etapa</th><th>O que acontece</th><th>Por que nessa posição</th></tr></thead>
+<tbody>
+<tr><td class="step">1</td><td><strong>Mecânica crua</strong> <span class="badge b-ok">feita</span></td><td>Fechada em 21/08/2026, aprovada no aparelho.</td></tr>
+<tr><td class="step">2</td><td><strong>O jogo completo</strong> — os quatro blocos da Parte 5</td><td>É o que transforma uma corrida boa num jogo com motivo para voltar.</td></tr>
+<tr><td class="step">3</td><td><strong>Análise de dados</strong></td><td>Precisa estar recolhendo <em>antes</em> do teste fechado, que é quando as respostas importam.</td></tr>
+<tr><td class="step">4</td><td><strong>Conta, nuvem, arte e áudio</strong></td><td>Arte feita antes da interface final é arte feita duas vezes. Hoje o projeto não tem um único arquivo de som.</td></tr>
+<tr><td class="step">5</td><td><strong>Monetização</strong></td><td>Depois de a economia existir e estar equilibrada, nunca antes.</td></tr>
+<tr><td class="step">6</td><td><strong>Teste fechado</strong></td><td>12 testadores firmes por 14 dias. É o que destrava a produção — e é <strong>a leitura verdadeira do equilíbrio</strong>.</td></tr>
+<tr><td class="step">7</td><td><strong>Plano de conteúdo futuro</strong></td><td>Cerca de um ano de fases, naves e eventos previstos antes de abrir para o público.</td></tr>
+<tr><td class="step">8</td><td><strong>Lançamento aberto</strong></td><td>Com divulgação, e com o jogo inteiro de pé.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>A conta do jogador</h3>
+<p>A conta é a do <strong>Google Play</strong> — nada de cadastro próprio, nada de senha. Entra com a conta que já está no aparelho, e o progresso (nível, moedas, naves, evolução, conquistas) <strong>sobe para a nuvem por padrão</strong>, sem o jogador precisar pedir. Trocar de celular não pode custar o saldo de ninguém.</p>
+
+<p>Duas consequências que valem estar escritas desde já:</p>
+<ul>
+  <li><strong>O jogo tem de funcionar sem nuvem.</strong> Sem internet, sem login, sem serviços do Google: joga igual, salva no aparelho, sincroniza quando puder. Login que trava a primeira tela é o jeito mais rápido de perder um jogador.</li>
+  <li><strong>As conquistas do jogo e as da Play são a mesma conquista vista de dois lados.</strong> A do jogo é a dona da verdade — é ela que tem a regra e paga o prêmio. A da Play é o espelho: completou no jogo, dispara na loja. Isso tem uma vantagem prática grande: as conquistas podem ser construídas e recompensar <strong>antes</strong> de o Play Games estar instalado, e o espelho vira um fio que se liga depois, num lugar só.</li>
+</ul>
+
+<h3>A papelada acompanha, nunca antecipa</h3>
+<p>Conta, monetização e análise de dados mudam o que a Google Play precisa declarar sobre o jogo. A regra do projeto é <strong>atualizar no dia em que a coisa entra</strong>, e não antes: declarar hoje o que talvez exista em três meses cria divergência entre o que a loja afirma e o que o aplicativo faz — que é exatamente o que a Play compara. Já aconteceu uma vez aqui, com a política de privacidade descrevendo um login que havia saído do código.</p>
+
+<hr>
+
+<h2>Parte 7</h2>
+<p class="h2sub">O futuro guardado</p>
+
+<p>Ideias decididas, adiadas de propósito, e que não estão perdidas. Nenhuma bloqueia nada — todas esperam o jogo completo.</p>
+
+<ul>
+  <li><strong>Inimigos e chefe de fase</strong> — a ideia nova do documento original. Inimigos que reagem em vez de só descer, espólio ao vencê-los, e um chefe fechando a fase. O tiro, a vida e a defesa já existem: falta o que usa isso.</li>
+  <li><strong>Corrida como fonte de recurso, combate como campanha</strong> — a ideia extravagante do documento original, e a forma final possível do jogo: correr para juntar, lutar para avançar, e missões que liberam naves.</li>
+  <li><strong>Número variável de faixas</strong> — mecânicas que aumentem ou diminuam a quantidade de faixas durante a corrida. Por causa desta ideia, <strong>o texto da loja foi escrito sem citar quantas faixas o jogo tem</strong>.</li>
+  <li><strong>Barreira de avanço</strong> — um ponto que só deixa passar quem trouxe nave forte o bastante. Só faz sentido depois de existir nave fraca e nave forte.</li>
+  <li><strong>Tiro como comando do jogador</strong>, com munição, em vez de automático. É escolha de projeto, não conserto: o ganho passivo já deixa o jogo de pé sem tiro nenhum.</li>
+  <li><strong>Eventos de calendário</strong> — conteúdo por data, ao longo do ano.</li>
+</ul>
+
+<div class="panel note">
+<p style="margin-bottom:0"><strong>Por que um ano de futuro previsto não exige um ano de trabalho adiantado.</strong> Fase nova neste projeto <strong>não é código</strong> — é um arquivo de dados com os números da fase. Obstáculo novo também. Se poder, nave, conquista e recompensa nascerem com a mesma estrutura, cada item de conteúdo passa a custar <strong>horas de autoria em vez de semanas de programação</strong>. É a diferença entre planejar doze funcionalidades e planejar doze linhas numa tabela — e é o que permite ter um plano de um ano sem ter o ano construído antes de lançar.</p>
+</div>
+
+<hr>
+
+<h2>Parte 8</h2>
+<p class="h2sub">Como este projeto trabalha</p>
+
+<p class="q">A divisão</p>
+<p class="qa">O código, os dados, as ferramentas de editor, os scripts de build e a documentação são escritos pelo Claude. <strong>O Raffael abre a Unity</strong>, roda, testa no aparelho, faz arte e áudio, e <strong>publica</strong> — o envio para a loja é sempre dele, porque é ação externa, irreversível e envolve as chaves de assinatura.</p>
+
+<p class="q">Um botão só</p>
+<p class="qa">Toda mudança que precise mexer em cena ou criar arquivo de dados é feita por <strong>ferramenta de editor</strong>, nunca editando o arquivo de cena à mão — o editor fica aberto e sobrescreveria. E o Raffael roda <strong>um item de menu só</strong>: <em>Montar</em>. Qual montagem aquela mudança exige, e em que ordem, é problema de quem escreveu o código, não de quem clica.</p>
+
+<p class="q">Nada de número mágico</p>
+<p class="qa">Equilíbrio mora em ficha ou no Inspector. Comportamento novo que só existe em código, com constante escondida, é dívida — porque a hora de ajustar é sempre depois, com o jogo rodando, e não durante.</p>
+
+<p class="q">Uma parte por vez, testada no aparelho</p>
+<p class="qa">Nenhuma parte é dada como pronta sem passar pelo dedo num celular de verdade. Foi assim nas quatro primeiras, e é assim que as próximas quatro vão ser.</p>
+
+<p class="q">O que fica pronto sai do caminho</p>
+<p class="qa" style="margin-bottom:0">Ferramenta de conserto de uma vez só é apagada depois de rodar, e o registro fica escrito com o comando que a traz de volta se um dia fizer falta. Documento substituído é substituído, não acumulado ao lado do novo.</p>
+
+<div class="foot">
+  <p><strong>Onde está cada coisa</strong></p>
+  <p>
+    <code>ROADMAP.md</code> — o estado real de cada tarefa, com datas. <strong>Fonte de verdade do que está feito.</strong><br>
+    <code>CLAUDE.md</code> — as regras de trabalho no projeto.<br>
+    <code>docs/play-console/</code> — o caminho até a loja, as declarações do aplicativo, o texto da página e o preparo do teste fechado.<br>
+    <code>docs/politica-de-privacidade.md</code> e <code>docs/privacidade/</code> — a política publicada, em português e inglês.
+  </p>
+  <p>Documento do jogo · 21/08/2026 · substitui o escopo de 28/07/2026, que era um diagnóstico do projeto anterior ao rebuild e não descreve mais o jogo que existe.</p>
+</div>
 
 </div>
 </body>
