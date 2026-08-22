@@ -83,6 +83,19 @@ public class Obstacle : MonoBehaviour
 
         if (transform.position.y < despawnY)
         {
+            // Passou pela nave e saiu de cena sem ser destruído: é o obstáculo
+            // que o jogador desviou. Poder medido em "X obstáculos" gasta carga
+            // aqui.
+            if (stats != null)
+            {
+                // Os dois sistemas de poder são avisados em separado, e nenhum sabe
+                // do outro. Quem os junta é a nave, aqui.
+                if (LevelPowerUps.Instance != null)
+                    LevelPowerUps.Instance.NotifyObstaclePassed(stats);
+                if (ShipAbilities.Instance != null)
+                    ShipAbilities.Instance.NotifyObstaclePassed(stats);
+            }
+
             Destroy(gameObject);
             return;
         }
@@ -148,8 +161,10 @@ public class Obstacle : MonoBehaviour
 
             // Morreu de tiro (a batida destrói o objeto por outro caminho), então
             // é abate de verdade e os poderes podem reagir.
-            if (ShipPowerUps.Instance != null)
-                ShipPowerUps.Instance.NotifyObstacleDestroyed(stats);
+            if (LevelPowerUps.Instance != null)
+                LevelPowerUps.Instance.NotifyObstacleDestroyed(stats);
+            if (ShipAbilities.Instance != null)
+                ShipAbilities.Instance.NotifyObstacleDestroyed(stats);
 
             if (stats.shrapnelOnDeath)
                 SpawnShrapnel();

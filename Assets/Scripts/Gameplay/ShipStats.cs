@@ -57,8 +57,16 @@ public class ShipStats : MonoBehaviour
 
     public Health Health { get; private set; }
 
-    /// <summary>Os poderes valendo agora. Nulo é caso normal: nave sem o componente não usa poder.</summary>
-    ShipPowerUps powerUps;
+    /// <summary>
+    /// Os dois sistemas de poder, que **não se conhecem**: poder de fase, que se
+    /// pega na pista, e poder da nave, que o jogador ativa. É esta classe que
+    /// junta os dois num golpe, porque a nave é o que eles têm em comum.
+    ///
+    /// Nulos é caso normal: nave sem o componente simplesmente não usa aquele
+    /// tipo de poder.
+    /// </summary>
+    LevelPowerUps levelPowers;
+    ShipAbilities abilities;
 
     /// <summary>Falso até a vida ser configurada no Awake — ver lá.</summary>
     bool ready;
@@ -85,7 +93,8 @@ public class ShipStats : MonoBehaviour
         }
 
         Health = GetComponent<Health>();
-        powerUps = GetComponent<ShipPowerUps>();
+        levelPowers = GetComponent<LevelPowerUps>();
+        abilities = GetComponent<ShipAbilities>();
 
         Recalculate();
 
@@ -109,8 +118,9 @@ public class ShipStats : MonoBehaviour
     /// <summary>
     /// Mexe num número da nave a partir de agora. Quem aplicou **guarda a
     /// referência devolvida** e a passa para <see cref="RemoveModifier"/> quando
-    /// o efeito acabar — poder por tempo não precisa fazer isso na mão, o
-    /// <see cref="ActivePowerUp.ApplyModifier"/> cuida.
+    /// o efeito acabar. Poder não precisa fazer isso na mão: tanto o
+    /// <see cref="ActiveLevelPowerUp.ApplyModifier"/> quanto o
+    /// <see cref="ActiveShipAbility.ApplyModifier"/> desfazem sozinhos.
     /// </summary>
     public void AddModifier(StatModifier modifier)
     {
@@ -318,8 +328,14 @@ public class ShipStats : MonoBehaviour
     {
         var hit = new Hit { Damage = DamageAfterDefense(rawDamage) };
 
-        if (powerUps != null)
-            powerUps.ModifyIncomingHit(ref hit);
+        // Poder de fase primeiro, poder da nave depois: o de fase foi de graça e
+        // é passageiro, e o da nave custou um uso limitado. Gastar o barato antes
+        // do caro é o que o jogador esperaria.
+        if (levelPowers != null)
+            levelPowers.ModifyIncomingHit(ref hit);
+
+        if (abilities != null)
+            abilities.ModifyIncomingHit(ref hit);
 
         if (hit.Damage > 0f)
             Health.TakeDamage(hit.Damage);

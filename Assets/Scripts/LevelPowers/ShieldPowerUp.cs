@@ -1,45 +1,33 @@
 using UnityEngine;
 
 /// <summary>
-/// **Proteção: segura o próximo golpe inteiro.** O primeiro poder do jogo, e ele
-/// existe tanto para ser jogado quanto para ser o exemplo de como se escreve um:
-/// a classe tem dez linhas de efeito, e todo o resto — nome, arte, quantos golpes
-/// segura — vem da base, pelo arquivo.
+/// **Proteção: segura o próximo golpe inteiro.** O primeiro poder de fase do
+/// jogo, e ele existe tanto para ser jogado quanto para ser o exemplo de como se
+/// escreve um: a classe tem oito linhas de efeito, e todo o resto — nome, arte,
+/// quantas cargas — vem da base, pelo arquivo.
 ///
 /// **Segura o golpe inteiro, e não só o dano** *(definido pelo Raffael em
 /// 21/08/2026)*: some a vida perdida e some também o custo de tempo — o tranco,
 /// a parada e a retomada arrastada. **É como se a nave nunca tivesse batido.**
-/// Por isso não há botão para escolher: um escudo que salvasse a vida e deixasse
-/// a freada seria outro poder, não uma variação deste.
 ///
-/// **Segura por contagem, e não por tempo**, e a diferença é de equilíbrio: um
+/// **Segura por carga, e não por tempo**, e a diferença é de equilíbrio: um
 /// escudo com duração pode comer três batidas seguidas se elas vierem juntas, e
-/// some justamente o custo de ~3,5 s que dá tensão à corrida. Segurando um golpe,
-/// o preço da segunda batida continua inteiro.
+/// some justamente o custo de ~3,5 s que dá tensão à corrida. Segurando um
+/// golpe, o preço da segunda batida continua inteiro.
 ///
 /// **Isto não fere a regra de que um golpe nunca é de graça.** Aquela regra é
 /// sobre a *defesa em porcentagem*, que não pode virar imunidade por mais alta
 /// que seja. Aqui o golpe é pago com o escudo, que se gasta e acaba.
 ///
 /// **O obstáculo se desfaz no escudo**, e os dois somem juntos — o obstáculo
-/// porque bateu, o escudo porque foi gasto. O que falta é mostrar isso em tela,
-/// e isso é trabalho da arte.
-///
-/// **E o obstáculo morre como quem é destruído**, o que tem uma consequência
-/// escolhida pelo Raffael em 21/08/2026: **Casulo desfeito no escudo solta
-/// estilhaço**, e a nave leva. O escudo se gasta no mesmo golpe, então na hora em
-/// que o caco chega ele já não existe — é atômico. A troca fica sendo *uma batida
-/// grande vira vários raspões*, que vale muito a pena e ainda assim não é de
-/// graça.
-///
-/// **Dois botões, e os dois são a régua de melhoria deste poder:** quantas cargas
-/// ele tem (na base, porque todo poder por carga precisa disso) e se ele cala o
-/// que o obstáculo solta ao morrer (aqui, porque só um poder defensivo se
-/// pergunta isso). Uma proteção básica tem 1 carga e deixa o estilhaço sair; uma
-/// melhorada sobe as cargas, cala o estilhaço, ou as duas coisas.
+/// porque bateu, o escudo porque foi gasto. E o obstáculo morre como quem é
+/// destruído, o que tem uma consequência escolhida pelo Raffael: **Casulo
+/// desfeito no escudo solta estilhaço**, e a nave leva, porque o escudo já se
+/// gastou no golpe que o criou. A troca fica sendo *uma batida grande vira
+/// vários raspões* — vale muito a pena e ainda assim não é de graça.
 /// </summary>
-[CreateAssetMenu(fileName = "Protecao", menuName = "Corrida no Espaço/Poderes/Proteção")]
-public class ShieldPowerUp : PowerUpDefinition
+[CreateAssetMenu(fileName = "Protecao", menuName = "Corrida no Espaço/Poder de fase/Proteção")]
+public class ShieldPowerUp : LevelPowerUp
 {
     [Header("Proteção")]
     [Tooltip("Marcado, o obstáculo desfeito no escudo NÃO solta o que soltaria ao morrer — no " +
@@ -61,7 +49,7 @@ public class ShieldPowerUp : PowerUpDefinition
         color = new Color(0.55f, 0.85f, 1f, 1f);
     }
 
-    public override void ModifyIncomingHit(ActivePowerUp active, ref ShipStats.Hit hit)
+    public override void ModifyIncomingHit(ActiveLevelPowerUp active, ref ShipStats.Hit hit)
     {
         // Outro poder já segurou este golpe: não gastar carga por nada.
         if (hit.Damage <= 0f)

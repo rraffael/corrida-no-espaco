@@ -2,31 +2,29 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// O Inspector de qualquer ficha de poder. Existe para uma coisa só: **mostrar
-/// apenas o campo de duração que vale** para a forma escolhida, com o nome que
-/// ele tem naquele caso.
+/// O Inspector de qualquer ficha de **poder de fase**. Existe para uma coisa só:
+/// mostrar apenas o campo de duração que vale para a forma escolhida, com o nome
+/// que ele tem naquele caso.
 ///
 /// Sem isto, uma ficha de Proteção mostra "Duration Seconds 5" logo abaixo de
 /// "Cargas 1", e os dois parecem valer ao mesmo tempo — o campo morto vira
 /// convite a mexer no número errado e depois procurar por que não mudou nada.
 ///
-/// Vale para as classes filhas também (<c>editorForChildTypes</c>), e os campos
-/// próprios de cada poder continuam aparecendo na ordem em que foram
-/// declarados: o desenho é o padrão do Unity, menos o campo escondido.
+/// O <see cref="ShipAbilityEditor"/> é o gêmeo disto para poder de nave, e é um
+/// arquivo separado de propósito: os dois sistemas não compartilham nada.
 /// </summary>
-[CustomEditor(typeof(PowerUpDefinition), true)]
-class PowerUpDefinitionEditor : Editor
+[CustomEditor(typeof(LevelPowerUp), true)]
+class LevelPowerUpEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
 
-        var lifetimeProperty = serializedObject.FindProperty("lifetime");
-
         // enumValueIndex é a posição no enum, não o valor. Dá na mesma aqui
         // porque Lifetime é 0, 1, 2 na ordem em que foi escrito — se um dia
-        // ganhar valor explícito, isto precisa virar enumValueFlag/intValue.
-        var lifetime = (PowerUpDefinition.Lifetime)lifetimeProperty.enumValueIndex;
+        // ganhar valor explícito, isto precisa virar intValue.
+        var lifetime = (LevelPowerUp.Lifetime)
+            serializedObject.FindProperty("lifetime").enumValueIndex;
 
         var property = serializedObject.GetIterator();
         bool enterChildren = true;
@@ -52,9 +50,20 @@ class PowerUpDefinitionEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
-    static bool IsHidden(string path, PowerUpDefinition.Lifetime lifetime) =>
-        (path == "durationSeconds" && lifetime != PowerUpDefinition.Lifetime.PorTempo) ||
-        (path == "charges" && lifetime != PowerUpDefinition.Lifetime.PorUso);
+    static bool IsHidden(string path, LevelPowerUp.Lifetime lifetime)
+    {
+        switch (path)
+        {
+            case "durationSeconds":
+                return lifetime != LevelPowerUp.Lifetime.PorTempo;
+
+            case "charges":
+                return lifetime != LevelPowerUp.Lifetime.PorUso;
+
+            default:
+                return false;
+        }
+    }
 
     /// <summary>
     /// O rótulo em português para os campos cujo nome em inglês não se explica

@@ -2,8 +2,24 @@ using UnityEngine;
 
 /// <summary>
 /// Arma da nave. Atira sozinha, no ritmo da velocidade de ataque da ficha —
-/// por enquanto sem munição e sem botão. O dia em que o tiro virar comando do
-/// jogador, é aqui que entra a condição, e o resto do jogo não muda.
+/// sem munição e sem botão. O dia em que o tiro virar comando do jogador, é aqui
+/// que entra a condição, e o resto do jogo não muda.
+///
+/// **Ela para de atirar enquanto a nave troca de faixa** *(experiência de
+/// 22/08/2026)*. A razão vem de um retorno de teste: alguém jogou e ficou em
+/// dúvida se o jogo era destruir ou desviar. A dúvida era legítima, porque o
+/// tiro é automático, infinito e sempre ligado — ou seja, **não é decisão de
+/// ninguém**, e ainda por cima premia ficar parado, que é o contrário do que a
+/// troca de faixa pede.
+///
+/// Com esta regra, o único comando do jogo passa a valer duas coisas ao mesmo
+/// tempo: ficar na faixa é atirar e ganhar velocidade; sair é desviar e abrir
+/// mão do abate. A dúvida do testador **vira a mecânica** em vez de ser um
+/// mal-entendido, e a resposta passa a ser dele, momento a momento.
+///
+/// **É experiência, e desliga num campo** — <c>holdFireWhileChangingLane</c>.
+/// Desmarcado, volta exatamente o comportamento antigo, para os dois serem
+/// comparados no mesmo aparelho.
 /// </summary>
 public class ShipWeapon : MonoBehaviour
 {
@@ -28,12 +44,30 @@ public class ShipWeapon : MonoBehaviour
     [Tooltip("Acima deste Y o tiro some, por ter saído da tela.")]
     [SerializeField] float despawnY = 8f;
 
+    [Header("Trocar de faixa")]
+    [Tooltip("A nave PARA de atirar enquanto está deslizando de uma faixa para a outra.\n\n" +
+             "É o que transforma o único botão do jogo numa escolha: ficar na faixa é atirar e " +
+             "ganhar velocidade, sair é desviar e abrir mão do abate. Desmarcado, volta o " +
+             "comportamento antigo — atira sempre, e a troca de faixa sai de graça.")]
+    [SerializeField] bool holdFireWhileChangingLane = true;
+
+    [Tooltip("Segundos parados a mais DEPOIS de chegar na faixa nova. Zero: volta a atirar assim " +
+             "que encosta.\n\n" +
+             "Existe porque a troca em si dura pouco — com velocidade 12 e faixa de 1,6, dá uns " +
+             "0,13 s, que pode ser sutil demais para o jogador sentir a troca. Se o efeito não " +
+             "aparecer no aparelho, é aqui que se aumenta antes de descartar a ideia.")]
+    [SerializeField, Min(0f)] float holdFireAfterLaneChange = 0f;
+
     float cooldown;
+    float resumeFireAt;
+    ShipLaneController lanes;
 
     void Awake()
     {
         if (stats == null)
             stats = GetComponent<ShipStats>();
+
+        lanes = GetComponent<ShipLaneController>();
     }
 
     void Update()
@@ -46,12 +80,38 @@ public class ShipWeapon : MonoBehaviour
         if (RaceDirector.Instance != null && !RaceDirector.Instance.IsRunning)
             return;
 
+        if (IsHoldingFire())
+            return;
+
         cooldown -= Time.deltaTime;
         if (cooldown > 0f)
             return;
 
         cooldown = stats.ShotInterval;
         Fire();
+    }
+
+    /// <summary>
+    /// A arma está calada porque a nave está trocando de faixa.
+    ///
+    /// **Congela o relógio do tiro junto**, e é de propósito: se ele continuasse
+    /// correndo, a nave chegaria na faixa nova com o tiro já vencido e dispararia
+    /// no mesmo instante — a troca sairia quase de graça, que é justamente o que
+    /// esta regra existe para cobrar. Do jeito que está, tempo trocando de faixa
+    /// é tempo sem atirar, ponto.
+    /// </summary>
+    bool IsHoldingFire()
+    {
+        if (!holdFireWhileChangingLane || lanes == null)
+            return false;
+
+        if (lanes.IsChangingLane)
+        {
+            resumeFireAt = Time.time + holdFireAfterLaneChange;
+            return true;
+        }
+
+        return Time.time < resumeFireAt;
     }
 
     void Fire()
@@ -79,7 +139,9 @@ public class ShipWeapon : MonoBehaviour
         // Depois de o tiro sair, e não antes: o gancho serve para contar tiros e
         // reagir, não para mexer no dano — esse já veio da ficha com os
         // modificadores aplicados.
-        if (ShipPowerUps.Instance != null)
-            ShipPowerUps.Instance.NotifyShotFired();
+        if (LevelPowerUps.Instance != null)
+            LevelPowerUps.Instance.NotifyShotFired();
+        if (ShipAbilities.Instance != null)
+            ShipAbilities.Instance.NotifyShotFired();
     }
 }

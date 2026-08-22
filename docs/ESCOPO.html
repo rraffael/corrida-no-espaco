@@ -162,7 +162,9 @@
 <p>Tudo o que está nesta parte existe, roda e foi <strong>aprovado no celular</strong>. É a mecânica crua, e ela está fechada.</p>
 
 <h3>A corrida</h3>
-<p>A nave ocupa uma de <strong>três faixas</strong> e o cenário desce por baixo dela. Um arraste do dedo move a nave <strong>uma faixa por vez</strong> — não é um controle contínuo, é um passo por gesto, e foi assim que ficou bom no aparelho. O tiro é automático e constante. O menu de pausa é um botão no canto que congela a partida.</p>
+<p>A nave ocupa uma de <strong>três faixas</strong> e o cenário desce por baixo dela. Um arraste do dedo move a nave <strong>uma faixa por vez</strong> — não é um controle contínuo, é um passo por gesto, e foi assim que ficou bom no aparelho. O menu de pausa é um botão no canto que congela a partida.</p>
+
+<p>O tiro é automático e não tem munição — <strong>mas a nave para de atirar enquanto troca de faixa</strong>. É o que faz o único comando do jogo valer duas coisas ao mesmo tempo: <em>ficar</em> na faixa é atirar e ganhar velocidade; <em>sair</em> é desviar e abrir mão do abate. Sem essa regra o tiro não seria decisão de ninguém — estaria sempre ligado, de graça, premiando ficar parado, que é o oposto do que o jogo pede.</p>
 
 <h3>A velocidade é a moeda de tudo</h3>
 <p>É o coração do jogo, e vale entender por quê: a velocidade não é só um número na tela, é <strong>o placar, o relógio e o risco ao mesmo tempo</strong>. Ela se move por quatro forças:</p>
@@ -278,9 +280,31 @@
 <div class="phase">
   <div class="head"><span class="n">Bloco 1</span><span class="t">Poderes em partida</span><span class="when">o primeiro, porque é o mais barato de julgar</span></div>
   <div class="body">
-    <p><strong>Começa pela fábrica:</strong> uma ficha de poder em disco e um catálogo, de modo que poder novo seja um arquivo — o que ele faz, quanto dura, quão raro é, como aparece — e não um script novo toda vez.</p>
-    <p>Com isso de pé, os poderes entram em série: reparo, escudo temporário, tiro rápido — e o outro lado da moeda, os <strong>poderes ruins</strong>, que podem cair como item a desviar ou vir de obstáculo. É pura jogabilidade: ciclo curto, sem depender de nave nem de economia, e se avalia no dedo em uma tarde.</p>
-    <p><strong>A decisão de equilíbrio deste bloco é o escudo</strong>, e ela é séria: a batida custa ~3,5 segundos, e foi assim que o jogo ficou bom. Um escudo que <em>anula</em> a batida anula o peso que dá tensão à corrida inteira. Um escudo que a <em>rebaixa a raspão</em> preserva esse peso e ainda assim vale a pena pegar.</p>
+    <p><span class="badge b-ok">Estrutura feita</span> <strong>Começa pela fábrica:</strong> uma ficha de poder em disco, de modo que poder novo seja um arquivo — o que ele faz, quanto dura, quão raro é — e não um script novo toda vez.</p>
+
+    <p class="q">São dois tipos de poder, e eles são sistemas separados</p>
+    <p>A separação existe porque os dois <strong>ocupam espaços de decisão diferentes</strong>. Um sistema único cobrindo os dois acabaria não sendo bem nenhum deles — então nem o código eles compartilham.</p>
+
+    <div class="tablewrap">
+    <table>
+    <thead><tr><th></th><th>Poder de fase</th><th>Poder da nave</th></tr></thead>
+    <tbody>
+    <tr><td><strong>De onde vem</strong></td><td>Aparece na pista, sorteado</td><td>Equipado fora da partida, ou de fábrica na nave</td></tr>
+    <tr><td><strong>Como dispara</strong></td><td>Ao ser <strong>pego</strong></td><td>O jogador <strong>ativa</strong>, com toque duplo</td></tr>
+    <tr><td><strong>O que decide</strong></td><td>Vale desviar para pegar aquilo?</td><td>O que levar, e quando gastar</td></tr>
+    <tr><td><strong>Limite</strong></td><td>Tempo, ou número de cargas</td><td>Usos por partida e recarga</td></tr>
+    <tr><td><strong>Para que serve</strong></td><td>Dinamizar a partida</td><td>Tornar a nave única, e vencer uma fase específica</td></tr>
+    </tbody>
+    </table>
+    </div>
+
+    <p>O poder de fase é simples de propósito: reparo, escudo, tempo lento — e o outro lado da moeda, os <strong>poderes ruins</strong>, dos quais se desvia em vez de pegar. O poder da nave é onde mora a construção do jogador.</p>
+
+    <p><strong>O jogador nunca confunde os dois.</strong> Poder de fase é item na pista, com uma animação ao ser pego; poder da nave mora fixo num canto, mostrando qual é, quantos usos sobram e quanto falta da recarga — e a ativação é em qualquer lugar da tela, para o polegar não precisar sair da faixa em que está desviando.</p>
+    <p class="q">A Proteção, e o que ela ensinou sobre desenhar poder aqui</p>
+    <p>O primeiro poder escrito segura <strong>o próximo golpe inteiro</strong> — some o dano e somem também os ~3,5 segundos da batida. É como se a nave nunca tivesse batido.</p>
+    <p>Ele é limitado por <strong>contagem e não por duração</strong>, e a diferença é de equilíbrio: um escudo com prazo pode comer três batidas seguidas se elas vierem juntas, apagando justamente o custo que dá tensão à corrida. Segurando um golpe, o preço da segunda batida continua inteiro.</p>
+    <p>E ele tem uma consequência que ninguém teria previsto no papel: o obstáculo desfeito no escudo <strong>morre como quem é destruído</strong>, então um Casulo espalha estilhaço — e o escudo já se gastou no mesmo golpe que o criou. A troca vira <em>uma batida grande em vários raspões</em>. Vale muito a pena, e ainda assim não sai de graça.</p>
   </div>
 </div>
 

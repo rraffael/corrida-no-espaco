@@ -304,6 +304,16 @@ public class RaceDirector : MonoBehaviour
     {
         IsRunning = false;
 
+        // Poder é da partida, não do jogador: a corrida acabou, tudo cai. Hoje a
+        // cena sempre recarrega antes de uma corrida nova, então isto não muda
+        // nada visível — mas é o que faz cada poder receber o fim dele em vez de
+        // simplesmente ser destruído, que é o contrato dos dois sistemas.
+        if (LevelPowerUps.Instance != null)
+            LevelPowerUps.Instance.ClearAll();
+
+        if (ShipAbilities.Instance != null)
+            ShipAbilities.Instance.ResetForRace();
+
         if (hideOnEnd != null)
         {
             foreach (var target in hideOnEnd)

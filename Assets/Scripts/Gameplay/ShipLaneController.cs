@@ -31,6 +31,16 @@ public class ShipLaneController : MonoBehaviour
     /// <summary>Faixa de destino atual. A nave pode ainda estar deslizando até ela.</summary>
     public int CurrentLane { get; private set; }
 
+    /// <summary>
+    /// A nave ainda está deslizando até a faixa de destino — quer dizer, está
+    /// **no meio de uma troca**, e não parada numa faixa.
+    ///
+    /// Existe para a arma poder segurar o tiro durante a troca, que é o que
+    /// transforma "ficar na faixa" e "sair dela" numa escolha em vez de duas
+    /// coisas que acontecem sozinhas. Ver <see cref="ShipWeapon"/>.
+    /// </summary>
+    public bool IsChangingLane { get; private set; }
+
     /// <summary>Disparado quando a faixa de destino muda, com o índice novo.</summary>
     public event Action<int> LaneChanged;
 
@@ -136,6 +146,10 @@ public class ShipLaneController : MonoBehaviour
         float x = Mathf.MoveTowards(position.x, targetX, laneChangeSpeed * Time.deltaTime);
         transform.position = new Vector3(x, position.y, position.z);
 
+        // Chegou quando o MoveTowards grudou no destino — ele encaixa exato, então
+        // não é preciso tolerância generosa aqui, só proteção contra ruído de float.
+        IsChangingLane = Mathf.Abs(targetX - x) > 0.0001f;
+
         if (bankAngle <= 0f)
             return;
 
@@ -150,6 +164,7 @@ public class ShipLaneController : MonoBehaviour
         var position = transform.position;
         transform.position = new Vector3(targetX, position.y, position.z);
         transform.rotation = Quaternion.identity;
+        IsChangingLane = false;
     }
 
     /// <summary>Manda a nave para uma faixa direto, sem gesto. Para cutscene, respawn e testes.</summary>

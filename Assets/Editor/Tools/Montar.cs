@@ -36,17 +36,21 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 21/08/2026: **dois passos**, para duas mudanças do mesmo dia.
-    /// Os números da nave saíram do componente e viraram um asset em
-    /// <c>Assets/Ships/</c>, então é preciso criar a ficha e ligá-la na nave da
-    /// <c>Game.unity</c> — sem isso o Console acusa "Nenhuma ficha ligada no
-    /// ShipStats" na primeira corrida. E a nave ganhou o componente que carrega
-    /// os poderes da corrida, que o segundo passo também põe.
+    /// Estado em 22/08/2026: **um passo**, e ele é obrigatório.
+    ///
+    /// Os poderes viraram dois sistemas separados — poder de fase, que se pega,
+    /// e poder da nave, que se ativa —, e o componente único que existia antes
+    /// (<c>ShipPowerUps</c>) foi apagado. A <c>Game.unity</c> ainda tem a
+    /// referência a ele, então neste momento a nave carrega um **script
+    /// faltando**. O passo abaixo tira o que sobrou e põe os dois componentes
+    /// novos no lugar.
+    ///
+    /// Enquanto não rodar, o Inspector da nave mostra "Missing (Mono Script)" —
+    /// e o jogo roda, mas sem poder nenhum.
     /// </summary>
     static readonly Step[] Steps =
     {
-        new Step("Criar a ficha da nave (Assets/Ships/)", ShipSetup.Setup),
-        new Step("Ligar a ficha na nave da Game.unity", BattleSetup.Setup),
+        new Step("Trocar o sistema de poderes da nave na Game.unity", BattleSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

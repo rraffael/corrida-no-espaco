@@ -47,6 +47,12 @@ public class ShipDefinition : ScriptableObject
              "é o tempo que se perde voltando.")]
     [SerializeField, Min(0f)] float crashCost = 1f;
 
+    [Header("Poder da nave")]
+    [Tooltip("Poder que esta nave traz de fábrica, ativável pelo jogador com toque duplo. É o " +
+             "que torna uma nave diferente da outra além dos números. Vazio: esta nave não tem " +
+             "poder próprio, e só usa o que for equipado.")]
+    public ShipAbility intrinsicAbility;
+
     [Header("Combate")]
     [Tooltip("Dano de cada tiro.")]
     [SerializeField, Min(0f)] float damage = 25f;

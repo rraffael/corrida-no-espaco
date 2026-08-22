@@ -22,6 +22,15 @@ public class TouchInput : MonoBehaviour
     [Tooltip("Duração máxima, em segundos, de um toque para valer como tap.")]
     [SerializeField] float tapMaxDuration = 0.3f;
 
+    [Tooltip("Janela máxima, em segundos, entre dois toques para valerem como toque duplo. " +
+             "Curto demais e o jogador não consegue acertar; longo demais e dois toques " +
+             "separados viram um duplo sem querer. Afinar no aparelho.")]
+    [SerializeField] float doubleTapMaxInterval = 0.28f;
+
+    [Tooltip("Distância máxima, em pixels, entre os dois toques de um toque duplo. Existe para " +
+             "dois toques em cantos opostos da tela não contarem como um só gesto.")]
+    [SerializeField] float doubleTapMaxDistance = 140f;
+
     /// <summary>Há pelo menos um dedo (ou o botão do mouse) pressionado agora.</summary>
     public bool IsPressing { get; private set; }
 
@@ -45,9 +54,25 @@ public class TouchInput : MonoBehaviour
     public event Action<Vector2> Released;
     public event Action<Vector2> Tapped;
 
+    /// <summary>
+    /// Dois toques seguidos, perto um do outro. É o gesto que ativa o poder da
+    /// nave — decidido assim em 22/08/2026 para o jogador **não precisar tirar o
+    /// polegar da faixa** para apertar um botão de canto, que é o pior momento
+    /// possível para pedir isso.
+    ///
+    /// **Arraste nunca vira toque duplo**, e isso é de graça: um toque só conta
+    /// como tap se o dedo tiver ficado quase parado, então quem estava trocando
+    /// de faixa jamais dispara isto. Na dúvida, arraste ganha — ativar poder sem
+    /// querer custa muito mais que um toque duplo ignorado.
+    /// </summary>
+    public event Action<Vector2> DoubleTapped;
+
     Vector2 pressStartPosition;
     float pressStartTime;
     bool hasPreviousPosition;
+
+    float lastTapTime = float.NegativeInfinity;
+    Vector2 lastTapPosition;
 
     void Awake()
     {
@@ -159,11 +184,41 @@ public class TouchInput : MonoBehaviour
             bool quickEnough = Time.unscaledTime - pressStartTime <= tapMaxDuration;
             bool stillEnough = Vector2.Distance(position, pressStartPosition) <= tapMoveTolerance;
             if (quickEnough && stillEnough)
+            {
                 Tapped?.Invoke(position);
+                CheckDoubleTap(position);
+            }
         }
 
         IsPressing = pressing;
         hasPreviousPosition = pressing;
+    }
+
+    /// <summary>
+    /// Um tap acabou de acontecer: fecha um toque duplo com o anterior, ou vira
+    /// o primeiro de um novo par.
+    ///
+    /// **O tempo é o não escalado**, como o resto da detecção de toque: com o
+    /// jogo pausado o relógio da partida para, e um gesto ficaria pela metade
+    /// esperando um segundo toque que nunca "chega" no tempo certo.
+    /// </summary>
+    void CheckDoubleTap(Vector2 position)
+    {
+        bool inWindow = Time.unscaledTime - lastTapTime <= doubleTapMaxInterval;
+        bool nearby = Vector2.Distance(position, lastTapPosition) <= doubleTapMaxDistance;
+
+        if (inWindow && nearby)
+        {
+            DoubleTapped?.Invoke(position);
+
+            // Zera em vez de guardar este toque: sem isso, três toques seguidos
+            // disparariam dois gestos, e o terceiro sairia de graça.
+            lastTapTime = float.NegativeInfinity;
+            return;
+        }
+
+        lastTapTime = Time.unscaledTime;
+        lastTapPosition = position;
     }
 
     /// <summary>

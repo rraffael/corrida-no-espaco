@@ -65,9 +65,17 @@ static class BattleSetup
         var definition = ShipSetup.GetOrCreateStarter();
         UiBuilder.SetReference(stats, "definition", definition);
 
-        // Onde os poderes da corrida ficam pendurados. Entra vazio: quem dá poder
-        // à nave é o item da pista, que ainda não existe.
-        GetOrAdd<ShipPowerUps>(ship);
+        // Os dois sistemas de poder, que são separados de ponta a ponta: um para
+        // o que se pega na pista, outro para o que o jogador ativa. Entram
+        // vazios — quem dá poder de fase é o item da pista, que ainda não
+        // existe, e o da nave vem da ficha dela.
+        //
+        // Antes deles, a faxina: o componente único que existia até 22/08/2026
+        // foi apagado, e quem já tinha rodado o Montar ficou com um script
+        // faltando pendurado na nave. Sem isto, ele fica lá para sempre.
+        GameObjectUtility.RemoveMonoBehavioursWithMissingScript(ship);
+        GetOrAdd<LevelPowerUps>(ship);
+        GetOrAdd<ShipAbilities>(ship);
 
         var weapon = GetOrAdd<ShipWeapon>(ship);
         UiBuilder.SetReference(weapon, "projectileSprite", pixel);
@@ -172,7 +180,8 @@ static class BattleSetup
         }
 
         RemoveComponent<ShipWeapon>(FindInScene(scene, ShipObject), ref removed);
-        RemoveComponent<ShipPowerUps>(FindInScene(scene, ShipObject), ref removed);
+        RemoveComponent<ShipAbilities>(FindInScene(scene, ShipObject), ref removed);
+        RemoveComponent<LevelPowerUps>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<ShipStats>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<Health>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<RaceDirector>(FindInScene(scene, RaceObject), ref removed);

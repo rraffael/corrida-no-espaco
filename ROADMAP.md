@@ -58,7 +58,17 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
 
 ### Retomar por aqui
 
-- [x] **`ShipStats` virou ficha em disco** (21/08/2026) — **código escrito, falta rodar o Montar.**
+- [ ] ⚠️ **Rodar o Montar** — o sistema de poderes virou dois, e o componente único de antes foi
+      apagado. Até rodar, a nave da `Game.unity` fica com um **script faltando**. Um passo só.
+      *(Se já rodou em 22/08, marcar e seguir.)*
+- [ ] **Julgar no aparelho a regra de "não atira trocando de faixa"** (22/08/2026) — é uma
+      experiência, desliga num campo, e responde em cinco minutos. Ver "O papel do tiro", na
+      Parte 5. **Vem antes da lista de poderes**, porque vários poderes tocam o tiro
+      - Se parecer que nada mudou, **aumentar o `holdFireAfterLaneChange` antes de descartar**: a
+        troca dura ~0,13 s contra ~0,33 s entre tiros, e a ideia pode falhar por ser invisível em
+        vez de por estar errada
+- [ ] **A lista dos poderes de fase** — o Raffael desenha; é o que destrava a Parte 5
+- [x] **`ShipStats` virou ficha em disco** (21/08/2026) — **rodado e conferido.**
       Ver Parte 6 para o que mudou e por quê
 - [ ] **Parte 5 — poderes em partida.** Primeiro bloco de feature, porque é pura jogabilidade:
       ciclo curto e julgado no polegar, exatamente como foi a batida
@@ -900,6 +910,142 @@ economia, e o Raffael julga no polegar — exatamente como julgou a batida. Alé
 mesmo tecido que a mecânica crua, então é onde eventuais pormenores do cru vão aparecer de novo,
 já no contexto novo.
 
+#### O papel do tiro — experiência de 22/08/2026
+
+**O retorno que abriu o assunto:** um testador jogou e ficou em dúvida se o jogo era *destruir* ou
+*desviar*. Contou que a cadência não dava para trocar de faixa e ainda derrubar o obstáculo, mas
+dava se ficasse parado na faixa.
+
+**O diagnóstico não é sobre o tiro existir, é sobre ele não ser decisão de ninguém.** Hoje o tiro é
+automático, infinito e sempre ligado: o jogador não escolhe atirar, não escolhe quando, e não paga
+nada. O jogo tem **um comando só** — a faixa — e um mecanismo que silenciosamente premia *não usar*
+esse comando, porque ficar parado maximiza abates. Os dois apontam para lados opostos, e nenhum é
+escolhido pela pessoa.
+
+Some-se a isso um buraco de ensino: **ficar parado só é punido na fase 3**, que é onde o Casulo
+estreia. Nas fases 1 e 2, parar é de fato a jogada ótima e nada contesta isso.
+
+- [x] **A nave para de atirar enquanto troca de faixa** (22/08/2026) — *código escrito;
+      **não precisa de Montar**, é só código.* Com isso o único comando do jogo passa a valer duas
+      coisas ao mesmo tempo: **ficar na faixa é atirar e ganhar velocidade; sair é desviar e abrir
+      mão do abate**. A dúvida do testador vira a mecânica em vez de ser mal-entendido
+      - **Sem input novo**, que era a trava das outras saídas: o polegar já está comprometido com a
+        faixa, e o toque duplo foi gasto no poder da nave
+      - `ShipLaneController.IsChangingLane` diz quando; `ShipWeapon.holdFireWhileChangingLane`
+        liga e desliga. **Desmarcado volta exatamente o comportamento antigo**, para os dois serem
+        comparados no mesmo aparelho
+      - **O relógio do tiro congela junto**, e é de propósito: se continuasse correndo, a nave
+        chegaria na faixa nova com o tiro vencido e dispararia no mesmo instante — a troca sairia
+        quase de graça, que é o que a regra existe para cobrar
+      - ⚠️ **Pode ser sutil demais:** a troca dura ~0,13 s (velocidade 12, faixa 1,6) contra
+        ~0,33 s de intervalo entre tiros. Existe `holdFireAfterLaneChange` para segurar mais tempo
+        depois de chegar. **Aumentar isso antes de descartar a ideia** — o teste pode falhar por
+        ser invisível, e não por estar errado
+- [ ] **Julgar no aparelho.** Ou a corrida ganha uma tensão que não tinha, ou fica travada e a
+      ideia é descartada. Cinco minutos respondem
+- [ ] **Se der certo, isto muda o desenho dos poderes:** "tiro rápido" deixa de ser um número
+      subindo e passa a significar *"posso me dar ao luxo de me mover mais"*
+
+**As três saídas que o Raffael levantou, e por que nenhuma foi escolhida agora:**
+
+| Saída | Veredito |
+|---|---|
+| **Munição com tiro manual** | Descartada por ele, e certo: um terceiro gesto no mesmo polegar é onde controle de celular desmonta |
+| **Munição com recarga automática** | **Acrescenta restrição sem acrescentar decisão** — o pente esvazia sozinho no que estiver pela frente, e o jogador continua sem escolher nada. Vira o mesmo não-jogo, só intermitente |
+| **Tirar o tiro por enquanto** | A que menos recomendo. **O Casulo perde a identidade** (ele existe porque destruí-lo tem custo), e **a velocidade deixa de ser conquistada e vira relógio**: hoje são 11 Detritos *ou* 45 s de paciência; sem tiro, sobra só a paciência |
+
+> **A urgência é menor do que parece**, e por um motivo concreto: existe regra de projeto dizendo
+> que toda fase é vencível sem atirar, e ela foi verificada no aparelho. O tiro é **opcional por
+> construção**, então dá para adiar a decisão sem quebrar nada. O que não dá é construir o
+> meta-jogo em cima dele — dano e cadência são dois dos oito atributos da nave.
+
+#### São dois tipos de poder, e eles não competem
+
+*Desenho do Raffael, fechado em 22/08/2026.* **A razão de a divisão funcionar é que os dois
+ocupam espaços de decisão diferentes** — sistema único cobrindo os dois acabaria não sendo bem
+nenhum deles.
+
+| | **Poder de fase** | **Poder da nave** |
+|---|---|---|
+| De onde vem | Aparece na pista, sorteado | Equipado fora da partida, ou intrínseco da nave |
+| Quem decide | Vale a pena desviar para pegar? | O que equipar **antes**, e quando usar **durante** |
+| Como dispara | Ao ser pego | O jogador ativa — **toque duplo na tela** |
+| Limite | Tempo, ou número de usos | Cargas por partida **e recarga** |
+| Para que serve | **Dinamizar a partida**, variar o ritmo | Tornar a nave única, e vencer uma fase específica |
+| Complexidade | Simples de propósito | É onde mora a construção do jogador |
+
+**O que cada um resolve.** O núcleo do jogo é um eixo contínuo — velocidade subindo —, e isso é
+bom mas é liso. Os dois tipos criam **momentos**: o de fase faz cada partida ser diferente, o da
+nave faz cada nave ser diferente.
+
+**Como o jogador sabe o que tem** *(decidido em 22/08/2026)*: o poder da nave mora **fixo num
+canto**, mostrando qual é, cargas e recarga — mas **a ativação é toque duplo em qualquer lugar da
+tela**. As duas coisas são separadas de propósito: botão de ativar obrigaria a tirar o polegar da
+faixa em que se está desviando, que é o pior momento possível para pedir isso. Mostrar num canto e
+ativar em qualquer lugar se completam.
+
+- [x] **A estrutura dos dois tipos, separada de ponta a ponta** (22/08/2026) — *código escrito;
+      **precisa rodar o Montar**, ver abaixo*
+      - **São duas hierarquias que não compartilham uma linha** *(exigência do Raffael em
+        22/08/2026)*: classe base, cópia viva, componente na nave, pasta, editor de Inspector e
+        menu de criação, tudo em dobro. Mexer num não tem como quebrar o outro, e nenhuma ficha
+        mostra campo que não vale para ela
+      - **O vocabulário separa sozinho:** poder de fase se **pega** (`LevelPowerUp`), poder de
+        nave se **ativa** (`ShipAbility`). Lendo o código não dá para confundir os dois
+
+        | | Poder de fase | Poder da nave |
+        |---|---|---|
+        | Ficha | `LevelPowerUp` | `ShipAbility` |
+        | Cópia viva | `ActiveLevelPowerUp` | `ActiveShipAbility` |
+        | Componente | `LevelPowerUps` | `ShipAbilities` |
+        | Pasta | `Scripts/LevelPowers/` | `Scripts/ShipAbilities/` |
+        | Menu de criação | *Poder de fase/* | *Poder da nave/* |
+
+      - **O que os dois têm em comum é a nave, não o código.** `ShipStats.TakeHit` chama os dois em
+        sequência, e `Obstacle`/`ShipWeapon` avisam os dois em separado. **Poder de fase primeiro:**
+        ele foi de graça e é passageiro, e o da nave custou um uso limitado — gastar o barato antes
+        do caro é o que o jogador esperaria
+      - **Usos por partida e recarga** são só do poder da nave, e são **coisa diferente das
+        cargas**: usos é quantas vezes o jogador *liga*, cargas é quanto o efeito aguenta depois de
+        ligado. Um escudo de 2 usos e 1 carga liga duas vezes, e cada vez segura um golpe
+      - **A recarga começa na ativação, não no fim do efeito** — assim o jogador sabe quando pode
+        contar com ele de novo sem ter de acompanhar quanto o efeito anterior ainda dura
+      - **`ShipDefinition.intrinsicAbility`** — o poder que a nave traz de fábrica. É o caminho do
+        "poder intrínseco" enquanto não existe tela de equipar, e já serve de eixo de diferença
+        entre naves na Parte 6. O `ShipAbilities.Equip()` existe para essa tela chamar um dia
+      - **`TouchInput.DoubleTapped`** — o gesto de ativação, com janela e distância como campos no
+        Inspector, para afinar no aparelho. **Arraste nunca vira toque duplo, e isso saiu de
+        graça:** um toque só conta se o dedo ficou quase parado, então quem estava trocando de
+        faixa jamais dispara. Toque em cima de UI também não conta — apertar a pausa duas vezes
+        depressa não gasta um uso
+      - **`OnObstaclePassed`** — o momento que faltava para poder medido em **X obstáculos**, como
+        o tempo lento. Medir em obstáculos e não em segundos evita que o poder valha mais em alta
+        velocidade, quando ele já é mais forte. Existe nas duas hierarquias
+      - ⚠️ **Por que precisa de Montar:** o componente único de antes (`ShipPowerUps`) foi apagado,
+        e a `Game.unity` ficou com a referência morta. O `BattleSetup` limpa o script faltando e
+        põe os dois componentes novos
+      - **O fim da corrida derruba tudo** — o `RaceDirector.EndRace` chama `ClearAll()` e
+        `ResetForRace()`. Hoje não muda nada visível, porque a cena sempre recarrega antes de uma
+        corrida nova; existe para cada poder **receber o fim dele** em vez de só ser destruído,
+        que é o contrato dos dois sistemas. *(Estava escrito nos comentários e não acontecia —
+        pego na conferência de 22/08.)*
+- [ ] **Os dois tipos não podem se anunciar igual** *(confirmado em 22/08/2026)* — poder de fase é
+      item na pista, com animação ao ser pego; poder da nave é o canto fixo mostrando qual é,
+      cargas e recarga, que só pisca quando fica pronto. Se os dois se parecerem, o jogador não
+      sabe o que tem. **O canto ainda não existe** — o `ShipPowerUps` já expõe `UsesLeft`,
+      `CooldownLeft` e `CooldownFraction` esperando por ele
+- [ ] ⚠️ **Afinar toque duplo × arraste no aparelho** — os limiares nascem com chute
+      (janela 0,28 s, distância 140 px) e só se acertam com o dedo. **Na dúvida, arraste ganha:**
+      ativar poder sem querer custa mais que um toque duplo ignorado
+- [ ] **Quais poderes de fase entram em cada fase** — a ficha da fase escolhe o repertório, do
+      mesmo jeito que vai escolher o de obstáculos (Parte 7). Liberar variedade com o progresso
+      (nível do jogador, avanço nas fases, ou os dois) é decisão em aberto do Raffael
+      - **Diluir é o efeito desejado, não um problema** *(esclarecido pelo Raffael em 22/08/2026)*:
+        o objetivo dos poderes de fase é **dinâmica**, não vantagem, então pool maior é a feature
+      - **Destravar por nível do jogador resolve um buraco existente:** hoje a fase sem fim só
+        oferece placar, e quem não liga para ranking não tem motivo para voltar lá. Se parte dos
+        poderes destrava por nível, e nível sobe jogando qualquer coisa, ela ganha progressão
+
 - [x] **A estrutura base dos poderes** (21/08/2026) — *código escrito; falta o Raffael rodar o
       **Montar**.* O desenho é o que ele pediu: **uma base com o que todo poder tem, e uma classe
       filha por poder** com o que só ele faz
@@ -918,6 +1064,10 @@ já no contexto novo.
           anunciava `LaneChanged` por evento, e o `ShipPowerUps` se pendura nele
         - Os três laços são escritos à mão, sem delegate genérico: o tiro dispara uma três vezes
           por segundo, e fechar closure a cada um é lixo para o coletor sem necessidade
+        - ⚠️ **Falta um momento, e ele apareceu no desenho de 22/08:** *"obstáculo passou pela
+          nave"*. É o que um poder limitado a **X obstáculos** precisa para gastar carga — o de
+          tempo lento é assim. Hoje só existe "obstáculo destruído a tiro". Entra quando o
+          primeiro poder desse feitio for escrito
       - **Camada de modificadores de atributo** *(pedido do Raffael em 21/08/2026)* — era o buraco
         que impedia metade dos poderes previstos: a arma lia a cadência da ficha, e ficha é só
         leitura, então "cadência dobrada por 8 segundos" não tinha onde encostar
@@ -1192,7 +1342,8 @@ nascem funcionais e sem acabamento; esta parte é a passada única que unifica t
 *Coisas que não pertencem a nenhuma parte e não bloqueiam nada.*
 
 - [ ] Decidir se o tiro vira comando do jogador, com munição, ou continua automático.
-      *O ganho passivo já deixa o jogo de pé sem tiro nenhum, então isto é escolha, não conserto*
+      *O ganho passivo já deixa o jogo de pé sem tiro nenhum, então isto é escolha, não conserto.*
+      **Ver "O papel do tiro", na Parte 5** — a experiência de 22/08 pode responder isto sozinha
 - [ ] Pool de objetos para tiro e obstáculo, se o `Instantiate`/`Destroy` pesar no aparelho.
       **Vira prioridade se a Parte 5 encher a tela de itens caindo**
 - [ ] Áudio e arte de verdade — **saíram daqui**: são a fase seguinte ao MVP, junto com o
