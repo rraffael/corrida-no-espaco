@@ -14,8 +14,8 @@ static class LevelSetup
 {
     const string LevelFolder = "Assets/Levels";
     const string ObstacleFolder = LevelFolder + "/Obstaculos";
-    const string ResourcesFolder = "Assets/Resources";
-    const string CatalogPath = ResourcesFolder + "/LevelCatalog.asset";
+    internal const string ResourcesFolder = "Assets/Resources";
+    internal const string CatalogPath = ResourcesFolder + "/LevelCatalog.asset";
 
     [MenuItem(ProjectTools.LevelsItem, false, 106)]
     internal static void Setup()

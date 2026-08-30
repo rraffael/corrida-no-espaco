@@ -5,16 +5,16 @@ using UnityEngine;
 /// que a nave traz de fábrica, e **ativa** quando quer, com toque duplo. Cada
 /// poder é uma classe filha desta, com um arquivo em <c>Assets/Powers/Nave/</c>.
 ///
-/// **Isto não tem nada a ver com <see cref="LevelPowerUp"/>, e é de propósito**
+/// **Isto não tem nada a ver com <see cref="LevelModifier"/>, e é de propósito**
 /// *(decidido pelo Raffael em 22/08/2026)*. Os dois tipos de poder do jogo são
 /// sistemas separados de ponta a ponta — classe base, ficha, componente na nave,
-/// pasta e vocabulário. Poder de fase se **pega**; poder de nave se **ativa**.
+/// pasta e vocabulário. Modificador de fase se **pega**; poder de nave se **ativa**.
 /// Nenhum código é compartilhado, então mexer num não tem como quebrar o outro,
 /// e nenhuma ficha mostra campo que não vale para ela.
 ///
 /// **Para que servem:** tornar a nave única, e dar ao jogador a ferramenta para
 /// vencer uma fase específica. São duas decisões, e é isso que os diferencia do
-/// poder de fase: **o que levar**, antes da corrida, e **quando gastar**, durante.
+/// modificador de fase: **o que levar**, antes da corrida, e **quando gastar**, durante.
 ///
 /// **Os dois limites são independentes.** <see cref="usesPerRace"/> é quantas
 /// vezes o jogador *liga* o poder; <see cref="charges"/> é quanto o efeito
@@ -51,8 +51,14 @@ public abstract class ShipAbility : ScriptableObject
     public Color color = Color.white;
 
     [Header("Ativação")]
-    [Tooltip("Quantas vezes o jogador pode ATIVAR este poder numa partida.")]
-    [Min(1)] public int usesPerRace = 1;
+    [Tooltip("Quantas vezes o jogador pode ATIVAR este poder numa partida.\n\n" +
+             "ZERO quer dizer SEM LIMITE: aí quem segura o poder é só a recarga. É a diferença " +
+             "entre os dois desenhos que existem hoje — os Tiros teleguiados voltam a cada 30 s a " +
+             "corrida toda, e a Super IA é uma carta só, que não volta.")]
+    [Min(0)] public int usesPerRace = 1;
+
+    /// <summary>Sem limite de ativações: quem segura é a recarga, e só ela.</summary>
+    public bool HasUnlimitedUses => usesPerRace <= 0;
 
     [Tooltip("Segundos de espera entre um uso e o próximo. Zero: pode reativar assim que quiser.\n\n" +
              "A recarga começa na ATIVAÇÃO, e não no fim do efeito — assim o jogador sabe quando " +
@@ -76,7 +82,7 @@ public abstract class ShipAbility : ScriptableObject
 
     /// <summary>
     /// O jogador acabou de ativar. É o equivalente ao "acabou de ser pego" do
-    /// poder de fase — só que aqui foi escolha, e custou um uso.
+    /// modificador de fase — só que aqui foi escolha, e custou um uso.
     /// </summary>
     public virtual void OnActivated(ActiveShipAbility active) { }
 

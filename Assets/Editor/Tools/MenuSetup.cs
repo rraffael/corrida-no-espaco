@@ -26,10 +26,9 @@ static class MenuSetup
     const string TransitionPanel = "PainelTransicao";
 
     // Os botões eram 300x65. "Um pouco maiores" com folga para o dedo, e com
-    // espaçamento que cabe os três sem encostar no título.
-    static readonly Vector2 ButtonSize = new Vector2(440f, 110f);
+    // espaçamento que cabe a coluna inteira sem encostar no título.
+    internal static readonly Vector2 ButtonSize = new Vector2(440f, 110f);
     const float ButtonSpacing = 140f;
-    const float FirstButtonY = 0f;
 
     [MenuItem(ProjectTools.MenuSceneItem, false, 110)]
     internal static void Setup()
@@ -53,8 +52,8 @@ static class MenuSetup
         }
 
         var buttons = GetOrCreateButtonsRoot(canvas);
-        var play = AdoptButton(PlayButton, buttons, 0);
-        var quit = AdoptButton(QuitButton, buttons, 2);
+        var play = AdoptButton(PlayButton, buttons);
+        var quit = AdoptButton(QuitButton, buttons);
         var records = GetOrCreateRecordsButton(buttons, menu);
 
         if (play == null || quit == null)
@@ -63,10 +62,14 @@ static class MenuSetup
             return;
         }
 
-        // Ordem visual: Jogar, Recordes, Sair.
-        play.transform.SetSiblingIndex(0);
-        records.transform.SetSiblingIndex(1);
-        quit.transform.SetSiblingIndex(2);
+        // Ordem visual: Jogar em cima, Sair embaixo, Recordes logo acima do Sair.
+        // O que estiver no meio — hoje a aba de Naves — fica onde a montagem dele
+        // o pôs, e é por isso que aqui não se numera ninguém no meio.
+        play.transform.SetAsFirstSibling();
+        quit.transform.SetAsLastSibling();
+        records.transform.SetSiblingIndex(buttons.childCount - 2);
+
+        RelayoutButtons();
 
         var recordsPanel = BuildRecordsPanel(canvas, menu);
         var transitionPanel = BuildTransitionPanel(canvas, menu);
@@ -141,7 +144,7 @@ static class MenuSetup
     }
 
     /// <summary>Move um botão que já existe para o contêiner, no tamanho e na altura novos.</summary>
-    static Button AdoptButton(string name, RectTransform parent, int slot)
+    static Button AdoptButton(string name, RectTransform parent)
     {
         var target = FindAnywhere(name);
         if (target == null)
@@ -154,7 +157,9 @@ static class MenuSetup
         // O contêiner tem o mesmo retângulo do Canvas, então reparentar não move
         // o botão de lugar — só muda quem o liga e desliga.
         Undo.SetTransformParent(target.transform, parent, "Montar menu");
-        UiBuilder.PlaceCentered(target, new Vector2(0f, FirstButtonY - slot * ButtonSpacing), ButtonSize);
+        // A altura fica para o RelayoutButtons, que recentra a coluna inteira no
+        // fim: aqui só o tamanho, porque quem sabe quantos botões existem é ele.
+        UiBuilder.PlaceCentered(target, Vector2.zero, ButtonSize);
 
         GrowLabel(target);
         EditorUtility.SetDirty(target);
@@ -168,18 +173,50 @@ static class MenuSetup
         if (existing != null)
         {
             Undo.SetTransformParent(existing.transform, parent, "Montar menu");
-            UiBuilder.PlaceCentered(existing, new Vector2(0f, FirstButtonY - ButtonSpacing), ButtonSize);
+            UiBuilder.PlaceCentered(existing, Vector2.zero, ButtonSize);
             GrowLabel(existing);
             return existing.GetComponent<Button>();
         }
 
         var button = UiBuilder.Button(RecordsButton, parent, "Recordes",
-                                      new Vector2(0f, FirstButtonY - ButtonSpacing), ButtonSize,
-                                      UiBuilder.NeutralButton);
+                                      Vector2.zero, ButtonSize, UiBuilder.NeutralButton);
         Undo.RegisterCreatedObjectUndo(button.gameObject, "Montar menu");
         UnityEventTools.AddPersistentListener(button.onClick, menu.OnRecordsButton);
 
         return button;
+    }
+
+    /// <summary>
+    /// Recentra a coluna de botões, dando a cada um a altura que a posição dele
+    /// na hierarquia pede.
+    ///
+    /// **A altura sai da ordem, e não de um número decorado por botão** — foi o
+    /// que quebrou quando entrou a aba de Naves em 30/08/2026: cada montagem
+    /// sabia a altura dos botões dela e nenhuma sabia quantos botões existiam ao
+    /// todo, então o quarto nasceu por cima do terceiro. Agora quem monta um
+    /// botão novo só precisa pô-lo na ordem certa e chamar isto.
+    ///
+    /// É <c>internal</c> porque o <see cref="ShipSelectSetup"/> chama: o dono da
+    /// coluna é esta ferramenta, e quem acrescenta um botão pede a ela para
+    /// reempilhar.
+    /// </summary>
+    internal static void RelayoutButtons()
+    {
+        var canvas = Object.FindAnyObjectByType<Canvas>();
+        var buttons = canvas != null ? canvas.transform.Find(ButtonsRoot) : null;
+        if (buttons == null)
+            return;
+
+        // A coluna fica centrada seja qual for o número de botões: com quatro e
+        // 140 de passo, o primeiro sobe 210 e o último desce 210.
+        float top = (buttons.childCount - 1) * ButtonSpacing * 0.5f;
+
+        for (int i = 0; i < buttons.childCount; i++)
+        {
+            var child = buttons.GetChild(i).gameObject;
+            UiBuilder.PlaceCentered(child, new Vector2(0f, top - i * ButtonSpacing), ButtonSize);
+            EditorUtility.SetDirty(child);
+        }
     }
 
     /// <summary>O texto tem de crescer junto com o botão, senão fica perdido no meio.</summary>

@@ -11,6 +11,7 @@ static class PlaceholderArt
     public const string Folder = "Assets/Art/Placeholder";
     const string PixelPath = Folder + "/pixel.png";
     const string PadlockPath = Folder + "/padlock.png";
+    const string CirclePath = Folder + "/circle.png";
 
     /// <summary>
     /// Sprite branco de 1x1 unidade de mundo. Escalar no transform dá qualquer
@@ -28,6 +29,46 @@ static class PlaceholderArt
             pixels[i] = new Color32(255, 255, 255, 255);
 
         return Write(PixelPath, 2, 2, pixels, pixelsPerUnit: 2f);
+    }
+
+    /// <summary>
+    /// Disco branco com fundo transparente, para o modificador que desce pela
+    /// pista e para o anel do HUD.
+    ///
+    /// **Redondo de propósito:** obstáculo é retângulo neste jogo, e a diferença
+    /// de forma é o que separa "desviar" de "pegar" num relance, antes mesmo de a
+    /// cor ser lida. A cor sai do renderizador, então o mesmo PNG serve a
+    /// qualquer categoria.
+    /// </summary>
+    public static Sprite Circle()
+    {
+        var existing = AssetDatabase.LoadAssetAtPath<Sprite>(CirclePath);
+        if (existing != null)
+            return existing;
+
+        const int size = 64;
+        const float radius = size * 0.5f - 1f;
+        float center = size * 0.5f;
+
+        var pixels = new Color32[size * size];
+
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                float dx = x + 0.5f - center;
+                float dy = y + 0.5f - center;
+                float distance = Mathf.Sqrt(dx * dx + dy * dy);
+
+                // Borda esfumada em um pixel: sem isto o círculo fica serrilhado
+                // no celular, e um item de 0,55 unidade é pequeno o bastante para
+                // o serrilhado ser o que mais se vê nele.
+                float alpha = Mathf.Clamp01(radius - distance);
+                pixels[y * size + x] = new Color32(255, 255, 255, (byte)(alpha * 255f));
+            }
+        }
+
+        return Write(CirclePath, size, size, pixels, pixelsPerUnit: size);
     }
 
     /// <summary>

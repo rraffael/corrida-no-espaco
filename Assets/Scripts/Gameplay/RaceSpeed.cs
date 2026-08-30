@@ -170,11 +170,27 @@ public class RaceSpeed : MonoBehaviour
     public bool InCrashRecoil => Time.time < recoveryResumesAt;
 
     /// <summary>
-    /// Até onde o **ganho passivo** empurra sozinho. O RaceDirector põe a dobra
-    /// aqui, e infinito na fase sem fim. Não é teto de velocidade: destruir
-    /// obstáculo passa por cima disto à vontade.
+    /// **A velocidade mais alta que esta corrida deixa alcançar.** O RaceDirector
+    /// põe a velocidade de dobra aqui, e infinito na fase sem fim.
+    ///
+    /// <para>
+    /// **Virou teto de verdade em 31/08/2026** *(pedido do Raffael)*. Antes ele
+    /// só segurava o ganho passivo, e o abate passava por cima à vontade — de
+    /// modo que quem destruía obstáculo chegava à dobra com **folga** acima do
+    /// limiar, e quem só desviava chegava colado nele.
+    /// </para>
+    ///
+    /// Essa folga era o que fazia os 2,5 segundos de dobra serem duas provas
+    /// diferentes: colado no limiar, qualquer raspão derruba a carga; com folga,
+    /// dá para tomar um golpe e continuar carregando. Sem querer, **destruir
+    /// comprava um seguro contra errar no trecho mais tenso da corrida**.
+    ///
+    /// Agora os dois jeitos de jogar chegam ao mesmo lugar e enfrentam a mesma
+    /// prova: segurar a velocidade sem ser tocado. Destruir continua valendo —
+    /// **chega-se mais rápido ao teto**, que é o prêmio honesto do abate —, só
+    /// não dá mais margem depois dele.
     /// </summary>
-    public float PassiveCeiling { get; private set; }
+    public float SpeedCeiling { get; private set; }
 
     /// <summary>Disparado quando a velocidade muda, com o valor novo.</summary>
     public event Action<float> Changed;
@@ -194,7 +210,7 @@ public class RaceSpeed : MonoBehaviour
 
         // Sem RaceDirector na cena — testando a Game.unity solta — o ganho
         // passivo não para, que é o comportamento da fase sem fim.
-        PassiveCeiling = float.PositiveInfinity;
+        SpeedCeiling = float.PositiveInfinity;
     }
 
     void OnDestroy()
@@ -337,17 +353,27 @@ public class RaceSpeed : MonoBehaviour
         // o alvo e a velocidade sobem colados, então é o alvo quem dita o ritmo:
         // deixar este passo na aceleração limpa esconderia o bônus justamente no
         // caso que ele existe para resolver.
-        if (Target < cruiseSpeed)
+        // O teto vale aqui também, e não só no ganho lento — ver SpeedCeiling.
+        // **É um buraco que nunca chegou a acontecer, e é por isso que ele é
+        // perigoso:** hoje nenhum poder mexe na velocidade de cruzeiro, então
+        // este trecho sempre parou nos 8 do cruzeiro, bem abaixo da dobra. No dia
+        // em que existir um Reforço de cruzeiro que passe da dobra, esta linha —
+        // que é a recuperação de batida, na aceleração CHEIA — atravessaria o
+        // limiar da dobra sem nem desacelerar. Achado auditando a pedido do
+        // Raffael em 31/08/2026, antes de custar uma partida.
+        float ceiling = Mathf.Min(cruiseSpeed, SpeedCeiling);
+
+        if (Target < ceiling)
         {
-            Target = Mathf.Min(cruiseSpeed, Target + AccelerationNow * Time.deltaTime);
+            Target = Mathf.Min(ceiling, Target + AccelerationNow * Time.deltaTime);
             return;
         }
 
-        if (passiveGainFactor <= 0f || Target >= PassiveCeiling)
+        if (passiveGainFactor <= 0f || Target >= SpeedCeiling)
             return;
 
         float gain = acceleration * passiveGainFactor * Time.deltaTime;
-        Target = Mathf.Min(PassiveCeiling, Target + gain);
+        Target = Mathf.Min(SpeedCeiling, Target + gain);
     }
 
     /// <summary>
@@ -358,10 +384,11 @@ public class RaceSpeed : MonoBehaviour
     public void SetTarget(float value) => Target = Mathf.Max(0f, value);
 
     /// <summary>
-    /// Até onde o ganho passivo empurra. Quem manda é a fase, pelo RaceDirector:
-    /// nas fases normais é a velocidade de dobra, na sem fim é infinito.
+    /// Até onde esta corrida deixa a velocidade chegar. Quem manda é a fase, pelo
+    /// RaceDirector: nas fases normais é a velocidade de dobra, na sem fim é
+    /// infinito — lá não existe dobra, e correr mais é o jogo inteiro.
     /// </summary>
-    public void SetPassiveCeiling(float value) => PassiveCeiling = Mathf.Max(0f, value);
+    public void SetSpeedCeiling(float value) => SpeedCeiling = Mathf.Max(0f, value);
 
     /// <summary>
     /// Empurrão para cima ou para baixo: obstáculo destruído acelera a corrida,
@@ -370,8 +397,35 @@ public class RaceSpeed : MonoBehaviour
     ///
     /// Bater é pelo <see cref="Crash"/>, que é outra coisa: lá a velocidade cai
     /// na hora. Aqui é só o empurrão do abate, que a nave vai buscar acelerando.
+    ///
+    /// **Com o tempo lento valendo, o empurrão vale menos, na mesma proporção**
+    /// *(conserto de 30/08/2026, achado pelo Raffael no aparelho)*. O empurrão do
+    /// abate era a **única** entrada de velocidade que não passava por
+    /// <c>Time.deltaTime</c>: tudo o mais — ganho passivo, aceleração, retomada
+    /// de batida — já desacelerava junto com o relógio, e só ele continuava
+    /// valendo cheio. Como em câmera lenta o jogador tem o dobro de tempo real
+    /// para mirar, o tempo lento virou sem querer um poder de velocidade.
+    ///
+    /// A conta fecha sozinha: com o relógio a 50% o jogador destrói perto do
+    /// dobro, e cada abate vale metade. O saldo é o mesmo de correr sem poder
+    /// nenhum, que é o que "Especial" tem de ser — nem bom nem ruim.
     /// </summary>
-    public void Nudge(float delta) => SetTarget(Target + delta);
+    public void Nudge(float delta)
+    {
+        float wanted = Target + delta * GameTime.SlowFactor;
+
+        // **O teto vale para o abate desde 31/08/2026** — ver SpeedCeiling. Já em
+        // dobra, destruir obstáculo deixa de dar velocidade: o teto É a dobra, e
+        // passar dele era o que dava folga a quem atirava e não a quem desviava.
+        //
+        // Só aperta para cima: se a nave já estiver acima do teto por outro
+        // caminho — uma fase que baixe o teto no meio da corrida, um dia —, um
+        // abate não pode virar freio.
+        if (delta > 0f && wanted > SpeedCeiling)
+            wanted = Mathf.Max(Target, SpeedCeiling);
+
+        SetTarget(wanted);
+    }
 
     /// <summary>
     /// A nave bateu. **Não é um empurrão para baixo** — é um tranco, e o

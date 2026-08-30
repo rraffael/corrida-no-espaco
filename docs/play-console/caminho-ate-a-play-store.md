@@ -171,7 +171,23 @@ ele existe `.\tools\logcat.ps1`, que dá a pilha completa em tempo real — mais
 mostraria.
 
 **Viram obrigatórios quando houver testadores**, porque aí alguém diz "fechou sozinho" e não há
-como pedir o celular emprestado. O `symbols.zip` sai junto do build e sobe ao lado do `.aab`.
+como pedir o celular emprestado.
+
+#### Os símbolos nativos estão ligados desde 30/08/2026
+
+O `BuildAndroid` liga sozinho, e só no build de **release**: nível *tabela de símbolos* (nomes de
+método, que é o que a Play precisa) em vez de *completo*, que só serve para depurar com ferramenta
+nativa anexada e pesa muito mais. **Não há nada a marcar no Player Settings** — mexer lá à mão só
+serve para divergir do que o build faz.
+
+⚠️ **O que continua sendo manual: subir o arquivo.** O `symbols.zip` sai **ao lado** do `.aab`, na
+pasta `Builds/`, e **não vai dentro dele**. Sobe à parte, no Play Console, em *Versões → a versão →
+Símbolos de depuração*. O build diz no Console onde o arquivo ficou e quanto pesa — e reclama se
+ele não tiver saído.
+
+O **arquivo de desofuscação** (`mapping.txt`) continua desligado: ele depende do *Minify*, que é
+outra decisão, com efeito no tamanho do pacote e risco de quebrar reflexão. Fica para quando houver
+motivo.
 
 ### O que ainda vai faltar, e que a Etapa 1 não resolve
 

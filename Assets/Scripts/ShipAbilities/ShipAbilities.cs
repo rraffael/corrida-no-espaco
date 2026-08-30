@@ -5,7 +5,7 @@ using UnityEngine;
 /// O **poder da nave**: o que está equipado, quantos usos sobram, quanto falta
 /// da recarga, e os efeitos que ele ligou e ainda valem.
 ///
-/// **É um sistema à parte do <see cref="LevelPowerUps"/>, e não conversa com
+/// **É um sistema à parte do <see cref="LevelModifiers"/>, e não conversa com
 /// ele.** Os dois vivem na mesma nave e ambos podem se meter num golpe, mas
 /// nenhum sabe da existência do outro — quem os chama é a nave.
 ///
@@ -26,8 +26,17 @@ public class ShipAbilities : MonoBehaviour
     /// <summary>O poder que o jogador pode ativar. Nulo: esta nave não tem nenhum.</summary>
     public ShipAbility Equipped => equipped;
 
-    /// <summary>Ativações que ainda sobram nesta partida.</summary>
+    /// <summary>
+    /// Ativações que ainda sobram nesta partida. Sem significado quando o poder
+    /// é de usos ilimitados — ver <see cref="HasUses"/>.
+    /// </summary>
     public int UsesLeft { get; private set; }
+
+    /// <summary>O poder tem limite de ativações? Falso: só a recarga o segura.</summary>
+    public bool IsLimited => equipped != null && !equipped.HasUnlimitedUses;
+
+    /// <summary>Ainda dá para ativar, do ponto de vista de usos.</summary>
+    public bool HasUses => equipped != null && (equipped.HasUnlimitedUses || UsesLeft > 0);
 
     /// <summary>Segundos que faltam para poder ativar de novo. Zero: pronto.</summary>
     public float CooldownLeft => Mathf.Max(0f, readyAt - Time.time);
@@ -39,7 +48,7 @@ public class ShipAbilities : MonoBehaviour
             : Mathf.Clamp01(1f - CooldownLeft / equipped.cooldownSeconds);
 
     /// <summary>Dá para ativar agora?</summary>
-    public bool IsReady => equipped != null && UsesLeft > 0 && CooldownLeft <= 0f;
+    public bool IsReady => HasUses && CooldownLeft <= 0f;
 
     /// <summary>Os atributos da nave, para os poderes que mexem neles.</summary>
     public ShipStats Stats { get; private set; }
@@ -63,14 +72,21 @@ public class ShipAbilities : MonoBehaviour
         Instance = this;
         Stats = GetComponent<ShipStats>();
 
-        // Nada equipado pela cena: a nave usa o que a ficha dela trouxer. É o
-        // caminho do poder intrínseco, o que torna uma nave diferente da outra
-        // sem depender da tela de equipar, que ainda não existe.
-        if (equipped == null && Stats != null && Stats.Definition != null)
+        // O poder é da nave escolhida, e a ficha manda. O campo da cena continua
+        // valendo como atalho de teste — preenchido, ele ganha —, mas em jogo de
+        // verdade quem decide é quem o jogador escolheu no menu.
+        if (Stats != null && Stats.Definition != null && Stats.Definition.intrinsicAbility != null)
             equipped = Stats.Definition.intrinsicAbility;
 
         ResetForRace();
     }
+
+    /// <summary>
+    /// A passiva da nave escolhida. Guardada aqui e não relida da ficha a cada
+    /// uso: se o jogador trocar de nave entre corridas, a que tem de ser
+    /// desligada no fim é a que foi ligada no começo.
+    /// </summary>
+    ShipPassive passive;
 
     void OnEnable()
     {
@@ -91,6 +107,13 @@ public class ShipAbilities : MonoBehaviour
         // todos os Awake é que a instância dele está garantida.
         if (TouchInput.Instance != null)
             TouchInput.Instance.DoubleTapped += OnDoubleTapped;
+
+        // A passiva entra aqui, e não no Awake, pelo mesmo motivo: ela pode mexer
+        // em atributo, e o ShipStats precisa ter terminado de montar os números
+        // de base antes de alguém escrever por cima deles.
+        passive = Stats != null && Stats.Definition != null ? Stats.Definition.passiveAbility : null;
+        if (passive != null)
+            passive.OnRaceStarted(Stats);
     }
 
     // ── Ativação ─────────────────────────────────────────────────────────
@@ -121,7 +144,9 @@ public class ShipAbilities : MonoBehaviour
         if (!IsReady)
             return false;
 
-        UsesLeft--;
+        if (IsLimited)
+            UsesLeft--;
+
         readyAt = Time.time + equipped.cooldownSeconds;
 
         var runtime = equipped.CreateRuntime();
@@ -256,6 +281,12 @@ public class ShipAbilities : MonoBehaviour
 
         UsesLeft = equipped != null ? equipped.usesPerRace : 0;
         readyAt = 0f;
+
+        if (passive == null)
+            return;
+
+        passive.OnRaceEnded(Stats);
+        passive = null;
     }
 
     void OnDestroy()

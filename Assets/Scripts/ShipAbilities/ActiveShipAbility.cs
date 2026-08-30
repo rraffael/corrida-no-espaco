@@ -54,10 +54,11 @@ public class ActiveShipAbility
     /// <summary>Encerra o efeito agora, seja qual for o tempo ou a carga que sobrava.</summary>
     public void Finish() => Finished = true;
 
-    // ── Modificadores de atributo ────────────────────────────────────────
+    // ── Modificadores de atributo e traços ───────────────────────────────
 
-    /// <summary>Criada só quando o poder mexe em atributo.</summary>
+    /// <summary>Criadas só quando o poder mexe em alguma coisa.</summary>
     List<StatModifier> applied;
+    List<ShipTrait> appliedTraits;
 
     /// <summary>
     /// Mexe num número da nave enquanto este efeito valer. **Não precisa
@@ -75,19 +76,46 @@ public class ActiveShipAbility
         stats.AddModifier(modifier);
     }
 
+    /// <summary>
+    /// Liga um traço da nave enquanto este efeito valer. Traço é o que não é
+    /// número — ver <see cref="ShipTrait"/>. Também se desfaz sozinho.
+    /// </summary>
+    public void ApplyTrait(ShipTrait trait)
+    {
+        var stats = Owner != null ? Owner.Stats : null;
+        if (stats == null)
+            return;
+
+        appliedTraits ??= new List<ShipTrait>();
+        appliedTraits.Add(trait);
+        stats.AddTrait(trait);
+    }
+
     /// <summary>Retira o que este efeito tinha aplicado. Chamado pelo sistema, no fim.</summary>
     internal void RemoveAppliedModifiers()
     {
-        if (applied == null || applied.Count == 0)
-            return;
-
         var stats = Owner != null ? Owner.Stats : null;
-        if (stats != null)
+
+        if (applied != null && applied.Count > 0)
         {
-            for (int i = 0; i < applied.Count; i++)
-                stats.RemoveModifier(applied[i]);
+            if (stats != null)
+            {
+                for (int i = 0; i < applied.Count; i++)
+                    stats.RemoveModifier(applied[i]);
+            }
+
+            applied.Clear();
         }
 
-        applied.Clear();
+        if (appliedTraits == null || appliedTraits.Count == 0)
+            return;
+
+        if (stats != null)
+        {
+            for (int i = 0; i < appliedTraits.Count; i++)
+                stats.RemoveTrait(appliedTraits[i]);
+        }
+
+        appliedTraits.Clear();
     }
 }

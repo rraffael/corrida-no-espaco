@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Menu inicial: jogar, ver recordes ou sair.
+/// Menu inicial: jogar, ver as naves, ver recordes ou sair.
 ///
 /// "Jogar" não carrega a cena na hora — abre a seleção de fase e, escolhida a
 /// fase, passa pela transição que mostra os três primeiros da tabela. Os nomes
@@ -15,6 +15,7 @@ public class Menu : MonoBehaviour
     [Header("Painéis")]
     [SerializeField] GameObject recordsPanel;
     [SerializeField] GameObject levelSelectPanel;
+    [SerializeField] GameObject shipsPanel;
     [SerializeField] GameObject transitionPanel;
 
     [Tooltip("Botões do menu, escondidos enquanto um painel está aberto.")]
@@ -65,6 +66,12 @@ public class Menu : MonoBehaviour
         BeginTransition();
     }
 
+    /// <summary>Botão "Naves".</summary>
+    public void OnShipsButton() => Show(ships: true);
+
+    /// <summary>Botão "Voltar" da aba de naves.</summary>
+    public void OnCloseShipsButton() => Show();
+
     /// <summary>Botão "Recordes".</summary>
     public void OnRecordsButton() => Show(records: true);
 
@@ -113,7 +120,8 @@ public class Menu : MonoBehaviour
     /// Um painel de cada vez, e os botões só quando nenhum está aberto. Sem
     /// argumento nenhum, volta ao menu.
     /// </summary>
-    void Show(bool records = false, bool levelSelect = false, bool transition = false)
+    void Show(bool records = false, bool levelSelect = false, bool ships = false,
+              bool transition = false)
     {
         if (recordsPanel != null)
             recordsPanel.SetActive(records);
@@ -121,10 +129,13 @@ public class Menu : MonoBehaviour
         if (levelSelectPanel != null)
             levelSelectPanel.SetActive(levelSelect);
 
+        if (shipsPanel != null)
+            shipsPanel.SetActive(ships);
+
         if (transitionPanel != null)
             transitionPanel.SetActive(transition);
 
         if (buttonsRoot != null)
-            buttonsRoot.SetActive(!records && !levelSelect && !transition);
+            buttonsRoot.SetActive(!records && !levelSelect && !ships && !transition);
     }
 }

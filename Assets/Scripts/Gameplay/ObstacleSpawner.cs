@@ -1,13 +1,14 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// Solta os obstáculos da fase. O que vem, e a partir de quando, está na ficha
 /// da fase; a dificuldade aperta o ritmo e engrossa os números.
 ///
-/// A regra que mais importa aqui é a da **fuga garantida**: nenhuma leva pode
-/// fechar todas as faixas ao mesmo tempo. Sem isso, o jogo mataria o jogador por
-/// sorteio, e não por erro dele.
+/// A regra que mais importa aqui é a da **fuga garantida** — nenhuma leva pode
+/// fechar todas as faixas ao mesmo tempo, senão o jogo mataria o jogador por
+/// sorteio e não por erro dele. Ela vive no <see cref="LaneOccupancy"/>, que é
+/// onde obstáculo e modificador de fase se encontram: os dois nascem nas mesmas
+/// faixas, e a fuga só existe se for contada contra os dois juntos.
 /// </summary>
 public class ObstacleSpawner : MonoBehaviour
 {
@@ -26,8 +27,6 @@ public class ObstacleSpawner : MonoBehaviour
 
     /// <summary>Segundo sorteado em que cada tipo entra em cena, nesta corrida.</summary>
     float[] entryTimes;
-
-    readonly List<int> candidateLanes = new List<int>();
 
     float timer;
     float elapsed;
@@ -98,7 +97,11 @@ public class ObstacleSpawner : MonoBehaviour
         if (stats == null)
             return;
 
-        if (!TryPickLane(Mathf.Max(1, stats.laneSpan), out int lane))
+        // A regra da faixa livre mora no LaneOccupancy desde 30/08/2026, e não
+        // mais aqui: ela passou a valer contra obstáculo E modificador de fase,
+        // e cada sorteador garantindo a fuga por conta própria não garantia nada.
+        if (!LaneOccupancy.TryPickLane(track.LaneCount, Mathf.Max(1, stats.laneSpan),
+                                       spawnY, waveWindow, out int lane))
             return; // A leva atual já não deixa saída: melhor pular a batida.
 
         Spawn(stats, lane);
@@ -135,62 +138,6 @@ public class ObstacleSpawner : MonoBehaviour
     {
         var schedule = level.obstacles[index];
         return schedule != null && schedule.stats != null && elapsed >= entryTimes[index];
-    }
-
-    /// <summary>
-    /// Escolhe uma faixa livre que **ainda deixe pelo menos uma de fuga** depois
-    /// de o obstáculo nascer. Devolve falso quando não existe posição assim — aí
-    /// a batida é pulada, e o corredor respira.
-    /// </summary>
-    bool TryPickLane(int laneSpan, out int lane)
-    {
-        lane = 0;
-
-        int lanes = track.LaneCount;
-        if (laneSpan > lanes)
-            return false;
-
-        var blocked = new bool[lanes];
-        int blockedCount = 0;
-
-        foreach (var obstacle in Obstacle.Active)
-        {
-            if (obstacle == null)
-                continue;
-
-            // Só a leva que ainda está chegando conta: o que já passou não
-            // atrapalha a fuga de quem nasce agora.
-            if (spawnY - obstacle.transform.position.y > waveWindow)
-                continue;
-
-            for (int i = 0; i < lanes; i++)
-            {
-                if (blocked[i] || !obstacle.Occupies(i))
-                    continue;
-
-                blocked[i] = true;
-                blockedCount++;
-            }
-        }
-
-        candidateLanes.Clear();
-        for (int start = 0; start + laneSpan <= lanes; start++)
-        {
-            bool free = true;
-            for (int i = start; i < start + laneSpan; i++)
-                free &= !blocked[i];
-
-            // Deixar o corredor sem nenhuma faixa livre é o que esta regra existe
-            // para impedir.
-            if (free && blockedCount + laneSpan < lanes)
-                candidateLanes.Add(start);
-        }
-
-        if (candidateLanes.Count == 0)
-            return false;
-
-        lane = candidateLanes[Random.Range(0, candidateLanes.Count)];
-        return true;
     }
 
     void Spawn(ObstacleStats stats, int lane)

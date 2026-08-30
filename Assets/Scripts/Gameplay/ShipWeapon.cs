@@ -44,6 +44,11 @@ public class ShipWeapon : MonoBehaviour
     [Tooltip("Acima deste Y o tiro some, por ter saído da tela.")]
     [SerializeField] float despawnY = 8f;
 
+    [Tooltip("Quantos graus por segundo o tiro consegue virar quando a nave está com tiro " +
+             "teleguiado. Alto demais e o tiro nunca erra, o que tira a graça; baixo demais e ele " +
+             "não alcança o obstáculo da faixa vizinha antes de sair da tela.")]
+    [SerializeField, Min(0f)] float homingTurnRate = 420f;
+
     [Header("Trocar de faixa")]
     [Tooltip("A nave PARA de atirar enquanto está deslizando de uma faixa para a outra.\n\n" +
              "É o que transforma o único botão do jogo numa escolha: ficar na faixa é atirar e " +
@@ -78,6 +83,14 @@ public class ShipWeapon : MonoBehaviour
         // A corrida acabou (vitória ou derrota): a nave para de atirar, senão o
         // tiro continua saindo por trás do painel de fim.
         if (RaceDirector.Instance != null && !RaceDirector.Instance.IsRunning)
+            return;
+
+        // Cadência zerada: a arma está desligada — é assim que o Debilitante
+        // "Desabilitar Armas" cala a nave, sem precisar de interruptor próprio.
+        // O relógio do tiro para junto, pela mesma razão da troca de faixa: se
+        // continuasse correndo, a arma voltaria disparando de imediato e os
+        // segundos calada não teriam custado nada.
+        if (stats.AttackSpeed <= 0f)
             return;
 
         if (IsHoldingFire())
@@ -133,14 +146,18 @@ public class ShipWeapon : MonoBehaviour
                 shot.transform.localScale = new Vector3(projectileSize.x / size.x, projectileSize.y / size.y, 1f);
         }
 
+        // O teleguiado é um traço da NAVE, e a arma o lê como lê a cadência: ela
+        // não sabe que existe um poder chamado "Tiros teleguiados", nem quem o
+        // ligou. Ver ShipTrait.
         shot.AddComponent<Projectile>()
-            .Configure(stats.Damage, projectileSpeed, projectileHitDistance, despawnY);
+            .Configure(stats.Damage, projectileSpeed, projectileHitDistance, despawnY,
+                       homingTurnRate: stats.Has(ShipTrait.HomingShots) ? homingTurnRate : 0f);
 
         // Depois de o tiro sair, e não antes: o gancho serve para contar tiros e
         // reagir, não para mexer no dano — esse já veio da ficha com os
         // modificadores aplicados.
-        if (LevelPowerUps.Instance != null)
-            LevelPowerUps.Instance.NotifyShotFired();
+        if (LevelModifiers.Instance != null)
+            LevelModifiers.Instance.NotifyShotFired();
         if (ShipAbilities.Instance != null)
             ShipAbilities.Instance.NotifyShotFired();
     }

@@ -111,7 +111,7 @@
 
 <p class="lead"><strong>Corrida no Espaço</strong> é um jogo de corrida vertical para Android, de uma mão só. A nave desce por três faixas, o dedo arrasta para trocar de faixa, e a <strong>velocidade é ao mesmo tempo a vida e a vitória</strong>: ela sobe sozinha com o tempo, sobe mais rápido quando você destrói alguma coisa, e desaba quando você bate. Vencer é segurar a velocidade alta o suficiente pelo tempo que a fase pedir.</p>
 
-<p>O jogo está publicado na Google Play em <strong>teste interno</strong> desde 08/08/2026, com testadores de verdade instalando pela loja. A mecânica de corrida — a parte “crua” — foi aprovada no aparelho em <strong>21/08/2026</strong> e está fechada. O que se constrói a partir de agora é a camada de fora da partida: poderes, naves, evolução, economia, recompensas e a interface.</p>
+<p>O jogo está publicado na Google Play em <strong>teste interno</strong> desde 08/08/2026, com testadores de verdade instalando pela loja. A mecânica de corrida — a parte “crua” — foi aprovada no aparelho em <strong>21/08/2026</strong> e está fechada. O que se constrói a partir de agora é a camada de fora da partida: poderes, naves, evolução, economia, recompensas e a interface. Em <strong>30/08/2026</strong> entrou o primeiro conteúdo dessa camada — três modificadores de fase e duas naves com poder próprio.</p>
 
 <div class="panel note">
 <p><strong>O que este documento é.</strong> A descrição estável do jogo: os conceitos, as regras, o que já funciona e o que ainda vai existir. É o documento que se lê para <em>entender o jogo</em>.</p>
@@ -164,7 +164,9 @@
 <h3>A corrida</h3>
 <p>A nave ocupa uma de <strong>três faixas</strong> e o cenário desce por baixo dela. Um arraste do dedo move a nave <strong>uma faixa por vez</strong> — não é um controle contínuo, é um passo por gesto, e foi assim que ficou bom no aparelho. O menu de pausa é um botão no canto que congela a partida.</p>
 
-<p>O tiro é automático e não tem munição — <strong>mas a nave para de atirar enquanto troca de faixa</strong>. É o que faz o único comando do jogo valer duas coisas ao mesmo tempo: <em>ficar</em> na faixa é atirar e ganhar velocidade; <em>sair</em> é desviar e abrir mão do abate. Sem essa regra o tiro não seria decisão de ninguém — estaria sempre ligado, de graça, premiando ficar parado, que é o oposto do que o jogo pede.</p>
+<p><span class="badge b-ok">Aprovado no aparelho</span> O tiro é automático e não tem munição — <strong>mas a nave para de atirar enquanto troca de faixa</strong>. É o que faz o único comando do jogo valer duas coisas ao mesmo tempo: <em>ficar</em> na faixa é atirar e ganhar velocidade; <em>sair</em> é desviar e abrir mão do abate. Sem essa regra o tiro não seria decisão de ninguém — estaria sempre ligado, de graça, premiando ficar parado, que é o oposto do que o jogo pede.</p>
+
+<p>Nasceu como experiência em 22/08/2026, de uma dúvida de testador — “o jogo é destruir ou desviar?” — e foi <strong>confirmada no celular em 30/08/2026</strong>. O receio era que fosse sutil demais: a troca de faixa dura pouco mais de um décimo de segundo, contra um terço de segundo entre tiros. Não foi: o custo se sente. A dúvida do testador deixou de ser mal-entendido e virou a pergunta que o jogo faz o tempo todo.</p>
 
 <h3>A velocidade é a moeda de tudo</h3>
 <p>É o coração do jogo, e vale entender por quê: a velocidade não é só um número na tela, é <strong>o placar, o relógio e o risco ao mesmo tempo</strong>. Ela se move por quatro forças:</p>
@@ -172,8 +174,22 @@
   <li><strong>Velocidade de cruzeiro</strong> — o patamar de conforto da nave. Abaixo dele, a nave volta sozinha e depressa; a aceleração fica até <strong>três vezes maior com a nave parada</strong>, e some conforme ela se aproxima do cruzeiro. É o que faz o arranque ser bravo em vez de arrastado.</li>
   <li><strong>Ganho passivo</strong> — acima do cruzeiro a velocidade continua subindo sozinha, mas devagar, no ritmo da aceleração da nave. É o que garante que <strong>dá para vencer sem atirar</strong>, só com paciência e desvio.</li>
   <li><strong>Abate</strong> — destruir um obstáculo empurra a velocidade para cima na hora. É o atalho: chega mais rápido, mas exige encarar o que está na frente.</li>
-  <li><strong>Dobra</strong> — a linha de chegada. Alcançar a velocidade pedida não vence: é preciso <strong>segurá-la por 2,5 segundos</strong>. Abaixo dela a carga escoa pela metade do ritmo, então uma batida no fim custa caro sem apagar a corrida inteira.</li>
+  <li><strong>Dobra</strong> — a linha de chegada, e também o <strong>teto</strong>. Alcançar a velocidade pedida não vence: é preciso <strong>segurá-la por 2,5 segundos</strong>. Abaixo dela a carga escoa pela metade do ritmo, então uma batida no fim custa caro sem apagar a corrida inteira.</li>
 </ul>
+
+<p class="q">Passar da dobra não serve para nada</p>
+<p>A velocidade de dobra é o teto da corrida: chegando nela, nem o ganho passivo nem o abate empurram mais. Foi assim que ficou em <strong>31/08/2026</strong>, e a razão é que antes não era.</p>
+<p>O teto já existia, mas só segurava o ganho passivo — o abate passava por cima. Quem destruía obstáculo entrava em dobra com <strong>folga</strong> acima do limiar; quem só desviava entrava colado nele. E a folga muda tudo: colado, qualquer raspão derruba a carga; com folga, dá para tomar um golpe e continuar carregando. Os 2,5 segundos finais eram, na prática, <strong>duas provas diferentes conforme o jeito de jogar</strong> — e a mais fácil era a de quem atirava, sem que ninguém tivesse decidido isso.</p>
+<p style="margin-bottom:0">Destruir continua valendo: <strong>chega-se mais rápido ao teto</strong>, que é o prêmio honesto do abate. O que acabou foi a margem depois dele. Na fase sem fim não há teto nenhum — lá não existe dobra, e correr mais é o jogo inteiro.</p>
+
+<p class="q">A dobra se vê, e não se lê</p>
+<p>Até 30/08/2026 a dobra existia só como texto no rodapé — e o rodapé é ilegível justamente na velocidade em que ela acontece, que é a maior da corrida. O jogador jogava às cegas no trecho decisivo. Agora ela mora na <strong>periferia da tela</strong>, que é o que dá para ver sem tirar o olho da pista:</p>
+<ul>
+  <li>As <strong>estrelas do fundo esticam em riscos</strong> e correm mais. Acelerar sozinho não bastava — o fundo já anda na velocidade da corrida, então mais velocidade seria só “um pouco mais do mesmo”. Esticar muda a <em>forma</em>, e forma nova o olho pega de canto.</li>
+  <li>Uma <strong>moldura se fecha em volta da tela</strong>: nasce nos quatro cantos e cresce pelas bordas até completar o quadro. <strong>Quanto da volta está desenhado é quanto falta para a dobra</strong> — o número do rodapé virou redundância em vez de necessidade.</li>
+  <li>Dois <strong>clarões</strong>, e eles se movem em direções contrárias para nunca serem confundidos: <strong>perder</strong> a carga é âmbar recolhendo para dentro, <strong>completar</strong> é claro estourando para fora. O de perder é o mais visível dos dois, de propósito — perder em silêncio é o pior caso possível.</li>
+</ul>
+<p>Nada disso encosta no meio da tela. O centro é onde se desvia, e é o último lugar do jogo onde se pode pôr informação nova a 19 unidades por segundo.</p>
 
 <h3>O custo de errar</h3>
 <p>Foi o último desenho da mecânica crua, e o que mais mudou o jogo. <strong>Bater custa tempo, não velocidade</strong> — e é uma diferença enorme, porque tempo é um custo que o jogador vê acontecendo, enquanto um número dois pontos menor ele só lê.</p>
@@ -282,12 +298,14 @@
   <div class="body">
     <p><span class="badge b-ok">Estrutura feita</span> <strong>Começa pela fábrica:</strong> uma ficha de poder em disco, de modo que poder novo seja um arquivo — o que ele faz, quanto dura, quão raro é — e não um script novo toda vez.</p>
 
+    <p><span class="badge b-ok">A fábrica tem produto</span> Em <strong>30/08/2026</strong> a lista chegou, e com ela o bloco saiu do esqueleto: <strong>três modificadores de fase</strong> — um de cada categoria — e <strong>duas naves com poder próprio</strong>. É o primeiro conteúdo de meta-jogo que o jogo tem.</p>
+
     <p class="q">São dois tipos de poder, e eles são sistemas separados</p>
     <p>A separação existe porque os dois <strong>ocupam espaços de decisão diferentes</strong>. Um sistema único cobrindo os dois acabaria não sendo bem nenhum deles — então nem o código eles compartilham.</p>
 
     <div class="tablewrap">
     <table>
-    <thead><tr><th></th><th>Poder de fase</th><th>Poder da nave</th></tr></thead>
+    <thead><tr><th></th><th>Modificador de fase</th><th>Poder da nave</th></tr></thead>
     <tbody>
     <tr><td><strong>De onde vem</strong></td><td>Aparece na pista, sorteado</td><td>Equipado fora da partida, ou de fábrica na nave</td></tr>
     <tr><td><strong>Como dispara</strong></td><td>Ao ser <strong>pego</strong></td><td>O jogador <strong>ativa</strong>, com toque duplo</td></tr>
@@ -298,13 +316,33 @@
     </table>
     </div>
 
-    <p>O poder de fase é simples de propósito: reparo, escudo, tempo lento — e o outro lado da moeda, os <strong>poderes ruins</strong>, dos quais se desvia em vez de pegar. O poder da nave é onde mora a construção do jogador.</p>
+    <p class="q">Os modificadores de fase, e as três categorias</p>
+    <p>Eles se dividem em <strong>Reforço</strong> (aumenta algo da nave), <strong>Debilitante</strong> (reduz) e <strong>Especial</strong> (o que não é nem um nem outro). A categoria não é só rótulo: é dela que sai a <strong>cor</strong> do item na pista e do quadradinho no HUD. A cor sai da categoria e não de cada ficha justamente para isso — se cada arquivo escolhesse a própria, a décima ficha teria um verde ligeiramente diferente da primeira, e a leitura de relance seria perdida.</p>
 
-    <p><strong>O jogador nunca confunde os dois.</strong> Poder de fase é item na pista, com uma animação ao ser pego; poder da nave mora fixo num canto, mostrando qual é, quantos usos sobram e quanto falta da recarga — e a ativação é em qualquer lugar da tela, para o polegar não precisar sair da faixa em que está desviando.</p>
-    <p class="q">A Proteção, e o que ela ensinou sobre desenhar poder aqui</p>
-    <p>O primeiro poder escrito segura <strong>o próximo golpe inteiro</strong> — some o dano e somem também os ~3,5 segundos da batida. É como se a nave nunca tivesse batido.</p>
-    <p>Ele é limitado por <strong>contagem e não por duração</strong>, e a diferença é de equilíbrio: um escudo com prazo pode comer três batidas seguidas se elas vierem juntas, apagando justamente o custo que dá tensão à corrida. Segurando um golpe, o preço da segunda batida continua inteiro.</p>
-    <p>E ele tem uma consequência que ninguém teria previsto no papel: o obstáculo desfeito no escudo <strong>morre como quem é destruído</strong>, então um Casulo espalha estilhaço — e o escudo já se gastou no mesmo golpe que o criou. A troca vira <em>uma batida grande em vários raspões</em>. Vale muito a pena, e ainda assim não sai de graça.</p>
+    <div class="tablewrap">
+    <table>
+    <thead><tr><th>Categoria</th><th>Nome</th><th>Efeito</th><th>Duração</th></tr></thead>
+    <tbody>
+    <tr><td>Reforço</td><td>Aumento de Velocidade de Tiro</td><td>+100% de cadência</td><td>3 s</td></tr>
+    <tr><td>Debilitante</td><td>Desabilitar Armas</td><td>−100% de cadência: a nave cala</td><td>3,5 s</td></tr>
+    <tr><td>Especial</td><td>Redução na Velocidade do Tempo</td><td>tudo em volta a 50%</td><td>2,75 s</td></tr>
+    </tbody>
+    </table>
+    </div>
+
+    <p><strong>Pegar o mesmo de novo renova; dois diferentes correm em paralelo.</strong> Cada um tem o próprio relógio. Empilhar dobraria o efeito — dois “+100% de cadência” virariam +200% por o jogador ter passado em cima duas vezes, e a segunda pegada valeria mais que a primeira. Renovando, o que se ganha é <em>tempo</em>, que é o que ele entende ao pegar de novo.</p>
+
+    <p>O <strong>tempo lento</strong> é o mais interessante dos três, e o único que não é bom nem ruim: dá mais tempo real para desviar e, na mesma medida, atrasa a velocidade, a dobra e a pontuação. Quem está apertado se salva; quem está indo bem perde tempo. Tudo em volta desacelera — obstáculos, fundo, aceleração, troca de faixa, carga de dobra, recarga dos poderes — mas <strong>a velocidade da nave continua a mesma no mostrador</strong>, porque a nave não ficou mais lenta: o tempo é que ficou. Enquanto ele vale, um <strong>véu azulado de leve</strong> cobre a tela: câmera lenta se sente melhor do que se vê, e sem o véu o jogador percebe que algo ficou estranho antes de entender que foi ele quem pegou um poder.</p>
+
+    <p><strong>E o abate vale menos enquanto ele dura</strong>, na mesma proporção — descoberto jogando, em 30/08/2026. Em câmera lenta dá para destruir mais, e o empurrão de velocidade do abate era a única coisa no jogo que não desacelerava junto com o relógio: o Especial estava virando, sem querer, um poder de velocidade. Com a correção a conta fecha sozinha — o jogador destrói perto do dobro e cada abate vale metade, então o saldo é o de correr sem poder nenhum. Que é o que “Especial” tem de ser.</p>
+
+    <p class="q">Nada pode fechar a pista</p>
+    <p>A regra mais antiga do corredor — nunca fechar todas as faixas ao mesmo tempo — passou a valer contra <strong>obstáculos e modificadores juntos</strong>. É mais do que arrumação: com dois sorteadores povoando as mesmas faixas sem saber um do outro, cada um garantindo a fuga sozinho não garantia nada. E a faixa de fuga é <strong>vazia de tudo</strong>, não só de perigo: um prêmio parado nela a tornaria menos livre para quem só quer passar, e a leitura de relance deixaria de ser “onde não tem nada”.</p>
+
+    <p class="q">O jogador nunca confunde os dois</p>
+    <p><span class="badge b-ok">Feito</span> Modificador de fase é um item <strong>redondo</strong> na pista — contra o retângulo do obstáculo, para a forma separar “pegar” de “desviar” antes mesmo de a cor ser lida — e, uma vez pego, vira um quadradinho no alto à <strong>esquerda</strong>, com o ícone no meio e um anel esvaziando em volta. <strong>Sem número nenhum</strong>: o jogador está desviando a quinze unidades por segundo e não vai ler “2,4 s”; o que ele consegue é um relance, e um anel que esvazia responde “quanto falta” mais depressa que qualquer algarismo.</p>
+    <p>O poder da nave é um canto fixo no <strong>rodapé à esquerda</strong>, e a vida no <strong>rodapé à direita</strong> — em cantos opostos, para os dois não competirem pelo mesmo olhar. Ele <strong>só informa</strong>: não recebe toque, senão viraria um pedaço morto da tela onde o toque duplo não funciona. E <strong>pisca ao ficar pronto</strong>, por pouco mais de um segundo — o que interessa é o instante em que o poder volta; canto que pisca o tempo todo vira alarme, e o jogador aprende a não olhar.</p>
+    <p>Forma diferente, canto diferente, comportamento diferente: nenhuma das três coincidências existe, e é de propósito. Na tela, <strong>os quatro cantos têm dono e nenhum divide com ninguém</strong> — pausa no alto à direita, modificadores no alto à esquerda, poder da nave no rodapé à esquerda, vida no rodapé à direita.</p>
   </div>
 </div>
 
@@ -312,9 +350,29 @@
   <div class="head"><span class="n">Bloco 2</span><span class="t">Naves: variedade, diferença e evolução</span><span class="when">o eixo do qual o resto pende</span></div>
   <div class="body">
     <p><strong>Também começa pela fábrica, e aqui ela é obrigatória:</strong> a ficha da nave tinha de <strong>sair da cena e virar arquivo em disco</strong>, como já eram as fichas de fase e de obstáculo. Enquanto vivesse pendurada num objeto da cena, cinco naves seriam cinco cópias com números digitados à mão, e evolução seria código em vez de número.</p>
-    <p><span class="badge b-ok">Feito</span> Esse passo foi dado em 21/08/2026: os números viraram um arquivo, e o componente que sobra na cena passou a ser <em>a nave viva</em> — o que muda durante a partida. A separação importa para o bloco anterior: <strong>poder e evolução mexem na nave viva, nunca no arquivo</strong>, que é compartilhado e não pode ser reescrito no meio de uma corrida. Falta o catálogo, para a loja e a seleção lerem as naves de um lugar só.</p>
-    <p>Aí a pergunta deixa de ser técnica e vira de projeto. Hoje existe uma nave só, e os atributos dela — aceleração, cruzeiro, vida, defesa, ganho por abate — servem para afiná-la. Com naves diferentes, esses mesmos atributos passam a <strong>significar escolhas</strong>: uma nave que se recupera rápido de batida é outro jogo que uma que aguenta mais golpes.</p>
-    <p style="margin-bottom:0">E a decisão central do bloco: se a diferença fica nos números ou se cada nave ganha <strong>algo que só ela faz</strong>. É a diferença entre “uma nave melhor” e “uma nave outra” — e a segunda é a que faz alguém querer a terceira.</p>
+    <p><span class="badge b-ok">Feito</span> Esse passo foi dado em 21/08/2026: os números viraram um arquivo, e o componente que sobra na cena passou a ser <em>a nave viva</em> — o que muda durante a partida. A separação importa para o bloco anterior: <strong>poder e evolução mexem na nave viva, nunca no arquivo</strong>, que é compartilhado e não pode ser reescrito no meio de uma corrida.</p>
+
+    <p class="q">A decisão central, e a resposta</p>
+    <p>A pergunta do bloco era se a diferença entre naves ficaria <em>nos números</em> ou se cada uma ganharia <strong>algo que só ela faz</strong> — a diferença entre “uma nave melhor” e “uma nave outra”. Em <strong>30/08/2026</strong> a resposta foi a segunda: o poder é <strong>único por nave</strong>, e as duas primeiras nascem com atributos idênticos justamente para deixar claro que a diferença mora ali.</p>
+
+    <div class="tablewrap">
+    <table>
+    <thead><tr><th>Nave</th><th>Poder ativo</th><th>Como recarrega</th></tr></thead>
+    <tbody>
+    <tr><td>Nay</td><td><strong>Tiros teleguiados</strong> — os tiros perseguem o obstáculo, esteja a nave na faixa que estiver</td><td>3 s de efeito, recarga de 30 s, sem limite de usos</td></tr>
+    <tr><td>Raffa</td><td><strong>Super IA</strong> — o jogo assume a nave e desvia sozinho</td><td>3 s de efeito, uma carga que não volta</td></tr>
+    </tbody>
+    </table>
+    </div>
+
+    <p>Os dois são <em>a mesma ideia por caminhos opostos</em>. Os teleguiados desfazem, de propósito, a regra de que sair da faixa custa o abate: enquanto valem, dá para atravessar o corredor inteiro e continuar acertando — e é por isso que duram pouco e demoram a voltar. A Super IA é a carta que se guarda para quando a fase apertou e o polegar não vai dar conta; carga única, porque um poder que joga por você não pode estar disponível o tempo todo, senão deixa de ser alívio e vira a maneira de jogar.</p>
+
+    <p><strong>A Super IA pilota por duas regras, e as duas nasceram de ela ter batido</strong> na primeira versão. Trocar de faixa não é teletransporte — a nave <em>atravessa</em> as faixas do meio —, e a primeira versão só olhava para o destino: desviava de algo distante e no caminho passava por cima do que estava perto. Agora ela <strong>só desvia quando o perigo está perto</strong>, e <strong>só desvia para onde dá para chegar</strong>: o destino e cada faixa do trajeto precisam estar livres. Sem saída, ela fica e leva o golpe — melhor do que sair correndo para bater em outro.</p>
+
+    <p><span class="badge b-ok">Feito</span> Há também uma <strong>aba de naves no menu</strong>, com os atributos e os poderes de cada uma, e a escolha sobrevive a fechar o jogo — ao contrário da fase, que se escolhe a cada partida. Nave é o que o jogador <em>é</em>, e refazer essa escolha toda vez que abrisse o app seria pedir que ele repetisse uma decisão já tomada.</p>
+
+    <p class="q">O que ainda falta: a evolução</p>
+    <p style="margin-bottom:0">A variedade existe; a <strong>evolução</strong>, que dá nome ao bloco, não. O desenho é de três patamares: a nave melhora o poder ativo em dois degraus e <strong>destrava um poder passivo no terceiro</strong> — pelo plano atual, nos níveis 20, 40 e 60. Nada disso está ligado, porque não existe nível de jogador nem economia; hoje tudo nasce liberado e nenhuma nave tem passiva. A estrutura do passivo já está pronta e vazia, esperando o dia em que a primeira for desenhada — e nesse dia ela é um arquivo, não código.</p>
   </div>
 </div>
 

@@ -36,22 +36,13 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 22/08/2026: **um passo**, e ele é obrigatório.
+    /// Estado em 31/08/2026: **lista vazia, e é resposta válida.**
     ///
-    /// Os poderes viraram dois sistemas separados — poder de fase, que se pega,
-    /// e poder da nave, que se ativa —, e o componente único que existia antes
-    /// (<c>ShipPowerUps</c>) foi apagado. A <c>Game.unity</c> ainda tem a
-    /// referência a ele, então neste momento a nave carrega um **script
-    /// faltando**. O passo abaixo tira o que sobrou e põe os dois componentes
-    /// novos no lugar.
-    ///
-    /// Enquanto não rodar, o Inspector da nave mostra "Missing (Mono Script)" —
-    /// e o jogo roda, mas sem poder nenhum.
+    /// A mudança do dia foi a velocidade de dobra virar **teto de verdade** — em
+    /// dobra a nave não ganha mais velocidade, nem por abate. Isso é regra, e
+    /// regra é código: nenhuma cena e nenhum asset mudaram.
     /// </summary>
-    static readonly Step[] Steps =
-    {
-        new Step("Trocar o sistema de poderes da nave na Game.unity", BattleSetup.Setup),
-    };
+    static readonly Step[] Steps = { };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]
     static void Run()

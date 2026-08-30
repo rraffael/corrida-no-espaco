@@ -20,7 +20,64 @@ metade dela — ver lá.
 
 ---
 
-## 🚀 Onde estamos — 21/08/2026
+## 🚀 Onde estamos — 31/08/2026
+
+**O meta-jogo tem esqueleto, e o tiro virou decisão.** A Parte 5 entregou o que dava para entregar
+sem decisão de projeto: os dois sistemas de poder separados de ponta a ponta, os modificadores de
+atributo, o gesto de toque duplo e, em 30/08, o canto que mostra o poder da nave.
+
+**A regra de "não atira trocando de faixa" foi aprovada no aparelho** (30/08) — "funciona
+perfeito", nas palavras do Raffael. É a mudança de projeto mais barata do mês e a de maior
+consequência: **o comando único do jogo passou a valer duas coisas ao mesmo tempo.** Ficar na
+faixa é atirar e ganhar velocidade; sair é desviar e abrir mão do abate. A dúvida do testador —
+"é para destruir ou para desviar?" — virou a pergunta que o jogo faz o tempo todo, e virou sem
+gesto novo nenhum.
+
+**E a lista chegou no mesmo dia.** O Raffael desenhou os dois lados e, com ela, a Parte 5 saiu do
+esqueleto: **três modificadores de fase, um por categoria, e duas naves com poder próprio** — mais
+a aba de naves no menu. Ver "A leva de 30/08", na Parte 5.
+
+**Foi montado, jogado e julgado três vezes na mesma noite, e os quatro sistemas funcionam.** Nenhum
+precisou ser repensado. Voltaram ajustes — um véu azulado para o tempo lento se ver, durações
+calibradas, o HUD trocando de cantos —, **um bug meu** no piloto automático, já consertado e
+reaprovado, e um achado que só o polegar dá: em câmera lenta o abate empurrava a velocidade cheia,
+e o Especial estava virando sem querer um poder de velocidade. Ver "O que o aparelho ensinou".
+
+**A dobra passou a se ver, e foi aprovada.** Ela era o único estado do jogo que só existia como
+texto no rodapé — ilegível justamente na velocidade em que acontece. Agora as estrelas esticam em
+riscos, uma moldura se fecha em volta da tela conforme a carga sobe, e há um clarão ao perder e
+outro ao completar. É o primeiro pedaço de **linguagem visual** do projeto, e ele rege o que vier:
+informação de estado mora na periferia, nunca no meio.
+
+**E em 31/08 a dobra virou teto:** chegar nela é o objetivo, passar dela não serve para nada. O
+abate deixou de empurrar a velocidade acima do limiar — sem querer, ele vinha comprando um seguro
+contra errar nos 2,5 segundos mais tensos da corrida, e só para quem atirava. Agora os dois jeitos
+de jogar fazem a mesma prova.
+
+**O ciclo de um dia é o que este bloco prometia**, e foi o que aconteceu: desenho, código e várias
+voltas de veredito e conserto, todas no polegar.
+
+### O que vem agora — o Raffael foi desenhar conteúdo
+
+*Ele parou em 31/08 para **montar mais naves e mais modificadores de fase**, e volta com a lista.*
+
+É a virada que a Parte 5 existia para permitir: **até aqui o trabalho era construir a fábrica, e a
+partir daqui é usá-la.** Duas coisas ficam abertas enquanto isso:
+
+- ⚠️ **O teto da dobra nunca foi jogado**, e ele é a régua contra a qual todo conteúdo novo vai
+  ser equilibrado. Vale gastar cinco minutos nele **antes** de desenhar — régua torta faz nascer
+  torto tudo o que se medir por ela
+- ⚠️ **A fábrica de modificadores ainda não é fábrica:** modificador novo custa classe C#, mesmo
+  quando o efeito é só "mexe num atributo". É o que mais vai atrapalhar a sessão de autoria dele.
+  Ver "O que falta para a fábrica ser fábrica", abaixo
+
+*Achado de 30/08, e já consertado no código:* a montagem de 22/08 deixou **dois scripts faltando**
+na nave da `Game.unity` — ela rodou cedo demais e a faxina não teve o que limpar. Inerte, mas
+precisa de um Montar. Ver "A faxina que não aconteceu", abaixo.
+
+---
+
+### O que veio antes — 21/08/2026
 
 **A mecânica crua está pronta, testada no aparelho e aprovada.** O tato da rodada de 07/08 foi
 julgado no celular: o arranque bravo, a batida de ~3,5 s, o raspão do estilhaço e a dobra de
@@ -58,16 +115,47 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
 
 ### Retomar por aqui
 
-- [ ] ⚠️ **Rodar o Montar** — o sistema de poderes virou dois, e o componente único de antes foi
-      apagado. Até rodar, a nave da `Game.unity` fica com um **script faltando**. Um passo só.
-      *(Se já rodou em 22/08, marcar e seguir.)*
-- [ ] **Julgar no aparelho a regra de "não atira trocando de faixa"** (22/08/2026) — é uma
-      experiência, desliga num campo, e responde em cinco minutos. Ver "O papel do tiro", na
-      Parte 5. **Vem antes da lista de poderes**, porque vários poderes tocam o tiro
-      - Se parecer que nada mudou, **aumentar o `holdFireAfterLaneChange` antes de descartar**: a
-        troca dura ~0,13 s contra ~0,33 s entre tiros, e a ideia pode falhar por ser invisível em
-        vez de por estar errada
-- [ ] **A lista dos poderes de fase** — o Raffael desenha; é o que destrava a Parte 5
+- [x] **O Montar da faxina e do canto do poder** (30/08/2026) — **rodado pelo Raffael.** Terminou a
+      faxina que ficou pela metade em 22/08 e montou o canto do poder da nave. Ver "A faxina que
+      não aconteceu", logo abaixo
+- [x] **O Montar da leva de poderes** (30/08/2026) — quatro passos: naves e poderes,
+      modificadores, `Game.unity` e a aba de naves. **Rodado.** Ver "A leva de 30/08", na Parte 5
+- [x] **A leva de 30/08 julgada no aparelho** — **os quatro sistemas funcionam**, e voltaram
+      quatro ajustes. Ver "O que o aparelho ensinou", na Parte 5
+      - ✅ Os **quadradinhos com relógio circular** foram aprovados sem ressalva
+      - 🔧 O **tempo lento** era invisível *(ganhou véu azulado)* e comprido *(−25%)*, e tinha um
+        buraco de equilíbrio que não aparecia no papel — ver abaixo
+      - 🐛 A **Super IA** batia. Bug de verdade, meu, e do tipo que só o aparelho mostra
+      - 🔧 O **canto do poder da nave** caiu em cima do botão de pausa
+      - 🔧 **Armas desabilitadas**: 5 s era demais, foi para 3,5 s
+- [x] **Os quatro ajustes julgados** (30/08/2026) — **o véu ficou bom e a Super IA parou de
+      bater.** O conserto do piloto se sustentou no aparelho
+- [x] **A dobra vista — APROVADA** (31/08/2026) — moldura, estrelas esticadas e os dois clarões
+      julgados no aparelho. E o caso que o desenho não previa foi respondido junto: **o véu do
+      tempo lento e a moldura da dobra ao mesmo tempo continuam jogáveis**
+- [ ] **Julgar o teto da dobra** (31/08/2026) — *só código, sem Montar.* Em dobra a nave não ganha
+      mais velocidade, nem por abate. A pergunta é uma só, e é de equilíbrio:
+      - **Os 2,5 segundos de dobra ficaram justos ou cruéis?** A nave agora fica **colada** no
+        limiar, sem folga, então todo raspão derruba a carga. Se ficar duro demais, o número a
+        mexer é o `warpDecayRate` — a carga escoar mais devagar — e não devolver a folga
+      - ⚠️ **Vem antes de desenhar conteúdo novo, e o motivo é econômico:** o fim da fase é a
+        régua contra a qual todo poder e todo modificador vão ser equilibrados. Se a régua estiver
+        torta, o conteúdo desenhado em cima dela nasce torto junto — e aí não é um número para
+        corrigir, são todos
+- [ ] **A sessão de autoria do Raffael** (aberta em 31/08/2026) — ele parou aqui para **desenhar
+      mais naves e mais modificadores de fase**. É a primeira vez que o projeto vai criar conteúdo
+      em cima de uma fábrica pronta, e é o teste real da promessa "fábrica, não estoque"
+      - ⚠️ **A fábrica ainda não cumpre a promessa para modificador**, e é o que mais atrapalha
+        esta sessão: modificador novo hoje é **classe C# nova** mais uma entrada na receita do
+        `ModifierSetup`, mesmo quando o efeito é só "mexe num atributo". Ver "O que falta para a
+        fábrica ser fábrica", logo abaixo
+- [x] **"Não atira trocando de faixa" — APROVADO** (30/08/2026) — julgado no aparelho pelo
+      Raffael, com o veredito **"funciona perfeito"**. A experiência vira regra do jogo. Não foi
+      preciso mexer no `holdFireAfterLaneChange`: o efeito já se sente com a troca crua de ~0,13 s,
+      então o receio de ser sutil demais não se confirmou. Ver "O papel do tiro", na Parte 5
+- [x] **A lista dos poderes** (30/08/2026) — **o Raffael desenhou os dois lados**, e com ela o
+      "poder de fase" virou **modificador de fase**, com três categorias. Escrita e montada; ver
+      "A leva de 30/08", na Parte 5
 - [x] **`ShipStats` virou ficha em disco** (21/08/2026) — **rodado e conferido.**
       Ver Parte 6 para o que mudou e por quê
 - [ ] **Parte 5 — poderes em partida.** Primeiro bloco de feature, porque é pura jogabilidade:
@@ -80,15 +168,82 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
       dinheiro
 - [ ] **Parte 9 — UI refeita.** No fim do bloco, não no começo: cada parte acima cria tela nova
       (loja, oficina, recompensa), e refazer a UI antes é refazê-la duas vezes
-- [ ] ⚠️ **Fora da fila, e não depende de nada: ligar os símbolos de depuração.** Passou a
-      importar em 21/08, quando entrou gente no teste interno — ver Fase 5. Entra no próximo
-      `.aab` que subir
+- [x] **Os símbolos de depuração estão ligados** (30/08/2026) — *só código; não precisa de
+      Montar.* `BuildAndroid` liga `AndroidCreateSymbols.Public` no build de **release** (o de
+      desenvolvimento fica sem, que já traz nome de método), e o Console passa a dizer onde o
+      arquivo ficou e quanto pesa
+      - **`Public` e não `Full`:** traz os nomes dos métodos, que é o que a Play precisa para
+        desembaralhar a pilha, sem o pacote gigante do `Full` — que só serve para depurar com
+        ferramenta nativa anexada
+      - ⚠️ **O arquivo sai ao lado do `.aab` e sobe à parte** no Play Console, em *Versões > a
+        versão > Símbolos de depuração*. **Não vai dentro do pacote**, e é por isso que é fácil de
+        esquecer — o build agora avisa no Console, e reclama se ele não tiver saído
+      - Por que passou a importar em 21/08: entrou gente no teste interno. Até então quem travava
+        era o Raffael, com o cabo na mão e o logcat aberto; agora o travamento acontece longe, e
+        o que sobra é o relatório
+
+#### A faxina que não aconteceu — achado de 30/08/2026
+
+**A montagem de 22/08 disse "concluído" e mesmo assim deixou dois scripts faltando na nave.**
+Achado ao conferir o disco em 30/08, não por sintoma no jogo.
+
+O `BattleSetup` já chamava `RemoveMonoBehavioursWithMissingScript` — o código estava certo. O que
+saiu errado foi o **momento**: a montagem rodou às 01:25 de 22/08, no mesmo minuto em que os
+arquivos eram renomeados, e naquele instante o componente antigo ainda resolvia. Não havia o que
+limpar. Os órfãos apareceram depois, quando a Unity terminou de reimportar — e a montagem já tinha
+dado o recado de sucesso.
+
+- O que sobrou na `Game.unity`: **dois** `MonoBehaviour` do `ShipPowerUps`, ainda listados nos
+  componentes da nave, apontando para um `MonoScript` sem GUID. É o "Missing (Mono Script)" do
+  Inspector
+- **Por que ninguém percebeu:** órfão desses é inerte. O jogo roda igual, os dois componentes
+  novos estão lá e funcionam. Só a conferência no arquivo mostra
+- **Por que a verificação anterior não pegou:** eu procurei por `m_Script: {fileID: 0}`, que é
+  **uma** das formas que a Unity grava para script faltando. Esta era a outra
+- **O conserto tem duas partes:** rodar o Montar de novo, agora que existe o que limpar, e o
+  `BattleSetup` passou a **dizer no Console quantos removeu**. Montagem que não pode falhar calada
+  é montagem que precisa contar em voz alta — foi o silêncio que escondeu isto por oito dias
 
 > **Princípio de construção que atravessa as quatro partes: fábrica, não estoque.** Fase nova hoje
 > não é código — é um `.asset` em `Assets/Levels/`. Se poder, nave e recompensa nascerem com a
 > mesma estrutura (ficha em disco + catálogo, zero código por item novo), um ano de conteúdo custa
 > **horas de autoria**, e não meses de programação. É o que torna viável ter roadmap de futuro sem
 > precisar ter o futuro construído antes de lançar.
+
+#### O que falta para a fábrica ser fábrica — 31/08/2026
+
+*Levantado ao fim do dia, quando o Raffael parou para desenhar conteúdo novo. **A promessa acima
+vale hoje para fase e para obstáculo, e ainda não vale para modificador.***
+
+Onde cada tipo de conteúdo está:
+
+| Conteúdo | Item novo custa | Cumpre a promessa? |
+|---|---|---|
+| Fase | um `.asset` | ✅ |
+| Obstáculo | um `.asset` | ✅ |
+| Nave | um `.asset` + uma linha no catálogo | ✅ *(o poder dela é que custa código)* |
+| **Modificador de fase** | **uma classe C# + uma entrada na receita** | ❌ |
+| Poder de nave | uma classe C# + uma entrada na receita | ⚠️ *aceitável, ver abaixo* |
+
+- [ ] **Um modificador genérico de atributo**, que resolveria a linha vermelha da tabela
+      - **Os dois modificadores de atributo que existem são a mesma classe escrita duas vezes.** O
+        `AttackSpeedBoost` é `Times(AttackSpeed, 2)`; o `WeaponsOffline` é `Times(AttackSpeed, 0)`.
+        A única diferença entre eles é um número — e mesmo assim são dois arquivos de código
+      - Com uma ficha que carregue uma **lista de (atributo, soma, fator)**, tudo o que for
+        "aumenta X" ou "reduz Y" vira **asset puro**: escolher o atributo num menu, digitar o
+        número, escolher a duração. Zero código. É o que a promessa diz, e é o que a autoria
+        precisa
+      - **Cobre a maioria do que está por vir:** dos oito atributos da nave, qualquer um vira
+        Reforço e Debilitante sem uma linha nova
+      - Classe filha continua existindo para o que **não** é número — o tempo lento é o exemplo, e
+        é justo que ele custe código, porque ele faz algo que nenhum campo descreveria
+- [ ] **Poder de nave fica como está, e é decisão e não preguiça** — poder de nave é *"algo que só
+      esta nave faz"*, então por definição ele quase nunca é um número. Tiros teleguiados e Super
+      IA não caberiam em campo nenhum. Genérico ali resolveria a minoria dos casos e criaria uma
+      ficha cheia de campo que não vale para quase ninguém
+      - O que **vale** a pena ali é o contrário: cada poder novo que precisar de algo que o jogo
+        ainda não sabe fazer deve virar um **traço** (`ShipTrait`) ou um **gancho**, que é peça
+        reutilizável — e não um alcance direto no componente de quem interessa
 
 > **Como subir uma atualização:** seis passos, em `docs/play-console/caminho-ate-a-play-store.md`.
 > O que mais derruba envio é esquecer de subir o `AndroidBundleVersionCode` — a Play recusa dois
@@ -98,7 +253,7 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
 
 ## Estado atual
 
-*Revisto em 21/08/2026.*
+*Revisto em 31/08/2026.*
 
 **Funcional**
 - Cena `Menu.unity` com fiação correta: `Menu.cs` no Canvas, BotaoJogar → `OnPlayButton`,
@@ -160,16 +315,37 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
   julgados no celular, os quatro bons, **nada a equilibrar**. E as três fases se vencem **só
   desviando**, o que confirma a regra de projeto de 07/08 e a frase da página do app. É o marco
   que encerra a lapidação da jogabilidade crua e abre o meta-jogo — ver "Onde estamos", no topo.
+- **A nave não atira enquanto troca de faixa** (aprovado no aparelho em 30/08/2026) — a troca
+  passou a **custar** alguma coisa, e com isso o comando único do jogo virou duas decisões ao mesmo
+  tempo. Ficar na faixa é atirar e ganhar velocidade; sair é desviar e abrir mão do abate.
+  `ShipWeapon.holdFireWhileChangingLane` liga e desliga, e o relógio do tiro congela junto, para a
+  troca não sair de graça.
+- **Os dois sistemas de poder existem, separados de ponta a ponta** (22/08/2026) — o modificador
+  de fase, que se **pega** (`LevelModifier`), e o poder da nave, que se **ativa** com toque duplo
+  (`ShipAbility`). Com modificadores de atributo e traços por baixo, para eles mexerem nos números
+  e no comportamento da nave.
+- **O canto do poder da nave** (30/08/2026) — mostra qual poder, usos e recarga, e pisca ao ficar
+  pronto. Nasceu no alto à direita e desceu para o **rodapé à esquerda** na mesma noite: lá em cima
+  ele caía em cima do botão de pausa. A vida foi para o rodapé à direita para abrir a vaga.
+- **A fábrica ganhou produto** (30/08/2026) — **jogado no aparelho.** Três modificadores
+  de fase (Reforço, Debilitante, Especial), nascendo na pista e mostrados em quadradinhos com
+  relógio circular; duas naves com poder próprio — **Tiros teleguiados** e **Super IA** — e a aba
+  de naves no menu. Ver "A leva de 30/08", na Parte 5.
+- **O tempo lento se vê, e a Super IA pilota direito** (30/08/2026) — **os dois aprovados no
+  aparelho.** O véu azulado deu cara ao efeito, e o piloto parou de bater depois de passar a olhar
+  as faixas do caminho, e não só o destino.
 
 **Faltando**
-- **Todo o meta-jogo** — poderes em partida, variedade e evolução de naves, fases com cara própria,
-  recursos e economia, nível do jogador, recompensas e a UI refeita. É o trabalho a partir de
-  21/08; ver Partes 5 a 9.
+- **O teto da dobra não foi jogado** — em dobra a nave deixou de ganhar velocidade, e isso deixa
+  ela colada no limiar nos 2,5 segundos finais. É a única coisa por julgar, e é de equilíbrio.
+- **O resto do meta-jogo** — evolução de naves, fases com cara própria, recursos e economia, nível
+  do jogador, recompensas e a UI refeita. Ver Partes 6 a 9.
 - ~~O tato da rodada de 07/08 nunca foi julgado num aparelho~~ — **julgado e aprovado em
   21/08/2026.**
-- ~~Um passo de Montar pendente~~ — **rodou em 08/08 e o conserto foi apagado.** Conferido no
-  disco: `br.com.raffael.corridanoespaco`, target 36, `productName` "Corrida no Espaço",
-  versão `0.1.0`. **Não há montagem pendente.**
+- **Nenhuma montagem pendente** (31/08/2026) — a mudança do dia foi só regra, e regra é código.
+  *(O `applicationId` continua conferido no disco desde 08/08:
+  `br.com.raffael.corridanoespaco`, target 36, `productName` "Corrida no Espaço", versão
+  `0.1.0`.)*
 - Áudio: nenhum `.wav`/`.mp3`/`.ogg` no projeto.
 - Ícone e splash **dentro do app** — hoje são os padrões da Unity. *(A arte da página da loja já
   tem marcador de lugar; esta linha é sobre o que aparece no celular.)*
@@ -418,12 +594,15 @@ espera — é o que só se resolve perto do lançamento.
 - [ ] **Arte de verdade da loja** — ícone, gráfico de destaque e screenshots caprichadas.
       **Migrou para a Fase 8**, junto com a arte do jogo: são o mesmo trabalho, e fazer a arte da
       loja antes da arte do jogo é fotografar marcador de lugar
-- [ ] ⚠️ **Ligar os símbolos de depuração — a hora chegou.** O Console avisa a cada envio que
-      faltam o arquivo de desofuscação e os símbolos nativos. Ficaram ignorados de propósito
-      enquanto o único aparelho era o do Raffael, porque `.\tools\logcat.ps1` dá mais detalhe que
-      o Console. **Isso mudou: já há outras pessoas no teste interno** (21/08/2026), e quando
-      alguém disser "fechou sozinho" não vai dar para pegar o celular da pessoa. Sobe junto do
-      próximo `.aab`. Ver `caminho-ate-a-play-store.md`, Etapa 2
+- [x] **Ligar os símbolos de depuração** (30/08/2026) — **ligado no `BuildAndroid`**, em
+      `AndroidCreateSymbols.Public` e só no release. O Console avisava a cada envio que faltavam o
+      arquivo de desofuscação e os símbolos nativos. Ficaram ignorados de propósito enquanto o
+      único aparelho era o do Raffael, porque `.\tools\logcat.ps1` dá mais detalhe que o Console.
+      **Isso mudou: já há outras pessoas no teste interno** (21/08/2026), e quando alguém disser
+      "fechou sozinho" não vai dar para pegar o celular da pessoa
+      - ⚠️ **Falta a metade que é dele:** o arquivo sai ao lado do `.aab` e **sobe à parte**, em
+        *Versões > a versão > Símbolos de depuração*. Vale no próximo envio. Ver
+        `caminho-ate-a-play-store.md`, Etapa 2
 - [x] ~~Quando a conta sair da verificação:~~ **app criado no Console** (08/08/2026), com o
       `applicationId` novo `br.com.raffael.corridanoespaco`, aceito sem briga
 - [ ] Criar o projeto novo no Play Games Services — **só na Fase 7**, junto com login e conta
@@ -798,7 +977,7 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
       - [x] **Decidido pelo Raffael em 06/08/2026: vai ATÉ a dobra.** Recomendei parar um pouco
             antes e ele escolheu o contrário — desviar vira estratégia completa e uma partida
             paciente vence sem um tiro. O tiro passa a ser atalho, não obrigação.
-            Quem impõe o teto é o `RaceDirector.ApplyPassiveCeiling`, que é o único lugar que
+            Quem impõe o teto é o `RaceDirector.ApplySpeedCeiling`, que é o único lugar que
             sabe qual é a dobra da fase
       - [x] ~~Cuidado ao equilibrar: o ganho passivo desfaz sozinho a punição da batida~~ —
             **resolvido em 07/08/2026 pelo desenho novo de batida.** O grosso do custo passou a ser
@@ -806,11 +985,14 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
             desfaz é só o `speedPenaltyOnCrash` que sobra por cima
       - [x] Na fase sem fim não há dobra, então lá o ganho passivo **não para nunca**: a corrida
             fica perigosa com o tempo mesmo para quem não atira em nada
-- [x] **Teto de velocidade removido** *(pedido do Raffael em 06/08/2026)* — o `maxSpeed` saiu do
-      `RaceSpeed`. Nada mais limita a velocidade: destruir obstáculo empurra a corrida acima da
-      dobra à vontade, e a fase sem fim acelera até a nave cair. O único piso é o zero, para uma
-      sequência de batidas não empurrar a corrida para trás.
-      **`PassiveCeiling` não é teto de velocidade** — limita só o ganho passivo, e é a dobra da fase
+- [x] **Teto de velocidade removido** *(pedido do Raffael em 06/08/2026)* — o `maxSpeed` fixo saiu
+      do `RaceSpeed`. O único piso é o zero, para uma sequência de batidas não empurrar a corrida
+      para trás
+      - ⚠️ **Isto valeu até 31/08/2026, e hoje só metade continua verdade.** O teto fixo não
+        voltou — o que existe agora é o `SpeedCeiling`, que é **a regra da fase**: a velocidade de
+        dobra nas fases de progressão, e infinito na sem fim. A frase que morava aqui, "destruir
+        obstáculo empurra a corrida acima da dobra à vontade", deixou de valer. Ver "A dobra virou
+        teto", na Parte 5
       - [ ] **Consequência a vigiar no teste:** o acerto é distância medida por frame
             (`Obstacle.CheckCrash`), então velocidade alta o bastante faz o obstáculo **atravessar
             a nave sem bater**. A conta: passa a falhar quando a velocidade supera
@@ -902,13 +1084,363 @@ Para trazê-lo de volta, se um dia fizer falta:
 faz falta:** os números dele agora são os padrões do `LevelSetup`, então um projeto gerado do zero
 já nasce certo — ele só existia para alcançar os assets criados em 06/08.
 
-### Parte 5 — Poderes em partida ⬜
+### Parte 5 — Poderes em partida 🟡
 *Aberta em 21/08/2026. Primeiro bloco do meta-jogo.*
 
 **Por que esta é a primeira:** é pura jogabilidade. Ciclo curto, sem depender de nave nova nem de
 economia, e o Raffael julga no polegar — exatamente como julgou a batida. Além disso ela mexe no
 mesmo tecido que a mecânica crua, então é onde eventuais pormenores do cru vão aparecer de novo,
 já no contexto novo.
+
+#### A leva de 30/08/2026 — a fábrica ganhou produto
+
+*Desenho do Raffael, escrito no mesmo dia. **Precisa do Montar**, e é a maior montagem desde a
+entrada das fases — quatro passos.*
+
+Até aqui a Parte 5 era estrutura vazia: dois sistemas de poder que funcionavam e não tinham nenhum
+poder dentro. Esta leva põe conteúdo nos dois, e no caminho mexe em quatro coisas do jogo que já
+existiam.
+
+**"Poder de fase" virou "modificador de fase".** O nome antigo dava a entender que era irmão do
+poder da nave; não é. Um se **pega** e é passageiro, o outro se **ativa** e é a identidade da
+nave. `LevelPowerUp` → `LevelModifier`, e a pasta junto. *(A `Proteção`, o único exemplo escrito,
+foi **apagada** a pedido do Raffael — nunca chegou a virar `.asset`, então não deixou buraco.)*
+
+##### Os modificadores de fase
+
+- [x] **Três categorias, e elas são regra e não rótulo** — **Reforço** (aumenta algo da nave),
+      **Debilitante** (reduz) e **Especial** (o que não é nem um nem outro). A categoria manda na
+      **cor** do item na pista e do quadradinho no HUD
+      - A cor sai da categoria, e **não de um campo por ficha**, de propósito: se cada arquivo
+        escolhesse a própria, a décima ficha teria um verde ligeiramente diferente da primeira, e
+        a leitura de relance — a única que dá tempo de fazer a 15 u/s — iria embora
+- [x] **Os três primeiros, um por categoria** — escolhidos para exercitar os três caminhos que
+      qualquer modificador futuro vai usar: mexer num atributo para cima, para baixo, e mexer em
+      algo que não é atributo nenhum
+
+      | Categoria | Nome | Efeito | Duração |
+      |---|---|---|---|
+      | Reforço | Aumento de Velocidade de Tiro | +100% de cadência | 3 s |
+      | Debilitante | Desabilitar Armas | −100% de cadência: a nave cala | 3,5 s |
+      | Especial | Redução na Velocidade do Tempo | tudo em volta a 50% | 2,75 s *(de jogo)* |
+
+- [x] **"Desabilitar armas" é um −100% de cadência, e não um interruptor** — os dois dariam o
+      mesmo resultado sozinhos; a diferença aparece com outro modificador junto. Como número, ele
+      obedece à regra de empilhamento do jogo: pegar o Reforço de +100% com as armas caladas
+      **devolve a cadência de fábrica**, que é o que qualquer um esperaria de dois efeitos opostos.
+      Como interruptor, o "desligado" ganharia do bônus e o Reforço pareceria quebrado
+      - Custou uma linha: o piso do atributo `AttackSpeed` desceu de 0,1 para **0**, e a
+        `ShipWeapon` não dispara com cadência zero
+      - **Não é injusto**, porque toda fase é vencível sem atirar — regra de 07/08, conferida no
+        aparelho. Ficar sem arma custa velocidade e ritmo, nunca a corrida
+- [x] **Pegar o mesmo de novo RENOVA; dois diferentes correm em paralelo** *(regra do Raffael)* —
+      cada modificador tem o próprio relógio, independente. O mesmo pego duas vezes volta a valer
+      inteiro e **continua sendo um só**
+      - Empilhar dobraria o efeito: dois "+100% de cadência" virariam +200% por o jogador ter
+        passado em cima duas vezes, e a segunda pegada valeria mais que a primeira. Renovando, o
+        que se ganha é **tempo**, que é o que ele entende ao pegar de novo
+      - **O que já está valendo sai do sorteio da pista.** Um item que só renova o que a nave já
+        tem é uma decisão sem consequência — desviar para pegar e não sentir nada mudar
+- [x] **Os quadradinhos com relógio circular, sem número** *(pedido do Raffael)* — no alto à
+      **esquerda**, um por modificador valendo, com o ícone no meio e um anel esvaziando em volta
+      - **Sem algarismo de propósito:** o jogador está desviando a 15 u/s e não vai ler "2,4 s". O
+        que ele consegue é um relance, e um anel que esvazia responde "quanto falta" mais depressa
+      - Círculo e não barra: ocupa o mesmo espaço em qualquer duração — um poder de 3 s e um de 30
+        desenham o mesmo anel
+      - **No canto oposto ao do poder da nave**, que fica no alto à direita. Os dois são "o que
+        está valendo agora", e separá-los pelos cantos é o que impede confundir *o que eu peguei*
+        com *o que eu posso ativar*
+- [x] **Nascem na pista junto com os obstáculos, e a faixa de fuga passou a contar os dois** — a
+      regra da fuga garantida saiu do `ObstacleSpawner` e virou o `LaneOccupancy`
+      - ⚠️ **Foi um buraco real, não uma arrumação:** com dois sorteadores povoando as mesmas
+        faixas sem saber um do outro, cada um garantindo a fuga sozinho **não garantia nada** —
+        obstáculo na 0 e modificadores na 1 e na 2 é uma linha que os dois aprovariam e que não
+        deixa por onde passar
+      - **A faixa livre é vazia de tudo, e não só de perigo** *(decisão do Raffael, 30/08)*. Um
+        Reforço na faixa de fuga a tornaria menos livre para quem só quer passar, e a leitura de
+        relance deixaria de ser "onde não tem nada"
+      - Sorteador **separado** do de obstáculos, porque o ritmo é outro: obstáculo é o pulso da
+        fase e vem a cada segundo e pouco; modificador é acontecimento e vem a cada nove. Amarrar
+        um no outro faria o modificador herdar a rampa de dificuldade, e fase apertada choveria
+        poder
+      - Item **redondo** na pista, contra o retângulo do obstáculo: a forma separa "pegar" de
+        "desviar" antes mesmo de a cor ser lida
+
+##### O tempo lento, e por que ele é uma linha
+
+- [x] **`Time.timeScale`, e não nove reduções separadas** — *sugestão minha, aceita pelo Raffael
+      em 30/08.* O pedido original listava nove coisas a reduzir: velocidade do obstáculo, do
+      fundo, do ganho de pontos, da aceleração, da troca de faixa, da carga de dobra, da recarga
+      dos poderes e do consumo dos modificadores ativos
+      - **As nove são a mesma coisa por baixo:** cada uma é um número multiplicado por
+        `Time.deltaTime`. Mexer no relógio as pega juntas, de graça e sem esquecer nenhuma
+      - **O argumento decisivo não é hoje, é daqui a um ano:** com nove reduções, a décima coisa
+        que entrasse no jogo nasceria em velocidade cheia e ninguém lembraria por quê. Pelo
+        relógio, tudo que for escrito daqui para a frente já nasce obedecendo
+      - **O que de propósito não muda é a velocidade da nave** *(pedido dele)*: o número continua
+        o mesmo no HUD, porque a nave não ficou mais lenta — o tempo é que ficou
+      - **Ele é Especial justamente por não ser bom nem ruim:** dá mais tempo real para desviar e,
+        na mesma medida, atrasa a velocidade, a dobra e a pontuação
+      - ⚠️ **Ele desacelera o próprio relógio**, e isso é consequência do pedido, não descuido:
+        "reduzir o consumo dos modificadores ativos" inclui ele mesmo. Com fator 0,5 e duração 3,
+        vale 3 s de jogo e **6 de relógio de parede**. Se parecer comprido no aparelho, o número a
+        baixar é a duração, não o fator
+- [x] **O `GameTime`, árbitro do relógio** — ninguém mais escreve no `timeScale`
+      - Foi obrigatório, não elegante: pausa e fim de corrida punham 0 e voltavam a 1, e isso
+        bastava com dois donos. Com um terceiro que quer 0,5, **"voltar a 1" deixou de ser
+        verdade** — sair da pausa no meio de um tempo lento cancelaria o efeito, e o jogador veria
+        o poder dele evaporar por ter aberto o menu
+      - **A pausa ganha de tudo**; entre lentidões, vale **a mais lenta**. Multiplicar faria duas
+        de 50% virarem 25% e a terceira quase congelar; somar como o `StatModifier` faria duas de
+        −50% chegarem a zero, que é o jogo travado. Com o mínimo, empilhar nunca piora
+
+##### As naves e os poderes delas
+
+- [x] **Duas naves, com nomes provisórios** — a **Nay** e a **Raffa**, mais a *Nave inicial*, que
+      entra no catálogo como régua: é a única sem poder, e é com ela que o jogo foi equilibrado
+      - **Os atributos das três são iguais nesta primeira leva**, de propósito: a diferença é o
+        poder, e só. Mexer nos números junto misturaria duas variáveis no mesmo teste
+
+      | Nave | Poder ativo | Como recarrega |
+      |---|---|---|
+      | Nay | **Tiros teleguiados** — os tiros perseguem o obstáculo, esteja a nave na faixa que estiver | 3 s de efeito, recarga de 30 s, **usos ilimitados** |
+      | Raffa | **Super IA** — o jogo assume a nave e desvia sozinho | 3 s de efeito, **uma carga que não volta** |
+
+- [x] **Os tiros teleguiados desfazem, de propósito, a regra aprovada hoje de manhã** — desde que
+      a nave cala a arma para trocar de faixa, atirar e desviar competem pelo mesmo comando.
+      Enquanto o poder vale, param de competir. É por isso que ele é curto e de recarga longa: é
+      uma folga, não o jeito normal de jogar
+      - O tiro tem **taxa de curva**, e não mira instantânea: um tiro que aponta na hora nunca
+        erra, e aí o poder deixa de ser "os tiros perseguem" e vira "os tiros acertam", que é
+        outra coisa e muito mais forte
+- [x] **A Super IA escolhe a faixa cujo estorvo mais próximo está mais longe** — não prevê rota
+      nem calcula nada. Com três faixas e obstáculos em linha reta, "a faixa mais desimpedida" já é
+      a jogada certa quase sempre, e **uma IA que erra de vez em quando é mais honesta** como poder
+      de 3 segundos do que uma que resolve a fase
+      - Ela desvia de Debilitante também, e passa por cima de Reforço no desempate
+      - O arraste do jogador é **ignorado** enquanto ela pilota
+- [x] **`usesPerRace = 0` passou a querer dizer "sem limite"** — é o que separa os dois desenhos:
+      a Nay volta a cada 30 s a corrida toda, a Raffa é uma carta só
+      - Isso destapou dois defeitos no canto do poder, consertados junto: ele mostrava "0 usos" a
+        corrida inteira para poder ilimitado, e **escondia a recarga da Nay** — que é a única coisa
+        que o canto dela tem para dizer
+- [x] **Os `ShipTrait`** — o irmão do `ShipStat` para o que não cabe num número: "os tiros
+      perseguem", "o jogo está pilotando"
+      - Sem eles, o poder da nave teria de alcançar a `ShipWeapon` pelo `GetComponent`, e o de fase
+        faria o mesmo por outro caminho: **os dois sistemas de poder voltariam a conhecer o resto
+        do jogo**, que é o que a separação deles existe para evitar
+      - São **contados, não ligados/desligados**: dois poderes ligando o mesmo traço, e o primeiro
+        a acabar não pode apagar o do outro
+- [x] **A estrutura da passiva existe e está vazia nas duas** *(decisão do Raffael)* — o plano é
+      destravar no **nível 60**, o último dos três patamares de evolução, e não existe nível ainda.
+      A aba de naves diz "destrava no nível 60" em vez de "—": o traço faria parecer que a nave
+      nunca vai ter uma
+      - `ShipPassive` é classe separada do `ShipAbility`, e não um poder de duração infinita:
+        passiva não tem ativação, recarga, uso nem canto no HUD, e herdar tudo isso só para deixar
+        desligado daria uma ficha cheia de campo morto
+
+##### A aba de naves
+
+- [x] **Quarto botão no menu, entre Jogar e Recordes** — cada nave com atributos, poder ativo,
+      passivo, e a selecionada em destaque. Ali e não no fim porque escolher a nave é parte de
+      preparar a partida
+      - **A escolha sobrevive a fechar o jogo**, ao contrário da fase. Fase se escolhe a cada
+        partida; nave é o que o jogador *é*, e refazer essa escolha toda vez que abrisse o app
+        seria pedir que ele repetisse uma decisão já tomada
+      - Salva pelo **nome do asset**, não pelo nome de tela: o de tela é texto que pode ser
+        reescrito, e a preferência não pode se perder porque a "Nay" virou "Nayara"
+      - **Todas destravadas**, porque não existe nível nem economia para destravar nada. O cadeado
+        desta tela é o dia da loja
+      - ⚠️ **A altura dos botões do menu virou cálculo, não número decorado.** Cada montagem sabia
+        a altura dos botões dela e nenhuma sabia quantos existiam ao todo — o quarto nasceria em
+        cima do terceiro
+
+#### O que o aparelho ensinou — 30/08/2026, mesma noite
+
+*O Raffael rodou o Montar e jogou. **Os quatro sistemas funcionam** — nenhum precisou ser
+repensado. Voltaram quatro ajustes, e um deles é um bug meu.*
+
+**Os quadradinhos com relógio circular passaram sem ressalva.** É o único item da leva que não
+levou nenhum retoque, e vale registrar: a aposta de "sem número, só o anel esvaziando" se
+confirmou na primeira tentativa.
+
+##### O tempo lento: três coisas, e a terceira ninguém tinha visto
+
+- [x] **Ele era invisível** — ganhou um **véu azulado** cobrindo a tela enquanto vale
+      *(pedido do Raffael)*
+      - Câmera lenta **se sente muito melhor do que se vê**: sem aviso na tela, o jogador percebe
+        que "alguma coisa ficou estranha" antes de entender que foi ele quem pegou um poder. O véu
+        dá nome à sensação no instante em que ela começa
+      - Azul porque é a cor que o olho lê como frio e parado; **de leve** porque cobre a pista
+        inteira, e um véu que atrapalhe enxergar obstáculo transforma um poder neutro num castigo
+      - **Lê do `GameTime`, não do modificador**: qualquer coisa que venha a segurar o tempo — um
+        poder de nave, um chefe, uma fase — já nasce com o véu, sem uma linha nova
+      - A intensidade sai do fator: a 50% o véu fica na metade do teto. Efeito futuro mais forte se
+        anuncia mais forte, sem ninguém escolher um alfa por poder
+- [x] **Estava comprido** — 3 s → 2,25 s (−25%) → **2,75 s** na rodada seguinte, que a meia
+      velocidade são 5,5 s de relógio de parede
+      - *A ida e volta tem explicação, e ela vale para o resto do projeto:* o primeiro corte foi
+        grande porque **o efeito era invisível, e efeito invisível parece arrastado**. Com o véu
+        avisando, deu para devolver metade. Calibrar duração antes de o efeito se ver mede a coisa
+        errada
+- [x] 🐛 **O buraco de equilíbrio que ele achou jogando** — *e é o achado mais valioso da noite.*
+      Em câmera lenta dá para destruir mais, e cada abate empurrava a velocidade **cheia**. O
+      Especial estava virando, sem querer, um poder de velocidade
+      - **A causa:** o empurrão do abate era a **única entrada de velocidade que não passava por
+        `Time.deltaTime`**. Ganho passivo, aceleração, retomada de batida — tudo já desacelerava
+        junto com o relógio. Só ele continuava valendo integral
+      - **O conserto é meia linha:** `RaceSpeed.Nudge` multiplica pelo `GameTime.SlowFactor`. Não
+        é remendo — é o abate passando a obedecer à mesma regra de todo o resto
+      - **E a conta fecha sozinha:** com o relógio a 50% o jogador destrói perto do dobro, e cada
+        abate vale metade. O saldo é o de correr sem poder nenhum, que é o que "Especial" tem de
+        ser — nem bom nem ruim
+      - *Por que não apareceu no papel:* nada no desenho do tempo lento fala de abate. Só se vê
+        jogando, e só se entende olhando de onde a velocidade entra
+
+##### A Super IA batia — bug meu
+
+- [x] **O relato:** *"quando o segundo obstáculo aparece, às vezes ele desvia do primeiro e depois
+      desvia do segundo de antemão, fazendo bater no primeiro que estava desviado"*
+- [x] **A causa, e ela é constrangedora: trocar de faixa não é teletransporte.** A nave
+      **atravessa** as faixas do meio, e a primeira versão do piloto nunca olhava para elas — só
+      para o destino. Somado a isso, ela perseguia a faixa mais desimpedida **a cada quadro**, e
+      obstáculo distante já bastava para mandá-la se mexer. As duas coisas juntas dão exatamente o
+      que ele viu: desvia de algo longe e no caminho passa por cima do que estava perto
+- [x] **O conserto são as duas regras que o Raffael propôs**, e elas resolvem uma cada
+      - **Só desvia quando o perigo está perto** (`dangerDistance`). Longe da ameaça, fica quieta.
+        Isso mata de brinde o outro defeito da versão antiga: a nave trocava de faixa à toa em
+        corredor vazio, o que parece defeito e ainda cala a arma a cada troca
+      - **Só desvia para onde dá para chegar:** o destino **e cada faixa do caminho** precisam
+        estar livres. É a linha que faltava
+      - Em empate, a faixa mais perto ganha: cada faixa a mais é mais tempo no ar e mais tempo sem
+        atirar
+      - **Sem saída, ela fica e leva o golpe** — melhor do que sair correndo para bater em outro
+
+##### O HUD trocou de cantos
+
+- [x] **O canto do poder da nave caiu em cima do botão de pausa** — os dois estavam no alto à
+      direita
+      - O argumento de 30/08 de manhã (*"no alto, porque embaixo é onde o polegar mora"*) estava
+        certo; **o lugar é que estava errado**, e o botão de pausa já era dono daquele canto. É
+        erro de quem monta olhando um HUD por vez em vez da tela inteira
+      - **Agora os quatro cantos têm dono, e nenhum divide com ninguém:** pausa no alto à direita,
+        modificadores no alto à esquerda, poder da nave no rodapé à esquerda, vida no rodapé à
+        direita — a vida veio da esquerda para abrir a vaga
+      - As duas do rodapé continuam em cantos opostos pelo motivo de sempre: são as que se conferem
+        de relance, e juntas competiriam pelo mesmo olhar
+
+##### Armas desabilitadas: 5 s → 3,5 s
+
+- [x] Cinco segundos sem arma era tempo demais parado vendo obstáculo passar
+
+##### A regra de sobrescrita mudou para as fichas de poder
+
+- [x] ⚠️ **`ModifierSetup` e os poderes do `ShipSetup` passaram a reescrever o arquivo a cada
+      montagem**, ao contrário das fichas de fase e de nave, que continuam sendo escritas uma vez só
+      - **Foi o primeiro ajuste de equilíbrio que revelou o problema:** as três fichas já estavam
+        no disco com os números velhos, e a receita não tinha como corrigi-las
+      - A divisão que ficou: **o que o Raffael afina no Inspector não se sobrescreve; o que ele
+        ajusta por pedido, sim.** Recarga, duração e efeito são decididos no aparelho e voltam como
+        frase — "reduz 25%", "3,5 s" —, e o lugar certo desses números é a receita, onde ficam
+        versionados junto com o motivo
+      - A ficha da **nave** continua intocada: nela mora nome e identidade, que são dele
+      - **A consequência a saber:** afinar um modificador ou um poder no Inspector vale até o
+        próximo Montar. Gostou de um número? É só me dizer que ele entra na receita
+
+#### A dobra passou a se ver — 30/08/2026, terceira rodada
+
+*Pedido do Raffael, e o diagnóstico é dele: **"ler embaixo quando está muito rápido é inviável
+para impossível"**.*
+
+**A dobra era o único estado do jogo que só existia como texto.** E o texto mora no rodapé, na
+velocidade em que a dobra acontece — que é, por definição, a maior da corrida. O jogador estava
+jogando às cegas exatamente no trecho decisivo: não sabia que tinha entrado, não sabia quanto
+faltava, e não sabia quando tinha caído fora.
+
+*Ele levantou o assunto ao pedir a duração maior do tempo lento e emendou: "não sei se faz
+sentido, me pergunta se preferir algo". Fazia.*
+
+- [x] **As estrelas do fundo esticam e correm mais** *(ideia dele)* — os pontos viram riscos
+      verticais, que é a imagem que qualquer pessoa reconhece como dobra sem ninguém explicar
+      - ⚠️ **Só acelerar não bastaria**, e vale registrar por quê: o fundo **já** anda na
+        velocidade da corrida, então acelerar mais seria "um pouco mais do mesmo" — justamente o
+        que não se lê de relance. **Esticar muda a forma**, e forma nova o olho pega na periferia
+      - Custou reescrever o embrulho do `ScrollingBackground`: cada ladrilho guardava a própria
+        posição e embrulhava sozinho, o que só funciona com altura constante. Esticando, as
+        posições viriam de uma altura e o embrulho de outra, e **abriria fresta no meio da tela**.
+        Agora tudo é derivado de um deslocamento só, e a altura pode mudar a qualquer quadro
+- [x] **A moldura que se fecha, e ela carrega o NÚMERO** *(escolha do Raffael)* — nasce nos quatro
+      cantos e cresce pelas bordas até completar o quadro. **Quanto da volta está desenhado é
+      quanto falta para a dobra**
+      - Era a decisão que valia perguntar: uma moldura que só liga e desliga resolveria "estou
+        carregando" e deixaria "quanto falta" de volta no rodapé — ou seja, resolveria metade da
+        dor. Com o progresso, **o número do rodapé vira redundância em vez de necessidade**
+      - São **oito braços, dois por canto**. Quatro barras, uma por borda, cresceriam de uma ponta
+        só, e a leitura de "o cerco está se fechando" iria embora
+      - Em âncoras e não em pixels: vale em qualquer tela sem ninguém calcular o Canvas
+- [x] **Os dois clarões, em direções contrárias** *(escolha do Raffael)* — **perder** a carga é
+      âmbar recolhendo para dentro; **completar** é claro estourando para fora
+      - **Perder é o mais alto dos dois, de propósito.** Ganhar a dobra o jogador percebe pelo que
+        está fazendo; perdê-la acontece *com* ele, e perder em silêncio é o pior caso possível
+      - ⚠️ **O aviso de perda tem trava anti-estroboscópio:** a nave pode ficar beirando a
+        velocidade de dobra, entrando e saindo várias vezes por segundo. Sem espera mínima entre
+        avisos, o que devia ser um alerta viraria pisca-pisca — e ele só dispara se havia carga
+        que valesse perder
+      - O clarão é o **último filho do Canvas**, por cima até do painel de vitória: a dobra
+        completa e o painel acontecem no mesmo quadro, e é o clarão que faz a vitória parecer o
+        espaço quebrando em vez de uma caixa que apareceu
+- [x] **Nada disso encosta no meio da tela** — o centro é onde se desvia, e é o último lugar do
+      jogo onde cabe informação nova a 19 unidades por segundo. Tudo aqui é borda ou é um instante
+
+#### A dobra virou teto — 31/08/2026
+
+*Pedido do Raffael, com uma segunda parte que valeu mais que a primeira: **"nada deve acelerar a
+contagem de dobra a não ser que explicitamente dito, pode verificar se tem algo que possa estar
+impactando nisso indiretamente?"***
+
+##### A regra
+
+- [x] **Em dobra a nave não ganha mais velocidade** — a velocidade de dobra virou o **teto da
+      corrida**, e o abate passou a respeitá-lo
+      - **O que estava acontecendo:** o teto já existia, mas só segurava o ganho passivo. O
+        empurrão do abate passava por cima. Quem destruía obstáculo entrava em dobra com **folga**
+        acima do limiar; quem só desviava entrava colado nele
+      - **Essa folga era um seguro que ninguém desenhou.** Colado no limiar, qualquer raspão
+        derruba a carga; com folga, dá para tomar um golpe e continuar carregando. Os 2,5 segundos
+        de dobra eram, na prática, **duas provas diferentes conforme o jeito de jogar**
+      - **Destruir continua valendo:** chega-se mais rápido ao teto, que é o prêmio honesto do
+        abate. O que acabou foi a margem depois dele
+      - ⚠️ **A consequência prática, e ela endurece o fim da fase:** a nave fica exatamente no
+        limiar, então **todo raspão derruba a carga**. Se ficar cruel no aparelho, o número a
+        mexer é o `warpDecayRate` — a carga escoar mais devagar —, e **não** devolver a folga: a
+        folga é o que fazia os dois jeitos de jogar enfrentarem provas diferentes
+
+##### A auditoria, e o que ela achou
+
+*A pergunta era se algo acelerava a contagem indiretamente. Segui todos os caminhos que entram na
+velocidade e na carga.*
+
+- [x] **A contagem de dobra em si: nada a acelera, e não tem como.** `WarpCharge` só cresce por
+      `Time.deltaTime`; o `Time.timeScale` só é escrito pelo `GameTime`, que **clampa qualquer
+      lentidão em [0,05 · 1]** — ou seja, o relógio do jogo só sabe ir mais devagar que o de
+      parede, nunca mais depressa. O `warpChargeSeconds` vem da ficha da fase e é escrito uma vez,
+      no começo da corrida; a dificuldade mexe na **velocidade** exigida, nunca no tempo
+      - *A única ressalva honesta:* um engasgo de quadro pode somar até `Time.maximumDeltaTime`
+        (0,333 s) de carga de uma vez. É a proteção padrão da Unity contra salto de física, vale
+        para o jogo inteiro, e não é aceleração — é o relógio pondo em dia o que já passou
+- [x] **A velocidade durante a dobra: dois caminhos, e os dois foram tapados**
+      - **O ativo:** o abate. É a mudança acima
+      - 🐛 **O latente, e este é o achado:** a recuperação até o cruzeiro subia até a velocidade de
+        cruzeiro **ignorando o teto**. Hoje não acontece, porque nenhum poder mexe em
+        `ShipStat.CruiseSpeed` e o cruzeiro (8) está bem abaixo da dobra (15–19)
+        - **É exatamente o tipo de coisa que a pergunta dele existia para pegar.** No dia em que
+          houver um Reforço de cruzeiro que passe da dobra — e o atributo já é modificável, o
+          modificador é que ainda não foi escrito —, aquela linha atravessaria o limiar **na
+          aceleração cheia**, que é a mais rápida do jogo, sem ninguém entender por quê
+        - Custou trocar um `cruiseSpeed` por um `Mathf.Min(cruiseSpeed, SpeedCeiling)`
+- [x] **`PassiveCeiling` virou `SpeedCeiling`** — o nome dizia "teto do ganho passivo" e a coisa
+      passou a ser o teto da corrida. Nome que mente é pior que nome feio: o comentário antigo
+      afirmava, com todas as letras, que destruir obstáculo passava por cima do teto à vontade
 
 #### O papel do tiro — experiência de 22/08/2026
 
@@ -937,14 +1469,23 @@ estreia. Nas fases 1 e 2, parar é de fato a jogada ótima e nada contesta isso.
       - **O relógio do tiro congela junto**, e é de propósito: se continuasse correndo, a nave
         chegaria na faixa nova com o tiro vencido e dispararia no mesmo instante — a troca sairia
         quase de graça, que é o que a regra existe para cobrar
-      - ⚠️ **Pode ser sutil demais:** a troca dura ~0,13 s (velocidade 12, faixa 1,6) contra
-        ~0,33 s de intervalo entre tiros. Existe `holdFireAfterLaneChange` para segurar mais tempo
-        depois de chegar. **Aumentar isso antes de descartar a ideia** — o teste pode falhar por
-        ser invisível, e não por estar errado
-- [ ] **Julgar no aparelho.** Ou a corrida ganha uma tensão que não tinha, ou fica travada e a
-      ideia é descartada. Cinco minutos respondem
-- [ ] **Se der certo, isto muda o desenho dos poderes:** "tiro rápido" deixa de ser um número
-      subindo e passa a significar *"posso me dar ao luxo de me mover mais"*
+      - ~~⚠️ **Pode ser sutil demais:** a troca dura ~0,13 s (velocidade 12, faixa 1,6) contra
+        ~0,33 s de intervalo entre tiros~~ — **o receio não se confirmou.** O efeito se sente com a
+        troca crua, e o `holdFireAfterLaneChange` ficou em zero. Ele continua no Inspector como
+        margem de afinação, caso o equilíbrio mude quando os poderes mexerem na cadência
+- [x] **Julgado no aparelho — APROVADO** (30/08/2026) — veredito do Raffael: **"funciona
+      perfeito"**. A corrida ganhou a tensão que se procurava, e a ideia deixa de ser experiência
+      e vira **regra do jogo**
+      - **O que isso fecha:** a dúvida do testador — "é para destruir ou para desviar?" — deixa de
+        ser mal-entendido e passa a ser a pergunta que o jogo faz o tempo todo. O comando único
+        vale duas coisas ao mesmo tempo: **ficar na faixa é atirar; sair é desviar e abrir mão do
+        abate**
+      - **E fecha sem gesto novo**, que era a trava das três saídas descartadas abaixo. O polegar
+        continua fazendo uma coisa só
+- [x] **A consequência no desenho dos poderes** (30/08/2026) — agora que a regra vale, **"tiro
+      rápido" deixa de ser um número subindo** e passa a significar *"posso me dar ao luxo de me
+      mover mais"*. Vale para a lista que o Raffael vai mandar: poder que mexe em cadência, dano
+      ou alcance agora compra **liberdade de movimento**, e não só dano por segundo
 
 **As três saídas que o Raffael levantou, e por que nenhuma foi escolhida agora:**
 
@@ -1023,32 +1564,53 @@ ativar em qualquer lugar se completam.
         velocidade, quando ele já é mais forte. Existe nas duas hierarquias
       - ⚠️ **Por que precisa de Montar:** o componente único de antes (`ShipPowerUps`) foi apagado,
         e a `Game.unity` ficou com a referência morta. O `BattleSetup` limpa o script faltando e
-        põe os dois componentes novos
+        põe os dois componentes novos. **A montagem de 22/08 só fez a segunda metade** — ver
+        "A faxina que não aconteceu", no topo
       - **O fim da corrida derruba tudo** — o `RaceDirector.EndRace` chama `ClearAll()` e
         `ResetForRace()`. Hoje não muda nada visível, porque a cena sempre recarrega antes de uma
         corrida nova; existe para cada poder **receber o fim dele** em vez de só ser destruído,
         que é o contrato dos dois sistemas. *(Estava escrito nos comentários e não acontecia —
         pego na conferência de 22/08.)*
-- [ ] **Os dois tipos não podem se anunciar igual** *(confirmado em 22/08/2026)* — poder de fase é
-      item na pista, com animação ao ser pego; poder da nave é o canto fixo mostrando qual é,
-      cargas e recarga, que só pisca quando fica pronto. Se os dois se parecerem, o jogador não
-      sabe o que tem. **O canto ainda não existe** — o `ShipPowerUps` já expõe `UsesLeft`,
-      `CooldownLeft` e `CooldownFraction` esperando por ele
+- [x] **O canto do poder da nave** (30/08/2026) — **montado**, em
+      `Assets/Scripts/UI/AbilityHud.cs`, com o objeto `HudPoder` na cena
+      - **No alto à direita, do lado oposto ao `HudVida`**, que mora embaixo à esquerda: são as
+        duas coisas conferidas de relance, e juntas competiriam pelo mesmo olhar. No alto porque
+        embaixo é onde o polegar mora — mão em cima de mostrador é mostrador que não existe
+      - **Ele informa e não recebe toque** (`CanvasGroup.blocksRaycasts` desligado). Se recebesse,
+        viraria uma zona morta da tela onde o toque duplo não ativa o poder — exatamente o
+        contrário do que ele existe para anunciar
+      - **Pisca ao ficar pronto, e só por 1,2 s.** É o acontecimento que interessa; canto que
+        pisca o tempo todo vira alarme e o jogador aprende a não olhar. O piscar corre em tempo
+        **não escalado**, para não congelar num meio-tom com o jogo pausado
+      - **Nave sem poder equipado: o canto some inteiro.** Não existe slot vazio na tela — espaço
+        ocupado por nada ensina errado
+      - Ícone é opcional de propósito: a maioria dos poderes vai passar um tempo sem arte, e o
+        quadrado com a cor da ficha já diz qual é
+- [x] **Os dois tipos não se anunciam igual** *(confirmado em 22/08, cumprido em 30/08)* — o de
+      fase é item **redondo** na pista e vira um quadradinho com relógio no alto à **esquerda**; o
+      da nave é um canto fixo no alto à **direita**, que só pisca ao ficar pronto. Forma diferente,
+      canto diferente, comportamento diferente — nenhuma das três coincidências existe
 - [ ] ⚠️ **Afinar toque duplo × arraste no aparelho** — os limiares nascem com chute
       (janela 0,28 s, distância 140 px) e só se acertam com o dedo. **Na dúvida, arraste ganha:**
       ativar poder sem querer custa mais que um toque duplo ignorado
-- [ ] **Quais poderes de fase entram em cada fase** — a ficha da fase escolhe o repertório, do
-      mesmo jeito que vai escolher o de obstáculos (Parte 7). Liberar variedade com o progresso
-      (nível do jogador, avanço nas fases, ou os dois) é decisão em aberto do Raffael
+- [ ] **Quais modificadores entram em cada fase** — **o campo existe e é lido** desde 30/08
+      (`LevelDefinition.modifiers`), e hoje as quatro fases têm os três, para o teste ser o mesmo
+      em qualquer uma. Quais entram em qual continua sendo decisão em aberto — mas já é **edição
+      de asset, não código**. Liberar variedade com o progresso (nível do jogador, avanço nas
+      fases, ou os dois) também segue em aberto
       - **Diluir é o efeito desejado, não um problema** *(esclarecido pelo Raffael em 22/08/2026)*:
         o objetivo dos poderes de fase é **dinâmica**, não vantagem, então pool maior é a feature
       - **Destravar por nível do jogador resolve um buraco existente:** hoje a fase sem fim só
         oferece placar, e quem não liga para ranking não tem motivo para voltar lá. Se parte dos
         poderes destrava por nível, e nível sobe jogando qualquer coisa, ela ganha progressão
 
-- [x] **A estrutura base dos poderes** (21/08/2026) — *código escrito; falta o Raffael rodar o
-      **Montar**.* O desenho é o que ele pediu: **uma base com o que todo poder tem, e uma classe
-      filha por poder** com o que só ele faz
+- [x] **A estrutura base dos poderes** (21/08/2026) — **montada, e no dia seguinte substituída.**
+      *Este bloco é história: em 22/08 o sistema único virou dois, e os nomes daqui já não existem
+      no disco.* Vale ler pelo **desenho**, que sobreviveu inteiro nas duas hierarquias — só mudou
+      de nome. O que era `PowerUpDefinition` hoje é `LevelPowerUp` **e** `ShipAbility`; o que era
+      `ShipPowerUps` é `LevelPowerUps` **e** `ShipAbilities`. Ver "São dois tipos de poder", acima
+      - O desenho é o que ele pediu: **uma base com o que todo poder tem, e uma classe filha por
+        poder** com o que só ele faz
       - `PowerUps/PowerUpDefinition.cs` — a **base abstrata**. Identidade (nome, descrição, arte,
         cor), natureza (bom ou ruim, peso de sorteio) e **duração em três formas**:
         `Instantaneo`, `PorTempo` e `PorUso`. As três cobrem reparo, tiro rápido e proteção sem
@@ -1061,13 +1623,13 @@ ativar em qualquer lugar se completam.
           depois. `OnLaneChanged` recebe a faixa como **número**, não como "esquerda ou direita" —
           já pensando na Parte 7, em que a pista pode ter outra largura
         - **A troca de faixa não custou edição no controlador:** o `ShipLaneController` já
-          anunciava `LaneChanged` por evento, e o `ShipPowerUps` se pendura nele
+          anunciava `LaneChanged` por evento, e o componente de poder se pendura nele
         - Os três laços são escritos à mão, sem delegate genérico: o tiro dispara uma três vezes
           por segundo, e fechar closure a cada um é lixo para o coletor sem necessidade
-        - ⚠️ **Falta um momento, e ele apareceu no desenho de 22/08:** *"obstáculo passou pela
-          nave"*. É o que um poder limitado a **X obstáculos** precisa para gastar carga — o de
-          tempo lento é assim. Hoje só existe "obstáculo destruído a tiro". Entra quando o
-          primeiro poder desse feitio for escrito
+        - ~~⚠️ **Falta um momento, e ele apareceu no desenho de 22/08:** *"obstáculo passou pela
+          nave"*~~ — **entrou em 22/08**, como `OnObstaclePassed`, e existe nas duas hierarquias.
+          É o que um poder limitado a **X obstáculos** precisa para gastar carga — o de
+          tempo lento é assim. Antes só existia "obstáculo destruído a tiro"
       - **Camada de modificadores de atributo** *(pedido do Raffael em 21/08/2026)* — era o buraco
         que impedia metade dos poderes previstos: a arma lia a cadência da ficha, e ficha é só
         leitura, então "cadência dobrada por 8 segundos" não tinha onde encostar
@@ -1188,13 +1750,22 @@ ativar em qualquer lugar se completam.
       se ele **absorve** (vira raspão) ou **anula** é a decisão de equilíbrio desta parte
 - [ ] Testar no aparelho antes de a Parte 6 começar — regra das partes, vale aqui como valeu antes
 
-### Parte 6 — Naves: variedade, diferenciação e evolução ⬜
+### Parte 6 — Naves: variedade, diferenciação e evolução 🟡
 *Aberta em 21/08/2026. **É o eixo do qual o resto pende** — evolução, loja e recompensa todas se
 penduram na resposta a "o que é uma nave".*
 
-- [x] **A ficha da nave virou asset em disco** (21/08/2026) — *código escrito; falta o Raffael
-      rodar o **Montar** e conferir uma corrida.* A partir daqui, **nave nova é um `.asset`** e
-      evolução é número, não código
+**Entrou em andamento em 30/08/2026**, de carona na leva de poderes: existem **três naves**, um
+**catálogo**, uma **aba no menu** para escolher entre elas, e a escolha atravessa o carregamento
+de cena e sobrevive a fechar o jogo. A variedade começou. Falta a **evolução** — patamares, nível,
+oficina —, que é o que dá nome à parte. Ver "A leva de 30/08", na Parte 5, para o que já existe.
+
+- [ ] **Os três patamares de evolução** *(desenho do Raffael, 30/08/2026)* — a nave melhora o
+      poder ativo em dois degraus e **destrava o passivo no terceiro**: nível 1 liberado, 20 e 40
+      melhoram, 60 abre a passiva. **Nada disso existe ainda**, e é de propósito: não há nível de
+      jogador nem economia, então hoje tudo nasce liberado e a passiva fica vazia. A estrutura da
+      passiva já está pronta e esperando — ver `ShipPassive`
+- [x] **A ficha da nave virou asset em disco** (21/08/2026) — **montada e conferida.** A partir
+      daqui, **nave nova é um `.asset`** e evolução é número, não código
       - `Assets/Scripts/Gameplay/ShipDefinition.cs` — **a ficha**, `ScriptableObject`, com os sete
         números da nave. Tem `[CreateAssetMenu]`, então dá para criar uma segunda pelo menu de
         criação sem ferramenta nenhuma

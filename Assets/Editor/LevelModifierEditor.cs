@@ -2,19 +2,19 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// O Inspector de qualquer ficha de **poder de fase**. Existe para uma coisa só:
+/// O Inspector de qualquer ficha de **modificador de fase**. Existe para uma coisa só:
 /// mostrar apenas o campo de duração que vale para a forma escolhida, com o nome
 /// que ele tem naquele caso.
 ///
-/// Sem isto, uma ficha de Proteção mostra "Duration Seconds 5" logo abaixo de
+/// Sem isto, uma ficha de duração por carga mostra "Duration Seconds 5" logo abaixo de
 /// "Cargas 1", e os dois parecem valer ao mesmo tempo — o campo morto vira
 /// convite a mexer no número errado e depois procurar por que não mudou nada.
 ///
 /// O <see cref="ShipAbilityEditor"/> é o gêmeo disto para poder de nave, e é um
 /// arquivo separado de propósito: os dois sistemas não compartilham nada.
 /// </summary>
-[CustomEditor(typeof(LevelPowerUp), true)]
-class LevelPowerUpEditor : Editor
+[CustomEditor(typeof(LevelModifier), true)]
+class LevelModifierEditor : Editor
 {
     public override void OnInspectorGUI()
     {
@@ -23,7 +23,7 @@ class LevelPowerUpEditor : Editor
         // enumValueIndex é a posição no enum, não o valor. Dá na mesma aqui
         // porque Lifetime é 0, 1, 2 na ordem em que foi escrito — se um dia
         // ganhar valor explícito, isto precisa virar intValue.
-        var lifetime = (LevelPowerUp.Lifetime)
+        var lifetime = (LevelModifier.Lifetime)
             serializedObject.FindProperty("lifetime").enumValueIndex;
 
         var property = serializedObject.GetIterator();
@@ -50,15 +50,15 @@ class LevelPowerUpEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
-    static bool IsHidden(string path, LevelPowerUp.Lifetime lifetime)
+    static bool IsHidden(string path, LevelModifier.Lifetime lifetime)
     {
         switch (path)
         {
             case "durationSeconds":
-                return lifetime != LevelPowerUp.Lifetime.PorTempo;
+                return lifetime != LevelModifier.Lifetime.PorTempo;
 
             case "charges":
-                return lifetime != LevelPowerUp.Lifetime.PorUso;
+                return lifetime != LevelModifier.Lifetime.PorUso;
 
             default:
                 return false;

@@ -21,9 +21,14 @@ using UnityEngine;
 public class ShipDefinition : ScriptableObject
 {
     [Header("Identidade")]
-    [Tooltip("Nome que a nave tem para o jogador. Ainda não aparece em tela — vai aparecer " +
-             "quando existir escolha de nave.")]
+    [Tooltip("Nome que a nave tem para o jogador. Aparece na aba de naves do menu.")]
     public string displayName = "Nave";
+
+    [Tooltip("Uma ou duas linhas sobre ela, para a aba de naves.")]
+    [TextArea(1, 3)] public string description = "";
+
+    [Tooltip("Cor da nave na aba de seleção. Enquanto não há arte, é o que diferencia uma da outra.")]
+    public Color color = new Color(0.6f, 0.85f, 1f, 1f);
 
     [Header("Corrida")]
     [Tooltip("Velocidade de cruzeiro: o padrão para onde a nave acelera sozinha, em unidades por segundo.")]
@@ -48,10 +53,15 @@ public class ShipDefinition : ScriptableObject
     [SerializeField, Min(0f)] float crashCost = 1f;
 
     [Header("Poder da nave")]
-    [Tooltip("Poder que esta nave traz de fábrica, ativável pelo jogador com toque duplo. É o " +
-             "que torna uma nave diferente da outra além dos números. Vazio: esta nave não tem " +
-             "poder próprio, e só usa o que for equipado.")]
+    [Tooltip("Poder ATIVO desta nave, disparado pelo jogador com toque duplo. É único por nave: " +
+             "é o que torna uma diferente da outra além dos números.")]
     public ShipAbility intrinsicAbility;
+
+    [Tooltip("Poder PASSIVO desta nave: vale a corrida inteira, sem ativar e sem gastar uso.\n\n" +
+             "Nenhuma nave tem um ainda. O plano é que a passiva destrave no nível 60 — o último " +
+             "dos três patamares de evolução —, e ainda não existe nível; até lá, o que estiver " +
+             "aqui vale desde o começo.")]
+    public ShipPassive passiveAbility;
 
     [Header("Combate")]
     [Tooltip("Dano de cada tiro.")]

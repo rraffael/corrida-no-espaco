@@ -33,4 +33,10 @@ MonoBehaviour:
     earliestSeconds: 25
     latestSeconds: 40
     weight: 1.5
+  modifiers:
+  - {fileID: 11400000, guid: ad811e3399c42fd4fb0022d3ac6abc7b, type: 2}
+  - {fileID: 11400000, guid: bf572fb335c8ed5439bc71849cb8020f, type: 2}
+  - {fileID: 11400000, guid: 3f6bd1cd62c06534495ceac385aad749, type: 2}
+  modifierInterval: 9
+  modifierIntervalJitter: 3
   endless: 1

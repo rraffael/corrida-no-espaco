@@ -1,7 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
+using Unity.Android.Types;
 using UnityEditor;
+using UnityEditor.Android;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
@@ -71,6 +73,27 @@ static class BuildAndroid
 
         EditorUserBuildSettings.buildAppBundle = appBundle;
 
+        // Símbolos de depuração no build de release. Sem eles, o relatório de
+        // travamento da Play chega como um monte de endereço em hexadecimal, e
+        // não dá para saber sequer em que script o jogo morreu — o IL2CPP
+        // compila para código nativo, então o nome do método some.
+        //
+        // Passou a importar em 21/08/2026, quando entrou gente no teste interno:
+        // até então quem travava era o Raffael, com o cabo na mão e o logcat
+        // aberto. Agora o travamento acontece longe, e o que sobra é o relatório.
+        //
+        // **`SymbolTable` e não `Full`:** a tabela traz os nomes dos métodos, que
+        // é o que a Play precisa para desembaralhar a pilha, e evita o pacote
+        // gigante do `Full`, que só serve para depurar com ferramenta nativa
+        // anexada. O arquivo de símbolos sai ao lado do `.aab` e **é subido à
+        // parte** no Play Console — ele não vai dentro do pacote.
+        //
+        // Esta é a API da Unity 6; o `EditorUserBuildSettings.androidCreateSymbols`
+        // de antes ficou obsoleto.
+        UserBuildSettings.DebugSymbols.level =
+            release ? DebugSymbolLevel.SymbolTable : DebugSymbolLevel.None;
+        UserBuildSettings.DebugSymbols.format = DebugSymbolFormat.Zip;
+
         string output = ResolveOutputPath(appBundle, release);
         Directory.CreateDirectory(Path.GetDirectoryName(output));
 
@@ -103,6 +126,10 @@ static class BuildAndroid
 
         Debug.Log($"[Build] OK em {summary.totalTime:hh\\:mm\\:ss}, " +
                   $"{summary.totalSize / (1024f * 1024f):F1} MB: {output}");
+
+        if (release)
+            ReportSymbols(output);
+
         return true;
     }
 
@@ -165,6 +192,44 @@ static class BuildAndroid
 
         // Builds/ já está no .gitignore, então o artefato não entra no repositório.
         return Path.Combine(Directory.GetCurrentDirectory(), OutputFolder, name);
+    }
+
+    /// <summary>
+    /// Diz no Console onde ficou o pacote de símbolos, e avisa se ele não saiu.
+    ///
+    /// Existe porque o arquivo é **fácil de esquecer**: ele não vai dentro do
+    /// `.aab`, sai ao lado dele, e sobe à parte no Play Console. Um release
+    /// enviado sem os símbolos só cobra o preço meses depois, quando chega o
+    /// primeiro relatório de travamento ilegível — e aí é tarde, porque a versão
+    /// que travou já está na mão das pessoas.
+    /// </summary>
+    static void ReportSymbols(string output)
+    {
+        string folder = Path.GetDirectoryName(output);
+        if (string.IsNullOrEmpty(folder))
+            return;
+
+        // A Unity nomeia o pacote a partir do nome do build, mas o sufixo já
+        // mudou entre versões (.symbols.zip, -1.0-v1.symbols.zip). Procurar pelo
+        // padrão é mais estável do que remontar o nome à mão.
+        string prefix = Path.GetFileNameWithoutExtension(output);
+        var found = Directory.GetFiles(folder, prefix + "*symbols*.zip");
+
+        if (found.Length == 0)
+        {
+            Debug.LogWarning("[Build] Os símbolos de depuração não foram encontrados ao lado do " +
+                             "pacote. Sem eles, relatório de travamento da Play chega ilegível. " +
+                             "Confira Player Settings > Publishing Settings > Debugging.");
+            return;
+        }
+
+        foreach (var file in found)
+        {
+            var info = new FileInfo(file);
+            Debug.Log($"[Build] Símbolos de depuração: {file} " +
+                      $"({info.Length / (1024f * 1024f):F1} MB). **Subir à parte** no Play " +
+                      "Console, em Versões > a versão > Símbolos de depuração.");
+        }
     }
 
     static void Exit(bool success)

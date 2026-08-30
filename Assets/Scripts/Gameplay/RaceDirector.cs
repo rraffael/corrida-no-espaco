@@ -113,7 +113,7 @@ public class RaceDirector : MonoBehaviour
     {
         race = RaceSpeed.Instance;
         ApplyLevel();
-        ApplyPassiveCeiling();
+        ApplySpeedCeiling();
 
         if (ShipStats.Instance != null)
         {
@@ -132,9 +132,9 @@ public class RaceDirector : MonoBehaviour
         scoreSaved = false;
         IsRunning = true;
 
-        // A corrida sempre começa andando: se a cena anterior parou o tempo, aqui
-        // é onde ele volta.
-        Time.timeScale = 1f;
+        // A corrida sempre começa andando: se a cena anterior parou o tempo — ou
+        // a deixou lenta —, aqui é onde ele volta.
+        GameTime.ResetAll();
     }
 
     void OnDisable()
@@ -142,8 +142,8 @@ public class RaceDirector : MonoBehaviour
         if (shipHealth != null)
             shipHealth.Died -= Lose;
 
-        // Nunca deixar a próxima cena nascer congelada.
-        Time.timeScale = 1f;
+        // Nunca deixar a próxima cena nascer congelada, nem arrastada.
+        GameTime.ResetAll();
     }
 
     /// <summary>
@@ -164,21 +164,26 @@ public class RaceDirector : MonoBehaviour
     }
 
     /// <summary>
-    /// O ganho passivo do <see cref="RaceSpeed"/> leva a corrida **até a dobra** e
-    /// para ali — quem prefere desviar a atirar chega ao fim da fase, só que
-    /// devagar. Na fase sem fim não existe dobra, então lá ele não para nunca: a
-    /// corrida fica perigosa com o tempo mesmo para quem não atira em nada.
+    /// A velocidade de dobra é o **teto da corrida**: chegar nela é o objetivo da
+    /// fase, e passar dela não serve para nada. Na fase sem fim não existe dobra,
+    /// então lá não há teto — a corrida fica perigosa com o tempo mesmo para quem
+    /// não atira em nada.
     ///
-    /// Isto é teto do **ganho passivo**, e não da velocidade — o jogo não tem
-    /// teto de velocidade nenhum desde 06/08/2026. Destruir obstáculo continua
-    /// empurrando a corrida acima da dobra à vontade.
+    /// <para>
+    /// **Virou teto de verdade em 31/08/2026** *(pedido do Raffael)*. Até então
+    /// ele só segurava o ganho passivo, e o abate passava por cima: quem destruía
+    /// obstáculo entrava em dobra com folga acima do limiar, e quem só desviava
+    /// entrava colado nele. Sem querer, **destruir comprava um seguro contra
+    /// errar** nos 2,5 segundos mais tensos da corrida. Agora os dois jeitos de
+    /// jogar fazem a mesma prova. Ver <see cref="RaceSpeed.SpeedCeiling"/>.
+    /// </para>
     /// </summary>
-    void ApplyPassiveCeiling()
+    void ApplySpeedCeiling()
     {
         if (race == null)
             return;
 
-        race.SetPassiveCeiling(IsEndless ? float.PositiveInfinity : warpSpeed);
+        race.SetSpeedCeiling(IsEndless ? float.PositiveInfinity : warpSpeed);
     }
 
     void Update()
@@ -308,8 +313,8 @@ public class RaceDirector : MonoBehaviour
         // cena sempre recarrega antes de uma corrida nova, então isto não muda
         // nada visível — mas é o que faz cada poder receber o fim dele em vez de
         // simplesmente ser destruído, que é o contrato dos dois sistemas.
-        if (LevelPowerUps.Instance != null)
-            LevelPowerUps.Instance.ClearAll();
+        if (LevelModifiers.Instance != null)
+            LevelModifiers.Instance.ClearAll();
 
         if (ShipAbilities.Instance != null)
             ShipAbilities.Instance.ResetForRace();
@@ -322,7 +327,11 @@ public class RaceDirector : MonoBehaviour
 
         // Congela a corrida por trás do painel. A UI continua respondendo:
         // o Unity não usa o timeScale para processar toque em botão.
-        Time.timeScale = 0f;
+        //
+        // Pelo GameTime, e não no timeScale direto: um modificador de tempo lento
+        // pode estar valendo na hora em que a corrida acaba, e a pausa precisa
+        // ganhar dele sem que um dependa de saber do outro.
+        GameTime.SetPaused(true);
     }
 
     /// <summary>
@@ -357,7 +366,7 @@ public class RaceDirector : MonoBehaviour
     /// <summary>Botão "Voltar ao menu", nos três painéis de fim.</summary>
     public void BackToMenu()
     {
-        Time.timeScale = 1f;
+        GameTime.ResetAll();
         SceneManager.LoadScene(menuSceneName);
     }
 

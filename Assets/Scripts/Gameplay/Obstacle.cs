@@ -90,8 +90,8 @@ public class Obstacle : MonoBehaviour
             {
                 // Os dois sistemas de poder são avisados em separado, e nenhum sabe
                 // do outro. Quem os junta é a nave, aqui.
-                if (LevelPowerUps.Instance != null)
-                    LevelPowerUps.Instance.NotifyObstaclePassed(stats);
+                if (LevelModifiers.Instance != null)
+                    LevelModifiers.Instance.NotifyObstaclePassed(stats);
                 if (ShipAbilities.Instance != null)
                     ShipAbilities.Instance.NotifyObstaclePassed(stats);
             }
@@ -161,8 +161,8 @@ public class Obstacle : MonoBehaviour
 
             // Morreu de tiro (a batida destrói o objeto por outro caminho), então
             // é abate de verdade e os poderes podem reagir.
-            if (LevelPowerUps.Instance != null)
-                LevelPowerUps.Instance.NotifyObstacleDestroyed(stats);
+            if (LevelModifiers.Instance != null)
+                LevelModifiers.Instance.NotifyObstacleDestroyed(stats);
             if (ShipAbilities.Instance != null)
                 ShipAbilities.Instance.NotifyObstacleDestroyed(stats);
 

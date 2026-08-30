@@ -36,20 +36,25 @@ static class ProjectTools
     public const string RaceItem = MenuRoot + "Montagem/Montar corrida (fundo + HUD)";
     public const string RaceUndoItem = MenuRoot + "Montagem/Desmontar corrida";
     public const string LevelsItem = MenuRoot + "Montagem/Criar fases e fichas de obstáculo";
-    public const string ShipsItem = MenuRoot + "Montagem/Criar ficha da nave";
+    public const string ShipsItem = MenuRoot + "Montagem/Criar naves e poderes";
+    public const string ModifiersItem = MenuRoot + "Montagem/Criar modificadores de fase";
     public const string BattleItem = MenuRoot + "Montagem/Montar combate (nave, obstáculos, fim)";
     public const string BattleUndoItem = MenuRoot + "Montagem/Desmontar combate";
     public const string MenuSceneItem = MenuRoot + "Montagem/Montar menu (recordes + transição)";
     public const string MenuSceneUndoItem = MenuRoot + "Montagem/Desmontar menu";
     public const string LevelSelectItem = MenuRoot + "Montagem/Montar seleção de fase";
     public const string LevelSelectUndoItem = MenuRoot + "Montagem/Desmontar seleção de fase";
+    public const string ShipSelectItem = MenuRoot + "Montagem/Montar aba de naves";
+    public const string ShipSelectUndoItem = MenuRoot + "Montagem/Desmontar aba de naves";
 
     public const string RaceId = "corrida-fundo-hud";
     public const string LevelsId = "fases-e-obstaculos";
     public const string ShipsId = "ficha-da-nave";
+    public const string ModifiersId = "modificadores-de-fase";
     public const string BattleId = "combate";
     public const string MenuSceneId = "menu-recordes";
     public const string LevelSelectId = "selecao-de-fase";
+    public const string ShipSelectId = "aba-de-naves";
 
     /// <summary>
     /// O diário vive em <c>UserSettings/</c>, que o .gitignore já ignora: é
@@ -104,11 +109,20 @@ static class ProjectTools
         new Tool
         {
             Id = ShipsId,
-            Title = "Criar ficha da nave",
-            Summary = "Gera a ficha da nave inicial em Assets/Ships/ — os números da nave viraram " +
-                      "arquivo de dados, e nave nova é arquivo novo. Rodar de novo não sobrescreve " +
-                      "o que você ajustou. O 'Montar combate' liga a ficha na nave da cena.",
+            Title = "Criar naves e poderes",
+            Summary = "Gera as fichas das naves em Assets/Ships/, os poderes ativos delas em " +
+                      "Assets/Poderes/ e o catálogo que a aba \"Naves\" do menu lê. Nave nova é " +
+                      "arquivo novo. Rodar de novo não sobrescreve o que você ajustou.",
             MenuPath = ShipsItem,
+        },
+        new Tool
+        {
+            Id = ModifiersId,
+            Title = "Criar modificadores de fase",
+            Summary = "Gera as três fichas de modificador — um Reforço, um Debilitante e um " +
+                      "Especial — em Assets/Modificadores/, e as põe no repertório das fases. " +
+                      "Depende do 'Criar fases e fichas de obstáculo'.",
+            MenuPath = ModifiersItem,
         },
         new Tool
         {
@@ -138,6 +152,16 @@ static class ProjectTools
                       "e do 'Criar fases e fichas de obstáculo'.",
             MenuPath = LevelSelectItem,
             UndoMenuPath = LevelSelectUndoItem,
+        },
+        new Tool
+        {
+            Id = ShipSelectId,
+            Title = "Montar aba de naves",
+            Summary = "A aba \"Naves\" do menu: cada nave do catálogo com os atributos, o poder " +
+                      "ativo e o passivo, e a escolha de com qual jogar. Depende do 'Montar menu' " +
+                      "e do 'Criar naves e poderes'.",
+            MenuPath = ShipSelectItem,
+            UndoMenuPath = ShipSelectUndoItem,
         },
         new Tool
         {

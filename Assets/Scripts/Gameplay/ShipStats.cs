@@ -58,14 +58,14 @@ public class ShipStats : MonoBehaviour
     public Health Health { get; private set; }
 
     /// <summary>
-    /// Os dois sistemas de poder, que **não se conhecem**: poder de fase, que se
-    /// pega na pista, e poder da nave, que o jogador ativa. É esta classe que
+    /// Os dois sistemas de poder, que **não se conhecem**: o modificador de fase,
+    /// que se pega na pista, e o poder da nave, que o jogador ativa. É esta classe que
     /// junta os dois num golpe, porque a nave é o que eles têm em comum.
     ///
     /// Nulos é caso normal: nave sem o componente simplesmente não usa aquele
     /// tipo de poder.
     /// </summary>
-    LevelPowerUps levelPowers;
+    LevelModifiers levelModifiers;
     ShipAbilities abilities;
 
     /// <summary>Falso até a vida ser configurada no Awake — ver lá.</summary>
@@ -81,6 +81,13 @@ public class ShipStats : MonoBehaviour
 
         Instance = this;
 
+        // A nave escolhida no menu ganha da que está ligada na cena. A da cena
+        // continua existindo e vira o plano B: abrir a Game.unity direto no
+        // Editor, sem passar pelo menu, tem de continuar jogando.
+        var selected = ShipSelection.Ship;
+        if (selected != null)
+            definition = selected;
+
         if (definition == null)
         {
             // Sem ficha a nave não tem número nenhum, e cada leitura daqui
@@ -93,7 +100,7 @@ public class ShipStats : MonoBehaviour
         }
 
         Health = GetComponent<Health>();
-        levelPowers = GetComponent<LevelPowerUps>();
+        levelModifiers = GetComponent<LevelModifiers>();
         abilities = GetComponent<ShipAbilities>();
 
         Recalculate();
@@ -119,7 +126,7 @@ public class ShipStats : MonoBehaviour
     /// Mexe num número da nave a partir de agora. Quem aplicou **guarda a
     /// referência devolvida** e a passa para <see cref="RemoveModifier"/> quando
     /// o efeito acabar. Poder não precisa fazer isso na mão: tanto o
-    /// <see cref="ActiveLevelPowerUp.ApplyModifier"/> quanto o
+    /// <see cref="ActiveLevelModifier.ApplyModifier"/> quanto o
     /// <see cref="ActiveShipAbility.ApplyModifier"/> desfazem sozinhos.
     /// </summary>
     public void AddModifier(StatModifier modifier)
@@ -137,6 +144,33 @@ public class ShipStats : MonoBehaviour
         if (modifier != null && modifiers.Remove(modifier))
             Recalculate();
     }
+
+    // ── Traços ───────────────────────────────────────────────────────────
+
+    static readonly int TraitCount = System.Enum.GetValues(typeof(ShipTrait)).Length;
+
+    /// <summary>
+    /// Quantos efeitos estão pedindo cada traço. **Contagem e não booleano de
+    /// propósito:** dois poderes podem ligar "tiros perseguem" ao mesmo tempo, e
+    /// o primeiro a acabar não pode apagar o do outro. Sem a contagem, o
+    /// segundo efeito continuaria valendo na cabeça do jogador e não na do jogo,
+    /// que é o tipo de bug que ninguém reproduz.
+    /// </summary>
+    readonly int[] traits = new int[TraitCount];
+
+    /// <summary>Liga um traço. Quem ligou é responsável por chamar <see cref="RemoveTrait"/>.</summary>
+    public void AddTrait(ShipTrait trait) => traits[(int)trait]++;
+
+    /// <summary>Desliga um traço. Nunca desce abaixo de zero.</summary>
+    public void RemoveTrait(ShipTrait trait)
+    {
+        int index = (int)trait;
+        if (traits[index] > 0)
+            traits[index]--;
+    }
+
+    /// <summary>A nave está com este traço agora?</summary>
+    public bool Has(ShipTrait trait) => traits[(int)trait] > 0;
 
     /// <summary>Valor de fábrica de um atributo, sem nada aplicado por cima.</summary>
     public float BaseValue(ShipStat stat)
@@ -239,7 +273,15 @@ public class ShipStats : MonoBehaviour
         switch (stat)
         {
             case ShipStat.Acceleration: return Mathf.Max(0.1f, value);
-            case ShipStat.AttackSpeed: return Mathf.Max(0.1f, value);
+
+            // Chega a ZERO de propósito, e é o que faz "desabilitar armas" ser um
+            // modificador de atributo em vez de um interruptor à parte. Zerada, a
+            // arma não atira — ela confere isto antes de disparar. E como é o
+            // mesmo número que um Reforço de cadência mexe, os dois se cancelam
+            // pela regra normal: pegar +100% com as armas desabilitadas devolve a
+            // cadência de fábrica, que é o que o jogador esperaria de dois
+            // efeitos opostos. Um interruptor ganharia do bônus e surpreenderia.
+            case ShipStat.AttackSpeed: return Mathf.Max(0f, value);
             case ShipStat.MaxHealth: return Mathf.Max(1f, value);
             case ShipStat.DefensePercent: return Mathf.Clamp(value, 0f, 99f);
             default: return Mathf.Max(0f, value);
@@ -328,11 +370,11 @@ public class ShipStats : MonoBehaviour
     {
         var hit = new Hit { Damage = DamageAfterDefense(rawDamage) };
 
-        // Poder de fase primeiro, poder da nave depois: o de fase foi de graça e
+        // Modificador de fase primeiro, poder da nave depois: o de fase foi de graça e
         // é passageiro, e o da nave custou um uso limitado. Gastar o barato antes
         // do caro é o que o jogador esperaria.
-        if (levelPowers != null)
-            levelPowers.ModifyIncomingHit(ref hit);
+        if (levelModifiers != null)
+            levelModifiers.ModifyIncomingHit(ref hit);
 
         if (abilities != null)
             abilities.ModifyIncomingHit(ref hit);

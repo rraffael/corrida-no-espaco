@@ -6,8 +6,14 @@ using UnityEngine.SceneManagement;
 /// direito abre o painel e congela o jogo; de dentro dele dá para voltar a
 /// jogar ou sair para o menu inicial.
 ///
-/// A pausa é o <c>Time.timeScale</c> em zero — é o que o resto do jogo lê para
-/// saber que está parado, sem precisar conhecer esta classe.
+/// A pausa passa pelo <see cref="GameTime"/>, que é quem manda no
+/// <c>Time.timeScale</c> — e o resto do jogo lê de lá para saber que está
+/// parado, sem precisar conhecer esta classe.
+///
+/// **Não escreve no timeScale direto, e é de propósito.** Desde que existe
+/// modificador de tempo lento, "sair da pausa" não é mais "voltar a 1": pode
+/// haver um efeito segurando o tempo em 0,5, e devolver 1 aqui o apagaria — o
+/// jogador veria o poder dele evaporar por ter aberto o menu.
 /// </summary>
 public class PauseMenu : MonoBehaviour
 {
@@ -32,9 +38,9 @@ public class PauseMenu : MonoBehaviour
 
     void OnDisable()
     {
-        // Sair da cena com o jogo pausado deixaria o timeScale em zero para
-        // quem vier depois, e a cena seguinte nasceria congelada.
-        Time.timeScale = 1f;
+        // Sair da cena com o jogo pausado deixaria o tempo em zero para quem vier
+        // depois, e a cena seguinte nasceria congelada.
+        GameTime.ResetAll();
     }
 
     public void Open() => Apply(true);
@@ -45,7 +51,7 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitToMenu()
     {
-        Time.timeScale = 1f;
+        GameTime.ResetAll();
         SceneManager.LoadScene(menuSceneName);
     }
 
@@ -57,6 +63,6 @@ public class PauseMenu : MonoBehaviour
         if (openButton != null)
             openButton.SetActive(!open);
 
-        Time.timeScale = open ? 0f : 1f;
+        GameTime.SetPaused(open);
     }
 }

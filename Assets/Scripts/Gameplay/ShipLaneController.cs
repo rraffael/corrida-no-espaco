@@ -89,9 +89,14 @@ public class ShipLaneController : MonoBehaviour
     {
         var input = TouchInput.Instance;
 
-        // Time.timeScale em zero é o jogo pausado (menu aberto): o arraste de
-        // quem está mexendo no menu não pode virar comando de nave.
-        if (input == null || !input.IsPressing || Time.timeScale <= 0f)
+        // Jogo pausado (menu aberto): o arraste de quem está mexendo no menu não
+        // pode virar comando de nave. Pelo GameTime, e não pelo timeScale: com
+        // tempo lento valendo o timeScale é 0,5, e testá-lo contra zero passaria
+        // a ser uma comparação que só funciona por sorte.
+        //
+        // Piloto automático ligado: o comando é do jogo, e o arraste do jogador
+        // é ignorado enquanto durar. Ver <see cref="Autopilot"/>.
+        if (input == null || !input.IsPressing || GameTime.IsPaused || IsAutopilot)
         {
             EndGesture();
             return;
@@ -127,6 +132,30 @@ public class ShipLaneController : MonoBehaviour
         wasPressing = false;
         gestureSpent = false;
         gestureIgnored = false;
+    }
+
+    /// <summary>
+    /// O piloto automático está no comando. Lê da nave, e não de quem o ligou:
+    /// é a mesma regra do resto do jogo — quem quiser saber o que a nave é,
+    /// pergunta ao <see cref="ShipStats"/>.
+    /// </summary>
+    bool IsAutopilot => ShipStats.Instance != null && ShipStats.Instance.Has(ShipTrait.Autopilot);
+
+    /// <summary>
+    /// Manda a nave para uma faixa específica, sem passar pelo arraste. É por
+    /// aqui que o piloto automático dirige, e é o mesmo caminho do comando do
+    /// jogador daí para baixo — inclusive o evento <see cref="LaneChanged"/>,
+    /// para os poderes que reagem a movimento não distinguirem quem mandou.
+    /// </summary>
+    public void MoveTo(int lane)
+    {
+        int next = track != null ? track.ClampLane(lane) : lane;
+        if (next == CurrentLane)
+            return;
+
+        CurrentLane = next;
+        targetX = track.LaneCenterX(CurrentLane);
+        LaneChanged?.Invoke(CurrentLane);
     }
 
     void MoveLane(int step)

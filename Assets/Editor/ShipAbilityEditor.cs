@@ -3,7 +3,7 @@ using UnityEngine;
 
 /// <summary>
 /// O Inspector de qualquer ficha de **poder da nave**. Mesmo papel do
-/// <see cref="LevelPowerUpEditor"/>, e arquivo separado de propósito: os dois
+/// <see cref="LevelModifierEditor"/>, e arquivo separado de propósito: os dois
 /// sistemas de poder não compartilham nada, nem aqui.
 ///
 /// Além de esconder o campo de duração que não vale, ele nomeia em português os

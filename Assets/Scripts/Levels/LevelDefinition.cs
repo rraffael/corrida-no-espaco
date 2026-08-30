@@ -60,6 +60,22 @@ public class LevelDefinition : ScriptableObject
     [Header("Obstáculos")]
     public ObstacleSchedule[] obstacles = Array.Empty<ObstacleSchedule>();
 
+    [Header("Modificadores de fase")]
+    [Tooltip("Quais modificadores podem aparecer nesta fase. Vazio: a fase não tem modificador, " +
+             "e o sorteador nem liga.\n\n" +
+             "É a ficha da fase que escolhe o repertório, do mesmo jeito que escolhe o de " +
+             "obstáculos: fase nova com poderes diferentes é arquivo, não código.")]
+    public LevelModifier[] modifiers = Array.Empty<LevelModifier>();
+
+    [Tooltip("Segundos entre um modificador e o próximo.\n\n" +
+             "Bem mais espaçado que o obstáculo de propósito: obstáculo é o pulso da fase, " +
+             "modificador é acontecimento. Se vier na mesma frequência, deixa de ser decisão " +
+             "e vira mais uma coisa na tela.")]
+    [Min(0.5f)] public float modifierInterval = 9f;
+
+    [Tooltip("Variação sorteada no intervalo, para não virar metrônomo.")]
+    [Min(0f)] public float modifierIntervalJitter = 3f;
+
     [Header("Modo")]
     [Tooltip("Fase sem fim: não tem dobra, e a pontuação é quanto tempo a nave aguenta. " +
              "É a única que alimenta o leaderboard.")]
