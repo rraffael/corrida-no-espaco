@@ -27,6 +27,16 @@ Jogo mobile Android feito na Unity `6000.3.20f1`. Divisão de trabalho:
 - **Ao mover ou apagar arquivo, levar o `.meta` junto.** Sem isso os GUIDs quebram.
 - **Nome de arquivo de MonoBehaviour tem que bater com o nome da classe**, senão não dá para
   anexar em GameObject nenhum. Já aconteceu neste projeto (`Google-Login.cs`).
+- **Poder é classe isolada, uma por arquivo.** Modificador de fase e poder de nave nunca
+  compartilham implementação: cada um é uma classe própria, com nome próprio e entrada própria no
+  menu de criação, e mexer num não pode encostar em outro. *Mais arquivos é o preço, e é barato* —
+  o teto realista é algumas dezenas, e a isolação vale mais que economizar duas linhas. Decidido
+  pelo Raffael em 31/08/2026, contra uma proposta minha de ficha genérica. O que se compartilha é
+  **vocabulário** — `ShipTrait`, os ganchos da base —, nunca o efeito.
+- **Conteúdo é do Raffael: não criar poder, modificador ou nave sem pedido explícito.** Ter feito
+  um Reforço e um Debilitante de cadência **não** autoriza fazer o par de defesa, de vida ou de
+  qualquer outro atributo. Quais atributos ganham poder é decisão de projeto, e é dele. Escrever a
+  estrutura é meu; escolher o que existe no jogo, não.
 - **Ferramenta nova de editor entra no catálogo.** O caminho do `[MenuItem]` é uma `const` em
   `Assets/Editor/Tools/ProjectTools.cs`, a ferramenta entra em `ProjectTools.All`, e a montagem
   chama `ProjectTools.MarkRun(id)` ao terminar (e `Forget(id)` no "Desmontar"). É o que faz o

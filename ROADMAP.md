@@ -133,15 +133,35 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
 - [x] **A dobra vista — APROVADA** (31/08/2026) — moldura, estrelas esticadas e os dois clarões
       julgados no aparelho. E o caso que o desenho não previa foi respondido junto: **o véu do
       tempo lento e a moldura da dobra ao mesmo tempo continuam jogáveis**
-- [ ] **Julgar o teto da dobra** (31/08/2026) — *só código, sem Montar.* Em dobra a nave não ganha
-      mais velocidade, nem por abate. A pergunta é uma só, e é de equilíbrio:
-      - **Os 2,5 segundos de dobra ficaram justos ou cruéis?** A nave agora fica **colada** no
-        limiar, sem folga, então todo raspão derruba a carga. Se ficar duro demais, o número a
-        mexer é o `warpDecayRate` — a carga escoar mais devagar — e não devolver a folga
+- [ ] 🥇 **PRIMEIRA COISA DE AMANHÃ: calibrar o tempo de dobra em três rodadas**
+      *(decidido pelo Raffael em 31/08/2026)*
+      - **Onde se mexe:** `Assets/Levels/Fase1.asset`, no Inspector, campo **Warp Charge Seconds**.
+        Só a Fase 1 — uma fase basta para sentir, e mexer nas quatro triplica o trabalho sem
+        acrescentar informação
+      - **Não mexer no `RaceDirector` da cena:** o campo dele existe, mas é sobrescrito pela ficha
+        da fase no começo de cada corrida. Mexer lá não faz nada, e leva meia hora para descobrir
+      - **Rodar de novo não desfaz:** o `LevelSetup` só preenche fase que ainda não existe, então o
+        número ajustado à mão fica
+
+      | Ordem | Valor | O que se procura |
+      |---|---|---|
+      | 1ª | **2,5 s** *(o de hoje)* | A referência. Sentir com o teto novo valendo, e não de memória |
+      | 2ª | **5 s** | O dobro. Vira prova de resistência, ou vira tédio? |
+      | 3ª | **1,5 s** | Quase nada. Vira anticlímax — chegar na velocidade e já ganhar? |
+
+      - **O que a rodada responde:** se 2,5 s está bom, ou de que lado ele erra. Os extremos
+        existem para dar régua: sem eles, "2,5 parece ok" é opinião sem escala
+      - ⚠️ **A nave agora fica colada no limiar**, sem folga nenhuma, então todo raspão derruba a
+        carga — é o que mudou hoje e é por isso que a calibragem antiga não vale mais
+      - Se ficar cruel, o número a mexer é o `warpDecayRate` — a carga escoar mais devagar — e
+        **não** devolver a folga: a folga é o que fazia atirar e desviar enfrentarem provas
+        diferentes
       - ⚠️ **Vem antes de desenhar conteúdo novo, e o motivo é econômico:** o fim da fase é a
         régua contra a qual todo poder e todo modificador vão ser equilibrados. Se a régua estiver
         torta, o conteúdo desenhado em cima dela nasce torto junto — e aí não é um número para
         corrigir, são todos
+      - **Ao terminar, devolver o valor escolhido às quatro fases** — Fase 2, Fase 3 e o padrão do
+        `LevelSetup`, para uma fase nova nascer já com o número certo
 - [ ] **A sessão de autoria do Raffael** (aberta em 31/08/2026) — ele parou aqui para **desenhar
       mais naves e mais modificadores de fase**. É a primeira vez que o projeto vai criar conteúdo
       em cima de uma fábrica pronta, e é o teste real da promessa "fábrica, não estoque"
@@ -212,8 +232,9 @@ dado o recado de sucesso.
 
 #### O que falta para a fábrica ser fábrica — 31/08/2026
 
-*Levantado ao fim do dia, quando o Raffael parou para desenhar conteúdo novo. **A promessa acima
-vale hoje para fase e para obstáculo, e ainda não vale para modificador.***
+*Levantado ao fim do dia, quando o Raffael parou para desenhar conteúdo novo, e **fechado no mesmo
+dia**: a promessa acima vale para fase, obstáculo e nave, e **não vale para poder — por decisão
+dele**, não por dívida técnica. Ver a recusa registrada abaixo.*
 
 Onde cada tipo de conteúdo está:
 
@@ -222,28 +243,42 @@ Onde cada tipo de conteúdo está:
 | Fase | um `.asset` | ✅ |
 | Obstáculo | um `.asset` | ✅ |
 | Nave | um `.asset` + uma linha no catálogo | ✅ *(o poder dela é que custa código)* |
-| **Modificador de fase** | **uma classe C# + uma entrada na receita** | ❌ |
-| Poder de nave | uma classe C# + uma entrada na receita | ⚠️ *aceitável, ver abaixo* |
+| Modificador de fase | uma classe C# + uma entrada na receita | ⚠️ *por escolha, ver abaixo* |
+| Poder de nave | uma classe C# + uma entrada na receita | ⚠️ *por escolha, ver abaixo* |
 
-- [ ] **Um modificador genérico de atributo**, que resolveria a linha vermelha da tabela
-      - **Os dois modificadores de atributo que existem são a mesma classe escrita duas vezes.** O
-        `AttackSpeedBoost` é `Times(AttackSpeed, 2)`; o `WeaponsOffline` é `Times(AttackSpeed, 0)`.
-        A única diferença entre eles é um número — e mesmo assim são dois arquivos de código
-      - Com uma ficha que carregue uma **lista de (atributo, soma, fator)**, tudo o que for
-        "aumenta X" ou "reduz Y" vira **asset puro**: escolher o atributo num menu, digitar o
-        número, escolher a duração. Zero código. É o que a promessa diz, e é o que a autoria
-        precisa
-      - **Cobre a maioria do que está por vir:** dos oito atributos da nave, qualquer um vira
-        Reforço e Debilitante sem uma linha nova
-      - Classe filha continua existindo para o que **não** é número — o tempo lento é o exemplo, e
-        é justo que ele custe código, porque ele faz algo que nenhum campo descreveria
-- [ ] **Poder de nave fica como está, e é decisão e não preguiça** — poder de nave é *"algo que só
-      esta nave faz"*, então por definição ele quase nunca é um número. Tiros teleguiados e Super
-      IA não caberiam em campo nenhum. Genérico ali resolveria a minoria dos casos e criaria uma
-      ficha cheia de campo que não vale para quase ninguém
-      - O que **vale** a pena ali é o contrário: cada poder novo que precisar de algo que o jogo
-        ainda não sabe fazer deve virar um **traço** (`ShipTrait`) ou um **gancho**, que é peça
-        reutilizável — e não um alcance direto no componente de quem interessa
+- [x] ❌ **Modificador genérico de atributo — PROPOSTO E RECUSADO** (31/08/2026)
+      - **A proposta:** uma ficha genérica com uma lista de *(atributo, soma, fator)*, de modo que
+        todo "aumenta X" e "reduz Y" virasse asset puro, sem código
+      - **A recusa, e ela é do Raffael:** *"prefiro ter cada poder enclausurado, sendo facilmente
+        identificado e modificado, e sem afetar nenhum dos outros — cada poder sendo absoluto, sem
+        nenhuma outra relação com os outros. Dessa maneira é mais fácil a manutenção a longo prazo
+        mesmo que isso signifique mais arquivos."*
+      - **Ele está certo, e a minha conta estava errada.** Eu vendi "duplicação" e a duplicação é
+        de **duas linhas**: `Times(AttackSpeed, 1 + x)` contra `Times(AttackSpeed, 1 - x)`. O resto
+        de cada arquivo é o que o genérico **destruiria** — um tipo com nome, uma entrada própria
+        no menu de criação, e o lugar onde mora o *porquê* daquele poder existir
+      - **E o genérico piorava duas coisas que este projeto preza:**
+        - *"O que Desabilitar Armas faz?"* passaria a se responder abrindo um asset no Inspector,
+          e não lendo uma classe. Num projeto cuja cultura é o código explicar o porquê, isso é
+          andar para trás
+        - Um caminho de código só para todos os modificadores quer dizer **um bug atinge todos**.
+          A separação absoluta que ele pediu é exatamente o contrário disso
+      - **O argumento de volume não se aplica:** o teto realista é algumas dezenas de naves e
+        modificadores, não milhares. Otimizar autoria em massa é resolver um problema que este
+        jogo não vai ter
+      - **A regra que fica:** *modificador e poder de nave são uma classe cada, isolada, sem
+        herança compartilhada além da base. Mais arquivos é o preço, e é barato.*
+- [x] **Poder de nave já estava certo pelo mesmo motivo** — poder de nave é *"algo que só esta nave
+      faz"*, então por definição quase nunca é um número. Tiros teleguiados e Super IA não caberiam
+      em campo nenhum
+      - O que **vale** a pena ali é o contrário do genérico: cada poder novo que precisar de algo
+        que o jogo ainda não sabe fazer vira um **traço** (`ShipTrait`) ou um **gancho** — peça
+        reutilizável — e não um alcance direto no componente de quem interessa. O poder continua
+        isolado; o que se compartilha é o *vocabulário*, não o efeito
+- [ ] ⚠️ **A tabela acima fica com a linha vermelha, e de propósito** — modificador novo continua
+      custando uma classe. Não é dívida a pagar: é o preço escolhido pela isolação, e a promessa
+      "fábrica, não estoque" passa a valer para **fase, obstáculo e nave**, que é onde o volume
+      realmente mora
 
 > **Como subir uma atualização:** seis passos, em `docs/play-console/caminho-ate-a-play-store.md`.
 > O que mais derruba envio é esquecer de subir o `AndroidBundleVersionCode` — a Play recusa dois
