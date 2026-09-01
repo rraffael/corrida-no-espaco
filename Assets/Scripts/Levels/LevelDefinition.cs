@@ -41,8 +41,10 @@ public class LevelDefinition : ScriptableObject
              "faz com obstáculo e ritmo, não pedindo mais velocidade.")]
     [Min(1f)] public float warpSpeed = 15f;
 
-    [Tooltip("Segundos segurando a velocidade para a dobra completar.")]
-    [Min(0f)] public float warpChargeSeconds = 2.5f;
+    [Tooltip("Segundos segurando a velocidade para a dobra completar, no Fácil. As outras " +
+             "dificuldades somam em cima, pelo warpChargeBonus do catálogo — este campo é o piso " +
+             "da fase, não o valor final. 0 = a fase não tem dobra.")]
+    [Min(0f)] public float warpChargeSeconds = 2f;
 
     [Header("Ritmo")]
     [Tooltip("Segundos entre obstáculos no começo da corrida.")]

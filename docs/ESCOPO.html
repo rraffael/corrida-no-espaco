@@ -111,7 +111,7 @@
 
 <p class="lead"><strong>Corrida no Espaço</strong> é um jogo de corrida vertical para Android, de uma mão só. A nave desce por três faixas, o dedo arrasta para trocar de faixa, e a <strong>velocidade é ao mesmo tempo a vida e a vitória</strong>: ela sobe sozinha com o tempo, sobe mais rápido quando você destrói alguma coisa, e desaba quando você bate. Vencer é segurar a velocidade alta o suficiente pelo tempo que a fase pedir.</p>
 
-<p>O jogo está publicado na Google Play em <strong>teste interno</strong> desde 08/08/2026, com testadores de verdade instalando pela loja. A mecânica de corrida — a parte “crua” — foi aprovada no aparelho em <strong>21/08/2026</strong> e está fechada. O que se constrói a partir de agora é a camada de fora da partida: poderes, naves, evolução, economia, recompensas e a interface. Em <strong>30/08/2026</strong> entrou o primeiro conteúdo dessa camada — três modificadores de fase e duas naves com poder próprio.</p>
+<p>O jogo está publicado na Google Play em <strong>teste interno</strong> desde 08/08/2026, com testadores de verdade instalando pela loja. A mecânica de corrida — a parte “crua” — foi aprovada no aparelho em <strong>21/08/2026</strong> e está fechada. O que se constrói a partir de agora é a camada de fora da partida: poderes, naves, evolução, economia, recompensas e a interface. Em <strong>30/08/2026</strong> entrou o primeiro conteúdo dessa camada — três modificadores de fase e duas naves com poder próprio — e em <strong>01/09/2026</strong> o fim da corrida ganhou escada de dificuldade e o jogo ganhou unidade própria de velocidade e distância.</p>
 
 <div class="panel note">
 <p><strong>O que este documento é.</strong> A descrição estável do jogo: os conceitos, as regras, o que já funciona e o que ainda vai existir. É o documento que se lê para <em>entender o jogo</em>.</p>
@@ -174,12 +174,16 @@
   <li><strong>Velocidade de cruzeiro</strong> — o patamar de conforto da nave. Abaixo dele, a nave volta sozinha e depressa; a aceleração fica até <strong>três vezes maior com a nave parada</strong>, e some conforme ela se aproxima do cruzeiro. É o que faz o arranque ser bravo em vez de arrastado.</li>
   <li><strong>Ganho passivo</strong> — acima do cruzeiro a velocidade continua subindo sozinha, mas devagar, no ritmo da aceleração da nave. É o que garante que <strong>dá para vencer sem atirar</strong>, só com paciência e desvio.</li>
   <li><strong>Abate</strong> — destruir um obstáculo empurra a velocidade para cima na hora. É o atalho: chega mais rápido, mas exige encarar o que está na frente.</li>
-  <li><strong>Dobra</strong> — a linha de chegada, e também o <strong>teto</strong>. Alcançar a velocidade pedida não vence: é preciso <strong>segurá-la por 2,5 segundos</strong>. Abaixo dela a carga escoa pela metade do ritmo, então uma batida no fim custa caro sem apagar a corrida inteira.</li>
+  <li><strong>Dobra</strong> — a linha de chegada, e também o <strong>teto</strong>. Alcançar a velocidade pedida não vence: é preciso <strong>segurá-la por alguns segundos</strong>, e quantos é a dificuldade que diz (2 · 2,8 · 3,5). Abaixo dela a carga escoa pela metade do ritmo, então uma batida no fim custa caro sem apagar a corrida inteira.</li>
 </ul>
+
+<p class="q">A unidade do jogo é a <strong>unidade</strong>, e ela é ficção</p>
+<p class="qa">Velocidade se lê em <strong>unidades por segundo</strong>, <code>un/s</code> — cruzeiro em 80, dobra em 160 no Fácil. Distância se lê na mesma unidade, sem o “por segundo”: <code>un</code>. É uma unidade inventada, e de propósito: não corresponde a nada do mundo real e não tem por que corresponder. Por dentro os números são dez vezes menores — a unidade de mundo da Unity, que só aparece no código —, porque 15 no painel não dá sensação de velocidade nenhuma e 160 dá.</p>
+<p class="qa"><strong>As três telas que falam de velocidade e distância passaram a rimar em 01/09/2026.</strong> Antes disso a seleção de fase mostrava o número interno (prometia 16 para uma dobra que o rodapé chamava de 160) e o placar media a distância em “km”, uma unidade emprestada do mundo real que não combinava com nada. Agora a conta fecha de cabeça: <strong>correr a 160 un/s por um segundo soma 160 un no placar</strong> — a velocidade é a distância por segundo, e o jogador pode enxergar isso sem que ninguém explique.</p>
 
 <p class="q">Passar da dobra não serve para nada</p>
 <p>A velocidade de dobra é o teto da corrida: chegando nela, nem o ganho passivo nem o abate empurram mais. Foi assim que ficou em <strong>31/08/2026</strong>, e a razão é que antes não era.</p>
-<p>O teto já existia, mas só segurava o ganho passivo — o abate passava por cima. Quem destruía obstáculo entrava em dobra com <strong>folga</strong> acima do limiar; quem só desviava entrava colado nele. E a folga muda tudo: colado, qualquer raspão derruba a carga; com folga, dá para tomar um golpe e continuar carregando. Os 2,5 segundos finais eram, na prática, <strong>duas provas diferentes conforme o jeito de jogar</strong> — e a mais fácil era a de quem atirava, sem que ninguém tivesse decidido isso.</p>
+<p>O teto já existia, mas só segurava o ganho passivo — o abate passava por cima. Quem destruía obstáculo entrava em dobra com <strong>folga</strong> acima do limiar; quem só desviava entrava colado nele. E a folga muda tudo: colado, qualquer raspão derruba a carga; com folga, dá para tomar um golpe e continuar carregando. Os segundos finais de carga eram, na prática, <strong>duas provas diferentes conforme o jeito de jogar</strong> — e a mais fácil era a de quem atirava, sem que ninguém tivesse decidido isso.</p>
 <p style="margin-bottom:0">Destruir continua valendo: <strong>chega-se mais rápido ao teto</strong>, que é o prêmio honesto do abate. O que acabou foi a margem depois dele. Na fase sem fim não há teto nenhum — lá não existe dobra, e correr mais é o jogo inteiro.</p>
 
 <p class="q">A dobra se vê, e não se lê</p>
@@ -189,7 +193,10 @@
   <li>Uma <strong>moldura se fecha em volta da tela</strong>: nasce nos quatro cantos e cresce pelas bordas até completar o quadro. <strong>Quanto da volta está desenhado é quanto falta para a dobra</strong> — o número do rodapé virou redundância em vez de necessidade.</li>
   <li>Dois <strong>clarões</strong>, e eles se movem em direções contrárias para nunca serem confundidos: <strong>perder</strong> a carga é âmbar recolhendo para dentro, <strong>completar</strong> é claro estourando para fora. O de perder é o mais visível dos dois, de propósito — perder em silêncio é o pior caso possível.</li>
 </ul>
-<p>Nada disso encosta no meio da tela. O centro é onde se desvia, e é o último lugar do jogo onde se pode pôr informação nova a 19 unidades por segundo.</p>
+<p>Nada disso encosta no meio da tela. O centro é onde se desvia, e é o último lugar do jogo onde se pode pôr informação nova a 190 un/s.</p>
+
+<p class="q">E o rodapé ficou com um número só</p>
+<p class="qa">Em <strong>01/09/2026</strong> a meta saiu do painel de velocidade. Ele mostrava <code>87 / 160 un/s</code> nas fases de progressão — o atual e o exigido —, e isso poluía o canto que mais precisa ser lido de relance. A meta continua sendo dita duas vezes, nos lugares certos: na <strong>seleção de fase</strong>, antes de começar, e pela <strong>moldura</strong>, enquanto a carga sobe. O rodapé era a terceira, e a pior das três. Com isso as duas espécies de fase mostram a mesma coisa: <strong>só a velocidade atual</strong>.</p>
 
 <h3>O custo de errar</h3>
 <p>Foi o último desenho da mecânica crua, e o que mais mudou o jogo. <strong>Bater custa tempo, não velocidade</strong> — e é uma diferença enorme, porque tempo é um custo que o jogador vê acontecendo, enquanto um número dois pontos menor ele só lê.</p>
@@ -229,7 +236,9 @@
 <h3>Fases, dificuldades e progressão</h3>
 <p>Três fases numeradas e três dificuldades, numa <strong>corrente única</strong>: Fácil 1→2→3, depois Normal 1→2→3, depois Difícil. Cada fase é uma <strong>ficha em disco</strong> — velocidade e tempo de dobra, ritmo de aparição com rampa do início ao fim, e a agenda de que obstáculo entra a partir de que segundo, com a estreia <strong>sorteada dentro de uma janela</strong> para duas partidas da mesma fase não saírem idênticas.</p>
 
-<p>A dificuldade <strong>não troca o obstáculo</strong> — isso é papel da fase. Ela soma na velocidade exigida pela dobra (16 · 17,5 · 19) e multiplica ritmo, vida e dano. <strong>Fase difícil se faz com obstáculo e ritmo, não pedindo mais velocidade</strong>: por isso as três fases pedem a mesma coisa dentro de uma mesma dificuldade.</p>
+<p>A dificuldade <strong>não troca o obstáculo</strong> — isso é papel da fase. Ela multiplica ritmo, vida e dano, e cobra a dobra <strong>pelos dois lados</strong>: a velocidade exigida (160 · 175 · 190 un/s) e o tempo que essa velocidade tem de ser segurada (2 s · 2,8 s · 3,5 s). <strong>Fase difícil se faz com obstáculo e ritmo, não pedindo mais dobra</strong>: por isso as três fases pedem a mesma coisa dentro de uma mesma dificuldade.</p>
+
+<p>O tempo de dobra virou escada em <strong>01/09/2026</strong>, e a razão está no que a calibragem mostrou: <strong>1,5 s é rápido demais e 5 s começa a arrastar</strong>, e entre os dois cabe mais de um jogo. Um número só teria de servir para quem está aprendendo e para quem já domina — a escada deixa cada dificuldade usar a sua parte do intervalo. É a mesma ideia que já valia para a velocidade, aplicada à resistência.</p>
 
 <h3>A fase sem fim, e onde se compete</h3>
 <p>Existe uma quarta fase, <strong>fora da corrente e aberta desde o começo</strong>. Ela não tem dobra e não tem fim: endurece sozinha até a nave cair. É a <strong>única com placar</strong>, e a pontuação é a <strong>distância percorrida</strong> — maior é melhor, e ela é medida integrando a velocidade a cada quadro, de modo que acelerar cedo vale mais do que acelerar no último segundo.</p>
@@ -271,8 +280,8 @@
 <tr><td>O susto da batida</td><td><code>crashSpeedFraction</code></td><td><code>RaceSpeed</code></td></tr>
 <tr><td><strong>O preço da batida</strong></td><td><code>finalStretchSeconds</code></td><td><code>RaceSpeed</code></td></tr>
 <tr><td>O peso do raspão</td><td><code>grazeSpeedLoss</code> · <code>grazeDelaySeconds</code></td><td><code>RaceSpeed</code></td></tr>
-<tr><td>O tamanho da fase</td><td><code>warpChargeSeconds</code> · <code>warpSpeed</code></td><td>ficha da fase</td></tr>
-<tr><td>A escada de dificuldade</td><td><code>warpSpeedBonus</code></td><td>catálogo de fases</td></tr>
+<tr><td>O tamanho da fase</td><td><code>warpChargeSeconds</code> <em>(o piso, do Fácil)</em> · <code>warpSpeed</code></td><td>ficha da fase</td></tr>
+<tr><td>A escada de dificuldade</td><td><code>warpSpeedBonus</code> · <code>warpChargeBonus</code></td><td>catálogo de fases</td></tr>
 <tr><td>Quanto cada obstáculo aguenta</td><td>vida · dano · faixas ocupadas</td><td>ficha do obstáculo</td></tr>
 </tbody>
 </table>

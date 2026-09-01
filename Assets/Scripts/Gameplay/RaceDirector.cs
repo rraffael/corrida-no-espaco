@@ -160,7 +160,12 @@ public class RaceDirector : MonoBehaviour
         var settings = LevelSelection.Settings();
 
         warpSpeed = Level.warpSpeed + settings.warpSpeedBonus;
-        warpChargeSeconds = Level.warpChargeSeconds;
+
+        // A carga só ganha a soma da dificuldade se a fase tiver dobra: na sem
+        // fim a carga é 0, e somar ali criaria uma dobra que a fase não tem.
+        warpChargeSeconds = Level.warpChargeSeconds > 0f
+            ? Level.warpChargeSeconds + settings.warpChargeBonus
+            : 0f;
     }
 
     /// <summary>

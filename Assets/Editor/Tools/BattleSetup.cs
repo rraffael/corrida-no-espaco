@@ -25,7 +25,6 @@ static class BattleSetup
     const string ObstaclesObject = "Obstacles";
     const string CanvasObject = "UI";
     const string PauseButtonObject = "BotaoMenu";
-    const string SpeedHudObject = "HudVelocidade";
     const string HealthHudObject = "HudVida";
     const string WarpHudObject = "HudDobra";
     const string AbilityHudObject = "HudPoder";
@@ -142,11 +141,6 @@ static class BattleSetup
         // hierarquia. Montado antes, o painel de vitória o cobriria — e a dobra
         // completa e o painel acontecem no mesmo quadro.
         BuildWarpVisuals(canvas.transform, director);
-
-        var speedHud = canvas.transform.Find(SpeedHudObject);
-        var speedHudComponent = speedHud != null ? speedHud.GetComponent<SpeedHud>() : null;
-        if (speedHudComponent != null)
-            UiBuilder.SetReference(speedHudComponent, "director", director);
 
         UiBuilder.SetReference(director, "victoryPanel", victory.panel);
         UiBuilder.SetReference(director, "victoryTimeLabel", victory.time);
@@ -671,7 +665,7 @@ static class BattleSetup
         UiBuilder.Label("Rotulo", box.transform, "Distância percorrida", 34f,
                         new Vector2(0f, 420f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
 
-        var distance = UiBuilder.Label("Distancia", box.transform, "0 km", 88f,
+        var distance = UiBuilder.Label("Distancia", box.transform, "0 un", 88f,
                                        new Vector2(0f, 330f), new Vector2(820f, 130f),
                                        UiBuilder.LabelColor);
 

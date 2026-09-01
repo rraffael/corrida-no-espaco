@@ -47,6 +47,8 @@ static class ProjectTools
     public const string ShipSelectItem = MenuRoot + "Montagem/Montar aba de naves";
     public const string ShipSelectUndoItem = MenuRoot + "Montagem/Desmontar aba de naves";
 
+    public const string WarpChargeLadderItem = MenuRoot + "Correções/Escada do tempo de dobra";
+
     public const string RaceId = "corrida-fundo-hud";
     public const string LevelsId = "fases-e-obstaculos";
     public const string ShipsId = "ficha-da-nave";
@@ -55,6 +57,7 @@ static class ProjectTools
     public const string MenuSceneId = "menu-recordes";
     public const string LevelSelectId = "selecao-de-fase";
     public const string ShipSelectId = "aba-de-naves";
+    public const string WarpChargeLadderId = "escada-do-tempo-de-dobra";
 
     /// <summary>
     /// O diário vive em <c>UserSettings/</c>, que o .gitignore já ignora: é
@@ -162,6 +165,15 @@ static class ProjectTools
                       "e do 'Criar naves e poderes'.",
             MenuPath = ShipSelectItem,
             UndoMenuPath = ShipSelectUndoItem,
+        },
+        new Tool
+        {
+            Id = WarpChargeLadderId,
+            Title = "Escada do tempo de dobra",
+            Summary = "Conserto pontual: põe 2 s de carga nas fichas de fase que já existem e o " +
+                      "bônus por dificuldade (0 · +0,75 · +1,5) no catálogo. Sai do projeto " +
+                      "depois de rodar — os valores já são os padrões do LevelSetup.",
+            MenuPath = WarpChargeLadderItem,
         },
         new Tool
         {

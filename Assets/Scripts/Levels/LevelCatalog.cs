@@ -22,6 +22,12 @@ public class DifficultySettings
     [Tooltip("Soma na velocidade de dobra pedida pela fase.")]
     public float warpSpeedBonus;
 
+    [Tooltip("Soma nos segundos de carga da dobra pedidos pela fase.\n\n" +
+             "A dificuldade cobra a dobra por dois lados: a velocidade que ela exige e o tempo " +
+             "que ela obriga a segurar essa velocidade. Fase sem dobra (a sem fim, com carga 0) " +
+             "não recebe soma nenhuma.")]
+    public float warpChargeBonus;
+
     [Tooltip("Multiplica o intervalo entre obstáculos. Menor que 1 = mais obstáculos.")]
     [Min(0.1f)] public float intervalFactor = 1f;
 

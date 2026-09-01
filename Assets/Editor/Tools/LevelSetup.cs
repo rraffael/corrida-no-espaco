@@ -81,7 +81,7 @@ static class LevelSetup
             // sobe a exigência é a dificuldade (warpSpeedBonus no catálogo), e
             // não a fase. Decidido em 07/08/2026 — ver ROADMAP, Bloco B.
             level.warpSpeed = 15f;
-            level.warpChargeSeconds = 2.5f;
+            level.warpChargeSeconds = 2f;
             level.startInterval = 1.4f;
             level.endInterval = 1.1f;
             level.rampSeconds = 60f;
@@ -96,7 +96,7 @@ static class LevelSetup
             level.displayName = "Fase 2 — Comboio";
             level.order = 2;
             level.warpSpeed = 15f;
-            level.warpChargeSeconds = 2.5f;
+            level.warpChargeSeconds = 2f;
             level.startInterval = 1.3f;
             level.endInterval = 0.95f;
             level.rampSeconds = 60f;
@@ -112,7 +112,7 @@ static class LevelSetup
             level.displayName = "Fase 3 — Ninho";
             level.order = 3;
             level.warpSpeed = 15f;
-            level.warpChargeSeconds = 2.5f;
+            level.warpChargeSeconds = 2f;
             level.startInterval = 1.2f;
             level.endInterval = 0.85f;
             level.rampSeconds = 60f;
@@ -155,17 +155,23 @@ static class LevelSetup
                 // dobra: as três fases pedem os mesmos 15, e a escada é esta.
                 // Até o Fácil soma, porque a exigência subiu para todo mundo
                 // quando o tempo de carga caiu para 2,5s.
+                //
+                // O warpChargeBonus é a segunda escada, de 01/09/2026: as fases
+                // pedem 2s e a dificuldade estica para 2,8 e 3,5. Ver ROADMAP,
+                // "A escada do tempo de dobra".
                 new DifficultySettings
                 {
                     difficulty = Difficulty.Facil,
                     displayName = "Fácil",
                     warpSpeedBonus = 1f,
+                    warpChargeBonus = 0f,
                 },
                 new DifficultySettings
                 {
                     difficulty = Difficulty.Normal,
                     displayName = "Normal",
                     warpSpeedBonus = 2.5f,
+                    warpChargeBonus = 0.8f,
                     intervalFactor = 0.85f,
                     obstacleHealthFactor = 1.3f,
                     obstacleDamageFactor = 1.2f,
@@ -175,6 +181,7 @@ static class LevelSetup
                     difficulty = Difficulty.Dificil,
                     displayName = "Difícil",
                     warpSpeedBonus = 4f,
+                    warpChargeBonus = 1.5f,
                     intervalFactor = 0.7f,
                     obstacleHealthFactor = 1.7f,
                     obstacleDamageFactor = 1.5f,

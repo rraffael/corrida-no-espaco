@@ -22,7 +22,7 @@ public static class ScoreBoard
     /// <summary>
     /// Chave nova de propósito. A tabela antiga guardava segundos em ordem
     /// crescente; reaproveitar a chave misturaria tempo com distância na mesma
-    /// lista, e o jogador veria um recorde de "0,8 km" que na verdade era um
+    /// lista, e o jogador veria um recorde de "80 un" que na verdade era um
     /// tempo de 8 segundos. Quem tinha recorde antigo começa a nova tabela vazia.
     /// </summary>
     const string TableKey = "corrida.recordes-distancia";
@@ -31,11 +31,16 @@ public static class ScoreBoard
     const int MaxEntries = 10;
 
     /// <summary>
-    /// Quantos "km" cada unidade de mundo vale no painel. As unidades de mundo
-    /// são poucas para dar sensação de distância percorrida; a conta do jogo não
-    /// muda. É o mesmo espírito do <c>displayScale</c> do <see cref="SpeedHud"/>.
+    /// A escala da velocidade, e é **a mesma de propósito**: é ela que faz a
+    /// conta fechar na cabeça do jogador. Correndo a 160 un/s por um segundo, o
+    /// placar sobe 160 un — velocidade e distância são a mesma unidade, uma por
+    /// segundo e a outra acumulada. Se as duas escalas pudessem divergir, o
+    /// painel passaria a mentir sobre a relação entre elas.
     /// </summary>
-    public const float DisplayScale = 10f;
+    public const float DisplayScale = RaceSpeed.DisplayScale;
+
+    /// <summary>A distância é a velocidade acumulada, então herda a unidade dela sem o "por segundo".</summary>
+    public const string DisplayUnit = "un";
 
     [Serializable]
     public class Entry
@@ -100,11 +105,11 @@ public static class ScoreBoard
         PlayerPrefs.Save();
     }
 
-    /// <summary>Distância como o jogador lê: "4.800 km".</summary>
+    /// <summary>Distância como o jogador lê: "4.800 un".</summary>
     public static string FormatDistance(float distance)
     {
         int shown = Mathf.RoundToInt(Mathf.Max(0f, distance) * DisplayScale);
-        return shown.ToString("n0") + " km";
+        return shown.ToString("n0") + " " + DisplayUnit;
     }
 
     /// <summary>

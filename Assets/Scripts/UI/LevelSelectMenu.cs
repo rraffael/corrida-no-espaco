@@ -165,7 +165,11 @@ public class LevelSelectMenu : MonoBehaviour
 
         var settings = catalog.SettingsFor(difficulty);
         float warp = level.warpSpeed + settings.warpSpeedBonus;
-        return $"Dobra em {warp:0.#} u/s, segurando {level.warpChargeSeconds:0.#}s";
+        float charge = level.warpChargeSeconds + settings.warpChargeBonus;
+
+        // Pela mesma escala do painel da corrida: o menu prometia "16" e o
+        // rodapé mostrava "160" para a mesma dobra, com um minuto de intervalo.
+        return $"Dobra em {RaceSpeed.Format(warp)}, segurando {charge:0.#}s";
     }
 
     void Choose(LevelDefinition level)

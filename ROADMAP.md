@@ -20,7 +20,25 @@ metade dela — ver lá.
 
 ---
 
-## 🚀 Onde estamos — 31/08/2026
+## 🚀 Onde estamos — 01/09/2026
+
+**A régua foi medida, e ela virou três réguas.** A calibragem que abria o dia respondeu o que
+prometia — 1,5 s rápido demais, 5 s começando a arrastar — e o Raffael tirou dela uma conclusão
+melhor que um número: **o tempo de dobra passa a subir com a dificuldade**, 2 s no Fácil, 2,8 no
+Normal, 3,5 no Difícil. A dobra agora é cobrada pelos dois lados, velocidade e resistência, pelo
+mesmo lugar que já mandava na velocidade. Ver "A escada do tempo de dobra".
+
+**E o jogo ganhou uma unidade.** Ler a linha da seleção de fase levantou a pergunta "u/s significa
+o quê?", e a resposta era feia: jargão da Unity na tela, e ainda por cima **anunciando um número
+que o painel da corrida contradizia** — 16 lá, 160 aqui. Agora velocidade é `un/s` e distância é
+`un`, unidade inventada do jogo, valendo sobre o número que o jogador lê — o placar largou o "km"
+emprestado e entrou na mesma família. Ver "A unidade do jogo".
+
+**O Montar rodou, e os assets foram conferidos no disco:** `Fase1`, `Fase2` e `Fase3` com
+`warpChargeSeconds: 2`, `FaseInfinita` intocada (999 / 0) e o catálogo com os bônus 0 · 0,8 · 1,5.
+*Falta julgar no aparelho — uma rodada em cada dificuldade.*
+
+### O que veio antes — 31/08/2026
 
 **O meta-jogo tem esqueleto, e o tiro virou decisão.** A Parte 5 entregou o que dava para entregar
 sem decisão de projeto: os dois sistemas de poder separados de ponta a ponta, os modificadores de
@@ -59,21 +77,18 @@ voltas de veredito e conserto, todas no polegar.
 
 ### O que vem agora — o Raffael foi desenhar conteúdo
 
-*Ele parou em 31/08 para **montar mais naves e mais modificadores de fase**, e volta com a lista.*
+*Ele parou em 31/08 para **montar mais naves e mais modificadores de fase**, e disse em 01/09 que
+**volta com a lista em 02/09** — é a próxima coisa a construir depois do julgamento da escada.*
 
 É a virada que a Parte 5 existia para permitir: **até aqui o trabalho era construir a fábrica, e a
 partir daqui é usá-la.** Duas coisas ficam abertas enquanto isso:
 
-- ⚠️ **O teto da dobra nunca foi jogado**, e ele é a régua contra a qual todo conteúdo novo vai
-  ser equilibrado. Vale gastar cinco minutos nele **antes** de desenhar — régua torta faz nascer
-  torto tudo o que se medir por ela
+- ⚠️ **A régua foi medida e montada em 01/09, mas a escada ainda não foi jogada** — falta uma
+  rodada em cada dificuldade. Continua valendo o motivo de vir antes de desenhar: régua torta faz
+  nascer torto tudo o que se medir por ela
 - ⚠️ **A fábrica de modificadores ainda não é fábrica:** modificador novo custa classe C#, mesmo
   quando o efeito é só "mexe num atributo". É o que mais vai atrapalhar a sessão de autoria dele.
   Ver "O que falta para a fábrica ser fábrica", abaixo
-
-*Achado de 30/08, e já consertado no código:* a montagem de 22/08 deixou **dois scripts faltando**
-na nave da `Game.unity` — ela rodou cedo demais e a faxina não teve o que limpar. Inerte, mas
-precisa de um Montar. Ver "A faxina que não aconteceu", abaixo.
 
 ---
 
@@ -133,38 +148,42 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
 - [x] **A dobra vista — APROVADA** (31/08/2026) — moldura, estrelas esticadas e os dois clarões
       julgados no aparelho. E o caso que o desenho não previa foi respondido junto: **o véu do
       tempo lento e a moldura da dobra ao mesmo tempo continuam jogáveis**
-- [ ] 🥇 **PRIMEIRA COISA DE AMANHÃ: calibrar o tempo de dobra em três rodadas**
-      *(decidido pelo Raffael em 31/08/2026)*
-      - **Onde se mexe:** `Assets/Levels/Fase1.asset`, no Inspector, campo **Warp Charge Seconds**.
-        Só a Fase 1 — uma fase basta para sentir, e mexer nas quatro triplica o trabalho sem
-        acrescentar informação
+- [x] 🥇 **A calibragem do tempo de dobra — FEITA, e ela virou outra coisa** (01/09/2026)
+      - **O veredito das três rodadas:** *"1,5 parece muito rápido, 5 começa a parecer longo."* O
+        2,5 se sustentou como referência, e os extremos fizeram o que existiam para fazer — deram
+        escala à opinião
+      - **E a conclusão não foi um número, foi uma escada.** O Raffael: *"por que não utilizar
+        vários, e progredir com a dificuldade?"* — ideia descartada no começo do projeto, que
+        **volta agora que a dificuldade existe de verdade**. Ver "A escada do tempo de dobra",
+        logo abaixo
+- [x] **O Montar da escada** (01/09/2026) — **rodado**, e conferido no disco: as três fases em
+      `warpChargeSeconds: 2`, a `FaseInfinita` intocada e o catálogo com 0 · 0,8 · 1,5
+- [ ] 🥇 **PRIMEIRA COISA DE AMANHÃ: julgar a escada no aparelho** — uma rodada em cada
+      dificuldade, sentindo se 3,5 s no Difícil ainda é resistência ou já virou castigo. Junto vêm
+      as três telas com a unidade nova (`un/s`, `un`) e o rodapé sem a meta
+      - **Onde se mexe, se algum dos três números precisar de ajuste:** `Assets/Levels/Fase*.asset`,
+        campo **Warp Charge Seconds** — o **piso**, que é o Fácil — e
+        `Assets/Resources/LevelCatalog.asset`, campo **Warp Charge Bonus** de cada dificuldade
       - **Não mexer no `RaceDirector` da cena:** o campo dele existe, mas é sobrescrito pela ficha
         da fase no começo de cada corrida. Mexer lá não faz nada, e leva meia hora para descobrir
-      - **Rodar de novo não desfaz:** o `LevelSetup` só preenche fase que ainda não existe, então o
-        número ajustado à mão fica
-
-      | Ordem | Valor | O que se procura |
-      |---|---|---|
-      | 1ª | **2,5 s** *(o de hoje)* | A referência. Sentir com o teto novo valendo, e não de memória |
-      | 2ª | **5 s** | O dobro. Vira prova de resistência, ou vira tédio? |
-      | 3ª | **1,5 s** | Quase nada. Vira anticlímax — chegar na velocidade e já ganhar? |
-
-      - **O que a rodada responde:** se 2,5 s está bom, ou de que lado ele erra. Os extremos
-        existem para dar régua: sem eles, "2,5 parece ok" é opinião sem escala
-      - ⚠️ **A nave agora fica colada no limiar**, sem folga nenhuma, então todo raspão derruba a
-        carga — é o que mudou hoje e é por isso que a calibragem antiga não vale mais
-      - Se ficar cruel, o número a mexer é o `warpDecayRate` — a carga escoar mais devagar — e
-        **não** devolver a folga: a folga é o que fazia atirar e desviar enfrentarem provas
-        diferentes
+      - **Rodar o Montar de novo não desfaz ajuste à mão:** o conserto só escreve o que ainda está
+        diferente do alvo, e o `LevelSetup` nem toca em fase que já existe
+      - ⚠️ **A nave fica colada no limiar** desde o teto de 31/08, sem folga nenhuma, então todo
+        raspão derruba a carga. Se o Difícil sair cruel, o número a mexer é o `warpDecayRate` — a
+        carga escoar mais devagar — e **não** devolver a folga: a folga é o que fazia atirar e
+        desviar enfrentarem provas diferentes
       - ⚠️ **Vem antes de desenhar conteúdo novo, e o motivo é econômico:** o fim da fase é a
         régua contra a qual todo poder e todo modificador vão ser equilibrados. Se a régua estiver
         torta, o conteúdo desenhado em cima dela nasce torto junto — e aí não é um número para
         corrigir, são todos
-      - **Ao terminar, devolver o valor escolhido às quatro fases** — Fase 2, Fase 3 e o padrão do
-        `LevelSetup`, para uma fase nova nascer já com o número certo
+- [ ] **Apagar o `WarpChargeLadderFix`** — ele já fez o que existia para fazer. **Só depois do
+      commit**, senão não há de onde resgatar: saem o `.cs`, o `.meta`, a pasta `Correções/` (que
+      fica vazia), o passo no `Montar.cs` e as duas entradas no `ProjectTools`. Ver "A escada do
+      tempo de dobra"
 - [ ] **A sessão de autoria do Raffael** (aberta em 31/08/2026) — ele parou aqui para **desenhar
-      mais naves e mais modificadores de fase**. É a primeira vez que o projeto vai criar conteúdo
-      em cima de uma fábrica pronta, e é o teste real da promessa "fábrica, não estoque"
+      mais naves e mais modificadores de fase**, e **volta com a lista em 02/09/2026**. É a
+      primeira vez que o projeto vai criar conteúdo em cima de uma fábrica pronta, e é o teste real
+      da promessa "fábrica, não estoque"
       - ⚠️ **A fábrica ainda não cumpre a promessa para modificador**, e é o que mais atrapalha
         esta sessão: modificador novo hoje é **classe C# nova** mais uma entrada na receita do
         `ModifierSetup`, mesmo quando o efeito é só "mexe num atributo". Ver "O que falta para a
@@ -201,6 +220,95 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
       - Por que passou a importar em 21/08: entrou gente no teste interno. Até então quem travava
         era o Raffael, com o cabo na mão e o logcat aberto; agora o travamento acontece longe, e
         o que sobra é o relatório
+
+#### A escada do tempo de dobra — 01/09/2026
+
+*Decisão do Raffael, saída da própria calibragem: **um número só era a pergunta errada.***
+
+As três rodadas de 31/08 responderam o que prometiam — 1,5 s é rápido demais, 5 s começa a ficar
+longo, 2,5 s se sustenta —, e a resposta apontou para fora de si mesma. Se o intervalo bom é largo,
+**o que estava sobrando era um jeito de usar a largura dele**. É uma ideia que o projeto já tinha
+descartado no começo; ela volta agora porque **a dificuldade existe de verdade**, o que não era
+verdade quando foi recusada.
+
+| Dificuldade | Segundos de dobra | Como o número se forma |
+|---|---|---|
+| Fácil | **2 s** | o piso da fase, sem soma |
+| Normal | **2,8 s** | piso + **0,8** |
+| Difícil | **3,5 s** | piso + **1,5** |
+
+**A dobra passa a ser cobrada pelos dois lados.** A dificuldade já mandava na *velocidade* que ela
+exige (`warpSpeedBonus`: +1 · +2,5 · +4); agora manda também no *tempo* que obriga a segurar essa
+velocidade. São as duas metades da mesma prova, e é por isso que o número novo mora no mesmo lugar
+que o antigo — no catálogo, ao lado dele, e não na ficha da fase.
+
+- **O campo da fase virou piso, não valor final.** `warpChargeSeconds` é o que vale no Fácil; a
+  dificuldade soma em cima. Vale a mesma regra que já vale para a velocidade: **fase difícil se faz
+  com obstáculo e ritmo**, não pedindo mais dobra — as três fases pedem os mesmos 2 s
+- **A fase sem fim não recebe soma.** Carga 0 é o que diz "esta fase não tem dobra", e somar ali
+  daria um fim à fase do leaderboard. O `RaceDirector` só aplica o bônus quando o piso é maior que
+  zero, e o conserto pontual pula a `FaseInfinita` pelo mesmo motivo
+- **A tela de seleção passou a mostrar o número certo.** Ela já somava o `warpSpeedBonus` e ainda
+  escrevia os segundos crus da ficha — no Difícil isso agora seria mentira de 1,5 s
+
+| Conserto pontual | O que faz | Estado |
+|---|---|---|
+| `Correções/WarpChargeLadderFix.cs` | Põe 2 s nas fichas de fase que já existem e os bônus 0 · +0,75 · +1,5 no catálogo. Existe porque o `LevelSetup` não sobrescreve asset criado antes. | **Escrito, esperando o Montar** |
+
+Depois de rodar e ser aprovado, ele sai do projeto com o `.meta`, com o passo no `Montar.cs` e com
+as entradas no `ProjectTools` — os números dele já são os padrões do `LevelSetup`, então fase nova
+nasce certa sem ele. Para trazê-lo de volta:
+`git checkout <commit de 01/09/2026> -- "Assets/Editor/Tools/Correções/"`.
+
+#### A unidade do jogo — 01/09/2026
+
+*Decisão do Raffael, saída de uma pergunta dele: "u/s significa o quê?"*
+
+Significava **unidade de mundo por segundo**, a medida interna da Unity — jargão de motor vazado
+para a tela do jogador, e vazado só na tela de seleção de fase. O painel da corrida nunca mostrou
+unidade nenhuma, e mostrava **outro número**: ele multiplica por 10 antes de exibir, porque 15 não
+dá sensação de velocidade e 160 dá.
+
+**As duas telas prometiam coisas diferentes para a mesma dobra** — "16 u/s" na seleção, `87 / 160`
+no rodapé, com um minuto de intervalo entre uma e outra.
+
+A saída não foi apagar a unidade: foi **adotá-la como ficção do jogo**, e estendê-la ao placar.
+`un/s` quer dizer "unidades por segundo", uma unidade inventada, e vale sobre o **número de
+painel** — o que o jogador lê, não o interno. Cruzeiro 80, dobra 160 · 175 · 190.
+
+**E o placar entrou na mesma família.** Ele media distância em **"km"** — unidade emprestada do
+mundo real, que não combinava com nada e ainda dava a impressão de escala física. Virou `un`, a
+mesma unidade sem o "por segundo". O que se ganha é a conta fechar de cabeça: **correr a 160 un/s
+por um segundo soma 160 un no placar.** Velocidade é distância por segundo, e agora o painel diz
+isso sozinho, sem ninguém explicar.
+
+- **Onde mora:** `RaceSpeed.DisplayScale`, `DisplayUnit`, `Shown()` e `Format()`, mais o
+  `ScoreBoard.DisplayUnit`. A escala era um campo do `SpeedHud`, dentro da `Game.unity`, e por isso
+  a `Menu.unity` não tinha como respeitá-la
+- **`ScoreBoard.DisplayScale` deixou de ser um 10 solto e passou a ser `RaceSpeed.DisplayScale`.**
+  Eram dois dez iguais por coincidência; se um dia divergissem, o painel passaria a mentir sobre a
+  relação entre velocidade e distância — que é justamente a relação que a unidade única promete
+- **O `SpeedHud` perdeu o campo `displayScale`** do Inspector: escala de exibição não é ajuste de
+  cena, é regra do jogo, e ter duas cenas mostrando escalas diferentes foi exatamente o defeito
+- **E o rodapé ficou com um número só** *(pedido do Raffael, no mesmo dia)*. Ele mostrava
+  `87 / 160 un/s` nas fases de progressão, e o segundo número poluía o canto que mais precisa ser
+  lido de relance — na velocidade máxima da corrida. A meta não sumiu do jogo: ela é dita na
+  **seleção de fase**, antes de começar, e a **moldura da dobra** desenha o quanto falta enquanto a
+  carga sobe. O rodapé era a terceira vez de dizer a mesma coisa. Agora as duas espécies de fase
+  mostram o mesmo: `87 un/s`, e nada mais
+- **O `SpeedHud` perdeu também o campo `director`**, que só existia para buscar a meta. Saiu a
+  ligação correspondente no `BattleSetup` — a referência velha que ficou na cena é inerte, e some
+  na próxima gravação
+- **A tabela de recordes não precisa de migração:** ela sempre guardou o número cru; só o sufixo
+  mudou. Recorde antigo continua valendo, e agora aparece como "4.800 un"
+
+> **`un/s` na tela, `u/s` no código — e a diferença é de propósito** *(pergunta do Raffael, e a
+> resposta é dele)*. Duas siglas parecidas, mas nunca iguais: **`un/s` é sempre o número do
+> painel**, já multiplicado; **`u/s` é sempre a unidade de mundo da Unity**, dez vezes menor, que
+> só existe no código e aqui no ROADMAP. O ganho está no passado: todas as entradas anteriores a
+> 01/09/2026 dizem "u/s" — "cruzeiro 8 u/s", "dobra 15 u/s" — e **continuam certas exatamente como
+> estão**, sem precisar de nota de rodapé em cada uma. Uma sigla só teria feito o histórico inteiro
+> virar armadilha.
 
 #### A faxina que não aconteceu — achado de 30/08/2026
 
@@ -288,7 +396,7 @@ Onde cada tipo de conteúdo está:
 
 ## Estado atual
 
-*Revisto em 31/08/2026.*
+*Revisto em 01/09/2026.*
 
 **Funcional**
 - Cena `Menu.unity` com fiação correta: `Menu.cs` no Canvas, BotaoJogar → `OnPlayButton`,
@@ -343,9 +451,14 @@ Onde cada tipo de conteúdo está:
   a nave por meio segundo e devolve o resto em dois trechos, o último arrastado: ~3,5 s de corrida.
   O estilhaço dá um raspão de menos de 1 s, que é outra coisa de propósito. E a aceleração cresce
   quanto mais devagar a nave estiver, até 300% com ela parada — o arranque ficou bravo.
-- **A dobra é regra de fase, e a exigência é da dificuldade** (07/08/2026) — 2,5 s segurando a
-  velocidade em todas as fases, e a velocidade pedida sobe só com a dificuldade: 16 · 17,5 · 19.
-  Fase difícil se faz com obstáculo e ritmo, não pedindo mais velocidade.
+- **A dobra é regra de fase, e a exigência é da dificuldade** (07/08/2026, ampliado em 01/09/2026)
+  — as fases pedem todas a mesma coisa, e quem sobe a régua é a dificuldade, pelos **dois lados**:
+  a velocidade (160 · 175 · 190 un/s) e os segundos segurando ela (2 · 2,8 · 3,5). Fase difícil se
+  faz com obstáculo e ritmo, não pedindo mais dobra.
+- **O jogo tem unidade própria** (01/09/2026) — velocidade em `un/s` e distância em `un`, unidade
+  inventada valendo sobre o número que o jogador lê. O placar largou o "km" emprestado, a seleção
+  de fase parou de anunciar o número interno, e o rodapé ficou com **um número só** — a meta de
+  dobra saiu de lá, porque a seleção e a moldura já a dizem.
 - **A mecânica crua está aprovada no aparelho** (21/08/2026) — arranque, batida, raspão e dobra
   julgados no celular, os quatro bons, **nada a equilibrar**. E as três fases se vencem **só
   desviando**, o que confirma a regra de projeto de 07/08 e a frase da página do app. É o marco
@@ -371,13 +484,16 @@ Onde cada tipo de conteúdo está:
   as faixas do caminho, e não só o destino.
 
 **Faltando**
-- **O teto da dobra não foi jogado** — em dobra a nave deixou de ganhar velocidade, e isso deixa
-  ela colada no limiar nos 2,5 segundos finais. É a única coisa por julgar, e é de equilíbrio.
+- **A escada do tempo de dobra não foi julgada** — 2 · 2,8 · 3,5 s, montado e conferido no disco,
+  mas ainda não jogado. É a única coisa por julgar, e é de equilíbrio. *(O teto de 31/08 já foi
+  jogado: as três rodadas de calibragem de 01/09 aconteceram com ele valendo.)*
 - **O resto do meta-jogo** — evolução de naves, fases com cara própria, recursos e economia, nível
   do jogador, recompensas e a UI refeita. Ver Partes 6 a 9.
 - ~~O tato da rodada de 07/08 nunca foi julgado num aparelho~~ — **julgado e aprovado em
   21/08/2026.**
-- **Nenhuma montagem pendente** (31/08/2026) — a mudança do dia foi só regra, e regra é código.
+- **Nenhuma montagem pendente** (01/09/2026) — o Montar da escada rodou e os assets foram
+  conferidos; o resto do dia foi só código. **Pendura um item de faxina:** apagar o
+  `Correções/WarpChargeLadderFix.cs` depois do commit.
   *(O `applicationId` continua conferido no disco desde 08/08:
   `br.com.raffael.corridanoespaco`, target 36, `productName` "Corrida no Espaço", versão
   `0.1.0`.)*
@@ -980,6 +1096,8 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
       mais alta, e a exigência saiu da fase:
       - **`warpChargeSeconds` = 2,5 s em todas as fases** (era 5, 6 e 7). Segurar a velocidade por
         7 segundos era o pedaço mais longo da corrida
+        — *o 2,5 fixo durou até 01/09/2026, quando virou escada por dificuldade (2 · 2,8 · 3,5);
+        ver "A escada do tempo de dobra"*
       - **`warpSpeed` = 15 em todas as fases.** A Fase 3 pedia 16, e essa diferença por fase
         acabou: **fase difícil se faz com obstáculo e ritmo, não pedindo mais velocidade**
       - **A escada de exigência é da dificuldade**, e só dela: Fácil **+1**, Normal **+2,5**,
@@ -1064,6 +1182,7 @@ O objetivo desta parte é dar ao jogador motivo para jogar de novo.
         tabela. Quem tinha recorde antigo começa a tabela nova vazia
       - `ScoreBoard.DisplayScale` (10) transforma unidade de mundo em "km" no painel, do mesmo
         jeito que o `displayScale` do `SpeedHud` faz com a velocidade
+        — *o "km" caiu em 01/09/2026 e virou `un`; ver "A unidade do jogo"*
       - Na fase sem fim, a linha do HUD que mostrava a contagem da dobra passa a mostrar a
         **distância subindo** — lá ela ficaria vazia a corrida inteira, e é a pontuação que o
         jogador precisa ver para decidir se arrisca mais

@@ -29,6 +29,33 @@ public class RaceSpeed : MonoBehaviour
 {
     public static RaceSpeed Instance { get; private set; }
 
+    /// <summary>
+    /// Quanto o número interno é multiplicado para virar o que o jogador lê. As
+    /// unidades de mundo são poucas demais para dar sensação de velocidade: 15
+    /// no painel não impressiona ninguém, 160 sim. A conta do jogo não muda.
+    /// </summary>
+    public const float DisplayScale = 10f;
+
+    /// <summary>
+    /// A unidade **do jogo**, e ela é ficção: "unidades por segundo".
+    ///
+    /// <para>
+    /// **`un/s` na tela, `u/s` no código.** Duas siglas para não haver dúvida de
+    /// qual dos dois números se está falando: `un/s` é sempre o do painel, já
+    /// multiplicado; `u/s` é sempre a unidade de mundo da Unity, dez vezes
+    /// menor, que só existe aqui dentro e no ROADMAP. **O jogador nunca vê a
+    /// crua** — e quem lê o histórico do projeto não precisa adivinhar qual era
+    /// qual, porque as entradas antigas dizem `u/s` e continuam certas.
+    /// </para>
+    /// </summary>
+    public const string DisplayUnit = "un/s";
+
+    /// <summary>A velocidade como número de painel: 15 vira 160.</summary>
+    public static int Shown(float speed) => Mathf.RoundToInt(speed * DisplayScale);
+
+    /// <summary>A velocidade como o jogador lê: "160 un/s".</summary>
+    public static string Format(float speed) => Shown(speed) + " " + DisplayUnit;
+
     [Header("Velocidade de cruzeiro")]
     [Tooltip("Valor de partida. O ShipStats da nave sobrescreve isto no início da fase — " +
              "a ficha da nave é quem manda. Este número só vale se não houver nave na cena.")]
