@@ -36,7 +36,7 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 - [ ] **Montar** (um clique) — Tools → Corrida no Espaço → Montar. Um passo só: cria o cartão
       de "Conquista completa" na `Menu.unity`. **De preferência antes do commit**, para a cena já
       ir montada
-- [ ] **Commit** — tudo de 26/09/2026:
+- [x] **Commit** ✅ *feito pelo Raffael (26/09)* — tudo de 26/09/2026:
       ```
       git add -A
       git commit -m "Evolução das naves, oficina e moeda provisória, salvamento num arquivo, estatísticas e conquistas com aviso, verificações automáticas, painel de balanceamento, base da reforma das fases, Predadora e Recarga de poder"
