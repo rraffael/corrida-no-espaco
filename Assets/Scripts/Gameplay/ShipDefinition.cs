@@ -57,6 +57,11 @@ public class ShipDefinition : ScriptableObject
              "é o que torna uma diferente da outra além dos números.")]
     public ShipAbility intrinsicAbility;
 
+    [Tooltip("Poder CONDICIONAL desta nave: dispara sozinho quando algo acontece na corrida — " +
+             "um abate, por exemplo. Sem toque duplo, sem uso e sem recarga. Pode existir junto " +
+             "com o ativo ou no lugar dele.")]
+    public ShipConditional conditionalAbility;
+
     [Tooltip("Poder PASSIVO desta nave: vale a corrida inteira, sem ativar e sem gastar uso.\n\n" +
              "Nenhuma nave tem um ainda. O plano é que a passiva destrave no nível 60 — o último " +
              "dos três patamares de evolução —, e ainda não existe nível; até lá, o que estiver " +

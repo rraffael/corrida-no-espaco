@@ -88,6 +88,16 @@ public class ShipAbilities : MonoBehaviour
     /// </summary>
     ShipPassive passive;
 
+    /// <summary>
+    /// O poder condicional da nave escolhida, nesta corrida. Nulo: ela não tem.
+    /// Mora aqui, e não num componente próprio, porque os avisos de que ele
+    /// precisa — abate, por enquanto — já chegam a este.
+    /// </summary>
+    ActiveShipConditional conditional;
+
+    /// <summary>O poder condicional nesta corrida, para o HUD e o visual da nave. Nulo: não tem.</summary>
+    public ActiveShipConditional Conditional => conditional;
+
     void OnEnable()
     {
         lanes = GetComponent<ShipLaneController>();
@@ -114,6 +124,15 @@ public class ShipAbilities : MonoBehaviour
         passive = Stats != null && Stats.Definition != null ? Stats.Definition.passiveAbility : null;
         if (passive != null)
             passive.OnRaceStarted(Stats);
+
+        var conditionalDefinition = Stats != null && Stats.Definition != null
+            ? Stats.Definition.conditionalAbility
+            : null;
+        if (conditionalDefinition != null)
+        {
+            conditional = new ActiveShipConditional(conditionalDefinition, Stats);
+            conditionalDefinition.OnRaceStarted(conditional);
+        }
     }
 
     // ── Ativação ─────────────────────────────────────────────────────────
@@ -165,6 +184,36 @@ public class ShipAbilities : MonoBehaviour
 
         active.Add(runtime);
         return true;
+    }
+
+    /// <summary>
+    /// Recarrega o poder equipado: zera a espera e, se ele for de usos limitados
+    /// e já tiver gasto algum, devolve **um** — nunca acima do que a corrida dá.
+    /// Devolve se mudou alguma coisa; poder pronto e cheio não tem o que ganhar.
+    ///
+    /// Não liga o poder: só o deixa pronto. Quando gastar continua sendo decisão
+    /// do jogador.
+    /// </summary>
+    public bool Recharge()
+    {
+        if (equipped == null)
+            return false;
+
+        bool changed = false;
+
+        if (CooldownLeft > 0f)
+        {
+            readyAt = 0f;
+            changed = true;
+        }
+
+        if (IsLimited && UsesLeft < equipped.usesPerRace)
+        {
+            UsesLeft++;
+            changed = true;
+        }
+
+        return changed;
     }
 
     /// <summary>Troca o que está equipado. Quem vai chamar é a tela de equipar.</summary>
@@ -230,6 +279,9 @@ public class ShipAbilities : MonoBehaviour
             if (!ability.Finished)
                 ability.Definition.OnObstacleDestroyed(ability, obstacle);
         }
+
+        if (conditional != null)
+            conditional.Definition.OnObstacleDestroyed(conditional, obstacle);
     }
 
     /// <summary>Chamado pelo obstáculo quando ele passa pela nave e sai de cena.</summary>
@@ -281,6 +333,13 @@ public class ShipAbilities : MonoBehaviour
 
         UsesLeft = equipped != null ? equipped.usesPerRace : 0;
         readyAt = 0f;
+
+        if (conditional != null)
+        {
+            conditional.Definition.OnRaceEnded(conditional);
+            conditional.RemoveModifiers();
+            conditional = null;
+        }
 
         if (passive == null)
             return;

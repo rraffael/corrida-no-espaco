@@ -44,9 +44,7 @@ public class ShipSelectRow : MonoBehaviour
             statsLabel.text = Describe(ship);
 
         if (activeLabel != null)
-            activeLabel.text = ship.intrinsicAbility != null
-                ? $"<b>Ativo</b>  {ship.intrinsicAbility.displayName} — {Activation(ship.intrinsicAbility)}"
-                : "<b>Ativo</b>  —";
+            activeLabel.text = Powers(ship);
 
         if (passiveLabel != null)
         {
@@ -82,6 +80,29 @@ public class ShipSelectRow : MonoBehaviour
     static string Describe(ShipDefinition ship) =>
         $"Vida {ship.MaxHealth:0}   Dano {ship.Damage:0}   " +
         $"Cadência {ship.AttackSpeed:0.#}/s   Aceleração {ship.Acceleration:0.#}";
+
+    /// <summary>
+    /// O ativo e o condicional, no mesmo rótulo. Nave com só um mostra só ele:
+    /// "Ativo —" ao lado de um condicional faria parecer que a nave não tem poder.
+    /// Com os dois, vão em duas linhas no mesmo lugar — a linha é da montagem da
+    /// aba, e um rótulo novo pediria remontar o menu.
+    /// </summary>
+    static string Powers(ShipDefinition ship)
+    {
+        string active = ship.intrinsicAbility != null
+            ? $"<b>Ativo</b>  {ship.intrinsicAbility.displayName} — {Activation(ship.intrinsicAbility)}"
+            : null;
+
+        var conditional = ship.conditionalAbility;
+        string triggered = conditional != null
+            ? $"<b>Condicional</b>  {conditional.displayName} — {conditional.trigger}"
+            : null;
+
+        if (active != null && triggered != null)
+            return active + "\n" + triggered;
+
+        return active ?? triggered ?? "<b>Ativo</b>  —";
+    }
 
     /// <summary>Como o poder ativo se recarrega, na linguagem do jogador.</summary>
     static string Activation(ShipAbility ability)

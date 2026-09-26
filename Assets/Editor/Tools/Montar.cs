@@ -36,11 +36,20 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 26/09/2026: **vazia.** A mudança do dia foi só apagar o
-    /// conserto da escada do tempo de dobra, que já tinha rodado.
+    /// Estado em 26/09/2026: **três passos — dois de asset e a Game.unity.**
+    ///
+    /// Entraram a Predadora com o Reforço estrutural e o modificador Recarga de
+    /// poder. As duas primeiras montagens criam as fichas novas e as põem onde
+    /// já havia lista — a nave no catálogo, o modificador no repertório das
+    /// fases — e reescrevem a receita do Reforço (sem cruzeiro, com estágios e
+    /// cor). O combate entra para pendurar o visual por estágio na nave; o canto
+    /// do poder já existe na cena e só ganhou código.
     /// </summary>
     static readonly Step[] Steps =
     {
+        new Step("Naves e poderes (Predadora + Reforço estrutural)", ShipSetup.Setup),
+        new Step("Modificadores de fase (Recarga de poder)", ModifierSetup.Setup),
+        new Step("Combate (visual por estágio da nave)", BattleSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

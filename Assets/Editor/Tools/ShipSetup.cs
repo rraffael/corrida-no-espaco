@@ -42,8 +42,8 @@ static class ShipSetup
     /// resto nos valores de fábrica do <see cref="ShipDefinition"/> — que são os
     /// números com que o jogo foi equilibrado e aprovado no aparelho em 21/08.
     ///
-    /// **As duas têm os mesmos atributos, e é de propósito nesta primeira leva:**
-    /// a diferença entre elas é o poder, e só. Mexer nos números junto misturaria
+    /// **Todas têm os mesmos atributos, e é de propósito por enquanto:** a
+    /// diferença entre elas é o poder, e só. Mexer nos números junto misturaria
     /// duas variáveis no mesmo teste, e o que se quer saber agora é se os poderes
     /// se sustentam.
     /// </summary>
@@ -53,7 +53,7 @@ static class ShipSetup
         Directory.CreateDirectory(AbilityFolder);
         AssetDatabase.Refresh();
 
-        var homing = GetOrCreateAbility<HomingShotsAbility>("Poder-TirosTeleguiados", ability =>
+        var homing = GetOrCreatePower<HomingShotsAbility>("Poder-TirosTeleguiados", ability =>
         {
             ability.displayName = "Tiros teleguiados";
             ability.description = "Os tiros perseguem os obstáculos, esteja a nave na faixa que estiver.";
@@ -64,7 +64,7 @@ static class ShipSetup
             ability.color = new Color(0.55f, 0.95f, 1f, 1f);
         });
 
-        var autopilot = GetOrCreateAbility<AutopilotAbility>("Poder-SuperIA", ability =>
+        var autopilot = GetOrCreatePower<AutopilotAbility>("Poder-SuperIA", ability =>
         {
             ability.displayName = "Super IA";
             ability.description = "O jogo assume a nave e desvia sozinho dos obstáculos.";
@@ -74,6 +74,19 @@ static class ShipSetup
             ability.usesPerRace = 1;
             ability.color = new Color(1f, 0.78f, 0.4f, 1f);
         });
+
+        var reinforcement = GetOrCreatePower<StructuralReinforcementConditional>(
+            "Condicional-ReforcoEstrutural", conditional =>
+            {
+                conditional.displayName = "Reforço estrutural";
+                conditional.description = "Cada abate soma 2% em defesa, dano, cadência e " +
+                                          "aceleração, até 40%.";
+                conditional.trigger = "a cada abate, até 20 cargas";
+                conditional.percentPerKill = 2f;
+                conditional.maxPercent = 40f;
+                conditional.stageCounts = new[] { 10, 20 };
+                conditional.color = new Color(0.95f, 0.35f, 0.3f, 1f);
+            });
 
         var ships = new List<ShipDefinition>
         {
@@ -91,6 +104,16 @@ static class ShipSetup
                 ship.description = "Carrega uma carta só, e ela vale a corrida inteira se for jogada na hora certa.";
                 ship.color = new Color(1f, 0.78f, 0.4f, 1f);
                 ship.intrinsicAbility = autopilot;
+            }),
+
+            // Atributos de fábrica, como as outras: a lista de 26/09/2026 trouxe o
+            // poder, não os números. A diferença dela está toda no Reforço.
+            GetOrCreateShip("Nave-Predadora", ship =>
+            {
+                ship.displayName = "Predadora";
+                ship.description = "Fica mais forte a cada abate. Quanto mais caça, mais perigosa.";
+                ship.color = new Color(0.95f, 0.35f, 0.3f, 1f);
+                ship.conditionalAbility = reinforcement;
             }),
         };
 
@@ -143,11 +166,19 @@ static class ShipSetup
         fill(created);
 
         AssetDatabase.CreateAsset(created, path);
+        newlyCreated.Add(created);
         return created;
     }
 
     /// <summary>
-    /// A ficha do poder, criada se faltar e **recalibrada de qualquer jeito**.
+    /// As naves que esta montagem criou do zero. Só elas entram num catálogo que
+    /// já tinha lista — ver <see cref="GetOrCreateCatalog"/>.
+    /// </summary>
+    static readonly List<ShipDefinition> newlyCreated = new List<ShipDefinition>();
+
+    /// <summary>
+    /// A ficha do poder — ativo ou condicional —, criada se faltar e
+    /// **recalibrada de qualquer jeito**.
     ///
     /// É a mesma regra dos modificadores de fase, e pelo mesmo motivo: recarga e
     /// duração são números de equilíbrio, decididos no aparelho e ajustados por
@@ -157,7 +188,7 @@ static class ShipSetup
     /// Reescreve o conteúdo do mesmo arquivo, nunca cria outro: o GUID tem de
     /// ficar, senão a nave perde o poder dela.
     /// </summary>
-    static T GetOrCreateAbility<T>(string fileName, System.Action<T> fill) where T : ShipAbility
+    static T GetOrCreatePower<T>(string fileName, System.Action<T> fill) where T : ScriptableObject
     {
         string path = $"{AbilityFolder}/{fileName}.asset";
 
@@ -179,11 +210,16 @@ static class ShipSetup
     /// <summary>
     /// O catálogo, em Resources para o menu achar sem referência de cena.
     ///
-    /// **Só preenche a lista quando ela está vazia**, para tirar uma nave à mão
-    /// não ser desfeito na próxima montagem — a mesma regra do catálogo de fases.
+    /// **Lista vazia ganha todas; lista que já existe ganha só as naves que esta
+    /// montagem acabou de criar**, no fim. Assim tirar uma nave à mão não é
+    /// desfeito na próxima montagem — a ficha dela já existe, então ela não é
+    /// nova —, e uma nave nova aparece no menu sem ninguém editar o catálogo.
     /// </summary>
     static ShipCatalog GetOrCreateCatalog(List<ShipDefinition> ships)
     {
+        var fresh = new List<ShipDefinition>(newlyCreated);
+        newlyCreated.Clear();
+
         Directory.CreateDirectory(LevelSetup.ResourcesFolder);
         AssetDatabase.Refresh();
 
@@ -197,6 +233,20 @@ static class ShipSetup
         if (catalog.ships == null || catalog.ships.Length == 0)
         {
             catalog.ships = ships.ToArray();
+            EditorUtility.SetDirty(catalog);
+            return catalog;
+        }
+
+        var listed = new List<ShipDefinition>(catalog.ships);
+        foreach (var ship in fresh)
+        {
+            if (!listed.Contains(ship))
+                listed.Add(ship);
+        }
+
+        if (listed.Count != catalog.ships.Length)
+        {
+            catalog.ships = listed.ToArray();
             EditorUtility.SetDirty(catalog);
         }
 

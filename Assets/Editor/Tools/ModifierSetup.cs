@@ -11,7 +11,8 @@ using UnityEngine;
 /// leva é **provar a arquitetura**, não encher o jogo. Um Reforço, um
 /// Debilitante e um Especial exercitam os três caminhos que qualquer modificador
 /// futuro vai usar — mexer num atributo para cima, para baixo, e mexer em algo
-/// que não é atributo nenhum.
+/// que não é atributo nenhum. O quarto, a Recarga de poder, é o primeiro da
+/// lista de conteúdo do Raffael (26/09/2026).
 ///
 /// Roda sem apagar o que já existe: se você tiver ajustado os números à mão,
 /// rodar de novo não encosta neles.
@@ -102,6 +103,14 @@ static class ModifierSetup
             modifier.durationSeconds = 2.75f;
         }));
 
+        all.Add(GetOrCreate<AbilityRecharge>("Especial-RecargaDePoder", modifier =>
+        {
+            modifier.displayName = "Recarga de poder";
+            modifier.description = "Recarrega o poder da nave.";
+            modifier.category = LevelModifier.Category.Especial;
+            modifier.lifetime = LevelModifier.Lifetime.Instantaneo;
+        }));
+
         return all;
     }
 
@@ -128,22 +137,35 @@ static class ModifierSetup
         fill(created);
 
         AssetDatabase.CreateAsset(created, path);
+        newlyCreated.Add(created);
         return created;
     }
 
     /// <summary>
-    /// Põe as três no repertório de todas as fases, inclusive a sem fim.
+    /// As fichas que esta montagem criou do zero. Só elas entram em fase que já
+    /// tinha repertório — ver <see cref="AttachToLevels"/>.
+    /// </summary>
+    static readonly List<LevelModifier> newlyCreated = new List<LevelModifier>();
+
+    /// <summary>
+    /// Põe os modificadores no repertório de todas as fases, inclusive a sem fim.
     ///
     /// **Todas as fases com todos os modificadores, por enquanto** — quais entram
     /// em qual fase é decisão de projeto ainda em aberto, e é a ficha da fase que
     /// vai responder. O que importa hoje é que o campo existe e é lido: quando a
     /// resposta chegar, ela é edição de asset, não código.
     ///
-    /// **Só preenche fase que ainda não tem nenhum.** Assim, tirar um modificador
-    /// de uma fase à mão não é desfeito na próxima montagem.
+    /// **Fase sem nenhum ganha todos; fase que já tem repertório ganha só os que
+    /// esta montagem acabou de criar.** Assim, tirar um modificador de uma fase à
+    /// mão não é desfeito na próxima montagem — a ficha dele já existe, então ele
+    /// não é novo —, e um modificador novo chega às fases que já existiam sem
+    /// ninguém editar cinco arquivos.
     /// </summary>
     static void AttachToLevels(List<LevelModifier> modifiers)
     {
+        var fresh = new List<LevelModifier>(newlyCreated);
+        newlyCreated.Clear();
+
         var catalog = AssetDatabase.LoadAssetAtPath<LevelCatalog>(LevelSetup.CatalogPath);
         if (catalog == null)
         {
@@ -155,10 +177,27 @@ static class ModifierSetup
 
         foreach (var level in AllLevels(catalog))
         {
-            if (level == null || (level.modifiers != null && level.modifiers.Length > 0))
+            if (level == null)
                 continue;
 
-            level.modifiers = modifiers.ToArray();
+            if (level.modifiers == null || level.modifiers.Length == 0)
+            {
+                level.modifiers = modifiers.ToArray();
+                EditorUtility.SetDirty(level);
+                continue;
+            }
+
+            var repertoire = new List<LevelModifier>(level.modifiers);
+            foreach (var modifier in fresh)
+            {
+                if (!repertoire.Contains(modifier))
+                    repertoire.Add(modifier);
+            }
+
+            if (repertoire.Count == level.modifiers.Length)
+                continue;
+
+            level.modifiers = repertoire.ToArray();
             EditorUtility.SetDirty(level);
         }
     }

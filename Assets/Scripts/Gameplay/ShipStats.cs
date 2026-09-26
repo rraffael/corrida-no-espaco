@@ -385,6 +385,14 @@ public class ShipStats : MonoBehaviour
         return hit;
     }
 
+    /// <summary>
+    /// Recarrega o poder da nave. Existe para o modificador de fase que faz isso
+    /// chegar ao poder **sem conhecê-lo**: os dois sistemas não se enxergam, e
+    /// quem fala com os dois é a nave — o mesmo motivo do <see cref="TakeHit"/>.
+    /// Devolve se havia o que recarregar.
+    /// </summary>
+    public bool RechargeAbility() => abilities != null && abilities.Recharge();
+
     void OnDestroy()
     {
         if (Instance == this)

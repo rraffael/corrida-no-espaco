@@ -98,6 +98,11 @@ static class BattleSetup
         // e um modificador de fase que tire o controle do jogador usaria o mesmo.
         GetOrAdd<Autopilot>(ship);
 
+        // O visual por estágio do poder condicional — marcador de lugar da arte
+        // da Predadora. Entra em toda nave pelo mesmo motivo do piloto: sem
+        // condicional com estágio, ele não toca em nada.
+        GetOrAdd<ShipStageLook>(ship);
+
         var weapon = GetOrAdd<ShipWeapon>(ship);
         UiBuilder.SetReference(weapon, "projectileSprite", pixel);
 
@@ -223,6 +228,7 @@ static class BattleSetup
 
         RemoveComponent<ShipWeapon>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<Autopilot>(FindInScene(scene, ShipObject), ref removed);
+        RemoveComponent<ShipStageLook>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<ShipAbilities>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<LevelModifiers>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<ShipStats>(FindInScene(scene, ShipObject), ref removed);

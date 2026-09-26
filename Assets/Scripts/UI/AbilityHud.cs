@@ -77,11 +77,26 @@ public class AbilityHud : MonoBehaviour
         if (abilities == null)
             abilities = ShipAbilities.Instance;
 
-        if (abilities == null || abilities.Equipped == null)
+        if (abilities == null)
         {
-            // Sem poder equipado o canto não tem o que dizer. Desligar o objeto
-            // inteiro, e não só esvaziar os textos, para não sobrar moldura vazia.
             gameObject.SetActive(false);
+            return;
+        }
+
+        if (abilities.Equipped == null)
+        {
+            // Sem ativo, o canto fala do condicional, se houver. Com os dois, o
+            // ativo ganha: é o que pede decisão do jogador, e o condicional não.
+            conditional = abilities.Conditional;
+            if (conditional == null)
+            {
+                // Sem poder nenhum o canto não tem o que dizer. Desligar o objeto
+                // inteiro, e não só esvaziar os textos, para não sobrar moldura vazia.
+                gameObject.SetActive(false);
+                return;
+            }
+
+            StartConditional();
             return;
         }
 
@@ -102,8 +117,66 @@ public class AbilityHud : MonoBehaviour
         wasReady = abilities.IsReady;
     }
 
+    // ── Condicional ──────────────────────────────────────────────────────
+
+    /// <summary>O condicional de que este canto fala. Nulo: fala do poder ativo.</summary>
+    ActiveShipConditional conditional;
+    int shownCount = int.MinValue;
+
+    /// <summary>
+    /// O canto do condicional: o número grande do meio é quantas cargas a nave
+    /// já tem, e o de baixo é o teto ("/20"). Sem recarga e sem piscar de
+    /// "pronto": não há o que ativar. O canto só se acende inteiro quando chega
+    /// ao teto, que é o único acontecimento que ele tem.
+    /// </summary>
+    void StartConditional()
+    {
+        var definition = conditional.Definition;
+
+        if (icon != null)
+        {
+            icon.sprite = definition.icon;
+            icon.color = definition.color;
+            icon.enabled = definition.icon != null;
+        }
+
+        if (frame != null)
+            frame.color = new Color(definition.color.r, definition.color.g, definition.color.b, 0.22f);
+
+        if (usesLabel != null)
+        {
+            usesLabel.enabled = definition.MaxCount > 0;
+            usesLabel.text = $"/{definition.MaxCount}";
+        }
+
+        if (cooldownLabel != null)
+            cooldownLabel.enabled = definition.MaxCount > 0;
+    }
+
+    void UpdateConditional()
+    {
+        int max = conditional.Definition.MaxCount;
+        int count = conditional.Count;
+
+        // Vai clareando conforme enche, e só fica inteiro no teto.
+        float fill = max > 0 ? (float)count / max : 1f;
+        group.alpha = fill >= 1f ? 1f : Mathf.Lerp(dimAlpha, 0.85f, fill);
+
+        if (cooldownLabel == null || count == shownCount)
+            return;
+
+        shownCount = count;
+        cooldownLabel.text = count.ToString();
+    }
+
     void Update()
     {
+        if (conditional != null)
+        {
+            UpdateConditional();
+            return;
+        }
+
         bool ready = abilities.IsReady;
         if (ready && !wasReady)
             blinkUntil = Time.unscaledTime + readyBlinkSeconds;

@@ -27,6 +27,43 @@ metade dela — ver lá.
 de fase** que o Raffael está trazendo. A estrutura para ela já existe: base com os ganchos, uma
 classe isolada por modificador — ver "O que falta para a fábrica ser fábrica".
 
+**E a lista começou a chegar.** Primeira leva, escrita em 26/09/2026:
+
+- **Recarga de poder** (modificador de fase, Especial, instantâneo) — `AbilityRecharge`. Zera a
+  recarga do poder da nave e, se ele for de usos limitados e já tiver gasto algum, devolve **um**,
+  nunca acima do máximo da corrida. Com o poder pronto e cheio, não faz nada. O pedido passa
+  pela nave (`ShipStats.RechargeAbility` → `ShipAbilities.Recharge`): o modificador de fase
+  continua sem conhecer o poder da nave
+- **Predadora** (nave, atributos de fábrica) com o **Reforço estrutural** —
+  `StructuralReinforcementConditional`. Cada abate a tiro é uma carga: soma 2% da base em
+  aceleração, dano e cadência, e **2 pontos** de defesa, até 40% (20 cargas). Vale até o fim da
+  corrida, e a batida não tira o que foi ganho
+  - **O cruzeiro saiu do poder** *(pedido do Raffael, 26/09)* — na primeira versão ele subia
+    junto e aproximava demais a nave da dobra
+  - **O canto do poder mostra as cargas** — `7` grande e `/20` embaixo, clareando conforme enche.
+    Nave sem ativo e com condicional usa o canto para o condicional; com os dois, o ativo ganha
+  - **A nave muda com 10 e com 20 cargas** — `ShipStageLook`, que tinge e aumenta um pouco.
+    ⚠️ **É marcador de lugar**, pedido para lembrar de **desenhar o visual da Predadora**: a
+    largada, o do meio e o final. Os estágios vêm do `stageCounts` da ficha do poder
+- **Tipo novo de poder de nave: o condicional** *(decisão do Raffael, 26/09)* — `ShipConditional`
+  e `ActiveShipConditional`, ao lado do ativo e da passiva, com o campo `conditionalAbility` na
+  ficha. Dispara sozinho quando algo acontece; hoje o único gancho é o abate. A Predadora não tem
+  poder de toque duplo
+- **As montagens passaram a acrescentar o que é novo** a listas que já existiam: nave recém-criada
+  entra no fim do catálogo, e modificador recém-criado entra no repertório de todas as fases. Até
+  aqui as duas só preenchiam lista vazia, e o conteúdo novo nunca chegaria ao jogo. Tirar um item
+  à mão continua não sendo desfeito, porque a ficha dele já existe e ele não conta como novo
+- [ ] **Rodar o Montar** — três passos: `ShipSetup`, `ModifierSetup` e `BattleSetup` (a
+      `Game.unity`, para o visual por estágio)
+- [ ] **Julgar no aparelho:** a Predadora do começo ao teto — o contador no canto e as duas
+      mudanças de visual —, e a Recarga com a Nay (recarga de 30 s) e com a Raffa (carga única)
+      - ⚠️ **+40% de aceleração ainda ajuda a chegar à dobra**, porque o ganho por abate sai
+        dela. Bem menos que antes, sem o cruzeiro; é o ponto a observar no Difícil
+      - ⚠️ **Para a Predadora, a Recarga de poder não faz nada**, porque ela não tem poder ativo.
+        O item continua aparecendo na pista para ela
+- [ ] 🎨 **Desenhar o visual da Predadora** — três estágios: largada, 10 cargas e 20 cargas. Hoje
+      é só tinta e tamanho (`ShipStageLook`)
+
 **E um erro de compilação meu, de 01/09, consertado:** ao tirar a ligação do `director` do
 `SpeedHud`, saiu junto a declaração de `speedHud` no `BattleSetup`, mas o uso dela em `hideOnEnd`
 ficou (`CS0103`). O commit `92e83f7` foi com o erro. A variável voltou, buscando o `SpeedHud`
