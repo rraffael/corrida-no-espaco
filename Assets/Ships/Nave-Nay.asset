@@ -20,6 +20,12 @@ MonoBehaviour:
   killGainFactor: 0.16
   crashCost: 1
   intrinsicAbility: {fileID: 11400000, guid: 0148a22fc3addaa48a2f6a6f17e57b7d, type: 2}
+  conditionalAbility: {fileID: 0}
+  evolutionModel: {fileID: 0}
+  abilityUpgrade1: {fileID: 0}
+  abilityUpgrade2: {fileID: 0}
+  conditionalUpgrade1: {fileID: 0}
+  conditionalUpgrade2: {fileID: 0}
   passiveAbility: {fileID: 0}
   damage: 25
   attackSpeed: 3

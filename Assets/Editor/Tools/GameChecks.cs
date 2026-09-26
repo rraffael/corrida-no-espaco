@@ -60,6 +60,17 @@ static class GameChecks
             Debug.Log(text);
     }
 
+    /// <summary>
+    /// Para o build de release: roda tudo e diz se pode seguir. Aviso não
+    /// bloqueia — só falha. Devolve o relatório para ir ao Console.
+    /// </summary>
+    internal static bool PassesForBuild(out string text)
+    {
+        var report = RunAll();
+        text = report.Describe(full: false);
+        return report.Failures.Count == 0;
+    }
+
     // ── Relatório ────────────────────────────────────────────────────────
 
     class Report
@@ -140,6 +151,7 @@ static class GameChecks
             CheckClamps(report);
             CheckPowerFieldNames(report);
             CheckLevels(report);
+            CheckAchievements(report);
             CheckSaveRoundTrip(report);
         }
         catch (Exception e)
@@ -549,6 +561,67 @@ static class GameChecks
 
             report.Check(level.laneCount == 0 || level.laneCount >= 2,
                          $"{level.name}: largura da pista é 0 (a da cena) ou pelo menos 2 faixas");
+        }
+    }
+
+    /// <summary>
+    /// Conquistas coerentes: toda ficha da pasta está no catálogo (senão ela não
+    /// aparece no jogo), e nenhuma tem nome repetido — o nome é o que o
+    /// salvamento guarda.
+    /// </summary>
+    static void CheckAchievements(Report report)
+    {
+        var catalog = AssetDatabase.LoadAssetAtPath<AchievementCatalog>(AchievementsSetup.CatalogPath);
+        var listed = new HashSet<Achievement>();
+        if (catalog != null)
+        {
+            foreach (var achievement in catalog.achievements)
+            {
+                report.Check(achievement != null, "catálogo de conquistas sem espaço vazio");
+                if (achievement != null)
+                    listed.Add(achievement);
+            }
+        }
+
+        var names = new HashSet<string>();
+        foreach (string guid in AssetDatabase.FindAssets("t:Achievement"))
+        {
+            var achievement = AssetDatabase.LoadAssetAtPath<Achievement>(AssetDatabase.GUIDToAssetPath(guid));
+            if (achievement == null)
+                continue;
+
+            report.Check(names.Add(achievement.name), $"conquista {achievement.name} com nome único");
+            report.Warn(listed.Contains(achievement),
+                        $"conquista {achievement.name} fora do catálogo — rode o Montar para ela aparecer");
+
+            if (achievement.visibility != Achievement.Visibility.OcultaAteRequisito)
+                continue;
+
+            report.Warn(achievement.requirement != null,
+                        $"conquista {achievement.name} é oculta até um requisito, mas não tem requisito — " +
+                        "vai se comportar como secreta");
+
+            // A corrente de requisitos não pode voltar para si mesma: aí nenhuma
+            // delas se revelaria nunca, e ninguém entenderia por quê.
+            var seen = new HashSet<Achievement> { achievement };
+            bool loops = false;
+            for (var step = achievement.requirement; step != null; step = step.requirement)
+            {
+                if (!seen.Add(step))
+                {
+                    loops = true;
+                    break;
+                }
+            }
+
+            report.Check(!loops, $"conquista {achievement.name}: a corrente de requisitos não volta para si mesma");
+
+            if (achievement.requirement != null)
+            {
+                report.Check(listed.Contains(achievement.requirement) || catalog == null,
+                             $"conquista {achievement.name}: o requisito ({achievement.requirement.name}) " +
+                             "está no catálogo — senão ela nunca se revela");
+            }
         }
     }
 

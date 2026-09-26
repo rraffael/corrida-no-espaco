@@ -28,6 +28,7 @@ static class ProjectTools
     public const string SetupAllItem = MenuRoot + "Montar";
 
     public const string PreflightItem = MenuRoot + "Conferir configuração";
+    public const string BalanceItem = MenuRoot + "Balanceamento";
     public const string ChecksItem = MenuRoot + "Testes/Rodar verificações";
     public const string DeleteSaveItem = MenuRoot + "Testes/Apagar o salvamento";
     public const string AndroidSdkItem = MenuRoot + "Conferir SDK do Android";
@@ -48,6 +49,8 @@ static class ProjectTools
     public const string LevelSelectUndoItem = MenuRoot + "Montagem/Desmontar seleção de fase";
     public const string ShipSelectItem = MenuRoot + "Montagem/Montar aba de naves";
     public const string ShipSelectUndoItem = MenuRoot + "Montagem/Desmontar aba de naves";
+    public const string AchievementsItem = MenuRoot + "Montagem/Montar conquistas";
+    public const string AchievementsUndoItem = MenuRoot + "Montagem/Desmontar conquistas";
 
     public const string RaceId = "corrida-fundo-hud";
     public const string LevelsId = "fases-e-obstaculos";
@@ -57,6 +60,7 @@ static class ProjectTools
     public const string MenuSceneId = "menu-recordes";
     public const string LevelSelectId = "selecao-de-fase";
     public const string ShipSelectId = "aba-de-naves";
+    public const string AchievementsId = "conquistas";
 
     /// <summary>
     /// O diário vive em <c>UserSettings/</c>, que o .gitignore já ignora: é
@@ -164,6 +168,23 @@ static class ProjectTools
                       "e do 'Criar naves e poderes'.",
             MenuPath = ShipSelectItem,
             UndoMenuPath = ShipSelectUndoItem,
+        },
+        new Tool
+        {
+            Id = AchievementsId,
+            Title = "Montar conquistas",
+            Summary = "O catálogo de conquistas em Resources (com toda ficha de Assets/Conquistas), e o " +
+                      "painel \"Conquistas\" do menu, com os números de carreira e o botão de resgatar. " +
+                      "Depende do 'Montar menu'.",
+            MenuPath = AchievementsItem,
+            UndoMenuPath = AchievementsUndoItem,
+        },
+        new Tool
+        {
+            Title = "Balanceamento",
+            Summary = "Todas as naves nos níveis 1, 15, 40 e 60, com os atributos de cada um e o tempo " +
+                      "estimado até completar a dobra em cada dificuldade. Estimativa, não simulação.",
+            MenuPath = BalanceItem,
         },
         new Tool
         {

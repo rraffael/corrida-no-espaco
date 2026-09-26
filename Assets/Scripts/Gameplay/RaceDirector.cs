@@ -131,6 +131,7 @@ public class RaceDirector : MonoBehaviour
         IsCharging = false;
         scoreSaved = false;
         IsRunning = true;
+        CareerStats.RaceStarted();
 
         // A corrida sempre começa andando: se a cena anterior parou o tempo — ou
         // a deixou lenta —, aqui é onde ele volta.
@@ -247,6 +248,7 @@ public class RaceDirector : MonoBehaviour
             return;
 
         EndRace();
+        CareerStats.RaceEnded(CareerStats.Outcome.Win, Distance, Elapsed);
 
         if (victoryTimeLabel != null)
             victoryTimeLabel.text = ScoreBoard.FormatTime(Elapsed);
@@ -283,6 +285,8 @@ public class RaceDirector : MonoBehaviour
             return;
 
         EndRace();
+        CareerStats.RaceEnded(IsEndless ? CareerStats.Outcome.Endless : CareerStats.Outcome.Defeat,
+                              Distance, Elapsed);
 
         // Na fase sem fim, a nave cair é o fim previsto da corrida — foi até
         // onde deu. Chamar aquilo de derrota seria punir o jogador pela única

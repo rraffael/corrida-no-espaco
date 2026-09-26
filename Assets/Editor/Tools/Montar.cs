@@ -36,18 +36,15 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 26/09/2026: **dois passos — um asset e a Menu.unity.**
+    /// Estado em 26/09/2026, última rodada: **um passo, na Menu.unity.**
     ///
-    /// Entrou a evolução das naves. O ShipSetup cria o molde de evolução em
-    /// Resources; a aba de naves é remontada para ganhar rolagem, saldo, nível,
-    /// os botões de evoluir, a linha do próximo patamar e o "+1000" de teste. O
-    /// salvamento num arquivo, as verificações e os campos novos da ficha de
-    /// fase são só código.
+    /// Entrou o cartão de "Conquista completa" no alto do menu. A montagem das
+    /// conquistas cria o cartão junto com o painel. O contador de evoluções é
+    /// só código; o molde e a aba de naves já foram montados e conferidos.
     /// </summary>
     static readonly Step[] Steps =
     {
-        new Step("Naves e poderes (molde de evolução)", ShipSetup.Setup),
-        new Step("Aba de naves (nível, evoluir e saldo)", ShipSelectSetup.Setup),
+        new Step("Conquistas (painel e cartão de conquista completa)", AchievementsSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

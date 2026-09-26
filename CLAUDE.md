@@ -85,6 +85,29 @@ quê**, não o que a linha já diz.
 - Build: menu **Tools → Corrida no Espaço → Build**, ou `-executeMethod BuildAndroid.Release`
   com as variáveis `CNE_KEYSTORE_*` definidas.
 - Log do aparelho: `.\tools\logcat.ps1`
+- **Verificações automáticas** (`Editor/Tools/GameChecks.cs`): rodam sozinhas a cada compilação
+  (uma linha no Console) e pelo menu **Testes → Rodar verificações**. Travam o AAB de release se
+  falharem. Não usam o Test Runner — o pacote não está no projeto. **Conta nova de jogo ganha
+  verificação aqui.** Em 26/09/2026 eram 223, todas passando
+- **Painel de balanceamento**: menu **Tools → Corrida no Espaço → Balanceamento** — naves nos
+  níveis de patamar, tempo estimado até a dobra e tiros por obstáculo
+- **Salvamento**: `save.json` em `Application.persistentDataPath`, pelo `Services/SaveGame.cs`.
+  Tudo o que é do jogador mora ali — nada de `PlayerPrefs` novo. Menu **Testes → Apagar o
+  salvamento** zera no Editor
+
+## Peças do meta-jogo (26/09/2026)
+
+- **Evolução:** `Progression/ShipEvolutionModel.cs` (o molde, em Resources) e
+  `Progression/ShipEvolution.cs` (a conta). A evolução é **bônus** sobre a base de fábrica, e
+  todo poder mede contra a base de fábrica — regra do Raffael, para uma coisa não aumentar a
+  outra. Upgrade de poder é outra ficha do mesmo poder, ligada no patamar da ficha da nave
+- **Poder de nave tem três tipos:** ativo (`ShipAbility`), condicional (`ShipConditional`) e
+  passiva (`ShipPassive`). Campo novo de poder entra em `ShipEvolution.FieldNames` para a tela
+- **Conquistas:** ficha `Progression/Achievement.cs` (contador + meta + recompensa +
+  visibilidade), catálogo preenchido pelo Montar com a pasta `Assets/Conquistas`. O espelho do
+  Google Play é `Services/PlayGamesMirror.cs`, vazio até a Fase 7
+- **Carreira:** `Services/CareerStats.cs` — contadores que as conquistas e a economia leem
+- **Moeda provisória:** `Services/Wallet.cs`, "Sucata", custo 0 até a Parte 8
 - SDK do Android: menu **Tools → Corrida no Espaço → Conferir SDK do Android** diz qual SDK o
   Editor usa, quais Platforms estão nele e o Target API Level atual. A `6000.3.20f1` traz 34, 35
   e 36 (conferido em 07/08/2026).

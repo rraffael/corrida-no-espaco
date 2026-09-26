@@ -161,7 +161,7 @@ static class ShipSelectSetup
                                     new Vector2(330f, 438f), new Vector2(150f, 56f),
                                     UiBuilder.DangerButton, 26f);
 
-        var rowsRoot = BuildScroll(box.transform, out var rowsObject);
+        var rowsRoot = BuildScroll(box.transform, new Vector2(0f, -50f), RowsSize, out var rowsObject);
 
         var layout = rowsObject.AddComponent<VerticalLayoutGroup>();
         layout.spacing = RowSpacing;
@@ -200,10 +200,10 @@ static class ShipSelectSetup
     ///
     /// Devolve o conteúdo, que é onde as linhas nascem.
     /// </summary>
-    static RectTransform BuildScroll(Transform box, out GameObject content)
+    internal static RectTransform BuildScroll(Transform box, Vector2 position, Vector2 size, out GameObject content)
     {
         var viewportObject = UiBuilder.NewUI("Linhas", box);
-        UiBuilder.PlaceCentered(viewportObject, new Vector2(0f, -50f), RowsSize);
+        UiBuilder.PlaceCentered(viewportObject, position, size);
 
         // Imagem transparente só para receber o arraste de rolar no espaço vazio.
         var hit = viewportObject.AddComponent<Image>();
@@ -322,7 +322,7 @@ static class ShipSelectSetup
     /// na ordem, e o topo é o único ponto que não se mexe quando a linha muda de
     /// altura.
     /// </summary>
-    static TMP_Text Line(GameObject row, string name, float size, Color color, float y, float height)
+    internal static TMP_Text Line(GameObject row, string name, float size, Color color, float y, float height)
     {
         var go = UiBuilder.NewUI(name, row.transform);
         var rect = (RectTransform)go.transform;
@@ -340,7 +340,7 @@ static class ShipSelectSetup
         return label;
     }
 
-    static GameObject FindAnywhere(string name)
+    internal static GameObject FindAnywhere(string name)
     {
         foreach (var transform in Object.FindObjectsByType<RectTransform>(FindObjectsInactive.Include,
                                                                          FindObjectsSortMode.None))
@@ -352,7 +352,7 @@ static class ShipSelectSetup
         return null;
     }
 
-    static Scene OpenMenuScene()
+    internal static Scene OpenMenuScene()
     {
         var current = SceneManager.GetActiveScene();
         if (current.path == ScenePath)

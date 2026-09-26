@@ -144,6 +144,7 @@ public class Obstacle : MonoBehaviour
             // O custo de tempo é cobrado à parte do dano, e um poder pode segurar
             // só um dos dois. Quem decide é o poder; aqui só se obedece.
             race?.Crash(stats.speedPenaltyOnCrash);
+            CareerStats.AddCrash();
         }
 
         // O obstáculo se desfaz na batida: já cobrou o preço dele, e deixá-lo
@@ -165,6 +166,8 @@ public class Obstacle : MonoBehaviour
                 LevelModifiers.Instance.NotifyObstacleDestroyed(stats);
             if (ShipAbilities.Instance != null)
                 ShipAbilities.Instance.NotifyObstacleDestroyed(stats);
+
+            CareerStats.AddKill();
 
             if (stats.shrapnelOnDeath)
                 SpawnShrapnel();

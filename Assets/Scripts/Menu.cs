@@ -16,6 +16,7 @@ public class Menu : MonoBehaviour
     [SerializeField] GameObject recordsPanel;
     [SerializeField] GameObject levelSelectPanel;
     [SerializeField] GameObject shipsPanel;
+    [SerializeField] GameObject achievementsPanel;
     [SerializeField] GameObject transitionPanel;
 
     [Tooltip("Botões do menu, escondidos enquanto um painel está aberto.")]
@@ -72,6 +73,12 @@ public class Menu : MonoBehaviour
     /// <summary>Botão "Voltar" da aba de naves.</summary>
     public void OnCloseShipsButton() => Show();
 
+    /// <summary>Botão "Conquistas".</summary>
+    public void OnAchievementsButton() => Show(achievements: true);
+
+    /// <summary>Botão "Voltar" do painel de conquistas.</summary>
+    public void OnCloseAchievementsButton() => Show();
+
     /// <summary>Botão "Recordes".</summary>
     public void OnRecordsButton() => Show(records: true);
 
@@ -121,8 +128,11 @@ public class Menu : MonoBehaviour
     /// argumento nenhum, volta ao menu.
     /// </summary>
     void Show(bool records = false, bool levelSelect = false, bool ships = false,
-              bool transition = false)
+              bool transition = false, bool achievements = false)
     {
+        if (achievementsPanel != null)
+            achievementsPanel.SetActive(achievements);
+
         if (recordsPanel != null)
             recordsPanel.SetActive(records);
 
@@ -136,6 +146,6 @@ public class Menu : MonoBehaviour
             transitionPanel.SetActive(transition);
 
         if (buttonsRoot != null)
-            buttonsRoot.SetActive(!records && !levelSelect && !ships && !transition);
+            buttonsRoot.SetActive(!records && !levelSelect && !ships && !transition && !achievements);
     }
 }

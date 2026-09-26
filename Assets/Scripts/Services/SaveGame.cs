@@ -23,6 +23,23 @@ public class SaveData
     public List<ShipLevelEntry> shipLevels = new List<ShipLevelEntry>();
     public string lastName = string.Empty;
     public List<ScoreBoard.Entry> records = new List<ScoreBoard.Entry>();
+    public CareerData career = new CareerData();
+    public List<AchievementEntry> achievements = new List<AchievementEntry>();
+}
+
+[Serializable]
+public class AchievementEntry
+{
+    /// <summary>Nome do asset da conquista — o mesmo motivo das naves.</summary>
+    public string id;
+    public bool completed;
+    public bool claimed;
+
+    /// <summary>
+    /// Já foi espelhada no Google Play. Falso numa completa = está na fila, e
+    /// vai no próximo login — ver <see cref="PlayGamesMirror"/>.
+    /// </summary>
+    public bool playSynced;
 }
 
 [Serializable]
@@ -161,6 +178,9 @@ public static class SaveGame
         loaded.lastName ??= string.Empty;
         loaded.shipLevels ??= new List<ShipLevelEntry>();
         loaded.records ??= new List<ScoreBoard.Entry>();
+        loaded.career ??= new CareerData();
+        loaded.career.ships ??= new List<ShipCareerEntry>();
+        loaded.achievements ??= new List<AchievementEntry>();
     }
 
     // ── Migração das chaves antigas ──────────────────────────────────────

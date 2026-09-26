@@ -30,50 +30,97 @@ um ficam na parte do ROADMAP indicada.*
 comando para rodar e próximo passo proposto são escritos **aqui primeiro**. No chat vai só o
 resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só na conversa.
 
-### 📦 Para rodar agora
+### 📦 Para rodar agora — antes de encerrar hoje
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-- [ ] **Olhar o Console depois de compilar** — as verificações rodam sozinhas e dizem numa linha
-      se passaram. Se sair erro vermelho de "[Verificações]", ele diz o quê
-- [ ] **Montar** — Tools → Corrida no Espaço → Montar (molde de evolução e aba de naves)
-- [ ] **Relatório completo** — Tools → Corrida no Espaço → Testes → **Rodar verificações**, para
-      ver os números de pior caso de cada nave
-- [ ] **Commit** — tudo de 26/09/2026 que ainda não foi commitado:
+- [ ] **Montar** (um clique) — Tools → Corrida no Espaço → Montar. Um passo só: cria o cartão
+      de "Conquista completa" na `Menu.unity`. **De preferência antes do commit**, para a cena já
+      ir montada
+- [ ] **Commit** — tudo de 26/09/2026:
       ```
       git add -A
-      git commit -m "Evolução das naves, salvamento num arquivo, verificações automáticas, base da reforma das fases, Predadora e Recarga de poder"
+      git commit -m "Evolução das naves, oficina e moeda provisória, salvamento num arquivo, estatísticas e conquistas com aviso, verificações automáticas, painel de balanceamento, base da reforma das fases, Predadora e Recarga de poder"
       ```
 
-### 🧪 Testar no aparelho
-- [ ] **A oficina:** evoluir uma nave alguns níveis e conferir os números e a linha "próximo
-      nível"; **Nv máx**, jogar uma corrida com ela; **Nv 1** para voltar *(Parte 6)*
-- [ ] **A linha "próximo patamar":** duplicar a ficha de um poder, mudar um número, ligar no
-      *Ability Upgrade 1* de uma nave e ver a comparação aparecer *(Parte 6)*
-- [ ] **O upgrade valendo na corrida:** com essa nave no nível 15 ou mais, o poder tem de sair
-      com o número novo *(Parte 6)*
-- [ ] **A lista de rolagem da aba de naves** — rolar com o dedo por cima dos botões *(Parte 6)*
-- [ ] **O salvamento migrou sozinho** — no celular que já tinha jogo, depois de instalar a versão
-      nova: as fases vencidas, a nave escolhida e os recordes continuam lá *(Parte 8)*
+### 💻 Amanhã, no computador — antes de jogar
+*O que ficou faltando da conferência de hoje no Editor. Poucos minutos.*
+
+- [ ] **A conquista de evoluir** — o contador e o aviso entraram depois dos testes de hoje:
+      1. Se o Montar não rodou antes do commit, rodar agora
+      2. Na ficha da sua conquista de evoluir: **Counter → Ship Level Ups**, **Target → 1**,
+         **Ship** vazio (qualquer nave). Reward: qualquer valor por enquanto (ver ⚖️)
+      3. Play na `Menu.unity` → **Naves** → **Evoluir** uma nave. No alto da tela aparece o cartão
+         verde *"Conquista completa! · <nome> · N Sucata para resgatar"*, e some sozinho
+      4. **Conquistas** → **Resgatar** → a Sucata sobe
+      - Os botões de teste **Nv 1** e **Nv máx** **não contam** como evolução — de propósito
+- [ ] **O aviso de uma corrida** — completar uma conquista jogando (uma de abate, por exemplo) e
+      voltar ao menu: o cartão tem de aparecer lá
+- [ ] **As conquistas de teste** (`Teste-A`, `Teste-B`, `Teste-C` em `Assets/Conquistas`) —
+      apagar, ou guardar se forem úteis. Apagou: rodar o Montar, que tira do catálogo
+- [ ] **Testes → Apagar o salvamento** no Editor, para começar a sessão de jogo do zero — *opcional*
+
+✅ **Conferido no computador em 26/09/2026:** compilação limpa (**223 de 223 verificações**),
+Montar, relatório de verificações, painel de balanceamento, a oficina da aba de naves (+1000,
+rolagem, Evoluir, Nv 1, Nv máx), a linha de próximo patamar com um upgrade de teste, as três
+visibilidades de conquista com resgate, uma corrida no Editor contando abates, e o salvamento
+sobrevivendo a parar e voltar o Play e sendo apagado pelo menu.
+
+### 📱 Amanhã, jogando no aparelho — com a esposa
+*O que só o dedo e o celular respondem. Levar o painel de balanceamento aberto no computador.*
+
+- [ ] **Instalar a versão nova no celular** — build pelo menu (Tools → Corrida no Espaço →
+      Build). O **AAB de release** agora só sai se as verificações passarem
+- [ ] **O salvamento migrou sozinho** — no celular que já tinha jogo: as fases vencidas, a nave
+      escolhida e os recordes continuam lá depois de instalar *(Parte 8)*
 - [ ] **O salvamento aguenta fechar o app** — evoluir uma nave, fechar o jogo pelo multitarefa,
       abrir de novo: o nível tem de estar lá *(Parte 8)*
-- [ ] **O "+1000" da aba de naves** — soma no saldo; com custo diferente de 0 no molde, o botão
-      Evoluir passa a cobrar e a apagar quando falta moeda *(Parte 6)*
+- [ ] **A oficina no celular** — evoluir uma nave até o máximo e **jogar com ela**: a diferença
+      se sente? *(Parte 6)*
+- [ ] **O upgrade valendo na corrida** — com uma nave que tenha upgrade ligado, no nível 15 ou
+      mais, o poder tem de sair com o número novo *(Parte 6)*
+- [ ] **A lista de rolagem da aba de naves** — rolar com o dedo por cima dos botões *(Parte 6)*
+- [ ] **As estatísticas contam certo** — duas ou três corridas (uma vencida, uma perdida, uma
+      sem fim) e abrir **Conquistas**: os números do alto batem com o que aconteceu *(Parte 8)*
 - [ ] **Nada mudou nas fases** — os campos novos da ficha (cenário e largura da pista) nascem
-      vazios e não podem mudar nenhuma das quatro fases *(Parte 7)*
+      vazios; as quatro fases têm de estar iguais *(Parte 7)*
+- [ ] **E a sessão de balancear** — ver ⚖️ abaixo
 
 ### ⚖️ Balancear
+- [ ] **O painel bate com o jogo?** — o tempo até a dobra que o painel estima para o nível 1 tem
+      de parecer com o que se sente jogando. Se não bater, a estimativa precisa de ajuste antes de
+      servir para balancear
 - [ ] **Cruzeiro evoluído × dobra** — pela conta, a nave no máximo sai do cruzeiro até a dobra do
       Fácil em ~30 s só com o ganho passivo, contra ~50 s no nível 1. É a base para o "nível
       esperado por fase" *(Parte 6 e 7)*
-- [ ] **Dano 1,5x** — o Casulo passa de 3 para 2 tiros no dano 35, que chega por volta do
-      **nível 48**; a Barcaça cai de 6 para 5 tiros no dano 28, no **nível 11** *(Parte 6)*
+- [ ] **Dano 1,5x — tiros por obstáculo, do nível 1 ao 60** *(conta de 26/09/2026; o painel de
+      balanceamento mostra isto por nave e nível)*. A dificuldade multiplica a vida do obstáculo
+      (×1 · ×1,3 · ×1,7), então o dano evoluído aparece **mais cedo nas dificuldades altas**:
+
+      | Obstáculo | Fácil | Normal | Difícil |
+      |---|---|---|---|
+      | Detrito (50) | 2 → 2, nunca muda | 3 → 2 no nível 33 | 4 → 3 no nível 19 |
+      | Casulo (70) | 3 → 2 no nível 48 | 4 → 3 no nível 26 | 5 → 4 no nível 26 |
+      | Barcaça (140) | 6 → 5 no 11, → 4 no 48 | 8 → 7 no 4, → 6 no 26, → 5 no 55 | 10 → 9 no 4, → 8 no 26, → 7 no 41 |
+
+      - **No Fácil o Detrito nunca muda** — 2 tiros do nível 1 ao 60. Se o dano tiver de se
+        sentir no Fácil também, é o obstáculo que pede ajuste, e não o dano
+      *(Parte 6)*
 - [ ] **Defesa empilhada** — evolução (+25) com o Reforço da Predadora (+40) chega a 65% *(Parte 6)*
 - [ ] **Atributos de cada nave** — hoje todas iguais; dar a cada uma o seu diferencial *(Parte 6)*
 - [ ] **Custo de cada nível e o nome da moeda** — hoje 0 e "Sucata", no molde e no `Wallet`
       *(Parte 8)*
+      - Ao definir os custos: a recompensa da **conquista de evoluir pela primeira vez** tem de ser
+        **pelo menos o custo do nível 3** — é a promessa dela ("ganhar o bastante para evoluir de
+        novo")
 - [ ] **Recarga de poder aparece para a Predadora**, que não tem o que recarregar *(Parte 7)*
 
 ### ✏️ Desenhar e decidir
+- [ ] **Ranks de atributo das naves: S → A → B → C → D → E** *(decidido pelo Raffael em
+      26/09/2026; o desenho vem depois)* — cada nave terá um rank por atributo, dizendo no que ela
+      é melhor (S) e pior (E). Motivo: o painel de balanceamento mostrou as quatro naves
+      idênticas. **Os ranks vão mexer nos atributos de base e também na evolução**, então o molde
+      de evolução muda junto quando chegar a hora — ver a Parte 6. *Já decidido:* o jogador vê o
+      rank, e alguns ranks sobem com os patamares. *Falta:* quanto vale cada rank, e quais sobem
 - [ ] **Upgrade 1, upgrade 2 e passiva de cada nave** — Nave inicial, Nay, Raffa e Predadora.
       Upgrade é a ficha do poder duplicada com números maiores *(Parte 6)*
 - [ ] **Mais naves e mais poderes** — a lista continua *(Parte 5)*
@@ -81,24 +128,96 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 - [ ] **Modificadores por fase** — junto com a reforma das fases *(Parte 7)*
 - [ ] **Barreira para naves fracas** — entra ou continua adiada *(Parte 6)*
 - [ ] **Power-downs e como o poder chega à pista** — os abertos da Parte 5
+- [ ] **As conquistas do jogo** — quais, com que meta e quanto pagam. A estrutura está pronta:
+      cada uma é uma ficha (contador + meta + recompensa, e opcionalmente uma nave). Contadores
+      disponíveis: corridas, vitórias, corridas sem fim, abates, distância total, evoluções de nave e melhor
+      distância sem fim. Conquista que precise de outra condição pede um contador novo — é só
+      pedir *(Parte 8)*
 
 ### 🤖 O que o Claude pode fazer sem esperar decisão
-*Estrutura, ferramenta e segurança — nada que escolha conteúdo ou número de jogo. **Na ordem
-sugerida**: os dois primeiros juntos preparam a sessão de balancear. Basta o Raffael pedir pelo
-nome.*
+*Estrutura, ferramenta e segurança — nada que escolha conteúdo ou número de jogo. Basta o
+Raffael pedir pelo nome.*
 
-- [ ] ⏸️ **Painel de balanceamento** (Editor) — *esperando o OK do Raffael; ele pediu para
-      entender antes.* Uma **janela no Editor** (menu Tools → Corrida no Espaço → Balanceamento),
-      que não entra no jogo, com uma tabela: **uma linha por nave**, em colunas os níveis 1, 15,
-      40 e 60, e em cada célula os atributos daquele nível. Embaixo, a parte que ele gostou: o
-      **tempo estimado até a dobra**, por nave e nível, em cada dificuldade — quanto leva do
-      cruzeiro até a velocidade de dobra só com o ganho passivo, e com um abate a cada N segundos.
-      Mexeu num número de ficha ou do molde, a tabela se refaz na hora. **Serve para balancear
-      olhando, sem jogar 60 níveis**
-      - ⚠️ É estimativa, não simulação: não conta batida, raspão nem modificador pego. Dá a
-        ordem de grandeza e a comparação entre naves; o veredito continua sendo o aparelho
+**Próximos, na ordem sugerida:**
+
+- [ ] **Aviso de conquista completa já no fim da corrida** — hoje o cartão aparece ao voltar ao
+      menu; isto o traria para o painel de vitória, derrota ou sem fim. Pede remontar a
+      `Game.unity`
+- [ ] **Limpar as chaves antigas de `PlayerPrefs`** — depois que os testadores tiverem aberto a
+      versão com o `save.json` pelo menos uma vez. *Só com o OK do Raffael*: é o que tira a rede
+      da migração
+- [ ] **Visual por estágio com arte de verdade** — quando a arte da Predadora existir, a ficha da
+      nave ganha um sprite por estágio e o `ShipStageLook` troca o sprite em vez de tingir
+- [ ] **Pool de obstáculos e tiros** — *só se o aparelho engasgar*. Hoje cada tiro e obstáculo é
+      criado e destruído; em celular fraco isso pesa. Sem sintoma, fica parado
 
 **Feito em 26/09/2026:**
+
+- [x] **Estatísticas de carreira** — `Services/CareerStats.cs`, no `save.json`: corridas,
+      vitórias, derrotas, corridas sem fim, abates, batidas, distância total, melhor distância sem
+      fim e tempo de corrida. É a base que as conquistas leem e que a moeda da Parte 8 vai ler
+      - **Abate e batida acumulam em memória** e vão para o disco **uma vez, no fim da corrida** —
+        gravar a cada tiro seria escrever o arquivo dezenas de vezes por minuto
+      - **Corrida abandonada pela pausa não conta**, nem os abates dela: "corrida" é chegar ao fim
+      - **E por nave:** corridas, vitórias, abates e distância também ficam separados pela nave
+        com que a corrida foi jogada. A ficha de conquista ganhou o campo **Nave** — vazio conta
+        qualquer uma; preenchido, só o que foi feito com ela ("vença 10 fases com a Predadora")
+- [x] **A estrutura de conquistas** — *só a fábrica; nenhuma conquista criada, o conteúdo é do
+      Raffael*
+      - `Progression/Achievement.cs` — **a ficha**: nome, descrição, **contador de carreira**,
+        **meta**, **recompensa** em moeda e o id do Play Games para o espelho da Fase 7.
+        **Ficha de dados, e não classe por conquista**: conquista não tem efeito no jogo, é
+        "contou até N, paga X"
+      - `Progression/AchievementCatalog.cs` em Resources, **preenchido sozinho** pelo Montar com
+        toda ficha de `Assets/Conquistas/`. Para tirar uma, apaga-se a ficha
+      - `Services/Achievements.cs` — completa sozinha no fim da corrida; a moeda só entra ao tocar
+        em **Resgatar**. Estado de cada uma no `save.json`
+      - **Painel "Conquistas" no menu**, depois de "Naves": os números de carreira no alto
+        (servem desde já para conferir que as estatísticas contam certo), e uma linha por
+        conquista com o progresso e o botão de resgatar
+      - As verificações ganharam: toda ficha da pasta está no catálogo, e nenhuma com nome repetido
+- [x] **O desenho das conquistas** *(proposta do Raffael, 26/09/2026, com três refinamentos do
+      Claude, todos aprovados)*: **Corrida no Espaço → conquista do jogo com recompensa →
+      espelho no Google Play**
+      1. **Três visibilidades** na ficha: **visível**; **oculta até um requisito** — `????????`
+         até outra conquista, o requisito, completar; **secreta** — `????????` até ela mesma
+         completar. **Escondida mostra sempre a recompensa**, para dar vontade de descobrir
+      2. **O Play dispara ao completar, não ao resgatar** — o resgate é só a moeda
+      3. **Fila para o Play offline** — cada conquista guarda no salvamento se já foi ao Play; o
+         que completou sem conexão sobe no próximo login
+      - **Escrito:** a visibilidade e o requisito na ficha, o `????????` no painel, e o espelho
+        `Services/PlayGamesMirror.cs` — **um gancho vazio até a Fase 7**: a fila já se acumula
+        no salvamento, e no dia do plugin basta ligar o gancho e chamar
+        `Achievements.SyncPlayGames()` ao logar
+      - As verificações pegam oculta sem requisito (aviso), requisito fora do catálogo e corrente
+        de requisitos que volta para si mesma (erro)
+- [x] **Contador "Evoluções de nave" e o cartão de conquista completa** *(pedido do Raffael,
+      26/09/2026, para a conquista "evolua uma nave pela primeira vez")*
+      - Contador novo `ShipLevelUps` — total e por nave. Conta só a evolução **paga**, pelo botão
+        Evoluir; os botões de teste não contam
+      - **As conquistas passaram a ser conferidas também fora da corrida:** ao evoluir, na hora
+      - **Cartão "Conquista completa!"** no alto do menu (`UI/AchievementToast.cs`): mostra nome e
+        recompensa, some sozinho, e **fica por cima de qualquer painel** (camada de desenho
+        própria). O que completa numa corrida espera numa fila e aparece quando o jogador volta
+        ao menu
+      - O painel de conquistas mostra "Evoluções" nos números de carreira
+- [x] **As verificações travam o build de release** — `BuildAndroid` roda as verificações antes
+      do AAB de release e **cancela o build se alguma falhar**, com o relatório no Console. Aviso
+      não trava. O APK de teste passa mesmo assim, porque é com ele que se investiga o problema
+- [x] **Painel de balanceamento** — `Editor/Tools/BalanceWindow.cs`, menu **Tools → Corrida no
+      Espaço → Balanceamento**. Uma janela só do Editor: cada nave do catálogo nos níveis 1, 15,
+      40 e 60, com vida, defesa, dano, cadência, cruzeiro, aceleração e ganho por abate, e o
+      **tempo estimado da largada até a dobra completa em cada dificuldade**. Em cima, escolhe-se
+      a fase e os **abates por segundo** (0 = só desviando). Se refaz sozinho quando um número muda
+      - **A conta:** zero → cruzeiro na aceleração com o bônus de baixa velocidade; cruzeiro →
+        dobra no ganho passivo mais os abates; e a carga da dobra da dificuldade
+      - **Tiros para destruir** *(pedido do Raffael, 26/09/2026)* — embaixo de cada nave, uma
+        tabela com **todos os obstáculos do jogo** e quantos tiros cada um leva em cada nível de
+        patamar, nas três dificuldades ("2 · 3 · 4" = Fácil · Normal · Difícil). Usa o dano da
+        evolução, sem poder por cima
+      - ⚠️ **Estimativa, não simulação:** sem batida, raspão nem modificador. O ganho passivo e o
+        bônus de baixa velocidade moram na cena e estão copiados na janela (0,04 e 2) — mudou na
+        cena, muda lá também
 
 - [x] **Verificações automáticas** — `Editor/Tools/GameChecks.cs`. **Não usam o Test Runner**:
       o pacote de testes não está no projeto, e instalar pacote é decisão do Raffael — em C#
@@ -146,19 +265,53 @@ nome.*
 
 ---
 
-## 🚀 Onde estamos — 26/09/2026
+## 🚀 Onde estamos — fechamento de 26/09/2026
 
-**A Parte 5 fechou a parte dela que é código.** No mesmo dia: a escada da dobra aprovada no
-aparelho, a primeira leva da lista do Raffael escrita, montada e **aprovada no aparelho** — a
-Predadora, o canto do poder com as cargas, o visual por estágio e a Recarga de poder —, e o
-toque duplo dado como bom. O que sobra da Parte 5 é **conteúdo do Raffael, que chega aos
-poucos**, e a escolha de modificadores por fase, que foi para a reforma das fases (Parte 7).
+*Resumo para retomar rápido. O detalhe de cada item está na Lista, no topo, e nas Partes.*
 
-**E a Parte 6 começou no mesmo dia: a evolução das naves está desenhada e escrita.** 60
-níveis, uma escadinha que sobe um atributo por nível em rodízio, patamares em 15, 40 e 60, a
-evolução como bônus por cima da base de fábrica, e a aba de naves virando oficina com a moeda
-provisória em zero. Nave nova já nasce com a progressão inteira. Ver "A evolução das naves", na
-Parte 6. **Falta rodar o Montar e julgar no aparelho.**
+### Como estava antes
+Última sessão em **01/09/2026**, depois de quase um mês parado. A mecânica crua estava aprovada no
+aparelho desde 21/08 e o jogo no teste interno da Play. Da Parte 5 (poderes) havia a fábrica
+pronta — modificadores de fase e poderes de nave, uma classe isolada cada — e três naves com
+atributos iguais. Pendentes: julgar a escada da dobra, apagar o `WarpChargeLadderFix` e a lista
+de conteúdo do Raffael.
+
+### O que foi feito hoje
+- **Fechado da sessão anterior:** escada da dobra aprovada no aparelho, `WarpChargeLadderFix`
+  apagado, e um erro de compilação meu de 01/09 (`speedHud` no `BattleSetup`) consertado
+- **Parte 5 — a primeira leva de conteúdo, aprovada no aparelho:** o modificador **Recarga de
+  poder**, a nave **Predadora** com o **Reforço estrutural** (10 cargas de 4%, sem cruzeiro), o
+  tipo novo de poder **condicional**, o contador de cargas no canto do poder e o visual por
+  estágio (marcador de lugar). O toque duplo foi aprovado. **A estrutura da Parte 5 está fechada**
+- **Parte 6 — a evolução das naves, desenhada e escrita:** 60 níveis, escadinha de um atributo
+  por nível em rodízio (8 degraus para cada um dos 7), patamares em 15, 40 e 60, evolução como
+  **bônus** por cima da base de fábrica, upgrade de poder como outra ficha do mesmo poder, e a
+  aba de naves virando **oficina** (nível, Evoluir, próximo nível e próximo patamar) com a moeda
+  provisória **Sucata** em zero. Nave nova já nasce com a progressão inteira
+- **O que o Claude adiantou sem precisar de decisão:** salvamento num arquivo só (`save.json`,
+  com migração dos testadores), **verificações automáticas** a cada compilação (223 hoje, e
+  travam o build de release), **painel de balanceamento** com tempo até a dobra e tiros por
+  obstáculo, **estatísticas de carreira** (também por nave), a **estrutura de conquistas** com as
+  três visibilidades, painel no menu, resgate, cartão de "Conquista completa" e o espelho do
+  Google Play pronto para a Fase 7, o botão "+1000" de teste e a base da reforma das fases
+- **Decidido pelo Raffael:** os **ranks de atributo S → E** por nave (desenho depois), a
+  **Lista do Raffael** como canal de tudo o que é pendência, e o desenho das conquistas
+- **Conferido no computador:** tudo o que dava — ver o ✅ na Lista
+
+### O que ficou pendente
+- **Hoje ainda:** o Montar (um clique) e o commit — ver 📦 na Lista
+- **Do lado do Raffael, sem pressa:** o conteúdo — upgrades e passivas das quatro naves, mais
+  naves e poderes, as conquistas do jogo, o visual da Predadora, e o desenho dos ranks
+- **Adiado de propósito:** modificadores por fase e a reforma das fases (Parte 7, conduzida pelo
+  Raffael), custos e economia (Parte 8)
+
+### O que vem amanhã
+1. **No computador, poucos minutos** — a conquista de evoluir e o cartão de aviso (💻 na Lista)
+2. **Jogando no celular, com a esposa** — salvamento, oficina, upgrade na corrida e estatísticas
+   (📱 na Lista)
+3. **Balancear** com o painel aberto do lado (⚖️ na Lista)
+4. **Depois disso, a conversa sobre os ranks S → E**, que muda o molde de evolução — é o
+   próximo desenho da Parte 6
 
 **A primeira leva da lista**, escrita em 26/09/2026:
 
@@ -679,8 +832,9 @@ Onde cada tipo de conteúdo está:
   do jogador, recompensas e a UI refeita. Ver Partes 6 a 9.
 - ~~O tato da rodada de 07/08 nunca foi julgado num aparelho~~ — **julgado e aprovado em
   21/08/2026.**
-- **Uma montagem pendente** (26/09/2026) — o `Montar.cs` tem dois passos, para a evolução das
-  naves: o molde (`ShipSetup`) e a aba de naves (`ShipSelectSetup`). Não há conserto pontual.
+- **Uma montagem pendente** (26/09/2026) — o `Montar.cs` tem um passo, o das conquistas, para
+  criar o cartão de "Conquista completa" na `Menu.unity`. O molde de evolução, a aba de naves e o
+  painel de conquistas já foram montados e conferidos. Não há conserto pontual.
   *(O `applicationId` continua conferido no disco desde 08/08:
   `br.com.raffael.corridanoespaco`, target 36, `productName` "Corrida no Espaço", versão
   `0.1.0`.)*
@@ -2175,9 +2329,10 @@ oficina —, que é o que dá nome à parte. Ver "A leva de 30/08", na Parte 5, 
         - A comparação **lê os campos sozinha**: poder novo com número novo aparece sem mexer
           no código. Só o **nome bonito** do campo precisa entrar em `ShipEvolution.FieldNames`
           — sem ele, sai o nome do código (`percentPerKill`)
-- [ ] **Rodar o Montar** — dois passos: `ShipSetup` (o molde) e `ShipSelectSetup` (a aba)
-- [ ] **Julgar no aparelho:** evoluir uma nave nível a nível, conferir os números da linha, ir
-      ao máximo e jogar com ela, e zerar
+- [x] **Rodar o Montar** (26/09/2026) — o molde e a aba de naves, conferidos no Editor: a
+      oficina, o Evoluir, o Nv 1 e o Nv máx funcionam, e a linha de próximo patamar mostra o
+      upgrade antes de pegar
+- [ ] **Julgar no aparelho:** evoluir uma nave até o máximo e jogar com ela — ver 📱 na Lista
 - [ ] **Desenhar os upgrades 1 e 2 e a passiva de cada nave** — do Raffael. Hoje os patamares
       estão todos vazios: a nave evolui os atributos, e o poder fica igual
 - [x] **A ficha da nave virou asset em disco** (21/08/2026) — **montada e conferida.** A partir
@@ -2207,14 +2362,25 @@ oficina —, que é o que dá nome à parte. Ver "A leva de 30/08", na Parte 5, 
       recém-criada
 - [x] **O que diferencia uma nave da outra** *(decisão do Raffael)* — **respondido em 30/08/2026:
       algo que só ela faz.** O poder é único por nave, e os atributos continuam iguais entre elas
-      por enquanto. A pergunta original fica abaixo, como registro. Os atributos que já existem e
-      já estão equilibrados: **aceleração** (manda no arranque, na retomada da batida e no ganho
-      passivo), **velocidade de cruzeiro**, **defesa em %**, **vida** e **ganho por abate**
-      (`killGainFactor`). A pergunta de projeto é se a diferença fica só nesses números ou se cada
-      nave ganha **algo que só ela faz** — e essa é a diferença entre "nave melhor" e "nave outra"
+      por enquanto.
+      - *A pergunta original, como registro:* os atributos que já existem e já estão
+        equilibrados — **aceleração** (manda no arranque, na retomada da batida e no ganho
+        passivo), **velocidade de cruzeiro**, **defesa em %**, **vida** e **ganho por abate**
+        (`killGainFactor`). A pergunta de projeto era se a diferença fica só nesses números ou se
+        cada nave ganha **algo que só ela faz** — a diferença entre "nave melhor" e "nave outra"
       - **Amarra que continua valendo:** toda fase tem de ser vencível **sem atirar**, em qualquer
         nave. Nave nova que não fecha a dobra no tempo da fase sem um tiro está errada — ou a fase
         está
+- [ ] **Ranks de atributo: S → A → B → C → D → E** *(decidido pelo Raffael em 26/09/2026, desenho
+      a fazer)* — a segunda metade da resposta acima: além do poder, **cada nave terá um rank por
+      atributo**, S o melhor e E o pior, para dizer no que ela é boa. Nasceu de o painel de
+      balanceamento mostrar as quatro naves idênticas
+      - **Mexe em dois lugares:** nos atributos de base de cada nave e na **evolução** — o rank
+        deve influenciar quanto cada atributo cresce. O `ShipEvolutionModel` vai mudar de acordo
+      - **Já decidido pelo Raffael (26/09/2026):**
+        - **O jogador vê o rank** — ele aparece na tela da nave
+        - **Alguns ranks sobem com os patamares** — quais e em que patamar, a definir
+      - **A decidir:** quanto vale cada rank, em atributo de base e em teto de evolução
 - [x] **Evolução** *(decisão do Raffael)* — **respondido em 26/09/2026:** a nave inteira sobe em
       60 níveis, cada nível sobe um atributo em rodízio, com teto por atributo. Ver "A evolução
       das naves", acima. O preço fica para a Parte 8
@@ -2291,7 +2457,9 @@ moeda é definido pelo que ela compra. Os gastos têm de existir antes do dinhei
 - [ ] **Nível do jogador e recompensas** — o que sobe o nível e o que o nível dá. Cuidado de
       projeto: se o nível dá poder, ele vira uma segunda evolução paralela à da nave e as duas
       brigam pelo mesmo espaço
-- [ ] **Conquistas próprias, que pagam em recurso** *(pedido do Raffael em 21/08/2026)* — conquista
+- [ ] **Conquistas próprias, que pagam em recurso** *(pedido do Raffael em 21/08/2026)* — **a
+      estrutura foi escrita em 26/09/2026** (ficha `Achievement`, catálogo, progresso, resgate e
+      painel no menu — ver a Lista do Raffael, no topo). Falta o conteúdo, que é dele. Conquista
       do **jogo**, com regra e recompensa em moeda, nave ou o que a economia tiver. É mais uma
       torneira de recurso, e das boas: recompensa quem joga de um jeito específico, não quem joga
       muito
@@ -2396,6 +2564,10 @@ Esta fase é a que **liga o fio**, não a que inventa o sistema.
 - [ ] Ligar um botão de login manual na UI, para quando o silencioso falhar
 - [ ] Ligar o `UnlockAchievement` no ponto único onde a conquista do jogo se completa — **um
       lugar só**, e não espalhado pelo código. É o que torna o espelho da Play barato
+      - **O ponto único já existe** (26/09/2026): `Services/PlayGamesMirror.cs`. Ao logar,
+        preencher `PlayGamesMirror.Unlock` com a chamada do plugin e chamar
+        `Achievements.SyncPlayGames()` — a fila do que completou antes do login sobe sozinha.
+        Cada ficha de conquista já tem o campo `playGamesId` para o id da Play
 - [ ] Cadastrar a SHA-1 de debug no Console para conseguir testar login sem build de release
 
 ## Fase 8 — Arte, áudio e acabamento ⬜

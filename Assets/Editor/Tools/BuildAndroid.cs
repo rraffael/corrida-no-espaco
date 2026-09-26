@@ -65,6 +65,16 @@ static class BuildAndroid
             return false;
         }
 
+        // As verificações automáticas travam o build de RELEASE: uma conta de
+        // evolução quebrada ou um cruzeiro que passa da dobra não pode chegar aos
+        // testadores. O APK de teste passa mesmo assim — é justamente com ele que
+        // se investiga o que quebrou.
+        if (release && !GameChecks.PassesForBuild(out string checks))
+        {
+            Debug.LogError("[Build] As verificações falharam. Build de release cancelado.\n" + checks);
+            return false;
+        }
+
         if (release && !TryConfigureSigning())
             return false;
 

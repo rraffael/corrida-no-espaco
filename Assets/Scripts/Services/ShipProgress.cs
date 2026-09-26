@@ -36,6 +36,10 @@ public static class ShipProgress
             return false;
 
         SetLevel(ship, Level(ship) + 1);
+
+        // Só aqui, e não no SetLevel: os botões de teste mexem no nível sem
+        // pagar, e isso não é evolução que uma conquista deva contar.
+        CareerStats.ShipEvolved(ship);
         return true;
     }
 
