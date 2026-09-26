@@ -10,8 +10,11 @@ using UnityEngine;
 /// escolha é o <see cref="ShipSelection"/>.
 ///
 /// **Todas destravadas, e é assim de propósito por enquanto** *(30/08/2026)*:
-/// não existe nível de jogador nem economia, então não há de que destravar. O
-/// cadeado desta tela é o dia da loja.
+/// não existe economia, então não há de que destravar. O cadeado desta tela é o
+/// dia da loja.
+///
+/// **É também a oficina** *(26/09/2026)*: cada linha mostra o nível da nave e
+/// tem o botão de evoluir, e o alto da aba mostra o saldo da moeda provisória.
 /// </summary>
 public class ShipSelectMenu : MonoBehaviour
 {
@@ -20,6 +23,9 @@ public class ShipSelectMenu : MonoBehaviour
 
     [Tooltip("Linha modelo, desligada na cena. É clonada uma vez por nave.")]
     [SerializeField] ShipSelectRow rowTemplate;
+
+    [Tooltip("O saldo da moeda do jogo, no alto da aba.")]
+    [SerializeField] TMPro.TMP_Text walletLabel;
 
     readonly List<ShipSelectRow> rows = new List<ShipSelectRow>();
     readonly List<ShipDefinition> ships = new List<ShipDefinition>();
@@ -73,8 +79,13 @@ public class ShipSelectMenu : MonoBehaviour
     {
         var selected = ShipSelection.Ship;
 
+        // Evoluir uma nave muda o saldo, e o saldo muda o que as OUTRAS linhas
+        // podem pagar — por isso a linha avisa e a aba redesenha tudo.
         for (int i = 0; i < rows.Count; i++)
-            rows[i].Bind(ships[i], ships[i] == selected, Choose);
+            rows[i].Bind(ships[i], ships[i] == selected, Choose, Refresh);
+
+        if (walletLabel != null)
+            walletLabel.text = $"{Wallet.CurrencyName}: {Wallet.Balance}";
     }
 
     void Choose(ShipDefinition ship)

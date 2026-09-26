@@ -75,8 +75,12 @@ public class ShipAbilities : MonoBehaviour
         // O poder é da nave escolhida, e a ficha manda. O campo da cena continua
         // valendo como atalho de teste — preenchido, ele ganha —, mas em jogo de
         // verdade quem decide é quem o jogador escolheu no menu.
-        if (Stats != null && Stats.Definition != null && Stats.Definition.intrinsicAbility != null)
-            equipped = Stats.Definition.intrinsicAbility;
+        //
+        // A versão do poder é a do patamar da nave: com o 1º upgrade no nível 15,
+        // é a ficha do upgrade que entra — ver ShipEvolution.Ability.
+        var evolved = Stats != null ? ShipEvolution.Ability(Stats.Definition, Stats.Level) : null;
+        if (evolved != null)
+            equipped = evolved;
 
         ResetForRace();
     }
@@ -121,12 +125,14 @@ public class ShipAbilities : MonoBehaviour
         // A passiva entra aqui, e não no Awake, pelo mesmo motivo: ela pode mexer
         // em atributo, e o ShipStats precisa ter terminado de montar os números
         // de base antes de alguém escrever por cima deles.
-        passive = Stats != null && Stats.Definition != null ? Stats.Definition.passiveAbility : null;
+        // Os dois pelo patamar: a passiva só existe no final, e o condicional vem
+        // na versão do upgrade que a nave já alcançou.
+        passive = Stats != null ? ShipEvolution.Passive(Stats.Definition, Stats.Level) : null;
         if (passive != null)
             passive.OnRaceStarted(Stats);
 
-        var conditionalDefinition = Stats != null && Stats.Definition != null
-            ? Stats.Definition.conditionalAbility
+        var conditionalDefinition = Stats != null
+            ? ShipEvolution.Conditional(Stats.Definition, Stats.Level)
             : null;
         if (conditionalDefinition != null)
         {

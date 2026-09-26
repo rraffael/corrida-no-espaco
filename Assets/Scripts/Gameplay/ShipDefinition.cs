@@ -62,10 +62,29 @@ public class ShipDefinition : ScriptableObject
              "com o ativo ou no lugar dele.")]
     public ShipConditional conditionalAbility;
 
-    [Tooltip("Poder PASSIVO desta nave: vale a corrida inteira, sem ativar e sem gastar uso.\n\n" +
-             "Nenhuma nave tem um ainda. O plano é que a passiva destrave no nível 60 — o último " +
-             "dos três patamares de evolução —, e ainda não existe nível; até lá, o que estiver " +
-             "aqui vale desde o começo.")]
+    [Header("Evolução — patamares")]
+    [Tooltip("Molde de evolução desta nave. Vazio: o padrão, em Resources/ShipEvolutionModel — " +
+             "que é o que quase toda nave usa. Preencha só para uma nave que evolua diferente.")]
+    public ShipEvolutionModel evolutionModel;
+
+    [Tooltip("PATAMAR 2 (nível 15): a versão do poder ativo com o 1º upgrade. É OUTRA ficha do " +
+             "mesmo poder, com números maiores — duplique a do poder, mude os números e arraste " +
+             "para cá. Vazio: o poder não muda neste patamar.")]
+    public ShipAbility abilityUpgrade1;
+
+    [Tooltip("PATAMAR 3 (nível 40): a versão do poder ativo com o 2º upgrade. Vazio: continua " +
+             "a do patamar anterior.")]
+    public ShipAbility abilityUpgrade2;
+
+    [Tooltip("PATAMAR 2 (nível 15): a versão do poder condicional com o 1º upgrade. Mesma regra " +
+             "do ativo: outra ficha do mesmo poder, com números maiores.")]
+    public ShipConditional conditionalUpgrade1;
+
+    [Tooltip("PATAMAR 3 (nível 40): a versão do poder condicional com o 2º upgrade.")]
+    public ShipConditional conditionalUpgrade2;
+
+    [Tooltip("PATAMAR 4 (nível 60, o final): a PASSIVA desta nave — vale a corrida inteira, sem " +
+             "ativar e sem gastar uso. Só liga quando a nave chega ao patamar final.")]
     public ShipPassive passiveAbility;
 
     [Header("Combate")]

@@ -26,6 +26,7 @@ static class ShipSetup
     {
         var ships = GetOrCreateAll();
         var catalog = GetOrCreateCatalog(ships);
+        GetOrCreateEvolutionModel();
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -205,6 +206,25 @@ static class ShipSetup
 
         AssetDatabase.CreateAsset(created, path);
         return created;
+    }
+
+    public const string EvolutionModelPath =
+        LevelSetup.ResourcesFolder + "/" + ShipEvolutionModel.ResourcePath + ".asset";
+
+    /// <summary>
+    /// O molde de evolução padrão, em Resources. **Criado uma vez e nunca
+    /// reescrito:** os números dele são os valores de fábrica da classe, e
+    /// repeti-los aqui criaria dois lugares para manter iguais. Ajuste de custo
+    /// ou de alvo se faz no Inspector do asset, e sobrevive ao Montar.
+    /// </summary>
+    static void GetOrCreateEvolutionModel()
+    {
+        if (AssetDatabase.LoadAssetAtPath<ShipEvolutionModel>(EvolutionModelPath) != null)
+            return;
+
+        Directory.CreateDirectory(LevelSetup.ResourcesFolder);
+        AssetDatabase.Refresh();
+        AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<ShipEvolutionModel>(), EvolutionModelPath);
     }
 
     /// <summary>

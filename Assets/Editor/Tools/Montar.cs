@@ -36,11 +36,16 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 26/09/2026: **vazia.** A Predadora de 10 cargas foi montada e
-    /// conferida no disco; nada novo pede montagem.
+    /// Estado em 26/09/2026: **dois passos — um asset e a Menu.unity.**
+    ///
+    /// Entrou a evolução das naves. O ShipSetup cria o molde de evolução em
+    /// Resources; a aba de naves é remontada para ganhar rolagem, saldo, nível
+    /// e os botões de evoluir. A corrida só ganhou código.
     /// </summary>
     static readonly Step[] Steps =
     {
+        new Step("Naves e poderes (molde de evolução)", ShipSetup.Setup),
+        new Step("Aba de naves (nível, evoluir e saldo)", ShipSelectSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

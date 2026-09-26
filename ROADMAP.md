@@ -28,7 +28,11 @@ Predadora, o canto do poder com as cargas, o visual por estágio e a Recarga de 
 toque duplo dado como bom. O que sobra da Parte 5 é **conteúdo do Raffael, que chega aos
 poucos**, e a escolha de modificadores por fase, que foi para a reforma das fases (Parte 7).
 
-**A próxima etapa é a Parte 6: a evolução das naves.** Ver "Retomar por aqui".
+**E a Parte 6 começou no mesmo dia: a evolução das naves está desenhada e escrita.** 60
+níveis, uma escadinha que sobe um atributo por nível em rodízio, patamares em 15, 40 e 60, a
+evolução como bônus por cima da base de fábrica, e a aba de naves virando oficina com a moeda
+provisória em zero. Nave nova já nasce com a progressão inteira. Ver "A evolução das naves", na
+Parte 6. **Falta rodar o Montar e julgar no aparelho.**
 
 **A primeira leva da lista**, escrita em 26/09/2026:
 
@@ -255,8 +259,9 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
 - [x] **Parte 5 — poderes em partida** — **a estrutura está fechada e aprovada no aparelho**
       (26/09/2026). O que continua é conteúdo do Raffael, que entra aos poucos sem travar as
       partes seguintes
-- [ ] 🥇 **PRÓXIMA: Parte 6 — naves, diferenciação e evolução.** É o eixo do qual o resto pende.
-      Começa pelas decisões de forma da evolução — ver a Parte 6
+- [ ] 🥇 **AGORA: Parte 6 — naves, diferenciação e evolução.** A evolução foi desenhada e
+      escrita em 26/09/2026; falta rodar o Montar, julgar no aparelho, e o Raffael desenhar os
+      upgrades e as passivas — ver a Parte 6
 - [ ] **Parte 7 — fases: arquitetura e a experiência das 5 faixas.** ⚠️ A arquitetura fica; a
       experiência pode ser retirada se não se sustentar no teste
 - [ ] **Parte 8 — recursos, nível, recompensas e conquistas.** Por último dos de mecânica, porque
@@ -548,8 +553,8 @@ Onde cada tipo de conteúdo está:
   do jogador, recompensas e a UI refeita. Ver Partes 6 a 9.
 - ~~O tato da rodada de 07/08 nunca foi julgado num aparelho~~ — **julgado e aprovado em
   21/08/2026.**
-- **Nenhuma montagem pendente** (26/09/2026) — a lista do `Montar.cs` está vazia, e não há
-  conserto pontual no projeto.
+- **Uma montagem pendente** (26/09/2026) — o `Montar.cs` tem dois passos, para a evolução das
+  naves: o molde (`ShipSetup`) e a aba de naves (`ShipSelectSetup`). Não há conserto pontual.
   *(O `applicationId` continua conferido no disco desde 08/08:
   `br.com.raffael.corridanoespaco`, target 36, `productName` "Corrida no Espaço", versão
   `0.1.0`.)*
@@ -1971,11 +1976,84 @@ penduram na resposta a "o que é uma nave".*
 de cena e sobrevive a fechar o jogo. A variedade começou. Falta a **evolução** — patamares, nível,
 oficina —, que é o que dá nome à parte. Ver "A leva de 30/08", na Parte 5, para o que já existe.
 
-- [ ] **Os três patamares de evolução** *(desenho do Raffael, 30/08/2026)* — a nave melhora o
-      poder ativo em dois degraus e **destrava o passivo no terceiro**: nível 1 liberado, 20 e 40
-      melhoram, 60 abre a passiva. **Nada disso existe ainda**, e é de propósito: não há nível de
-      jogador nem economia, então hoje tudo nasce liberado e a passiva fica vazia. A estrutura da
-      passiva já está pronta e esperando — ver `ShipPassive`
+- [ ] **Os quatro patamares de evolução** *(desenho do Raffael, 30/08/2026, reafirmado em
+      26/09/2026)* — **decidido:** toda nave tem quatro patamares:
+      1. **Inicial** — a nave como vem ao ser liberada
+      2. **1º upgrade do poder**
+      3. **2º upgrade do poder**
+      4. **Final** — ganha a **passiva**
+
+      **Pedido do Raffael:** a estrutura tem de ser um **modelo** — nave nova preenche o molde,
+      sem código de evolução próprio. **Escrito em 26/09/2026** — ver "A evolução das naves",
+      logo abaixo
+- [x] **A evolução das naves — o desenho** (26/09/2026, todo do Raffael salvo onde indicado)
+      - **60 níveis, patamares em 15, 40 e 60.** A conta que fechou o número: 59 subidas menos
+        3 de patamar dão **56 níveis de atributo = 7 atributos × 8 degraus**. 30 níveis dariam
+        passos de ~7% e farm curto; 100, passos de ~1–2% que não se sentem
+      - **Onde cada atributo chega no nível máximo:**
+
+        | Atributo | Nível 1 → 60 | Cada degrau |
+        |---|---|---|
+        | Vida | ×1,5 (100 → 150) | +6,25 |
+        | Cruzeiro | ×1,25 (80 → 100 un/s) | +2,5 un/s |
+        | Dano | ×1,5 (25 → 37,5) | +1,56 |
+        | Defesa | +25 pontos (0% → 25%) | +3,125 |
+        | Aceleração | ×1,25 (4 → 5) | +0,125 |
+        | Cadência | ×1,15 (3 → 3,45/s) | +0,056 |
+        | Ganho por abate | ×1,5 **no total** (6,4 → 9,6 un/s) | — |
+
+      - **A escadinha:** os níveis de atributo sobem **um atributo cada**, em rodízio fixo —
+        vida, cruzeiro, dano, defesa, aceleração, cadência, abate —, oito voltas. É a
+        distribuição mais uniforme possível: todo nível dá algo, e nenhum atributo fica mais de
+        7 níveis parado. **Os níveis de patamar não dão atributo**, só o upgrade ou a passiva
+      - **Ganho por abate: o 1,5x é o total** — ele já sobe com a aceleração, então o fator
+        próprio sobe só 1,2x. A tela mostra o número em un/s, não um multiplicador
+      - **Dano subiu de 1,25x para 1,5x** — com 1,25x ele quase não se sentia: só a Barcaça
+        caía de 6 para 5 tiros. Com 1,5x, a partir de dano 35 o **Casulo cai de 3 para 2**
+      - **O cruzeiro fica** — a ideia é ver até onde ele leva, e depois equilibrar as fases
+        por **nível esperado**: difíceis para a nave abaixo do nível pensado para ela, justas
+        nele, e mais fáceis acima
+      - **A evolução é um BÔNUS, e não muda a base** *(regra do Raffael, 26/09/2026)*. Todo
+        poder mede contra o valor de fábrica da ficha; se a evolução mudasse a base, um +40% de
+        poder renderia mais numa nave evoluída. Como bônus, cada coisa soma só o que é dela
+        - Consequência a saber: a aceleração ganha na evolução **alivia o trecho arrastado da
+          batida**, como qualquer bônus de aceleração — o alívio mede o quanto a nave passou da
+          base de fábrica
+      - **Upgrade de poder é número, não código:** o upgrade é **outra ficha do mesmo poder**,
+        com números maiores. Duplica-se a ficha, mudam-se os números e ela vai para o espaço
+        do patamar na ficha da nave. Patamar vazio mantém o poder anterior
+- [x] **A evolução das naves — escrita** (26/09/2026) — *falta o Montar e o aparelho*
+      - `Progression/ShipEvolutionModel.cs` — **o molde**, em `Resources/ShipEvolutionModel.asset`:
+        níveis, patamares, alvos, ordem da escadinha e custo. **Vale para toda nave que não
+        aponte outro**, então nave nova já nasce com a progressão inteira. Criado uma vez pelo
+        `ShipSetup` e **nunca reescrito** — ajuste no Inspector sobrevive ao Montar
+      - `Progression/ShipEvolution.cs` — a conta: valor e bônus de cada atributo num nível, qual
+        versão do poder vale em cada patamar, e o texto do "próximo nível"
+      - `ShipDefinition` ganhou a seção **Evolução — patamares**: molde próprio (opcional),
+        ativo do upgrade 1 e 2, condicional do upgrade 1 e 2, e a passiva (patamar 4)
+      - `ShipStats` aplica o bônus de evolução do nível da nave na largada, como soma ao lado
+        dos outros bônus; `ShipAbilities` escolhe a versão do poder e a passiva pelo patamar
+      - `Services/ShipProgress.cs` — o nível de cada nave em PlayerPrefs, pelo nome do asset.
+        Nave nova começa no 1 sem migração
+      - `Services/Wallet.cs` — **a moeda provisória: "Sucata"**, saldo 0 e sem jeito de ganhar.
+        O nome está numa constante só. **Custo de todo nível: 0**, no molde (`baseCost`,
+        `costPerLevel`) — dá para evoluir tudo e testar
+      - **A aba de naves virou oficina:** saldo no alto, rolagem, e em cada linha o nível e o
+        patamar, os atributos **no nível atual**, o poder na versão do patamar, a passiva, o que
+        o próximo nível dá, e o botão **Evoluir · custo**. Mais os botões de teste **Nv 1** e
+        **Nv máx**, que só aparecem no Editor e em build de desenvolvimento
+      - **A linha "Próximo patamar"** *(pedido do Raffael, 26/09/2026)* — mostra **antes de
+        pegar** o que o próximo patamar dá: o nível dele e, no upgrade, **o que muda campo a
+        campo** entre a ficha atual e a do upgrade ("duração (s) 3 → 4 · recarga (s) 30 → 25");
+        na passiva, o nome e a descrição; patamar vazio diz "a definir"
+        - A comparação **lê os campos sozinha**: poder novo com número novo aparece sem mexer
+          no código. Só o **nome bonito** do campo precisa entrar em `ShipEvolution.FieldNames`
+          — sem ele, sai o nome do código (`percentPerKill`)
+- [ ] **Rodar o Montar** — dois passos: `ShipSetup` (o molde) e `ShipSelectSetup` (a aba)
+- [ ] **Julgar no aparelho:** evoluir uma nave nível a nível, conferir os números da linha, ir
+      ao máximo e jogar com ela, e zerar
+- [ ] **Desenhar os upgrades 1 e 2 e a passiva de cada nave** — do Raffael. Hoje os patamares
+      estão todos vazios: a nave evolui os atributos, e o poder fica igual
 - [x] **A ficha da nave virou asset em disco** (21/08/2026) — **montada e conferida.** A partir
       daqui, **nave nova é um `.asset`** e evolução é número, não código
       - `Assets/Scripts/Gameplay/ShipDefinition.cs` — **a ficha**, `ScriptableObject`, com os sete
@@ -2011,9 +2089,9 @@ oficina —, que é o que dá nome à parte. Ver "A leva de 30/08", na Parte 5, 
       - **Amarra que continua valendo:** toda fase tem de ser vencível **sem atirar**, em qualquer
         nave. Nave nova que não fecha a dobra no tempo da fase sem um tiro está errada — ou a fase
         está
-- [ ] **Evolução** *(decisão do Raffael)* — sobe atributo por atributo? Sobe a nave inteira em
-      níveis? Tem teto? O que ela consome sai da Parte 8, então aqui se define **a forma**, e o
-      preço fica para depois
+- [x] **Evolução** *(decisão do Raffael)* — **respondido em 26/09/2026:** a nave inteira sobe em
+      60 níveis, cada nível sobe um atributo em rodízio, com teto por atributo. Ver "A evolução
+      das naves", acima. O preço fica para a Parte 8
 - [ ] **Barreira que impede naves fracas de avançar** *(ideia antiga do Raffael, adiada por ele —
       é aqui que ela cabe)*. Só faz sentido quando existe nave forte e nave fraca
 - [ ] Testar no aparelho antes de a Parte 7 começar

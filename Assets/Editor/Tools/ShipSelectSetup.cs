@@ -23,8 +23,8 @@ static class ShipSelectSetup
     const string ButtonsRoot = "Botoes";
 
     static readonly Vector2 BoxSize = new Vector2(880f, 1320f);
-    static readonly Vector2 RowsSize = new Vector2(800f, 900f);
-    const float RowHeight = 220f;
+    static readonly Vector2 RowsSize = new Vector2(820f, 860f);
+    const float RowHeight = 440f;
     const float RowSpacing = 16f;
 
     [MenuItem(ProjectTools.ShipSelectItem, false, 114)]
@@ -152,8 +152,10 @@ static class ShipSelectSetup
         UiBuilder.Label("Ajuda", box.transform, "Toque para escolher com qual jogar", 28f,
                         new Vector2(0f, 490f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
 
-        var rowsObject = UiBuilder.NewUI("Linhas", box.transform);
-        var rowsRoot = UiBuilder.PlaceCentered(rowsObject, new Vector2(0f, -20f), RowsSize);
+        var wallet = UiBuilder.Label("Saldo", box.transform, string.Empty, 34f,
+                                     new Vector2(0f, 438f), new Vector2(820f, 50f), UiBuilder.LabelColor);
+
+        var rowsRoot = BuildScroll(box.transform, out var rowsObject);
 
         var layout = rowsObject.AddComponent<VerticalLayoutGroup>();
         layout.spacing = RowSpacing;
@@ -161,9 +163,13 @@ static class ShipSelectSetup
         layout.childForceExpandWidth = true;
         layout.childForceExpandHeight = false;
         layout.childControlWidth = true;
-        // A altura é da linha, não do layout: ela precisa caber quatro textos, e
-        // não deve encolher quando entrar uma quarta nave.
+        // A altura é da linha, não do layout: ela precisa caber os textos e os
+        // botões, e não deve encolher quando entrar mais uma nave.
         layout.childControlHeight = false;
+
+        // O conteúdo cresce com as linhas, e a rolagem mostra a parte que cabe.
+        var fitter = rowsObject.AddComponent<ContentSizeFitter>();
+        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
         var rowTemplate = BuildRowTemplate(rowsObject.transform);
 
@@ -175,8 +181,45 @@ static class ShipSelectSetup
         var select = panel.AddComponent<ShipSelectMenu>();
         UiBuilder.SetReference(select, "rowsRoot", rowsRoot);
         UiBuilder.SetReference(select, "rowTemplate", rowTemplate);
+        UiBuilder.SetReference(select, "walletLabel", wallet);
 
         return panel;
+    }
+
+    /// <summary>
+    /// A área rolável das linhas. **Rolagem desde 26/09/2026:** com a evolução,
+    /// cada linha passou a ter nível e botões, e quatro naves já não cabem na
+    /// caixa — e nave nova só aumenta a lista.
+    ///
+    /// Devolve o conteúdo, que é onde as linhas nascem.
+    /// </summary>
+    static RectTransform BuildScroll(Transform box, out GameObject content)
+    {
+        var viewportObject = UiBuilder.NewUI("Linhas", box);
+        UiBuilder.PlaceCentered(viewportObject, new Vector2(0f, -50f), RowsSize);
+
+        // Imagem transparente só para receber o arraste de rolar no espaço vazio.
+        var hit = viewportObject.AddComponent<Image>();
+        hit.color = new Color(0f, 0f, 0f, 0f);
+        viewportObject.AddComponent<RectMask2D>();
+
+        content = UiBuilder.NewUI("Conteudo", viewportObject.transform);
+        var contentRect = (RectTransform)content.transform;
+        contentRect.anchorMin = new Vector2(0f, 1f);
+        contentRect.anchorMax = new Vector2(1f, 1f);
+        contentRect.pivot = new Vector2(0.5f, 1f);
+        contentRect.offsetMin = Vector2.zero;
+        contentRect.offsetMax = Vector2.zero;
+
+        var scroll = viewportObject.AddComponent<ScrollRect>();
+        scroll.content = contentRect;
+        scroll.viewport = (RectTransform)viewportObject.transform;
+        scroll.horizontal = false;
+        scroll.vertical = true;
+        scroll.movementType = ScrollRect.MovementType.Clamped;
+        scroll.scrollSensitivity = 30f;
+
+        return contentRect;
     }
 
     /// <summary>
@@ -207,18 +250,59 @@ static class ShipSelectSetup
         marker.preserveAspect = true;
 
         var nameLabel = Line(go, "Nome", 40f, UiBuilder.LabelColor, -16f, 56f);
-        var statsLabel = Line(go, "Atributos", 24f, UiBuilder.DimLabelColor, -64f, 40f);
-        var activeLabel = Line(go, "Ativo", 24f, UiBuilder.DimLabelColor, -108f, 40f);
-        var passiveLabel = Line(go, "Passivo", 24f, UiBuilder.DimLabelColor, -152f, 40f);
+
+        // O nível na mesma linha do nome, à direita: é a primeira coisa que se
+        // procura depois de saber qual nave é.
+        var levelLabel = Line(go, "Nivel", 26f, UiBuilder.LabelColor, -26f, 40f);
+        levelLabel.alignment = TextAlignmentOptions.Right;
+
+        var statsLabel = Line(go, "Atributos", 22f, UiBuilder.DimLabelColor, -76f, 64f);
+        var activeLabel = Line(go, "Ativo", 22f, UiBuilder.DimLabelColor, -144f, 64f);
+        var passiveLabel = Line(go, "Passivo", 22f, UiBuilder.DimLabelColor, -212f, 36f);
+        var nextLabel = Line(go, "Proximo", 22f, UiBuilder.LabelColor, -254f, 36f);
+
+        // Duas linhas de altura: um upgrade que mexe em três números não cabe em
+        // uma, e cortar justamente o que o upgrade dá tiraria o motivo da linha.
+        var tierLabel = Line(go, "ProximoPatamar", 20f, UiBuilder.DimLabelColor, -292f, 60f);
+
+        // Evoluir no canto de baixo à direita, onde o polegar da mão direita
+        // alcança sem cobrir o texto que diz o que vai ganhar.
+        var evolve = UiBuilder.Button("BotaoEvoluir", go.transform, "Evoluir",
+                                      Vector2.zero, Vector2.zero, UiBuilder.PrimaryButton, 26f);
+        UiBuilder.Place(evolve.gameObject, new Vector2(1f, 0f), new Vector2(1f, 0f),
+                        new Vector2(-24f, 18f), new Vector2(340f, 64f));
+        var evolveLabel = evolve.GetComponentInChildren<TMP_Text>();
+
+        // Botões de teste à esquerda. O componente os esconde fora do Editor e de
+        // build de desenvolvimento.
+        var dev = UiBuilder.NewUI("Teste", go.transform);
+        UiBuilder.Place(dev, new Vector2(0f, 0f), new Vector2(0f, 0f),
+                        new Vector2(88f, 18f), new Vector2(300f, 64f));
+        var devReset = UiBuilder.Button("BotaoZerar", dev.transform, "Nv 1",
+                                        Vector2.zero, Vector2.zero, UiBuilder.DangerButton, 24f);
+        UiBuilder.Place(devReset.gameObject, new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+                        Vector2.zero, new Vector2(140f, 64f));
+        var devMax = UiBuilder.Button("BotaoMaximo", dev.transform, "Nv máx",
+                                      Vector2.zero, Vector2.zero, UiBuilder.DangerButton, 24f);
+        UiBuilder.Place(devMax.gameObject, new Vector2(0f, 0.5f), new Vector2(0f, 0.5f),
+                        new Vector2(156f, 0f), new Vector2(140f, 64f));
 
         var row = go.AddComponent<ShipSelectRow>();
         UiBuilder.SetReference(row, "button", button);
         UiBuilder.SetReference(row, "background", background);
         UiBuilder.SetReference(row, "marker", marker);
         UiBuilder.SetReference(row, "nameLabel", nameLabel);
+        UiBuilder.SetReference(row, "levelLabel", levelLabel);
         UiBuilder.SetReference(row, "statsLabel", statsLabel);
         UiBuilder.SetReference(row, "activeLabel", activeLabel);
         UiBuilder.SetReference(row, "passiveLabel", passiveLabel);
+        UiBuilder.SetReference(row, "nextLabel", nextLabel);
+        UiBuilder.SetReference(row, "tierLabel", tierLabel);
+        UiBuilder.SetReference(row, "evolveButton", evolve);
+        UiBuilder.SetReference(row, "evolveLabel", evolveLabel);
+        UiBuilder.SetReference(row, "devButtons", dev);
+        UiBuilder.SetReference(row, "devResetButton", devReset);
+        UiBuilder.SetReference(row, "devMaxButton", devMax);
 
         go.SetActive(false);
 

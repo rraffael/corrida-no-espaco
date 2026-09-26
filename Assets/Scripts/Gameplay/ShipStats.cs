@@ -103,6 +103,7 @@ public class ShipStats : MonoBehaviour
         levelModifiers = GetComponent<LevelModifiers>();
         abilities = GetComponent<ShipAbilities>();
 
+        ApplyEvolution();
         Recalculate();
 
         // Só agora a vida entra, e cheia. O Recalculate acima não podia encostar
@@ -172,7 +173,16 @@ public class ShipStats : MonoBehaviour
     /// <summary>A nave está com este traço agora?</summary>
     public bool Has(ShipTrait trait) => traits[(int)trait] > 0;
 
-    /// <summary>Valor de fábrica de um atributo, sem nada aplicado por cima.</summary>
+    /// <summary>
+    /// O nível de evolução desta nave, lido uma vez na largada. Evoluir é coisa
+    /// de menu; no meio da corrida ele não muda.
+    /// </summary>
+    public int Level { get; private set; } = 1;
+
+    /// <summary>
+    /// Valor de fábrica de um atributo, sem nada aplicado por cima — **nem a
+    /// evolução**. É contra este número que todo poder mede o seu bônus.
+    /// </summary>
     public float BaseValue(ShipStat stat)
     {
         switch (stat)
@@ -186,6 +196,29 @@ public class ShipStats : MonoBehaviour
             case ShipStat.KillSpeedGain: return definition.KillSpeedGain;
             case ShipStat.CrashCost: return definition.CrashCost;
             default: return 0f;
+        }
+    }
+
+    /// <summary>
+    /// Põe o **bônus de evolução** do nível da nave, um por atributo, como
+    /// soma fixa ao lado dos outros bônus.
+    ///
+    /// **Bônus, e não base** *(regra do Raffael, 26/09/2026)*: todo poder mede
+    /// contra o valor de fábrica, então a evolução não faz um poder render mais,
+    /// e um poder não faz a evolução render mais. Cada coisa soma o que é dela.
+    ///
+    /// Entra direto na lista, e não pelo <see cref="AddModifier"/>: são vários de
+    /// uma vez, antes da primeira conta, e cada AddModifier refaria a conta.
+    /// </summary>
+    void ApplyEvolution()
+    {
+        Level = ShipProgress.Level(definition);
+
+        for (int i = 0; i < StatCount; i++)
+        {
+            float bonus = ShipEvolution.Bonus(definition, (ShipStat)i, Level);
+            if (!Mathf.Approximately(bonus, 0f))
+                modifiers.Add(StatModifier.Plus((ShipStat)i, bonus));
         }
     }
 
