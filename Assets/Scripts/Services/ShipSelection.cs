@@ -11,8 +11,6 @@ using UnityEngine;
 /// </summary>
 public static class ShipSelection
 {
-    const string PrefsKey = "cne.ship";
-
     static ShipDefinition chosen;
     static bool loaded;
 
@@ -35,7 +33,7 @@ public static class ShipSelection
             if (!loaded)
             {
                 loaded = true;
-                chosen = catalog.ByName(PlayerPrefs.GetString(PrefsKey, string.Empty));
+                chosen = catalog.ByName(SaveGame.Data.ship);
             }
 
             return chosen ??= catalog.First();
@@ -53,8 +51,8 @@ public static class ShipSelection
         // Pelo nome do asset e não pelo displayName: o nome de tela é texto que
         // pode ser reescrito a qualquer momento, e a preferência do jogador não
         // pode se perder porque a "Nay" virou "Nayara".
-        PlayerPrefs.SetString(PrefsKey, ship.name);
-        PlayerPrefs.Save();
+        SaveGame.Data.ship = ship.name;
+        SaveGame.Save();
     }
 
     /// <summary>

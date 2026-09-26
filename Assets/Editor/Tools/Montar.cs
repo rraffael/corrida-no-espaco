@@ -39,8 +39,10 @@ static class Montar
     /// Estado em 26/09/2026: **dois passos — um asset e a Menu.unity.**
     ///
     /// Entrou a evolução das naves. O ShipSetup cria o molde de evolução em
-    /// Resources; a aba de naves é remontada para ganhar rolagem, saldo, nível
-    /// e os botões de evoluir. A corrida só ganhou código.
+    /// Resources; a aba de naves é remontada para ganhar rolagem, saldo, nível,
+    /// os botões de evoluir, a linha do próximo patamar e o "+1000" de teste. O
+    /// salvamento num arquivo, as verificações e os campos novos da ficha de
+    /// fase são só código.
     /// </summary>
     static readonly Step[] Steps =
     {

@@ -27,6 +27,12 @@ public class ShipSelectMenu : MonoBehaviour
     [Tooltip("O saldo da moeda do jogo, no alto da aba.")]
     [SerializeField] TMPro.TMP_Text walletLabel;
 
+    [Tooltip("Botão de teste que dá moeda. Só aparece no Editor e em build de desenvolvimento: " +
+             "serve para testar custo de evolução enquanto não há jeito de ganhar.")]
+    [SerializeField] UnityEngine.UI.Button devGiveButton;
+
+    const int DevGiveAmount = 1000;
+
     readonly List<ShipSelectRow> rows = new List<ShipSelectRow>();
     readonly List<ShipDefinition> ships = new List<ShipDefinition>();
 
@@ -53,6 +59,18 @@ public class ShipSelectMenu : MonoBehaviour
         }
 
         rowTemplate.gameObject.SetActive(false);
+
+        if (devGiveButton != null)
+        {
+            bool dev = Application.isEditor || Debug.isDebugBuild;
+            devGiveButton.gameObject.SetActive(dev);
+            devGiveButton.onClick.RemoveAllListeners();
+            devGiveButton.onClick.AddListener(() =>
+            {
+                Wallet.Add(DevGiveAmount);
+                Refresh();
+            });
+        }
 
         var catalog = ShipCatalog.Load();
         if (catalog == null)

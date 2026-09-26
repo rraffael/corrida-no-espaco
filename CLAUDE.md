@@ -9,6 +9,12 @@ Ler `ROADMAP.md` na raiz — é a fonte de verdade do plano e do estado atual.
 o que já funciona e o futuro. Serve para entender o jogo; o estado de cada tarefa é o ROADMAP.
 Mudou uma regra do jogo ou entrou feature nova? **os dois se atualizam juntos.**
 
+**A "📋 Lista do Raffael", no topo do ROADMAP, é viva — e é o canal, não o chat.** Tudo o que
+nascer para ele testar, balancear, desenhar, decidir ou rodar (Montar, commit) entra lá **antes**
+de ir para a resposta, e sai quando ele fizer. O que eu posso adiantar sem decisão dele fica na
+seção 🤖, em ordem de prioridade. Na resposta vai só o resumo e o aviso de que a lista mudou.
+Ao começar uma sessão, conferir a lista: o que ele disser que já fez sai de lá.
+
 ## O que é
 
 Jogo mobile Android feito na Unity `6000.3.20f1`. Divisão de trabalho:

@@ -28,6 +28,8 @@ static class ProjectTools
     public const string SetupAllItem = MenuRoot + "Montar";
 
     public const string PreflightItem = MenuRoot + "Conferir configuração";
+    public const string ChecksItem = MenuRoot + "Testes/Rodar verificações";
+    public const string DeleteSaveItem = MenuRoot + "Testes/Apagar o salvamento";
     public const string AndroidSdkItem = MenuRoot + "Conferir SDK do Android";
     public const string StoreArtItem = MenuRoot + "Gerar arte da loja";
     public const string BuildApkItem = MenuRoot + "Build/APK de teste";
@@ -162,6 +164,21 @@ static class ProjectTools
                       "e do 'Criar naves e poderes'.",
             MenuPath = ShipSelectItem,
             UndoMenuPath = ShipSelectUndoItem,
+        },
+        new Tool
+        {
+            Title = "Rodar verificações",
+            Summary = "Escadinha de evolução, tetos, regra de soma dos bônus, limites dos atributos, " +
+                      "pior caso de cada nave e integridade das fichas. Já roda sozinho a cada " +
+                      "compilação; o menu mostra o relatório inteiro, com os números de pior caso.",
+            MenuPath = ChecksItem,
+        },
+        new Tool
+        {
+            Title = "Apagar o salvamento",
+            Summary = "Apaga o save.json deste computador — níveis das naves, moeda, progresso e " +
+                      "recordes — para testar do zero no Editor. Não mexe no celular.",
+            MenuPath = DeleteSaveItem,
         },
         new Tool
         {

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 /// <summary>
 /// A moeda do jogo. **Provisória de ponta a ponta** *(pedido do Raffael,
 /// 26/09/2026)*: o nome é de mentira, o saldo começa em zero e não há jeito de
@@ -12,9 +10,7 @@ public static class Wallet
     /// <summary>Nome temporário. Trocar aqui troca em todas as telas.</summary>
     public const string CurrencyName = "Sucata";
 
-    const string BalanceKey = "cne.wallet";
-
-    public static int Balance => PlayerPrefs.GetInt(BalanceKey, 0);
+    public static int Balance => SaveGame.Data.wallet;
 
     public static bool TrySpend(int amount)
     {
@@ -24,8 +20,8 @@ public static class Wallet
         if (amount == 0)
             return true;
 
-        PlayerPrefs.SetInt(BalanceKey, Balance - amount);
-        PlayerPrefs.Save();
+        SaveGame.Data.wallet -= amount;
+        SaveGame.Save();
         return true;
     }
 
@@ -34,7 +30,7 @@ public static class Wallet
         if (amount <= 0)
             return;
 
-        PlayerPrefs.SetInt(BalanceKey, Balance + amount);
-        PlayerPrefs.Save();
+        SaveGame.Data.wallet += amount;
+        SaveGame.Save();
     }
 }

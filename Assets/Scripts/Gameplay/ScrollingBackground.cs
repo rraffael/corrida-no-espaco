@@ -96,6 +96,8 @@ public class ScrollingBackground : MonoBehaviour
             return;
         }
 
+        ApplyLevelLook(renderers);
+
         tiles = new Transform[renderers.Length];
         for (int i = 0; i < renderers.Length; i++)
             tiles[i] = renderers[i].transform;
@@ -110,6 +112,30 @@ public class ScrollingBackground : MonoBehaviour
 
         Debug.LogError("[Fundo] O ladrilho tem altura zero — sprite faltando?", this);
         enabled = false;
+    }
+
+    /// <summary>
+    /// O cenário que a ficha da fase pede: outra arte e uma tinta por cima. Sem
+    /// nada na ficha, o fundo fica o da cena. Antes de medir a altura, porque
+    /// a arte nova pode ter outro tamanho.
+    ///
+    /// ⚠️ A arte nova ocupa o lugar da antiga com a mesma escala. Arte de outra
+    /// proporção pode não cobrir a largura da tela — acertar o enquadramento é
+    /// da reforma das fases, quando houver arte de verdade.
+    /// </summary>
+    static void ApplyLevelLook(SpriteRenderer[] renderers)
+    {
+        var level = LevelSelection.Level;
+        if (level == null)
+            return;
+
+        foreach (var renderer in renderers)
+        {
+            if (level.backgroundSprite != null)
+                renderer.sprite = level.backgroundSprite;
+
+            renderer.color *= level.backgroundTint;
+        }
     }
 
     void Update()

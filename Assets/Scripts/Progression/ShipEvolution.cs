@@ -285,6 +285,12 @@ public static class ShipEvolution
     static string FieldName(string field) =>
         FieldNames.TryGetValue(field, out var shown) ? shown : field;
 
+    /// <summary>
+    /// Este campo de poder tem nome para a tela? As verificações do Editor
+    /// perguntam aqui para avisar de campo novo que ficou sem.
+    /// </summary>
+    public static bool HasFieldName(string field) => FieldNames.ContainsKey(field) || Hidden(field);
+
     static string Show(string field, object value)
     {
         // Usos em zero querem dizer "sem limite", e "0 → 2" leria como ganho.

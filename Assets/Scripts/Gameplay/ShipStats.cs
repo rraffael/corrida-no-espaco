@@ -240,7 +240,7 @@ public class ShipStats : MonoBehaviour
             if (stat == ShipStat.KillSpeedGain)
                 continue;
 
-            values[i] = Clamp(stat, Combine(stat, BaseValue(stat)));
+            values[i] = Clamp(stat, Combine(modifiers, stat, BaseValue(stat)));
         }
 
         // O ganho por abate fica para o fim, e fora do laço, porque é derivado: a
@@ -255,7 +255,7 @@ public class ShipStats : MonoBehaviour
         // número levemente errado, que é o pior tipo de bug.
         float killBase = values[(int)ShipStat.Acceleration] * definition.KillGainFactor;
         values[(int)ShipStat.KillSpeedGain] =
-            Clamp(ShipStat.KillSpeedGain, Combine(ShipStat.KillSpeedGain, killBase));
+            Clamp(ShipStat.KillSpeedGain, Combine(modifiers, ShipStat.KillSpeedGain, killBase));
 
         PushToRace();
         PushToHealth();
@@ -275,7 +275,7 @@ public class ShipStats : MonoBehaviour
     /// 2,25 vezes. Com multiplicação encadeada, quatro poderes modestos viram um
     /// número que nenhuma fase foi equilibrada para aguentar.
     /// </summary>
-    float Combine(ShipStat stat, float baseValue)
+    public static float Combine(IReadOnlyList<StatModifier> modifiers, ShipStat stat, float baseValue)
     {
         float bonus = 0f;
 
@@ -301,7 +301,7 @@ public class ShipStats : MonoBehaviour
     /// de defesa somando 120% fariam o dano virar negativo, e um poder que
     /// zerasse a cadência travaria a arma numa divisão por quase zero.
     /// </summary>
-    static float Clamp(ShipStat stat, float value)
+    public static float Clamp(ShipStat stat, float value)
     {
         switch (stat)
         {

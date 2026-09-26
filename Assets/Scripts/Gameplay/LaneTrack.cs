@@ -31,6 +31,18 @@ public class LaneTrack : MonoBehaviour
         }
 
         Instance = this;
+
+        // A fase pode pedir outra largura de pista; zero é a da cena. Aqui no
+        // Awake, que roda antes de nave e sorteadores (ordem -50), para ninguém
+        // ler o número velho.
+        var level = LevelSelection.Level;
+        if (level != null && level.laneCount >= 2 && level.laneCount != laneCount)
+        {
+            Debug.LogWarning($"[Pista] {level.displayName} pede {level.laneCount} faixas, e a cena foi " +
+                             $"montada para {laneCount}. A pista muda, mas as divisórias desenhadas " +
+                             "continuam as antigas até a reforma do modelo híbrido.", this);
+            laneCount = level.laneCount;
+        }
     }
 
     void OnDestroy()

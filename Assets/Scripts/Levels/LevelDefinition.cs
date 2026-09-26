@@ -25,6 +25,12 @@ public class ObstacleSchedule
 /// A ficha da fase: tudo o que faz a fase 2 ser diferente da fase 1. Antes disto,
 /// as regras viviam espalhadas entre o RaceDirector e o spawner, e criar uma fase
 /// nova exigiria mexer em código.
+///
+/// **A arquitetura da reforma das fases** *(26/09/2026)*: a ficha escolhe o
+/// repertório de obstáculos, o de modificadores, o cenário e a largura da pista.
+/// Os campos novos nascem com o comportamento de antes — vazio ou zero quer
+/// dizer "o da cena" —, então nenhuma fase existente mudou. A reforma em si é
+/// do Raffael, e começa daqui.
 /// </summary>
 [CreateAssetMenu(fileName = "Fase", menuName = "Corrida no Espaço/Ficha de fase")]
 public class LevelDefinition : ScriptableObject
@@ -77,6 +83,21 @@ public class LevelDefinition : ScriptableObject
 
     [Tooltip("Variação sorteada no intervalo, para não virar metrônomo.")]
     [Min(0f)] public float modifierIntervalJitter = 3f;
+
+    [Header("Cenário")]
+    [Tooltip("Arte do fundo desta fase. Vazio: o fundo da cena, que é o de hoje.\n\n" +
+             "Parte da arquitetura da reforma das fases (26/09/2026): o campo existe e é lido, e " +
+             "fase com cara própria passa a ser arquivo.")]
+    public Sprite backgroundSprite;
+
+    [Tooltip("Tinta sobre o fundo. Branco: a cor da arte, sem mudança.")]
+    public Color backgroundTint = Color.white;
+
+    [Header("Pista")]
+    [Tooltip("Quantas faixas esta fase tem. 0: a da cena (3), que é a única testada.\n\n" +
+             "⚠️ Outro número muda a pista, mas as divisórias desenhadas na cena continuam sendo " +
+             "as de 3 faixas — acertar isso é a reforma do modelo híbrido, na Parte 7.")]
+    [Min(0)] public int laneCount;
 
     [Header("Modo")]
     [Tooltip("Fase sem fim: não tem dobra, e a pontuação é quanto tempo a nave aguenta. " +

@@ -155,6 +155,12 @@ static class ShipSelectSetup
         var wallet = UiBuilder.Label("Saldo", box.transform, string.Empty, 34f,
                                      new Vector2(0f, 438f), new Vector2(820f, 50f), UiBuilder.LabelColor);
 
+        // Ao lado do saldo, no canto direito da caixa. O componente o esconde
+        // fora do Editor e de build de desenvolvimento.
+        var give = UiBuilder.Button("BotaoDarMoeda", box.transform, "+1000",
+                                    new Vector2(330f, 438f), new Vector2(150f, 56f),
+                                    UiBuilder.DangerButton, 26f);
+
         var rowsRoot = BuildScroll(box.transform, out var rowsObject);
 
         var layout = rowsObject.AddComponent<VerticalLayoutGroup>();
@@ -182,6 +188,7 @@ static class ShipSelectSetup
         UiBuilder.SetReference(select, "rowsRoot", rowsRoot);
         UiBuilder.SetReference(select, "rowTemplate", rowTemplate);
         UiBuilder.SetReference(select, "walletLabel", wallet);
+        UiBuilder.SetReference(select, "devGiveButton", give);
 
         return panel;
     }

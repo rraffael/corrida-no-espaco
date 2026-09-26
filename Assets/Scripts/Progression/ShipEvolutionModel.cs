@@ -134,7 +134,7 @@ public class ShipEvolutionModel : ScriptableObject
     [NonSerialized] ShipStat[] ladder;
     [NonSerialized] int[] ladderLevels;
 
-    internal void Ladder(out int[] levels, out ShipStat[] stats)
+    public void Ladder(out int[] levels, out ShipStat[] stats)
     {
         if (ladder == null)
             BuildLadder();

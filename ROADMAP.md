@@ -20,6 +20,132 @@ metade dela — ver lá.
 
 ---
 
+## 📋 Lista do Raffael — para fazer tudo junto
+
+*Aberta em 26/09/2026, a pedido dele: o que se acumula para ele **testar, balancear, desenhar e
+fazer** numa sessão só. Item entra aqui quando nasce e sai quando ele fizer. Os detalhes de cada
+um ficam na parte do ROADMAP indicada.*
+
+**Esta lista é o canal, e não o chat** *(pedido do Raffael, 26/09/2026)*: pendência, sugestão,
+comando para rodar e próximo passo proposto são escritos **aqui primeiro**. No chat vai só o
+resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só na conversa.
+
+### 📦 Para rodar agora
+*O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
+
+- [ ] **Olhar o Console depois de compilar** — as verificações rodam sozinhas e dizem numa linha
+      se passaram. Se sair erro vermelho de "[Verificações]", ele diz o quê
+- [ ] **Montar** — Tools → Corrida no Espaço → Montar (molde de evolução e aba de naves)
+- [ ] **Relatório completo** — Tools → Corrida no Espaço → Testes → **Rodar verificações**, para
+      ver os números de pior caso de cada nave
+- [ ] **Commit** — tudo de 26/09/2026 que ainda não foi commitado:
+      ```
+      git add -A
+      git commit -m "Evolução das naves, salvamento num arquivo, verificações automáticas, base da reforma das fases, Predadora e Recarga de poder"
+      ```
+
+### 🧪 Testar no aparelho
+- [ ] **A oficina:** evoluir uma nave alguns níveis e conferir os números e a linha "próximo
+      nível"; **Nv máx**, jogar uma corrida com ela; **Nv 1** para voltar *(Parte 6)*
+- [ ] **A linha "próximo patamar":** duplicar a ficha de um poder, mudar um número, ligar no
+      *Ability Upgrade 1* de uma nave e ver a comparação aparecer *(Parte 6)*
+- [ ] **O upgrade valendo na corrida:** com essa nave no nível 15 ou mais, o poder tem de sair
+      com o número novo *(Parte 6)*
+- [ ] **A lista de rolagem da aba de naves** — rolar com o dedo por cima dos botões *(Parte 6)*
+- [ ] **O salvamento migrou sozinho** — no celular que já tinha jogo, depois de instalar a versão
+      nova: as fases vencidas, a nave escolhida e os recordes continuam lá *(Parte 8)*
+- [ ] **O salvamento aguenta fechar o app** — evoluir uma nave, fechar o jogo pelo multitarefa,
+      abrir de novo: o nível tem de estar lá *(Parte 8)*
+- [ ] **O "+1000" da aba de naves** — soma no saldo; com custo diferente de 0 no molde, o botão
+      Evoluir passa a cobrar e a apagar quando falta moeda *(Parte 6)*
+- [ ] **Nada mudou nas fases** — os campos novos da ficha (cenário e largura da pista) nascem
+      vazios e não podem mudar nenhuma das quatro fases *(Parte 7)*
+
+### ⚖️ Balancear
+- [ ] **Cruzeiro evoluído × dobra** — pela conta, a nave no máximo sai do cruzeiro até a dobra do
+      Fácil em ~30 s só com o ganho passivo, contra ~50 s no nível 1. É a base para o "nível
+      esperado por fase" *(Parte 6 e 7)*
+- [ ] **Dano 1,5x** — o Casulo passa de 3 para 2 tiros no dano 35, que chega por volta do
+      **nível 48**; a Barcaça cai de 6 para 5 tiros no dano 28, no **nível 11** *(Parte 6)*
+- [ ] **Defesa empilhada** — evolução (+25) com o Reforço da Predadora (+40) chega a 65% *(Parte 6)*
+- [ ] **Atributos de cada nave** — hoje todas iguais; dar a cada uma o seu diferencial *(Parte 6)*
+- [ ] **Custo de cada nível e o nome da moeda** — hoje 0 e "Sucata", no molde e no `Wallet`
+      *(Parte 8)*
+- [ ] **Recarga de poder aparece para a Predadora**, que não tem o que recarregar *(Parte 7)*
+
+### ✏️ Desenhar e decidir
+- [ ] **Upgrade 1, upgrade 2 e passiva de cada nave** — Nave inicial, Nay, Raffa e Predadora.
+      Upgrade é a ficha do poder duplicada com números maiores *(Parte 6)*
+- [ ] **Mais naves e mais poderes** — a lista continua *(Parte 5)*
+- [ ] 🎨 **O visual da Predadora** — largada, 5 cargas e 10 cargas *(Parte 5)*
+- [ ] **Modificadores por fase** — junto com a reforma das fases *(Parte 7)*
+- [ ] **Barreira para naves fracas** — entra ou continua adiada *(Parte 6)*
+- [ ] **Power-downs e como o poder chega à pista** — os abertos da Parte 5
+
+### 🤖 O que o Claude pode fazer sem esperar decisão
+*Estrutura, ferramenta e segurança — nada que escolha conteúdo ou número de jogo. **Na ordem
+sugerida**: os dois primeiros juntos preparam a sessão de balancear. Basta o Raffael pedir pelo
+nome.*
+
+- [ ] ⏸️ **Painel de balanceamento** (Editor) — *esperando o OK do Raffael; ele pediu para
+      entender antes.* Uma **janela no Editor** (menu Tools → Corrida no Espaço → Balanceamento),
+      que não entra no jogo, com uma tabela: **uma linha por nave**, em colunas os níveis 1, 15,
+      40 e 60, e em cada célula os atributos daquele nível. Embaixo, a parte que ele gostou: o
+      **tempo estimado até a dobra**, por nave e nível, em cada dificuldade — quanto leva do
+      cruzeiro até a velocidade de dobra só com o ganho passivo, e com um abate a cada N segundos.
+      Mexeu num número de ficha ou do molde, a tabela se refaz na hora. **Serve para balancear
+      olhando, sem jogar 60 níveis**
+      - ⚠️ É estimativa, não simulação: não conta batida, raspão nem modificador pego. Dá a
+        ordem de grandeza e a comparação entre naves; o veredito continua sendo o aparelho
+
+**Feito em 26/09/2026:**
+
+- [x] **Verificações automáticas** — `Editor/Tools/GameChecks.cs`. **Não usam o Test Runner**:
+      o pacote de testes não está no projeto, e instalar pacote é decisão do Raffael — em C#
+      puro não há dependência, e um teste mal referenciado não derruba a compilação
+      - **Rodam sozinhas depois de cada compilação** — uma linha no Console quando passa, erro
+        vermelho quando algo quebra — e pelo menu **Testes → Rodar verificações**, com o
+        relatório inteiro
+      - **Leem as fichas de verdade:** nave nova no catálogo passa por tudo sem teste novo
+      - **O que verificam:**
+        - **escadinha** — 56 níveis de atributo, 8 degraus para cada atributo, patamares fora
+          dela e em ordem
+        - **cada nave** — nível 1 é o de fábrica, bônus zero no nível 1, **tetos** no nível 60,
+          nada desce no caminho, **cada nível sobe só o atributo da escadinha** e patamar não
+          sobe nenhum
+        - **evolução não multiplica poder** — para cada atributo de cada nave no nível 60,
+          evolução + poder de +40% dá exatamente a soma dos dois separados; e o abate, na cadeia
+          inteira da corrida, rende o mesmo com ou sem evolução
+        - **regra de soma** — a ordem não importa, dois ×1,5 dão ×2
+        - **limites** — defesa entre 0 e 99%, cadência, vida, aceleração e cruzeiro nunca
+          negativos ou abaixo do piso
+        - **pior caso** *(ideia do Raffael)* — nave no nível 60 com o poder no teto e todos os
+          modificadores de fase de atributo juntos. **Erro** se o cruzeiro passar da dobra mais
+          baixa (a fase se venceria esperando); **aviso** se a defesa bater em 99%; e os números
+          de cada nave vão para o relatório, para balancear
+        - **fichas** — upgrade de poder da mesma classe do poder anterior, todo número de poder
+          com nome para a tela, fases sem obstáculo ou modificador vazio, largura de pista válida
+        - **salvamento** — vai e volta pelo JSON sem perder campo
+      - Para isso, `ShipStats.Combine` e `ShipStats.Clamp` viraram funções puras e públicas — a
+        mesma conta, agora testável de fora
+- [x] **Salvamento num arquivo só** — `Services/SaveGame.cs`: `save.json` na pasta de dados do
+      app, com **versão**, e gravado à prova de queda (temporário → cópia `.bak` → troca; lendo,
+      cai no `.bak` se o principal estiver ilegível). Guarda fases vencidas, nave escolhida,
+      moeda, nível de cada nave, último nome e recordes. `LevelProgress`, `ShipSelection`,
+      `ShipProgress`, `Wallet` e `ScoreBoard` passaram a ler e gravar nele
+      - **Migração:** sem arquivo, o que houver nas chaves antigas de `PlayerPrefs` é importado
+        uma vez — os testadores não perdem nada. As chaves antigas ficam onde estão, como rede
+      - Menu **Testes → Apagar o salvamento**, para testar do zero no Editor
+      - É o que a nuvem da Fase 7 vai subir, e fecha o item "Persistência" da Parte 8
+- [x] **Botão "+1000"** na aba de naves, ao lado do saldo — só no Editor e em build de
+      desenvolvimento
+- [x] **A arquitetura base das fases** — a ficha da fase já escolhia obstáculos e modificadores;
+      ganhou **cenário** (arte e tinta do fundo) e **largura da pista** (número de faixas).
+      Vazio ou zero é o da cena, então nenhuma fase mudou. O `ScrollingBackground` e o
+      `LaneTrack` leem a ficha. A reforma continua do Raffael — ver a Parte 7
+
+---
+
 ## 🚀 Onde estamos — 26/09/2026
 
 **A Parte 5 fechou a parte dela que é código.** No mesmo dia: a escada da dobra aprovada no
@@ -2112,14 +2238,17 @@ lugar.
       em 26/09/2026)* — quais entram em cada fase se define junto com a reforma das fases. Hoje
       as quatro têm os quatro. Junto: a Recarga de poder aparece mesmo para a nave sem poder
       ativo (a Predadora), e é aqui que isso se resolve se incomodar
-- [ ] **A ficha da fase passa a escolher o cenário** — fundo próprio por fase, em vez do mesmo
-      campo de estrelas em todas
-- [ ] **A ficha da fase passa a escolher o repertório de obstáculos** — hoje a agenda diz *quando*
-      cada tipo entra, mas os tipos são os mesmos três em toda parte. Fase com repertório próprio
-      é o que faz duas fases parecerem lugares diferentes, e não a mesma corrida mais apertada
-- [ ] **A ficha da fase passa a escolher a largura da pista** — `laneCount` sai de constante e vira
-      campo. É o passo que a Metade 2 precisa, e é a única parte da arquitetura que exige a reforma
-      do `LaneTrack` (ver Parte 1)
+- [x] **A ficha da fase passa a escolher o cenário** — **base escrita em 26/09/2026:** campos
+      `backgroundSprite` e `backgroundTint`, lidos pelo `ScrollingBackground`. Vazio é o fundo da
+      cena. ⚠️ Arte de outra proporção pode não cobrir a largura da tela — enquadrar é da reforma,
+      com arte de verdade
+- [x] **A ficha da fase passa a escolher o repertório de obstáculos** — **já escolhia**: cada ficha
+      tem a própria lista de obstáculos com peso e hora de entrada. O que falta é conteúdo, não
+      estrutura — as quatro fases usam os mesmos três tipos
+- [x] **A ficha da fase passa a escolher a largura da pista** — **base escrita em 26/09/2026:**
+      campo `laneCount`, lido pelo `LaneTrack` no Awake. Zero é a da cena (3). ⚠️ Com outro
+      número a pista muda, mas as **divisórias desenhadas continuam as de 3 faixas** — acertar
+      isso é a reforma do modelo híbrido do `LaneTrack` (ver Parte 1), que continua aberta
 - [ ] **Fase nova continua custando um `.asset`** — é o critério de pronto desta metade. Se criar
       uma fase com cara nova exigir tocar em código, a arquitetura não ficou pronta
 
@@ -2175,11 +2304,11 @@ moeda é definido pelo que ela compra. Os gastos têm de existir antes do dinhei
       - Ao criar cada conquista, já anotar o **ID correspondente na Play** para o dia em que o
         `GPGSIds.cs` for regerado. Sem isso, casar dezenas de conquistas depois vira trabalho de
         conferência manual
-- [ ] **Persistência** — hoje tudo mora em `PlayerPrefs` (`Services/LevelProgress.cs`, recordes).
-      Economia é outra coisa: mais dados, mais estruturado. Decidir aqui o formato **sabendo que
-      ele vai viajar para a nuvem** (Fase 7) — um bloco serializável só, com versão, e não vinte
-      chaves soltas de `PlayerPrefs`. Migrar formato depois de haver jogador com saldo é o tipo de
-      dor que se evita agora, de graça
+- [x] **Persistência** — **feita em 26/09/2026**: `Services/SaveGame.cs`, um `save.json` com
+      versão, gravado à prova de queda, com migração das chaves antigas de `PlayerPrefs`. É o
+      bloco único que a nuvem da Fase 7 vai subir. Ver a Lista do Raffael, no topo
+      - *O motivo, registrado antes:* economia é mais dado e mais estruturado, e migrar formato
+        depois de haver jogador com saldo é a dor que se evita de graça
 - [ ] **Equilíbrio da economia é o que o teste fechado vai responder** *(posição do Raffael em
       21/08/2026)*. O teste interno acha feature ruim; ritmo de grind e "vale a pena a segunda
       nave?" só aparecem com gente que não sabe onde estão os números. Esta parte nasce **sabendo

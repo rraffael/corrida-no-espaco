@@ -7,26 +7,24 @@ using UnityEngine;
 /// 1→2→3. A fase sem fim fica fora da corrente e aberta desde o começo.
 ///
 /// Por ser corrente, e não uma grade de nove quadrados independentes, basta
-/// guardar **quantos degraus já caíram** — um int em PlayerPrefs. Sem lista, sem
+/// guardar **quantos degraus já caíram** — um int no salvamento. Sem lista, sem
 /// serialização, sem migração quando entrar uma quarta fase: o degrau é
 /// calculado a partir do catálogo, então mudar o número de fases não invalida o
 /// que o jogador já tem.
 /// </summary>
 public static class LevelProgress
 {
-    const string ClearedKey = "corrida.degraus-vencidos";
-
     /// <summary>Quantas dificuldades a corrente percorre.</summary>
     public const int DifficultyCount = 3;
 
     /// <summary>Degraus vencidos. Também é o índice do primeiro degrau ainda trancado.</summary>
     public static int StagesCleared
     {
-        get => PlayerPrefs.GetInt(ClearedKey, 0);
+        get => SaveGame.Data.stagesCleared;
         private set
         {
-            PlayerPrefs.SetInt(ClearedKey, value);
-            PlayerPrefs.Save();
+            SaveGame.Data.stagesCleared = value;
+            SaveGame.Save();
         }
     }
 
@@ -100,9 +98,5 @@ public static class LevelProgress
     }
 
     /// <summary>Zera a progressão. Existe para teste — nada no jogo chama.</summary>
-    public static void Reset()
-    {
-        PlayerPrefs.DeleteKey(ClearedKey);
-        PlayerPrefs.Save();
-    }
+    public static void Reset() => StagesCleared = 0;
 }
