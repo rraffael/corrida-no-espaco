@@ -22,12 +22,15 @@ metade dela — ver lá.
 
 ## 🚀 Onde estamos — 26/09/2026
 
-**A escada foi julgada no aparelho e ficou boa** — as três dificuldades, sem ajuste. Com isso o
-`WarpChargeLadderFix` saiu do projeto, e **a próxima coisa é a lista de naves e modificadores
-de fase** que o Raffael está trazendo. A estrutura para ela já existe: base com os ganchos, uma
-classe isolada por modificador — ver "O que falta para a fábrica ser fábrica".
+**A Parte 5 fechou a parte dela que é código.** No mesmo dia: a escada da dobra aprovada no
+aparelho, a primeira leva da lista do Raffael escrita, montada e **aprovada no aparelho** — a
+Predadora, o canto do poder com as cargas, o visual por estágio e a Recarga de poder —, e o
+toque duplo dado como bom. O que sobra da Parte 5 é **conteúdo do Raffael, que chega aos
+poucos**, e a escolha de modificadores por fase, que foi para a reforma das fases (Parte 7).
 
-**E a lista começou a chegar.** Primeira leva, escrita em 26/09/2026:
+**A próxima etapa é a Parte 6: a evolução das naves.** Ver "Retomar por aqui".
+
+**A primeira leva da lista**, escrita em 26/09/2026:
 
 - **Recarga de poder** (modificador de fase, Especial, instantâneo) — `AbilityRecharge`. Zera a
   recarga do poder da nave e, se ele for de usos limitados e já tiver gasto algum, devolve **um**,
@@ -53,14 +56,17 @@ classe isolada por modificador — ver "O que falta para a fábrica ser fábrica
   entra no fim do catálogo, e modificador recém-criado entra no repertório de todas as fases. Até
   aqui as duas só preenchiam lista vazia, e o conteúdo novo nunca chegaria ao jogo. Tirar um item
   à mão continua não sendo desfeito, porque a ficha dele já existe e ele não conta como novo
-- [ ] **Rodar o Montar** — três passos: `ShipSetup`, `ModifierSetup` e `BattleSetup` (a
-      `Game.unity`, para o visual por estágio)
-- [ ] **Julgar no aparelho:** a Predadora do começo ao teto — o contador no canto e as duas
-      mudanças de visual —, e a Recarga com a Nay (recarga de 30 s) e com a Raffa (carga única)
-      - ⚠️ **+40% de aceleração ainda ajuda a chegar à dobra**, porque o ganho por abate sai
-        dela. Bem menos que antes, sem o cruzeiro; é o ponto a observar no Difícil
+- [x] **O Montar da leva** (26/09/2026) — `ShipSetup`, `ModifierSetup` e `BattleSetup`.
+      **Conferido no disco:** a Predadora no catálogo, a Recarga no repertório das quatro fases e
+      o `ShipStageLook` na nave da `Game.unity`. Compilação limpa
+- [x] **Julgado no aparelho — APROVADO** (26/09/2026) — a UI está certa e a Predadora está boa
+- [x] **O Montar das 10 cargas** (26/09/2026) — **rodado e conferido no disco:** a ficha do
+      Reforço com 4% por carga, teto de 40% e estágios em 5 e 10; os outros dois poderes com os
+      números de sempre; a Predadora no catálogo com as outras três; as quatro fases com os
+      quatro modificadores. Compilação limpa, e o `Montar.cs` voltou a ficar vazio
       - ⚠️ **Para a Predadora, a Recarga de poder não faz nada**, porque ela não tem poder ativo.
-        O item continua aparecendo na pista para ela
+        O item continua aparecendo na pista para ela. Fica anotado para a reforma das fases, que é
+        onde se decide o que aparece em cada uma
 - [ ] 🎨 **Desenhar o visual da Predadora** — três estágios: largada, 5 cargas e 10 cargas. Hoje
       é só tinta e tamanho (`ShipStageLook`)
 
@@ -228,10 +234,10 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
 - [x] **Apagar o `WarpChargeLadderFix`** (26/09/2026) — saíram o `.cs`, o `.meta`, a pasta
       `Correções/` e o `.meta` dela, o passo no `Montar.cs` (a lista ficou vazia) e as entradas no
       `ProjectTools`. Ele está no commit `92e83f7`, de onde volta. Ver "A escada do tempo de dobra"
-- [ ] **A sessão de autoria do Raffael** (aberta em 31/08/2026) — ele parou aqui para **desenhar
-      mais naves e mais modificadores de fase**, e **volta com a lista em 02/09/2026**. É a
-      primeira vez que o projeto vai criar conteúdo em cima de uma fábrica pronta, e é o teste real
-      da promessa "fábrica, não estoque"
+- [x] **A sessão de autoria do Raffael — primeira leva entregue e aprovada** (26/09/2026): a
+      Predadora e a Recarga de poder. **Mais naves e poderes chegam depois, aos poucos**, sem
+      travar a Parte 6 — cada um é uma classe e uma entrada na receita, e as montagens já o
+      acrescentam ao catálogo e às fases
       - **Como cada item da lista entra:** modificador de fase é uma classe filha de
         `LevelModifier` (o comum e os ganchos ficam na base, o efeito na filha) mais uma entrada
         na receita do `ModifierSetup`. Poder de nave segue o mesmo desenho sobre `ShipAbility`.
@@ -246,9 +252,11 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
       "A leva de 30/08", na Parte 5
 - [x] **`ShipStats` virou ficha em disco** (21/08/2026) — **rodado e conferido.**
       Ver Parte 6 para o que mudou e por quê
-- [ ] **Parte 5 — poderes em partida.** Primeiro bloco de feature, porque é pura jogabilidade:
-      ciclo curto e julgado no polegar, exatamente como foi a batida
-- [ ] **Parte 6 — naves, diferenciação e evolução.** É o eixo do qual o resto pende
+- [x] **Parte 5 — poderes em partida** — **a estrutura está fechada e aprovada no aparelho**
+      (26/09/2026). O que continua é conteúdo do Raffael, que entra aos poucos sem travar as
+      partes seguintes
+- [ ] 🥇 **PRÓXIMA: Parte 6 — naves, diferenciação e evolução.** É o eixo do qual o resto pende.
+      Começa pelas decisões de forma da evolução — ver a Parte 6
 - [ ] **Parte 7 — fases: arquitetura e a experiência das 5 faixas.** ⚠️ A arquitetura fica; a
       experiência pode ser retirada se não se sustentar no teste
 - [ ] **Parte 8 — recursos, nível, recompensas e conquistas.** Por último dos de mecânica, porque
@@ -540,8 +548,8 @@ Onde cada tipo de conteúdo está:
   do jogador, recompensas e a UI refeita. Ver Partes 6 a 9.
 - ~~O tato da rodada de 07/08 nunca foi julgado num aparelho~~ — **julgado e aprovado em
   21/08/2026.**
-- **Nenhuma montagem pendente** (26/09/2026) — a lista do `Montar.cs` está vazia. O
-  `WarpChargeLadderFix` já foi apagado, e não há conserto pontual no projeto.
+- **Nenhuma montagem pendente** (26/09/2026) — a lista do `Montar.cs` está vazia, e não há
+  conserto pontual no projeto.
   *(O `applicationId` continua conferido no disco desde 08/08:
   `br.com.raffael.corridanoespaco`, target 36, `productName` "Corrida no Espaço", versão
   `0.1.0`.)*
@@ -1792,10 +1800,11 @@ ativar em qualquer lugar se completam.
       fase é item **redondo** na pista e vira um quadradinho com relógio no alto à **esquerda**; o
       da nave é um canto fixo no alto à **direita**, que só pisca ao ficar pronto. Forma diferente,
       canto diferente, comportamento diferente — nenhuma das três coincidências existe
-- [ ] ⚠️ **Afinar toque duplo × arraste no aparelho** — os limiares nascem com chute
-      (janela 0,28 s, distância 140 px) e só se acertam com o dedo. **Na dúvida, arraste ganha:**
-      ativar poder sem querer custa mais que um toque duplo ignorado
-- [ ] **Quais modificadores entram em cada fase** — **o campo existe e é lido** desde 30/08
+- [x] **Toque duplo × arraste — APROVADO no aparelho** (26/09/2026) com os limiares de
+      nascença (janela 0,28 s, distância 140 px). Não foi preciso mexer
+- [ ] ➡️ **Quais modificadores entram em cada fase — adiado para a Parte 7** *(decisão do
+      Raffael, 26/09/2026)*: vai ser definido junto com a reforma do sistema de fases. O campo
+      existe e é lido desde 30/08
       (`LevelDefinition.modifiers`), e hoje as quatro fases têm os três, para o teste ser o mesmo
       em qualquer uma. Quais entram em qual continua sendo decisão em aberto — mas já é **edição
       de asset, não código**. Liberar variedade com o progresso (nível do jogador, avanço nas
@@ -1950,7 +1959,8 @@ ativar em qualquer lugar se completam.
 - [ ] **Cuidado novo — o escudo mexe no que já foi aprovado.** A batida custa ~3,5 s, e foi assim
       que ficou boa. Escudo que anula batida anula o custo que dá peso à corrida inteira; decidir
       se ele **absorve** (vira raspão) ou **anula** é a decisão de equilíbrio desta parte
-- [ ] Testar no aparelho antes de a Parte 6 começar — regra das partes, vale aqui como valeu antes
+- [x] Testar no aparelho antes de a Parte 6 começar — **feito em 26/09/2026**: poderes,
+      modificadores, a Predadora, o canto do poder e o toque duplo, todos aprovados
 
 ### Parte 6 — Naves: variedade, diferenciação e evolução 🟡
 *Aberta em 21/08/2026. **É o eixo do qual o resto pende** — evolução, loja e recompensa todas se
@@ -2020,6 +2030,10 @@ lugar.
 
 **Metade 1 — a arquitetura. Esta acontece de qualquer jeito.**
 
+- [ ] **A ficha da fase passa a escolher os modificadores** *(veio da Parte 5, decisão do Raffael
+      em 26/09/2026)* — quais entram em cada fase se define junto com a reforma das fases. Hoje
+      as quatro têm os quatro. Junto: a Recarga de poder aparece mesmo para a nave sem poder
+      ativo (a Predadora), e é aqui que isso se resolve se incomodar
 - [ ] **A ficha da fase passa a escolher o cenário** — fundo próprio por fase, em vez do mesmo
       campo de estrelas em todas
 - [ ] **A ficha da fase passa a escolher o repertório de obstáculos** — hoje a agenda diz *quando*
