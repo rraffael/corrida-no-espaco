@@ -20,7 +20,19 @@ metade dela — ver lá.
 
 ---
 
-## 🚀 Onde estamos — 01/09/2026
+## 🚀 Onde estamos — 26/09/2026
+
+**A escada foi julgada no aparelho e ficou boa** — as três dificuldades, sem ajuste. Com isso o
+`WarpChargeLadderFix` saiu do projeto, e **a próxima coisa é a lista de naves e modificadores
+de fase** que o Raffael está trazendo. A estrutura para ela já existe: base com os ganchos, uma
+classe isolada por modificador — ver "O que falta para a fábrica ser fábrica".
+
+**E um erro de compilação meu, de 01/09, consertado:** ao tirar a ligação do `director` do
+`SpeedHud`, saiu junto a declaração de `speedHud` no `BattleSetup`, mas o uso dela em `hideOnEnd`
+ficou (`CS0103`). O commit `92e83f7` foi com o erro. A variável voltou, buscando o `SpeedHud`
+dentro do Canvas.
+
+### O que veio antes — 01/09/2026
 
 **A régua foi medida, e ela virou três réguas.** A calibragem que abria o dia respondeu o que
 prometia — 1,5 s rápido demais, 5 s começando a arrastar — e o Raffael tirou dela uma conclusão
@@ -36,7 +48,7 @@ emprestado e entrou na mesma família. Ver "A unidade do jogo".
 
 **O Montar rodou, e os assets foram conferidos no disco:** `Fase1`, `Fase2` e `Fase3` com
 `warpChargeSeconds: 2`, `FaseInfinita` intocada (999 / 0) e o catálogo com os bônus 0 · 0,8 · 1,5.
-*Falta julgar no aparelho — uma rodada em cada dificuldade.*
+*Julgada no aparelho em 26/09/2026 — ficou boa.*
 
 ### O que veio antes — 31/08/2026
 
@@ -83,12 +95,12 @@ voltas de veredito e conserto, todas no polegar.
 É a virada que a Parte 5 existia para permitir: **até aqui o trabalho era construir a fábrica, e a
 partir daqui é usá-la.** Duas coisas ficam abertas enquanto isso:
 
-- ⚠️ **A régua foi medida e montada em 01/09, mas a escada ainda não foi jogada** — falta uma
-  rodada em cada dificuldade. Continua valendo o motivo de vir antes de desenhar: régua torta faz
-  nascer torto tudo o que se medir por ela
-- ⚠️ **A fábrica de modificadores ainda não é fábrica:** modificador novo custa classe C#, mesmo
-  quando o efeito é só "mexe num atributo". É o que mais vai atrapalhar a sessão de autoria dele.
-  Ver "O que falta para a fábrica ser fábrica", abaixo
+- [x] ~~A régua foi medida e montada em 01/09, mas a escada ainda não foi jogada~~ — **julgada e
+  aprovada em 26/09/2026**
+- [x] ~~A fábrica de modificadores ainda não é fábrica~~ — **desatualizado desde 31/08/2026.**
+  Modificador novo custar uma classe C# é a regra escolhida pelo Raffael, não dívida: a base
+  `LevelModifier` guarda o que é comum e os ganchos, e cada modificador é uma classe isolada. Ver
+  "O que falta para a fábrica ser fábrica", abaixo
 
 ---
 
@@ -158,7 +170,7 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
         logo abaixo
 - [x] **O Montar da escada** (01/09/2026) — **rodado**, e conferido no disco: as três fases em
       `warpChargeSeconds: 2`, a `FaseInfinita` intocada e o catálogo com 0 · 0,8 · 1,5
-- [ ] 🥇 **PRIMEIRA COISA DE AMANHÃ: julgar a escada no aparelho** — uma rodada em cada
+- [x] 🥇 **Julgar a escada no aparelho — APROVADA** (26/09/2026), sem ajuste. Uma rodada em cada
       dificuldade, sentindo se 3,5 s no Difícil ainda é resistência ou já virou castigo. Junto vêm
       as três telas com a unidade nova (`un/s`, `un`) e o rodapé sem a meta
       - **Onde se mexe, se algum dos três números precisar de ajuste:** `Assets/Levels/Fase*.asset`,
@@ -176,17 +188,17 @@ Três condições que o Raffael fixou no mesmo dia, e que mudam decisões:
         régua contra a qual todo poder e todo modificador vão ser equilibrados. Se a régua estiver
         torta, o conteúdo desenhado em cima dela nasce torto junto — e aí não é um número para
         corrigir, são todos
-- [ ] **Apagar o `WarpChargeLadderFix`** — ele já fez o que existia para fazer. **Só depois do
-      commit**, senão não há de onde resgatar: saem o `.cs`, o `.meta`, a pasta `Correções/` (que
-      fica vazia), o passo no `Montar.cs` e as duas entradas no `ProjectTools`. Ver "A escada do
-      tempo de dobra"
+- [x] **Apagar o `WarpChargeLadderFix`** (26/09/2026) — saíram o `.cs`, o `.meta`, a pasta
+      `Correções/` e o `.meta` dela, o passo no `Montar.cs` (a lista ficou vazia) e as entradas no
+      `ProjectTools`. Ele está no commit `92e83f7`, de onde volta. Ver "A escada do tempo de dobra"
 - [ ] **A sessão de autoria do Raffael** (aberta em 31/08/2026) — ele parou aqui para **desenhar
       mais naves e mais modificadores de fase**, e **volta com a lista em 02/09/2026**. É a
       primeira vez que o projeto vai criar conteúdo em cima de uma fábrica pronta, e é o teste real
       da promessa "fábrica, não estoque"
-      - ⚠️ **A fábrica ainda não cumpre a promessa para modificador**, e é o que mais atrapalha
-        esta sessão: modificador novo hoje é **classe C# nova** mais uma entrada na receita do
-        `ModifierSetup`, mesmo quando o efeito é só "mexe num atributo". Ver "O que falta para a
+      - **Como cada item da lista entra:** modificador de fase é uma classe filha de
+        `LevelModifier` (o comum e os ganchos ficam na base, o efeito na filha) mais uma entrada
+        na receita do `ModifierSetup`. Poder de nave segue o mesmo desenho sobre `ShipAbility`.
+        Uma classe por item, isolada, **por escolha do Raffael** — ver "O que falta para a
         fábrica ser fábrica", logo abaixo
 - [x] **"Não atira trocando de faixa" — APROVADO** (30/08/2026) — julgado no aparelho pelo
       Raffael, com o veredito **"funciona perfeito"**. A experiência vira regra do jogo. Não foi
@@ -253,12 +265,13 @@ que o antigo — no catálogo, ao lado dele, e não na ficha da fase.
 
 | Conserto pontual | O que faz | Estado |
 |---|---|---|
-| `Correções/WarpChargeLadderFix.cs` | Põe 2 s nas fichas de fase que já existem e os bônus 0 · +0,75 · +1,5 no catálogo. Existe porque o `LevelSetup` não sobrescreve asset criado antes. | **Escrito, esperando o Montar** |
+| `Correções/WarpChargeLadderFix.cs` | Põe 2 s nas fichas de fase que já existem e os bônus 0 · +0,75 · +1,5 no catálogo. Existe porque o `LevelSetup` não sobrescreve asset criado antes. | **Rodado, aprovado e apagado** (26/09/2026) |
 
 Depois de rodar e ser aprovado, ele sai do projeto com o `.meta`, com o passo no `Montar.cs` e com
 as entradas no `ProjectTools` — os números dele já são os padrões do `LevelSetup`, então fase nova
 nasce certa sem ele. Para trazê-lo de volta:
-`git checkout <commit de 01/09/2026> -- "Assets/Editor/Tools/Correções/"`.
+`git checkout 92e83f7 -- "Assets/Editor/Tools/Correções/" "Assets/Editor/Tools/Correções.meta"`
+— e devolver o passo no `Montar.cs` e as entradas no `ProjectTools`, que saíram junto.
 
 #### A unidade do jogo — 01/09/2026
 
@@ -484,16 +497,14 @@ Onde cada tipo de conteúdo está:
   as faixas do caminho, e não só o destino.
 
 **Faltando**
-- **A escada do tempo de dobra não foi julgada** — 2 · 2,8 · 3,5 s, montado e conferido no disco,
-  mas ainda não jogado. É a única coisa por julgar, e é de equilíbrio. *(O teto de 31/08 já foi
-  jogado: as três rodadas de calibragem de 01/09 aconteceram com ele valendo.)*
+- ~~A escada do tempo de dobra não foi julgada~~ — **julgada e aprovada em 26/09/2026**, sem
+  ajuste: 2 · 2,8 · 3,5 s.
 - **O resto do meta-jogo** — evolução de naves, fases com cara própria, recursos e economia, nível
   do jogador, recompensas e a UI refeita. Ver Partes 6 a 9.
 - ~~O tato da rodada de 07/08 nunca foi julgado num aparelho~~ — **julgado e aprovado em
   21/08/2026.**
-- **Nenhuma montagem pendente** (01/09/2026) — o Montar da escada rodou e os assets foram
-  conferidos; o resto do dia foi só código. **Pendura um item de faxina:** apagar o
-  `Correções/WarpChargeLadderFix.cs` depois do commit.
+- **Nenhuma montagem pendente** (26/09/2026) — a lista do `Montar.cs` está vazia. O
+  `WarpChargeLadderFix` já foi apagado, e não há conserto pontual no projeto.
   *(O `applicationId` continua conferido no disco desde 08/08:
   `br.com.raffael.corridanoespaco`, target 36, `productName` "Corrida no Espaço", versão
   `0.1.0`.)*

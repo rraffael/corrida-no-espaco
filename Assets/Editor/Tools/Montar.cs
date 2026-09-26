@@ -36,16 +36,11 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 01/09/2026: **um passo, e ele só mexe em asset.**
-    ///
-    /// A mudança do dia foi o tempo de dobra virar escada de dificuldade. O
-    /// código já lê o bônus novo, mas as fichas de fase e o catálogo são assets
-    /// criados antes — e o LevelSetup não sobrescreve o que já existe. O passo
-    /// existe para alcançá-los. Nenhuma cena muda.
+    /// Estado em 26/09/2026: **vazia.** A mudança do dia foi só apagar o
+    /// conserto da escada do tempo de dobra, que já tinha rodado.
     /// </summary>
     static readonly Step[] Steps =
     {
-        new Step("Escada do tempo de dobra (fases + catálogo)", WarpChargeLadderFix.Fix),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

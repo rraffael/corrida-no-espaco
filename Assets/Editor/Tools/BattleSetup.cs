@@ -156,6 +156,7 @@ static class BattleSetup
         // O HUD e o botão de pausa somem quando a corrida acaba, para não
         // competirem com o painel de fim.
         var pauseButton = canvas.transform.Find(PauseButtonObject);
+        var speedHud = canvas.GetComponentInChildren<SpeedHud>(true);
         UiBuilder.SetReferenceArray(director, "hideOnEnd",
                                     healthHud,
                                     warpHud,
