@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// Muda o visual da nave conforme o **estágio do poder condicional** dela — hoje,
-/// a Predadora com 10 e com 20 cargas do Reforço estrutural.
+/// a Predadora com 5 e com 10 cargas do Reforço estrutural.
 ///
 /// ⚠️ **É marcador de lugar, e está aqui para ser trocado** *(pedido do Raffael,
 /// 26/09/2026)*: só tinge e aumenta um pouco a nave a cada estágio, para ele

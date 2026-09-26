@@ -35,14 +35,14 @@ classe isolada por modificador — ver "O que falta para a fábrica ser fábrica
   pela nave (`ShipStats.RechargeAbility` → `ShipAbilities.Recharge`): o modificador de fase
   continua sem conhecer o poder da nave
 - **Predadora** (nave, atributos de fábrica) com o **Reforço estrutural** —
-  `StructuralReinforcementConditional`. Cada abate a tiro é uma carga: soma 2% da base em
-  aceleração, dano e cadência, e **2 pontos** de defesa, até 40% (20 cargas). Vale até o fim da
+  `StructuralReinforcementConditional`. Cada abate a tiro é uma carga: soma 4% da base em
+  aceleração, dano e cadência, e **4 pontos** de defesa, até 40% (10 cargas). Vale até o fim da
   corrida, e a batida não tira o que foi ganho
   - **O cruzeiro saiu do poder** *(pedido do Raffael, 26/09)* — na primeira versão ele subia
     junto e aproximava demais a nave da dobra
-  - **O canto do poder mostra as cargas** — `7` grande e `/20` embaixo, clareando conforme enche.
+  - **O canto do poder mostra as cargas** — `7` grande e `/10` embaixo, clareando conforme enche.
     Nave sem ativo e com condicional usa o canto para o condicional; com os dois, o ativo ganha
-  - **A nave muda com 10 e com 20 cargas** — `ShipStageLook`, que tinge e aumenta um pouco.
+  - **A nave muda com 5 e com 10 cargas** — `ShipStageLook`, que tinge e aumenta um pouco.
     ⚠️ **É marcador de lugar**, pedido para lembrar de **desenhar o visual da Predadora**: a
     largada, o do meio e o final. Os estágios vêm do `stageCounts` da ficha do poder
 - **Tipo novo de poder de nave: o condicional** *(decisão do Raffael, 26/09)* — `ShipConditional`
@@ -61,7 +61,7 @@ classe isolada por modificador — ver "O que falta para a fábrica ser fábrica
         dela. Bem menos que antes, sem o cruzeiro; é o ponto a observar no Difícil
       - ⚠️ **Para a Predadora, a Recarga de poder não faz nada**, porque ela não tem poder ativo.
         O item continua aparecendo na pista para ela
-- [ ] 🎨 **Desenhar o visual da Predadora** — três estágios: largada, 10 cargas e 20 cargas. Hoje
+- [ ] 🎨 **Desenhar o visual da Predadora** — três estágios: largada, 5 cargas e 10 cargas. Hoje
       é só tinta e tamanho (`ShipStageLook`)
 
 **E um erro de compilação meu, de 01/09, consertado:** ao tirar a ligação do `director` do
@@ -1988,9 +1988,12 @@ oficina —, que é o que dá nome à parte. Ver "A leva de 30/08", na Parte 5, 
       - **A ficha inicial não repete número nenhum:** os valores de fábrica do `ShipDefinition` já
         são os que foram equilibrados e aprovados no aparelho, e duplicá-los no `ShipSetup` criaria
         dois lugares para manter iguais — um deles ficaria para trás
-- [ ] **Catálogo de naves**, no mesmo molde do `LevelCatalog`, para a loja e a seleção lerem de um
-      lugar só e nave nova aparecer sem rodar ferramenta
-- [ ] **O que diferencia uma nave da outra** *(decisão do Raffael)*. Os atributos que já existem e
+- [x] **Catálogo de naves**, no mesmo molde do `LevelCatalog` — existe desde 30/08
+      (`Resources/ShipCatalog.asset`); desde 26/09/2026 a montagem acrescenta a ele toda nave
+      recém-criada
+- [x] **O que diferencia uma nave da outra** *(decisão do Raffael)* — **respondido em 30/08/2026:
+      algo que só ela faz.** O poder é único por nave, e os atributos continuam iguais entre elas
+      por enquanto. A pergunta original fica abaixo, como registro. Os atributos que já existem e
       já estão equilibrados: **aceleração** (manda no arranque, na retomada da batida e no ganho
       passivo), **velocidade de cruzeiro**, **defesa em %**, **vida** e **ganho por abate**
       (`killGainFactor`). A pergunta de projeto é se a diferença fica só nesses números ou se cada

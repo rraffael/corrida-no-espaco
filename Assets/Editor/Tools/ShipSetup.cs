@@ -79,12 +79,12 @@ static class ShipSetup
             "Condicional-ReforcoEstrutural", conditional =>
             {
                 conditional.displayName = "Reforço estrutural";
-                conditional.description = "Cada abate soma 2% em defesa, dano, cadência e " +
+                conditional.description = "Cada abate soma 4% em defesa, dano, cadência e " +
                                           "aceleração, até 40%.";
-                conditional.trigger = "a cada abate, até 20 cargas";
-                conditional.percentPerKill = 2f;
+                conditional.trigger = "a cada abate, até 10 cargas";
+                conditional.percentPerKill = 4f;
                 conditional.maxPercent = 40f;
-                conditional.stageCounts = new[] { 10, 20 };
+                conditional.stageCounts = new[] { 5, 10 };
                 conditional.color = new Color(0.95f, 0.35f, 0.3f, 1f);
             });
 
