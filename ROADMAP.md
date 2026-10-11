@@ -33,21 +33,16 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 ### 📦 Para rodar agora
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-- [ ] **Commit desta revisão do ROADMAP** (11/10/2026) — documentos e o texto do aviso de
-      símbolos no `BuildAndroid` (caminho novo do Play Console). Nada a montar:
-      ```
-      git add ROADMAP.md CLAUDE.md docs/play-console/caminho-ate-a-play-store.md Assets/Editor/Tools/BuildAndroid.cs
-      git commit -m "ROADMAP: fechamento de 11/10, versão 2 no teste interno"
-      ```
+*Nada pendente.* Os commits de 11/10/2026 estão todos feitos — o último é *"ROADMAP: fechamento
+de 11/10, versão 2 no teste interno"*.
 
 ### 🛒 Play Console — acompanhar
 - [ ] **A primeira revisão da Play** — os 10 itens (página do app e declarações de 08/08) foram
       enviados em 11/10/2026. Costuma levar de alguns dias a uma semana; **não trava o teste
       interno**. Se voltar recusado, trazer o motivo
-- [ ] **Confirmar duas coisas que o Claude apontou antes do envio** *(não se sabe se entraram)*:
-      o nome em pt-BR **"Corrida no Espaço"** com "E" maiúsculo, e o **"Google Play Games no PC"**
-      desativado em *Testar e lançar → Configurações avançadas → Formatos* — o jogo é retrato e de
-      toque, nunca rodou no PC. Se ficaram para trás, corrigir manda um envio novo para revisão
+- [x] **O nome pt-BR e o formato PC** ✅ *corrigidos pelo Raffael em 11/10/2026* — o nome em
+      pt-BR virou **"Corrida no Espaço"**, com "E" maiúsculo, e o **"Google Play Games no PC"** foi
+      desativado. As correções foram para a revisão
 
 ### 📱 Jogando no aparelho — com a esposa
 *Versão 2 (`0.1.0`, código 2) no teste interno desde 11/10/2026, instalada pela Play nos dois
@@ -301,7 +296,7 @@ código 1.
 2. **Balancear** com o painel aberto (⚖️)
 3. **A conversa sobre os ranks S → E**, que muda o molde de evolução — o próximo desenho da
    Parte 6
-4. **Acompanhar a revisão da Play** e confirmar o nome pt-BR e o formato PC (🛒)
+4. **Acompanhar a revisão da Play** (🛒) — o nome pt-BR e o formato PC já foram corrigidos
 
 ---
 
