@@ -30,33 +30,29 @@ um ficam na parte do ROADMAP indicada.*
 comando para rodar e próximo passo proposto são escritos **aqui primeiro**. No chat vai só o
 resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só na conversa.
 
-### 📦 Para rodar agora — antes de encerrar hoje
+### 📦 Para rodar agora
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-- [ ] **Montar** (um clique) — Tools → Corrida no Espaço → Montar. Um passo só: cria o cartão
-      de "Conquista completa" na `Menu.unity`. **De preferência antes do commit**, para a cena já
-      ir montada
-- [x] **Commit** ✅ *feito pelo Raffael (26/09)* — tudo de 26/09/2026:
+- [ ] **Commit de 11/10/2026** — `Montar.cs` esvaziado e o item **Subir version code (+1)**.
+      Só código, nada a montar. Se já tiver clicado no +1, o `ProjectSettings` vai junto:
       ```
       git add -A
-      git commit -m "Evolução das naves, oficina e moeda provisória, salvamento num arquivo, estatísticas e conquistas com aviso, verificações automáticas, painel de balanceamento, base da reforma das fases, Predadora e Recarga de poder"
+      git commit -m "Montar vazio, item de subir version code e lista de teste para o envio pela Play"
       ```
 
-### 💻 Amanhã, no computador — antes de jogar
-*O que ficou faltando da conferência de hoje no Editor. Poucos minutos.*
+### 💻 No computador — ✅ fechado em 11/10/2026
+*Testado pelo Raffael; conferido no disco pelo Claude.*
 
-- [ ] **A conquista de evoluir** — o contador e o aviso entraram depois dos testes de hoje:
-      1. Se o Montar não rodou antes do commit, rodar agora
-      2. Na ficha da sua conquista de evoluir: **Counter → Ship Level Ups**, **Target → 1**,
-         **Ship** vazio (qualquer nave). Reward: qualquer valor por enquanto (ver ⚖️)
-      3. Play na `Menu.unity` → **Naves** → **Evoluir** uma nave. No alto da tela aparece o cartão
-         verde *"Conquista completa! · <nome> · N Sucata para resgatar"*, e some sozinho
-      4. **Conquistas** → **Resgatar** → a Sucata sobe
-      - Os botões de teste **Nv 1** e **Nv máx** **não contam** como evolução — de propósito
-- [ ] **O aviso de uma corrida** — completar uma conquista jogando (uma de abate, por exemplo) e
-      voltar ao menu: o cartão tem de aparecer lá
-- [ ] **As conquistas de teste** (`Teste-A`, `Teste-B`, `Teste-C` em `Assets/Conquistas`) —
-      apagar, ou guardar se forem úteis. Apagou: rodar o Montar, que tira do catálogo
+- [x] **Montar das conquistas** — rodou em 27/09/2026 (diário de ferramentas); o cartão
+      `AvisoConquista` está na `Menu.unity`, commitado. O `Montar.cs` voltou a ficar vazio
+- [x] **A conquista de evoluir** — testada pelo Raffael. Ficha `PrimeiraEvolucao`: contador
+      Evoluções de nave, meta 1, qualquer nave, 1000 de recompensa, visível
+      - ✏️ O nome na ficha está **"Conquista"** e a descrição tem "denovo" — é o que aparece no
+        cartão e no painel. Trocar quando quiser *(conteúdo dele)*
+- [x] **O aviso de uma corrida** — testado pelo Raffael
+- [x] **As conquistas de teste** — **mantidas** *(decisão do Raffael, 11/10)*: Primeiro abate
+      (visível, 1, 100), Segundo abate (oculta até o Primeiro, 2, 50) e Terceiro abate (secreta,
+      3, 250). As quatro estão no catálogo. **Vão no envio para a Play**, então a esposa vai vê-las
 - [ ] **Testes → Apagar o salvamento** no Editor, para começar a sessão de jogo do zero — *opcional*
 
 ✅ **Conferido no computador em 26/09/2026:** compilação limpa (**223 de 223 verificações**),
@@ -68,10 +64,27 @@ sobrevivendo a parar e voltar o Play e sendo apagado pelo menu.
 ### 📱 Amanhã, jogando no aparelho — com a esposa
 *O que só o dedo e o celular respondem. Levar o painel de balanceamento aberto no computador.*
 
-- [ ] **Instalar a versão nova no celular** — build pelo menu (Tools → Corrida no Espaço →
-      Build). O **AAB de release** agora só sai se as verificações passarem
+- [ ] **Subir a versão nova pela Play (teste interno)** — *revisto em 11/10/2026: é assim que a
+      esposa recebe, pela versão que ela já baixou da loja.* Detalhe em
+      `docs/play-console/caminho-ate-a-play-store.md`, "Como subir uma atualização":
+      1. **Antes de tudo, jogar uma partida no celular dela com a versão velha** e anotar as fases
+         vencidas, a nave e os recordes — é o que prova a migração do salvamento depois
+      2. **Tools → Corrida no Espaço → Build → Subir version code (+1)** — **uma vez só**. Vai de
+         `1` para `2` (o único AAB já enviado, de 08/08/2026, é o código 1). O Console mostra
+         `Version code: 1 → 2`. *Item novo de 11/10/2026; vale para todo envio daqui em diante*
+      3. **Tools → Corrida no Espaço → Conferir configuração**
+      4. **Tools → Corrida no Espaço → Build → AAB de release** — só sai se as verificações passarem.
+         Reclamou de variável de ambiente: fechar Unity **e** Unity Hub e abrir de novo
+      5. **Play Console → Testes → Teste interno → Criar nova versão** → subir o `.aab` de
+         `Builds/` → notas da versão → lançar. Na mesma versão, em *Símbolos de depuração*, subir
+         o `symbols.zip` que saiu ao lado do `.aab`
+      6. **No celular:** Play Store → Corrida no Espaço → **Atualizar** (pode levar alguns minutos
+         para aparecer). Conferir que a conta Google dela está na lista de testadores internos
+      7. **Commit** com o version code novo — o de 11/10 em 📦 já leva, se for feito depois do +1
 - [ ] **O salvamento migrou sozinho** — no celular que já tinha jogo: as fases vencidas, a nave
-      escolhida e os recordes continuam lá depois de instalar *(Parte 8)*
+      escolhida e os recordes continuam lá depois de instalar *(Parte 8)*. **O celular da esposa
+      é o teste ideal**: tem a versão velha da loja, então atualizar pela Play é exatamente o
+      caminho dos testadores
 - [ ] **O salvamento aguenta fechar o app** — evoluir uma nave, fechar o jogo pelo multitarefa,
       abrir de novo: o nível tem de estar lá *(Parte 8)*
 - [ ] **A oficina no celular** — evoluir uma nave até o máximo e **jogar com ela**: a diferença

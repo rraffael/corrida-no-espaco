@@ -33,6 +33,7 @@ static class ProjectTools
     public const string DeleteSaveItem = MenuRoot + "Testes/Apagar o salvamento";
     public const string AndroidSdkItem = MenuRoot + "Conferir SDK do Android";
     public const string StoreArtItem = MenuRoot + "Gerar arte da loja";
+    public const string BumpVersionCodeItem = MenuRoot + "Build/Subir version code (+1)";
     public const string BuildApkItem = MenuRoot + "Build/APK de teste";
     public const string BuildAabItem = MenuRoot + "Build/AAB de release";
 
@@ -223,6 +224,13 @@ static class ProjectTools
                       "Hub não instala nível de API, só o conjunto de ferramentas. Rodar antes de " +
                       "mexer no Target API Level, que é o que quebrou o build de 31/07/2026.",
             MenuPath = AndroidSdkItem,
+        },
+        new Tool
+        {
+            Title = "Build — Subir version code (+1)",
+            Summary = "Soma 1 ao código de versão do Android. Rodar uma vez antes de cada AAB " +
+                      "que vai para a Play, que recusa código repetido.",
+            MenuPath = BumpVersionCodeItem,
         },
         new Tool
         {

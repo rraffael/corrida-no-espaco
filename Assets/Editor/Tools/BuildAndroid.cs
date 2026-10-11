@@ -28,6 +28,22 @@ static class BuildAndroid
 {
     const string OutputFolder = "Builds";
 
+    /// <summary>
+    /// A Play recusa dois envios com o mesmo código, e o ProjectSettings não se
+    /// edita à mão com o Editor aberto — então o +1 de cada envio passa por aqui.
+    /// Fica separado do build de propósito: um build que falha no meio não pode
+    /// gastar um código.
+    /// </summary>
+    [MenuItem(ProjectTools.BumpVersionCodeItem, false, 199)]
+    static void BumpVersionCode()
+    {
+        int previous = PlayerSettings.Android.bundleVersionCode;
+        PlayerSettings.Android.bundleVersionCode = previous + 1;
+        AssetDatabase.SaveAssets();
+        Debug.Log($"[Build] Version code: {previous} → {PlayerSettings.Android.bundleVersionCode}. " +
+                  "Commitar o ProjectSettings depois do envio.");
+    }
+
     [MenuItem(ProjectTools.BuildApkItem, false, 200)]
     static void DevelopmentApkFromMenu()
     {

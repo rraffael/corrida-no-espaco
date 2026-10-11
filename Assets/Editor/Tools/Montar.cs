@@ -36,15 +36,11 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 26/09/2026, última rodada: **um passo, na Menu.unity.**
-    ///
-    /// Entrou o cartão de "Conquista completa" no alto do menu. A montagem das
-    /// conquistas cria o cartão junto com o painel. O contador de evoluções é
-    /// só código; o molde e a aba de naves já foram montados e conferidos.
+    /// Estado em 11/10/2026: **vazio.** O cartão de "Conquista completa" foi
+    /// montado em 27/09/2026 e está na Menu.unity; nada mais espera montagem.
     /// </summary>
     static readonly Step[] Steps =
     {
-        new Step("Conquistas (painel e cartão de conquista completa)", AchievementsSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]
