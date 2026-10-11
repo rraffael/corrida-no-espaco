@@ -33,90 +33,51 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 ### 📦 Para rodar agora
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-- [x] **Commit de 11/10/2026** ✅ *feito pelo Raffael* — `Montar.cs` esvaziado e o item
-      **Subir version code (+1)**. Foi **antes** do +1 (o disco ainda dizia `1`), então o
-      version code novo vai num commit próprio — passo 7 abaixo
+- [ ] **Commit desta revisão do ROADMAP** (11/10/2026) — documentos e o texto do aviso de
+      símbolos no `BuildAndroid` (caminho novo do Play Console). Nada a montar:
+      ```
+      git add ROADMAP.md CLAUDE.md docs/play-console/caminho-ate-a-play-store.md Assets/Editor/Tools/BuildAndroid.cs
+      git commit -m "ROADMAP: fechamento de 11/10, versão 2 no teste interno"
+      ```
 
-- [ ] **"Enviar 10 para revisão" no Play Console** (visto em 11/10/2026) — são as declarações e
-      a página do app de 08/08, nunca enviadas. **Não trava o teste interno** (a versão 2 já está
-      com os testadores); pode mandar, mas antes:
-      1. **Nome em pt-BR está "Corrida no espaço"**, com "e" minúsculo — o combinado em
-         `pagina-do-app.md` é **"Corrida no Espaço"**, igual ao en-US. Corrigir em *Página de
-         detalhes do app → pt-BR*
-      2. **"Google Play Games no PC" está ativado** em *Configurações avançadas → Formatos* — não
-         estava no plano: o jogo é retrato e de toque, nunca rodou no PC. Desativar, a não ser que
-         seja de propósito
-      3. Conferido contra `declaracoes-do-app.md`: público 13+, a URL da política, anúncios,
-         Segurança dos dados, saúde e a categoria Arcade batem com o que foi documentado
+### 🛒 Play Console — acompanhar
+- [ ] **A primeira revisão da Play** — os 10 itens (página do app e declarações de 08/08) foram
+      enviados em 11/10/2026. Costuma levar de alguns dias a uma semana; **não trava o teste
+      interno**. Se voltar recusado, trazer o motivo
+- [ ] **Confirmar duas coisas que o Claude apontou antes do envio** *(não se sabe se entraram)*:
+      o nome em pt-BR **"Corrida no Espaço"** com "E" maiúsculo, e o **"Google Play Games no PC"**
+      desativado em *Testar e lançar → Configurações avançadas → Formatos* — o jogo é retrato e de
+      toque, nunca rodou no PC. Se ficaram para trás, corrigir manda um envio novo para revisão
 
-### 💻 No computador — ✅ fechado em 11/10/2026
-*Testado pelo Raffael; conferido no disco pelo Claude.*
+### 📱 Jogando no aparelho — com a esposa
+*Versão 2 (`0.1.0`, código 2) no teste interno desde 11/10/2026, instalada pela Play nos dois
+celulares. A lista para ela foi mandada no chat; esta é a mesma, com o porquê.*
 
-- [x] **Montar das conquistas** — rodou em 27/09/2026 (diário de ferramentas); o cartão
-      `AvisoConquista` está na `Menu.unity`, commitado. O `Montar.cs` voltou a ficar vazio
-- [x] **A conquista de evoluir** — testada pelo Raffael. Ficha `PrimeiraEvolucao`: contador
-      Evoluções de nave, meta 1, qualquer nave, 1000 de recompensa, visível
-      - ✏️ O nome na ficha está **"Conquista"** e a descrição tem "denovo" — é o que aparece no
-        cartão e no painel. Trocar quando quiser *(conteúdo dele)*
-- [x] **O aviso de uma corrida** — testado pelo Raffael
-- [x] **As conquistas de teste** — **mantidas** *(decisão do Raffael, 11/10)*: Primeiro abate
-      (visível, 1, 100), Segundo abate (oculta até o Primeiro, 2, 50) e Terceiro abate (secreta,
-      3, 250). As quatro estão no catálogo. **Vão no envio para a Play**, então a esposa vai vê-las
-- [ ] **Testes → Apagar o salvamento** no Editor, para começar a sessão de jogo do zero — *opcional*
-
-✅ **Conferido no computador em 26/09/2026:** compilação limpa (**223 de 223 verificações**),
-Montar, relatório de verificações, painel de balanceamento, a oficina da aba de naves (+1000,
-rolagem, Evoluir, Nv 1, Nv máx), a linha de próximo patamar com um upgrade de teste, as três
-visibilidades de conquista com resgate, uma corrida no Editor contando abates, e o salvamento
-sobrevivendo a parar e voltar o Play e sendo apagado pelo menu.
-
-### 📱 Amanhã, jogando no aparelho — com a esposa
-*O que só o dedo e o celular respondem. Levar o painel de balanceamento aberto no computador.*
-
-- [ ] **Subir a versão nova pela Play (teste interno)** — *revisto em 11/10/2026: é assim que a
-      esposa recebe, pela versão que ela já baixou da loja.* Detalhe em
-      `docs/play-console/caminho-ate-a-play-store.md`, "Como subir uma atualização":
-      1. **Antes de tudo, jogar uma partida no celular dela com a versão velha** e anotar as fases
-         vencidas, a nave e os recordes — é o que prova a migração do salvamento depois
-      2. **Tools → Corrida no Espaço → Build → Subir version code (+1)** — **uma vez só**. Vai de
-         `1` para `2` (o único AAB já enviado, de 08/08/2026, é o código 1). O Console mostra
-         `Version code: 1 → 2`. *Item novo de 11/10/2026; vale para todo envio daqui em diante*
-      3. **Tools → Corrida no Espaço → Conferir configuração**
-      4. **Tools → Corrida no Espaço → Build → AAB de release** — só sai se as verificações passarem.
-         Reclamou de variável de ambiente: fechar Unity **e** Unity Hub e abrir de novo
-      5. **Play Console → Testes → Teste interno → Criar nova versão** → subir o `.aab` de
-         `Builds/` → notas da versão → lançar. Na mesma versão, em *Símbolos de depuração*, subir
-         o `symbols.zip` que saiu ao lado do `.aab`
-      6. **No celular:** Play Store → Corrida no Espaço → **Atualizar** (pode levar alguns minutos
-         para aparecer). Conferir que a conta Google dela está na lista de testadores internos
-      - ✅ **Passos 2 a 4 feitos em 11/10/2026:** `Corrida no Espaço-0.1.0-2-release.aab`
-        (24 MB) e o `symbols.zip` (12,5 MB) em `Builds/`. O "511 MB" do Console é o total que a
-        Unity conta no relatório, e não o arquivo. Mudar o projeto de disco pediu fechar o
-        **Unity Hub** de verdade (bandeja), senão o Editor herdava o `CNE_KEYSTORE_PATH` antigo
-      - ✅ **Passo 5 feito em 11/10/2026:** versão 2 publicada no teste interno, e os símbolos
-        subidos em *Testar e lançar → Lançamentos e pacotes mais recentes → o pacote → Downloads
-        → Símbolos de depuração nativos* (não aparece na tela de criar a versão)
-      7. **Commit** do version code novo, depois do envio — **antes, conferir que o
-         `ProjectSettings.asset` não leva o caminho do keystore** (`AndroidKeystoreName` vazio).
-         O build limpa, mas a Unity só grava no disco depois; *File → Save Project* força:
-         `git add ProjectSettings/ProjectSettings.asset` e
-         `git commit -m "Version code 2: envio de outubro para o teste interno"`
-- [ ] **O salvamento migrou sozinho** — no celular que já tinha jogo: as fases vencidas, a nave
-      escolhida e os recordes continuam lá depois de instalar *(Parte 8)*. **O celular da esposa
-      é o teste ideal**: tem a versão velha da loja, então atualizar pela Play é exatamente o
-      caminho dos testadores
-- [ ] **O salvamento aguenta fechar o app** — evoluir uma nave, fechar o jogo pelo multitarefa,
-      abrir de novo: o nível tem de estar lá *(Parte 8)*
+- [ ] **O salvamento migrou sozinho** — no celular dela, que tinha a versão de agosto: as fases
+      vencidas, a nave escolhida e os recordes continuam lá *(Parte 8)*. Sem anotação prévia
+      *(decisão do Raffael, 11/10)*: se algo sumiu, ela vai notar
+- [ ] **O salvamento aguenta fechar o app** — evoluir uma nave, fechar pelo multitarefa, abrir de
+      novo: o nível tem de estar lá *(Parte 8)*
 - [ ] **A oficina no celular** — evoluir uma nave até o máximo e **jogar com ela**: a diferença
       se sente? *(Parte 6)*
 - [ ] **O upgrade valendo na corrida** — com uma nave que tenha upgrade ligado, no nível 15 ou
       mais, o poder tem de sair com o número novo *(Parte 6)*
 - [ ] **A lista de rolagem da aba de naves** — rolar com o dedo por cima dos botões *(Parte 6)*
-- [ ] **As estatísticas contam certo** — duas ou três corridas (uma vencida, uma perdida, uma
-      sem fim) e abrir **Conquistas**: os números do alto batem com o que aconteceu *(Parte 8)*
+- [ ] **As conquistas no celular** — o cartão verde ao evoluir e ao voltar de uma corrida com
+      abate, o **Resgatar** somando Sucata, e as `????????` se revelando *(Parte 8)*
+- [ ] **As estatísticas contam certo** — uma corrida vencida, uma perdida e uma sem fim, e abrir
+      **Conquistas**: os números do alto batem com o que aconteceu *(Parte 8)*
 - [ ] **Nada mudou nas fases** — os campos novos da ficha (cenário e largura da pista) nascem
       vazios; as quatro fases têm de estar iguais *(Parte 7)*
+- [ ] **Trazer o retorno** — travou, fechou sozinho, chato, difícil ou fácil demais: o Claude
+      registra aqui e organiza o próximo passo. Fechou sozinho: com os símbolos no Console, o
+      relatório chega legível em *Qualidade → Android vitals → Falhas e ANRs*
 - [ ] **E a sessão de balancear** — ver ⚖️ abaixo
+
+### ✏️ Pequenos, quando der
+- [ ] **O nome da conquista de evoluir** — a ficha `PrimeiraEvolucao` está com o nome
+      **"Conquista"** e a descrição com "denovo"; é o que aparece no cartão e no painel *(conteúdo
+      dele)*. Mudou: entra no próximo envio
 
 ### ⚖️ Balancear
 - [ ] **O painel bate com o jogo?** — o tempo até a dobra que o painel estima para o nível 1 tem
@@ -178,7 +139,8 @@ Raffael pedir pelo nome.*
       `Game.unity`
 - [ ] **Limpar as chaves antigas de `PlayerPrefs`** — depois que os testadores tiverem aberto a
       versão com o `save.json` pelo menos uma vez. *Só com o OK do Raffael*: é o que tira a rede
-      da migração
+      da migração. **A versão com o `save.json` está na Play desde 11/10/2026** (código 2); falta
+      a migração passar no celular da esposa e os outros testadores atualizarem
 - [ ] **Visual por estágio com arte de verdade** — quando a arte da Predadora existir, a ficha da
       nave ganha um sprite por estágio e o `ShipStageLook` troca o sprite em vez de tingir
 - [ ] **Pool de obstáculos e tiros** — *só se o aparelho engasgar*. Hoje cada tiro e obstáculo é
@@ -298,9 +260,52 @@ Raffael pedir pelo nome.*
 
 ---
 
-## 🚀 Onde estamos — fechamento de 26/09/2026
+## 🚀 Onde estamos — fechamento de 11/10/2026
 
 *Resumo para retomar rápido. O detalhe de cada item está na Lista, no topo, e nas Partes.*
+
+**Etapa atual: teste no aparelho da leva de 26/09** — evolução das naves, oficina, conquistas,
+salvamento em arquivo e estatísticas. A versão está com os testadores; a próxima conversa
+começa pelo retorno deles.
+
+### Como estava antes
+Duas semanas paradas desde 26/09. A leva estava commitada, mas faltava conferir a conquista de
+evoluir no Editor e **nada dela tinha chegado a um celular**: a Play tinha só o AAB de 08/08,
+código 1.
+
+### O que foi feito hoje
+- **A conferência no computador fechou** — o Raffael testou a conquista de evoluir, o aviso
+  depois de uma corrida e as conquistas de teste; o Claude conferiu no disco o Montar das
+  conquistas (rodou em 27/09), o cartão na `Menu.unity` e o catálogo com as quatro fichas
+- **As conquistas de teste ficam** *(decisão do Raffael)* — Primeiro, Segundo e Terceiro abate
+  foram no envio e servem para testar as três visibilidades no celular
+- **O `Montar.cs` voltou a ficar vazio**
+- **Item novo de menu: Build → Subir version code (+1)** — `BuildAndroid.BumpVersionCode`. O
+  `ProjectSettings` não se edita à mão com o Editor aberto, e o +1 é de todo envio
+- **Versão 2 no teste interno da Play** — `Corrida no Espaço-0.1.0-2-release.aab` (24 MB), com
+  os **símbolos de depuração subidos pela primeira vez**. Os dois celulares atualizaram pela loja
+- **A primeira revisão da Play foi enviada** — os 10 itens de página do app e declarações que
+  estavam parados desde 08/08
+- **Três tropeços, registrados para o próximo envio** em `caminho-ate-a-play-store.md`:
+  1. O projeto mudou de disco (`C:` → `D:`), e a Unity continuou lendo o `CNE_KEYSTORE_PATH`
+     antigo até o **Unity Hub** ser fechado pela bandeja — fechar a janela não basta
+  2. A janela de keystore que a Unity abre depois da mudança **não se preenche** — o build lê as
+     variáveis de ambiente. Preencher grava o caminho no `ProjectSettings`; criar alias novo
+     assinaria com a chave errada
+  3. Os símbolos **não sobem na tela de criar a versão**: é em *Lançamentos e pacotes mais
+     recentes → o pacote → Downloads*
+- **O "511 MB" do build** é o total do relatório da Unity, e não o arquivo
+
+### O que vem agora
+1. **Jogar e trazer o retorno** — o Raffael e a esposa, com a lista 📱
+2. **Balancear** com o painel aberto (⚖️)
+3. **A conversa sobre os ranks S → E**, que muda o molde de evolução — o próximo desenho da
+   Parte 6
+4. **Acompanhar a revisão da Play** e confirmar o nome pt-BR e o formato PC (🛒)
+
+---
+
+## O fechamento de 26/09/2026
 
 ### Como estava antes
 Última sessão em **01/09/2026**, depois de quase um mês parado. A mecânica crua estava aprovada no
@@ -1125,9 +1130,14 @@ espera — é o que só se resolve perto do lançamento.
       único aparelho era o do Raffael, porque `.\tools\logcat.ps1` dá mais detalhe que o Console.
       **Isso mudou: já há outras pessoas no teste interno** (21/08/2026), e quando alguém disser
       "fechou sozinho" não vai dar para pegar o celular da pessoa
-      - ⚠️ **Falta a metade que é dele:** o arquivo sai ao lado do `.aab` e **sobe à parte**, em
-        *Versões > a versão > Símbolos de depuração*. Vale no próximo envio. Ver
-        `caminho-ate-a-play-store.md`, Etapa 2
+      - ✅ **A metade dele, feita em 11/10/2026** no envio da versão 2: o arquivo sai ao lado do
+        `.aab` e **sobe à parte**, em *Testar e lançar → Lançamentos e pacotes mais recentes → o
+        pacote → Downloads → Símbolos de depuração nativos*. Repetir a cada envio
+- [x] **Versão 2 no teste interno** (11/10/2026) — a leva de 26/09 (evolução, oficina,
+      conquistas, `save.json`), código 2, instalada pela Play nos celulares do Raffael e da esposa
+- [ ] **A primeira revisão da Play** — enviada em 11/10/2026: página do app nos dois idiomas, as
+      declarações e a categoria, parados desde 08/08. Não trava o teste interno. Acompanhar na
+      Lista do Raffael (🛒)
 - [x] ~~Quando a conta sair da verificação:~~ **app criado no Console** (08/08/2026), com o
       `applicationId` novo `br.com.raffael.corridanoespaco`, aceito sem briga
 - [ ] Criar o projeto novo no Play Games Services — **só na Fase 7**, junto com login e conta

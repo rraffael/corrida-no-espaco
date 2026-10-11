@@ -83,7 +83,8 @@ quê**, não o que a linha já diz.
 - Ferramentas: menu **Tools → Corrida no Espaço → Painel de ferramentas** — lista o que falta
   rodar e o que já rodou, com a data. O diário fica em `UserSettings/`, fora do git.
 - Build: menu **Tools → Corrida no Espaço → Build**, ou `-executeMethod BuildAndroid.Release`
-  com as variáveis `CNE_KEYSTORE_*` definidas.
+  com as variáveis `CNE_KEYSTORE_*` definidas. Antes de cada AAB para a Play, **Build → Subir
+  version code (+1)**. O passo a passo do envio está em `docs/play-console/caminho-ate-a-play-store.md`.
 - Log do aparelho: `.\tools\logcat.ps1`
 - **Verificações automáticas** (`Editor/Tools/GameChecks.cs`): rodam sozinhas a cada compilação
   (uma linha no Console) e pelo menu **Testes → Rodar verificações**. Travam o AAB de release se

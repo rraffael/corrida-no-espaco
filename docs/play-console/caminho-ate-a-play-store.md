@@ -125,26 +125,47 @@ sobre ele, é agora — depois de criar o app, acabou.
 
 ### Como subir uma atualização
 
-O caminho inteiro, toda vez. São seis passos e nenhum deles é o Play App Signing ou os
-formulários — aquilo tudo já está feito e não se repete.
+O caminho inteiro, toda vez. Nenhum passo é o Play App Signing ou os formulários — aquilo tudo
+já está feito e não se repete. *Revisto em 11/10/2026, no envio da versão 2.*
 
 1. **Fazer e testar a mudança** no Editor, como sempre.
-2. **Subir o `AndroidBundleVersionCode` em 1.** *Project Settings → Player → Other Settings.*
-   **A Play recusa dois envios com o mesmo código** — é o erro mais comum aqui. O `bundleVersion`
-   (`0.1.0`) é o número que o usuário vê, e sobe quando você achar que a mudança merece.
-3. **Tools → Corrida no Espaço → Conferir configuração.** Ele agora barra pacote errado, cena
-   fora de ordem, orientação e keystore vazado. **Rodar sempre** — foi pular isto que deixou o
-   primeiro `.aab` sair com o pacote errado.
-4. **Tools → Corrida no Espaço → Build → AAB de release.** Se reclamar de variável de ambiente,
-   feche a Unity **e o Unity Hub**, e abra de novo: o Editor herda o ambiente do Hub, e o Hub só
-   lê na inicialização.
-5. **Play Console → Testes → Teste interno → Criar nova versão**, subir o `.aab` de `Builds/`,
-   escrever as notas da versão e lançar.
-6. **O celular atualiza sozinho pela Play**, em minutos. Sem análise demorada — aquilo foi só na
-   primeira vez.
+2. **Tools → Corrida no Espaço → Build → Subir version code (+1)** — **um clique só**; o Console
+   mostra `Version code: N → N+1`. **A Play recusa dois envios com o mesmo código** — é o erro
+   mais comum aqui. O `bundleVersion` (`0.1.0`) é o número que o usuário vê, e sobe quando você
+   achar que a mudança merece. *(Até 11/10 era à mão no Project Settings; virou menu porque o
+   `ProjectSettings` não se edita com o Editor aberto.)*
+3. **Tools → Corrida no Espaço → Conferir configuração.** Ele barra pacote errado, cena fora de
+   ordem, orientação e keystore vazado. **Rodar sempre** — foi pular isto que deixou o primeiro
+   `.aab` sair com o pacote errado.
+4. **Tools → Corrida no Espaço → Build → AAB de release.** Leva uns 8 minutos. Sai em `Builds/`
+   com o código no nome, e o `symbols.zip` ao lado. O "MB" que o Console mostra é o total do
+   relatório da Unity, não o arquivo (11/10: Console 511 MB, `.aab` 24 MB).
+   - **Reclamou de variável de ambiente, ou "Keystore não encontrado" com um caminho velho:**
+     feche a Unity **e o Unity Hub pela bandeja do sistema** (botão direito → Sair), e abra de
+     novo. O Editor herda o ambiente do Hub, e o Hub só lê na inicialização — fechar a janela dele
+     não basta. Persistiu: reiniciar o Windows.
+5. **Play Console → Testar e lançar → Teste → Interno → Criar nova versão**, subir o `.aab`,
+   escrever as notas da versão, **Salvar e publicar**. Os avisos de "arquivo de desofuscação" e
+   "símbolos de depuração" não travam.
+6. **Subir os símbolos** — não é na tela de criar a versão: *Testar e lançar → Lançamentos e
+   pacotes mais recentes → o pacote do código novo → Downloads → Símbolos de depuração nativos*,
+   ícone de upload. O aviso de **desofuscação** fica: o *Minify* está desligado, não há
+   `mapping.txt`.
+7. **O celular atualiza pela Play**, em minutos: Play Store → Corrida no Espaço → Atualizar. Sem
+   análise demorada — teste interno não passa por revisão.
+8. **Commit do version code** — antes, *File → Save Project* na Unity e conferir que o
+   `ProjectSettings.asset` não leva o caminho do keystore (`AndroidKeystoreName` vazio). O build
+   limpa na memória, mas a Unity só grava no disco depois.
+
+**Mudou o projeto de disco?** A Unity abre a janela de keystore pedindo o arquivo e um alias.
+**Não preencha** — cancele e deixe *Custom Keystore* desmarcado. O build lê as variáveis
+`CNE_KEYSTORE_*`; preencher grava o caminho no `ProjectSettings`, e criar um alias novo assinaria
+com uma chave que a Play não aceita. O que muda é só o `CNE_KEYSTORE_PATH`, se o arquivo
+`.keystore` também mudou de lugar.
 
 **O que NÃO se repete:** declarações de conteúdo, política de privacidade, arte da página,
-categoria, lista de testadores. Só mudam se você quiser mudar.
+categoria, lista de testadores. Só mudam se você quiser mudar — e aí vão para **revisão** pelo
+"Enviar para revisão" da visão geral (a primeira foi em 11/10/2026).
 
 > O Console mostra uma lista do que ainda falta preencher antes de deixar publicar. **Ele é a
 > autoridade, não este arquivo** — as exigências mudam com frequência.
@@ -181,8 +202,9 @@ nativa anexada e pesa muito mais. **Não há nada a marcar no Player Settings** 
 serve para divergir do que o build faz.
 
 ⚠️ **O que continua sendo manual: subir o arquivo.** O `symbols.zip` sai **ao lado** do `.aab`, na
-pasta `Builds/`, e **não vai dentro dele**. Sobe à parte, no Play Console, em *Versões → a versão →
-Símbolos de depuração*. O build diz no Console onde o arquivo ficou e quanto pesa — e reclama se
+pasta `Builds/`, e **não vai dentro dele**. Sobe à parte, no Play Console, em *Testar e lançar →
+Lançamentos e pacotes mais recentes → o pacote → Downloads → Símbolos de depuração nativos*
+(caminho conferido em 11/10/2026). O build diz no Console onde o arquivo ficou e quanto pesa — e reclama se
 ele não tiver saído.
 
 O **arquivo de desofuscação** (`mapping.txt`) continua desligado: ele depende do *Minify*, que é

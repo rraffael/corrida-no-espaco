@@ -254,7 +254,8 @@ static class BuildAndroid
             var info = new FileInfo(file);
             Debug.Log($"[Build] Símbolos de depuração: {file} " +
                       $"({info.Length / (1024f * 1024f):F1} MB). **Subir à parte** no Play " +
-                      "Console, em Versões > a versão > Símbolos de depuração.");
+                      "Console, em Lançamentos e pacotes mais recentes > o pacote > Downloads > " +
+                      "Símbolos de depuração nativos.");
         }
     }
 
