@@ -33,12 +33,21 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 ### 📦 Para rodar agora
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-- [ ] **Commit de 11/10/2026** — `Montar.cs` esvaziado e o item **Subir version code (+1)**.
-      Só código, nada a montar. Se já tiver clicado no +1, o `ProjectSettings` vai junto:
-      ```
-      git add -A
-      git commit -m "Montar vazio, item de subir version code e lista de teste para o envio pela Play"
-      ```
+- [x] **Commit de 11/10/2026** ✅ *feito pelo Raffael* — `Montar.cs` esvaziado e o item
+      **Subir version code (+1)**. Foi **antes** do +1 (o disco ainda dizia `1`), então o
+      version code novo vai num commit próprio — passo 7 abaixo
+
+- [ ] **"Enviar 10 para revisão" no Play Console** (visto em 11/10/2026) — são as declarações e
+      a página do app de 08/08, nunca enviadas. **Não trava o teste interno** (a versão 2 já está
+      com os testadores); pode mandar, mas antes:
+      1. **Nome em pt-BR está "Corrida no espaço"**, com "e" minúsculo — o combinado em
+         `pagina-do-app.md` é **"Corrida no Espaço"**, igual ao en-US. Corrigir em *Página de
+         detalhes do app → pt-BR*
+      2. **"Google Play Games no PC" está ativado** em *Configurações avançadas → Formatos* — não
+         estava no plano: o jogo é retrato e de toque, nunca rodou no PC. Desativar, a não ser que
+         seja de propósito
+      3. Conferido contra `declaracoes-do-app.md`: público 13+, a URL da política, anúncios,
+         Segurança dos dados, saúde e a categoria Arcade batem com o que foi documentado
 
 ### 💻 No computador — ✅ fechado em 11/10/2026
 *Testado pelo Raffael; conferido no disco pelo Claude.*
@@ -80,7 +89,18 @@ sobrevivendo a parar e voltar o Play e sendo apagado pelo menu.
          o `symbols.zip` que saiu ao lado do `.aab`
       6. **No celular:** Play Store → Corrida no Espaço → **Atualizar** (pode levar alguns minutos
          para aparecer). Conferir que a conta Google dela está na lista de testadores internos
-      7. **Commit** com o version code novo — o de 11/10 em 📦 já leva, se for feito depois do +1
+      - ✅ **Passos 2 a 4 feitos em 11/10/2026:** `Corrida no Espaço-0.1.0-2-release.aab`
+        (24 MB) e o `symbols.zip` (12,5 MB) em `Builds/`. O "511 MB" do Console é o total que a
+        Unity conta no relatório, e não o arquivo. Mudar o projeto de disco pediu fechar o
+        **Unity Hub** de verdade (bandeja), senão o Editor herdava o `CNE_KEYSTORE_PATH` antigo
+      - ✅ **Passo 5 feito em 11/10/2026:** versão 2 publicada no teste interno, e os símbolos
+        subidos em *Testar e lançar → Lançamentos e pacotes mais recentes → o pacote → Downloads
+        → Símbolos de depuração nativos* (não aparece na tela de criar a versão)
+      7. **Commit** do version code novo, depois do envio — **antes, conferir que o
+         `ProjectSettings.asset` não leva o caminho do keystore** (`AndroidKeystoreName` vazio).
+         O build limpa, mas a Unity só grava no disco depois; *File → Save Project* força:
+         `git add ProjectSettings/ProjectSettings.asset` e
+         `git commit -m "Version code 2: envio de outubro para o teste interno"`
 - [ ] **O salvamento migrou sozinho** — no celular que já tinha jogo: as fases vencidas, a nave
       escolhida e os recordes continuam lá depois de instalar *(Parte 8)*. **O celular da esposa
       é o teste ideal**: tem a versão velha da loja, então atualizar pela Play é exatamente o
