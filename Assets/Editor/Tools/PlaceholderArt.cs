@@ -12,6 +12,7 @@ static class PlaceholderArt
     const string PixelPath = Folder + "/pixel.png";
     const string PadlockPath = Folder + "/padlock.png";
     const string CirclePath = Folder + "/circle.png";
+    const string TrophyPath = Folder + "/trophy.png";
 
     /// <summary>
     /// Sprite branco de 1x1 unidade de mundo. Escalar no transform dá qualquer
@@ -118,6 +119,63 @@ static class PlaceholderArt
         }
 
         return Write(PadlockPath, size, size, pixels, pixelsPerUnit: size);
+    }
+
+    /// <summary>
+    /// Troféu branco com fundo transparente, para o botão do placar na linha de
+    /// fase. Taça, haste e base — o bastante para ler "placar" num relance.
+    /// </summary>
+    public static Sprite Trophy()
+    {
+        var existing = AssetDatabase.LoadAssetAtPath<Sprite>(TrophyPath);
+        if (existing != null)
+            return existing;
+
+        const int size = 64;
+
+        // A taça é meio disco com a parte plana para cima; as alças são anéis
+        // dos dois lados, na altura da boca da taça.
+        const float cupX = 32f, cupY = 46f, cupRadius = 17f;
+        const float handleY = 42f, handleInner = 4f, handleOuter = 7.5f;
+        const float leftHandleX = 14f, rightHandleX = 50f;
+        const float stemLeft = 29f, stemRight = 35f, stemBottom = 14f;
+        const float baseLeft = 18f, baseRight = 46f, baseBottom = 6f, baseTop = 14f;
+
+        var opaque = new Color32(255, 255, 255, 255);
+        var clear = new Color32(255, 255, 255, 0);
+        var pixels = new Color32[size * size];
+
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                float px = x + 0.5f;
+                float py = y + 0.5f;
+
+                float cx = px - cupX;
+                float cy = py - cupY;
+                bool cup = cy <= 0f && py <= 58f && cx * cx + cy * cy <= cupRadius * cupRadius
+                           || py > cupY && py <= 58f && Mathf.Abs(cx) <= cupRadius;
+
+                bool handle = Ring(px, py, leftHandleX, handleY, handleInner, handleOuter) ||
+                              Ring(px, py, rightHandleX, handleY, handleInner, handleOuter);
+
+                bool stem = px >= stemLeft && px <= stemRight && py >= stemBottom && py <= cupY - cupRadius + 2f;
+                bool stand = px >= baseLeft && px <= baseRight && py >= baseBottom && py <= baseTop;
+
+                pixels[y * size + x] = cup || handle || stem || stand ? opaque : clear;
+            }
+        }
+
+        return Write(TrophyPath, size, size, pixels, pixelsPerUnit: size);
+    }
+
+    static bool Ring(float px, float py, float x, float y, float inner, float outer)
+    {
+        float dx = px - x;
+        float dy = py - y;
+        float distance = Mathf.Sqrt(dx * dx + dy * dy);
+        return distance >= inner && distance <= outer;
     }
 
     public static Sprite Write(string assetPath, int width, int height, Color32[] pixels, float pixelsPerUnit)

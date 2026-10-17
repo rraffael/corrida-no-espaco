@@ -29,4 +29,11 @@ public enum ShipTrait
     /// para onde ir — ver <see cref="Autopilot"/>.
     /// </summary>
     Autopilot,
+
+    /// <summary>
+    /// A nave atravessa obstáculo e estilhaço sem bater: nem dano, nem custo de
+    /// tempo, e o obstáculo segue o caminho dele. A nave fica translúcida — ver
+    /// <see cref="ShipPhaseLook"/>.
+    /// </summary>
+    Phasing,
 }

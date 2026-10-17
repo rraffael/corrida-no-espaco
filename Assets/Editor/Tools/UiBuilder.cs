@@ -313,6 +313,37 @@ static class UiBuilder
         return button;
     }
 
+    /// <summary>
+    /// Um placar rolável: um texto só dentro da rolagem, com o
+    /// <see cref="LeaderboardView"/> ligado. Serve ao painel do troféu e aos dois
+    /// painéis de fim de corrida.
+    /// </summary>
+    public static LeaderboardView Leaderboard(Transform parent, Vector2 position, Vector2 size, float fontSize,
+                                              string emptyMessage)
+    {
+        var content = ShipSelectSetup.BuildScroll(parent, position, size, out var contentObject);
+        var scroll = content.GetComponentInParent<ScrollRect>();
+        scroll.transform.name = "Placar";
+
+        var textObject = NewUI("Texto", contentObject.transform);
+        Stretch(textObject);
+        var text = Label(textObject, string.Empty, fontSize, LabelColor);
+        text.alignment = TextAlignmentOptions.TopLeft;
+        // Sem quebra: cada posição é uma linha, e a rolagem até o jogador conta
+        // com todas as linhas da mesma altura.
+        text.textWrappingMode = TextWrappingModes.NoWrap;
+
+        var view = scroll.gameObject.AddComponent<LeaderboardView>();
+        SetReference(view, "scroll", scroll);
+        SetReference(view, "target", text);
+
+        var serialized = new SerializedObject(view);
+        serialized.FindProperty("emptyMessage").stringValue = emptyMessage;
+        serialized.ApplyModifiedPropertiesWithoutUndo();
+
+        return view;
+    }
+
     public static void SetReference(Object owner, string propertyName, Object value)
     {
         var serialized = new SerializedObject(owner);

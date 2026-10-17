@@ -30,7 +30,11 @@ using UnityEngine;
 ///
 /// - **Só desvia quando o perigo está perto.** Longe da ameaça, fica onde está.
 /// - **Só desvia para onde dá para chegar:** o destino tem de estar livre, e
-///   **todas as faixas do caminho também**.
+///   **nada pode alcançá-la no caminho**.
+///
+/// O caminho passou a ser medido **em tempo** em 17/10/2026 — antes, qualquer
+/// obstáculo perto numa faixa do meio a fechava, e a Super IA batia sempre numa
+/// Barcaça na beirada. Ver <see cref="CrossingIsSafe"/>.
 /// </summary>
 [DefaultExecutionOrder(-52)]
 public class Autopilot : MonoBehaviour
@@ -53,9 +57,14 @@ public class Autopilot : MonoBehaviour
              "entre duas faixas igualmente seguras, ele passa por cima do prêmio.")]
     [SerializeField, Min(0f)] float rewardBonus = 2f;
 
+    [Tooltip("Folga de lado, em unidades de mundo, somada ao alcance de batida de cada obstáculo " +
+             "na conta do cruzamento. Sem ela, a conta aceitaria passar raspando por um fio.")]
+    [SerializeField, Min(0f)] float crossingMargin = 0.15f;
+
     ShipStats stats;
     ShipLaneController lanes;
     LaneTrack track;
+    RaceSpeed race;
 
     void Awake()
     {
@@ -63,6 +72,8 @@ public class Autopilot : MonoBehaviour
         lanes = GetComponent<ShipLaneController>();
         track = LaneTrack.Instance != null ? LaneTrack.Instance : FindAnyObjectByType<LaneTrack>();
     }
+
+    void Start() => race = RaceSpeed.Instance;
 
     void Update()
     {
@@ -119,29 +130,127 @@ public class Autopilot : MonoBehaviour
     }
 
     /// <summary>
-    /// Dá para ir daqui até lá? O destino **e cada faixa do caminho** precisam
-    /// estar livres — a nave desliza por elas, e um obstáculo no meio do trajeto
-    /// acerta do mesmo jeito.
+    /// Dá para ir daqui até lá? Duas perguntas, e as duas têm de dar sim:
     ///
-    /// É o conserto do bug de 30/08: a versão antiga só olhava para o destino.
+    /// - **O destino tem folga** — não adianta fugir para uma faixa que fica
+    ///   perigosa no segundo seguinte. Esta é a regra de 30/08, e continua.
+    /// - **O caminho dá tempo** *(17/10/2026)*: a nave desliza pelas faixas do
+    ///   meio, e um obstáculo ali acerta do mesmo jeito — **se ele chegar
+    ///   enquanto ela passa**. Até 17/10 qualquer obstáculo perto numa faixa do
+    ///   caminho a fechava, e foi assim que a Super IA batia sempre numa Barcaça
+    ///   na beirada: a única saída era cruzar a faixa do meio, que a própria
+    ///   Barcaça ocupa, mesmo dando tempo de sobra para passar.
     /// </summary>
     bool IsReachable(int from, int to)
     {
-        // Já está lá. Sem esta saída o laço abaixo nunca encontraria o destino e
-        // sairia contando faixas que não existem, para sempre.
         if (from == to)
             return true;
 
+        if (Threat(to) < clearDistance)
+            return false;
+
+        // Debilitante não bate, então não entra na conta do tempo; mas passar
+        // por cima de um é pegá-lo, e o piloto não escolhe isso.
         int step = to > from ? 1 : -1;
-
-        for (int lane = from + step; ; lane += step)
+        for (int lane = from + step; lane != to; lane += step)
         {
-            if (Threat(lane) < clearDistance)
+            if (DebuffThreat(lane) < clearDistance)
                 return false;
-
-            if (lane == to)
-                return true;
         }
+
+        return CrossingIsSafe(to);
+    }
+
+    /// <summary>
+    /// A nave sai de onde está agora e desliza até a faixa <paramref name="to"/>
+    /// na velocidade de troca de faixa. Algum obstáculo a alcança no caminho?
+    ///
+    /// É a mesma batida do <see cref="Obstacle"/>, prevista: o obstáculo bate
+    /// enquanto estiver a menos do alcance dele na vertical, então ele tem uma
+    /// **janela de tempo**; nessa janela a nave percorre um trecho de lado; se
+    /// esse trecho encosta no alcance horizontal do obstáculo, é batida.
+    ///
+    /// Inclui o obstáculo de que se está fugindo: se não der tempo de sair da
+    /// frente dele, a saída não serve — e é aqui que a velocidade da corrida
+    /// passa a contar.
+    /// </summary>
+    bool CrossingIsSafe(int to)
+    {
+        float speed = race != null ? race.Current : 0f;
+        float lateral = Mathf.Max(0.1f, lanes.LaneChangeSpeed);
+        float shipX = transform.position.x;
+        float shipY = transform.position.y;
+        float targetX = track.LaneCenterX(to);
+
+        foreach (var obstacle in Obstacle.Active)
+        {
+            if (obstacle == null || obstacle.Stats == null)
+                continue;
+
+            float dy = obstacle.transform.position.y - shipY;
+
+            // O que já está na faixa de destino, além da folga, é problema da
+            // próxima decisão: a regra do destino já o aceitou.
+            if (obstacle.Occupies(to) && dy >= clearDistance)
+                continue;
+
+            float reach = obstacle.Stats.crashDistance;
+            if (dy < -reach)
+                continue;
+
+            float horizontal = reach + (obstacle.LaneSpan - 1) * 0.5f * track.LaneWidth + crossingMargin;
+
+            // Um quadro de folga na entrada: quem decide e quem anda rodam em
+            // quadros, e o obstáculo dá um passo inteiro antes de a nave dar o dela.
+            float enter, exit;
+            if (speed <= 0.01f)
+            {
+                if (Mathf.Abs(dy) > reach)
+                    continue;
+
+                enter = 0f;
+                exit = float.PositiveInfinity;
+            }
+            else
+            {
+                enter = Mathf.Max(0f, (dy - reach) / speed - Time.deltaTime);
+                exit = (dy + reach) / speed;
+            }
+
+            float xEnter = Mathf.MoveTowards(shipX, targetX, lateral * enter);
+            float xExit = float.IsPositiveInfinity(exit)
+                ? targetX
+                : Mathf.MoveTowards(shipX, targetX, lateral * exit);
+
+            float obstacleX = obstacle.transform.position.x;
+            if (Mathf.Max(xEnter, xExit) >= obstacleX - horizontal &&
+                Mathf.Min(xEnter, xExit) <= obstacleX + horizontal)
+                return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>Distância até o Debilitante mais perto nesta faixa, ou <see cref="lookAhead"/>.</summary>
+    float DebuffThreat(int lane)
+    {
+        float nearest = lookAhead;
+        float shipY = transform.position.y;
+
+        foreach (var pickup in LevelModifierPickup.Active)
+        {
+            if (pickup == null || pickup.Lane != lane || pickup.Definition == null)
+                continue;
+
+            if (pickup.Definition.category != LevelModifier.Category.Debilitante)
+                continue;
+
+            float distance = pickup.transform.position.y - shipY;
+            if (distance >= 0f && distance < nearest)
+                nearest = distance;
+        }
+
+        return nearest;
     }
 
     /// <summary>

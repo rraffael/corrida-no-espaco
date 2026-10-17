@@ -25,6 +25,18 @@ public class SaveData
     public List<ScoreBoard.Entry> records = new List<ScoreBoard.Entry>();
     public CareerData career = new CareerData();
     public List<AchievementEntry> achievements = new List<AchievementEntry>();
+
+    /// <summary>Placares das fases, um por fase e dificuldade (17/10/2026). O da sem fim continua em <c>records</c>.</summary>
+    public List<BoardData> boards = new List<BoardData>();
+}
+
+/// <summary>O placar de uma fase numa dificuldade.</summary>
+[Serializable]
+public class BoardData
+{
+    /// <summary>O que <see cref="ScoreBoard.BoardId"/> devolve: asset da fase e dificuldade.</summary>
+    public string id;
+    public List<ScoreBoard.Entry> entries = new List<ScoreBoard.Entry>();
 }
 
 [Serializable]
@@ -181,6 +193,9 @@ public static class SaveGame
         loaded.career ??= new CareerData();
         loaded.career.ships ??= new List<ShipCareerEntry>();
         loaded.achievements ??= new List<AchievementEntry>();
+        loaded.boards ??= new List<BoardData>();
+        foreach (var board in loaded.boards)
+            board.entries ??= new List<ScoreBoard.Entry>();
     }
 
     // ── Migração das chaves antigas ──────────────────────────────────────

@@ -22,8 +22,12 @@ public class ShipLaneController : MonoBehaviour
     [SerializeField, Min(0.05f)] float swipeInchesPerLane = 0.18f;
 
     [Header("Movimento")]
-    [Tooltip("Velocidade da troca de faixa, em unidades de mundo por segundo.")]
-    [SerializeField, Min(1f)] float laneChangeSpeed = 12f;
+    [Tooltip("Velocidade da troca de faixa, em unidades de mundo por segundo. Era 12 até " +
+             "17/10/2026; subiu 50% junto com a Super IA passar a medir o tempo de cruzar.")]
+    [SerializeField, Min(1f)] float laneChangeSpeed = 18f;
+
+    /// <summary>A Super IA usa para saber quanto tempo leva para cruzar uma faixa.</summary>
+    public float LaneChangeSpeed => laneChangeSpeed;
 
     [Tooltip("Inclinação da nave enquanto ela se desloca de lado, em graus. Zero desliga.")]
     [SerializeField] float bankAngle = 18f;

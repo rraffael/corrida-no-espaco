@@ -7,9 +7,8 @@ using UnityEngine;
 /// linha por objeto: a lista é curta, e assim não há prefab de linha para
 /// manter nem lixo de instanciação ao abrir o painel.
 ///
-/// Serve tanto ao painel do menu (10 linhas) quanto à transição antes da
-/// partida (3 linhas) — muda só o <c>maxRows</c>. A tabela é a da **fase sem
-/// fim**, em distância percorrida: as fases de progressão não têm placar.
+/// Hoje serve só ao pódio da transição antes da sem fim (3 linhas). Os placares
+/// completos, com nave e posição do jogador, são do <see cref="LeaderboardView"/>.
 /// </summary>
 public class RecordsBoard : MonoBehaviour
 {

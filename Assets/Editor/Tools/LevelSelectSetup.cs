@@ -18,6 +18,7 @@ static class LevelSelectSetup
 {
     const string ScenePath = "Assets/Scenes/Menu.unity";
     const string PanelName = "PainelSelecaoFase";
+    const string LeaderboardPanelName = "PainelPlacar";
 
     static readonly Vector2 BoxSize = new Vector2(880f, 1320f);
     static readonly Vector2 RowsSize = new Vector2(800f, 620f);
@@ -49,6 +50,10 @@ static class LevelSelectSetup
         UiBuilder.SetReference(menu, "levelSelectPanel", panel);
         panel.SetActive(false);
 
+        var leaderboard = BuildLeaderboardPanel(canvas, menu);
+        UiBuilder.SetReference(menu, "leaderboardPanel", leaderboard);
+        leaderboard.gameObject.SetActive(false);
+
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
 
@@ -57,8 +62,9 @@ static class LevelSelectSetup
         Selection.activeGameObject = panel;
         EditorGUIUtility.PingObject(panel);
 
-        Debug.Log("[Seleção] Tela de fases montada em " + ScenePath + ". O \"Jogar\" agora abre a " +
-                  "lista; a fase escolhida vai para a transição do pódio e daí para a partida.", panel);
+        Debug.Log("[Seleção] Tela de fases e painel do placar montados em " + ScenePath + ". O " +
+                  "\"Jogar\" abre a lista; o troféu de cada fase abre o placar dela, e só a sem fim " +
+                  "passa pela transição do pódio.", panel);
     }
 
     [MenuItem(ProjectTools.LevelSelectUndoItem, false, 113)]
@@ -68,9 +74,12 @@ static class LevelSelectSetup
         if (!scene.IsValid())
             return;
 
-        var panel = FindAnywhere(PanelName);
-        if (panel != null)
-            Undo.DestroyObjectImmediate(panel);
+        foreach (var name in new[] { PanelName, LeaderboardPanelName })
+        {
+            var target = FindAnywhere(name);
+            if (target != null)
+                Undo.DestroyObjectImmediate(target);
+        }
 
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
@@ -165,25 +174,45 @@ static class LevelSelectSetup
         var nameObject = UiBuilder.NewUI("Nome", go.transform);
         var nameRect = UiBuilder.Stretch(nameObject);
         nameRect.offsetMin = new Vector2(32f, 50f);
-        nameRect.offsetMax = new Vector2(-110f, -12f);
+        nameRect.offsetMax = new Vector2(-190f, -12f);
         var nameLabel = UiBuilder.Label(nameObject, "Fase", 42f, UiBuilder.LabelColor);
         nameLabel.alignment = TextAlignmentOptions.Left;
 
         var detailObject = UiBuilder.NewUI("Detalhe", go.transform);
         var detailRect = UiBuilder.Stretch(detailObject);
         detailRect.offsetMin = new Vector2(32f, 12f);
-        detailRect.offsetMax = new Vector2(-110f, -68f);
+        detailRect.offsetMax = new Vector2(-190f, -68f);
         var detailLabel = UiBuilder.Label(detailObject, string.Empty, 28f, UiBuilder.DimLabelColor);
         detailLabel.alignment = TextAlignmentOptions.Left;
 
         var padlockObject = UiBuilder.NewUI("Cadeado", go.transform);
         UiBuilder.Place(padlockObject, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f),
-                        new Vector2(-30f, 0f), new Vector2(56f, 56f));
+                        new Vector2(-120f, 0f), new Vector2(56f, 56f));
         var padlock = padlockObject.AddComponent<Image>();
         padlock.sprite = PlaceholderArt.Padlock();
         padlock.color = UiBuilder.DimLabelColor;
         padlock.raycastTarget = false;
         padlock.preserveAspect = true;
+
+        // O troféu na ponta, onde o polegar alcança. É um botão dentro do botão da
+        // linha: o toque vai para o de cima, então tocar nele não começa a fase.
+        var trophyObject = UiBuilder.NewUI("Trofeu", go.transform);
+        UiBuilder.Place(trophyObject, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f),
+                        new Vector2(-16f, 0f), new Vector2(96f, 96f));
+        var trophyBackground = trophyObject.AddComponent<Image>();
+        trophyBackground.sprite = UiBuilder.BuiltinSprite();
+        trophyBackground.type = Image.Type.Sliced;
+        trophyBackground.color = new Color(0f, 0f, 0f, 0.3f);
+        var trophy = trophyObject.AddComponent<Button>();
+        trophy.targetGraphic = trophyBackground;
+
+        var trophyIconObject = UiBuilder.NewUI("Icone", trophyObject.transform);
+        UiBuilder.Stretch(trophyIconObject, 14f);
+        var trophyIcon = trophyIconObject.AddComponent<Image>();
+        trophyIcon.sprite = PlaceholderArt.Trophy();
+        trophyIcon.color = new Color(1f, 0.84f, 0.3f, 1f);
+        trophyIcon.raycastTarget = false;
+        trophyIcon.preserveAspect = true;
 
         var row = go.AddComponent<LevelSelectRow>();
         UiBuilder.SetReference(row, "button", button);
@@ -191,10 +220,56 @@ static class LevelSelectSetup
         UiBuilder.SetReference(row, "nameLabel", nameLabel);
         UiBuilder.SetReference(row, "detailLabel", detailLabel);
         UiBuilder.SetReference(row, "padlock", padlockObject);
+        UiBuilder.SetReference(row, "trophyButton", trophy);
 
         go.SetActive(false);
 
         return row;
+    }
+
+    /// <summary>
+    /// O placar de uma fase, aberto pelo troféu: o topo, o jogador com os
+    /// vizinhos, e dali dá para jogar a fase ou voltar à lista.
+    /// </summary>
+    static LeaderboardPanel BuildLeaderboardPanel(Canvas canvas, Menu menu)
+    {
+        var existing = FindAnywhere(LeaderboardPanelName);
+        if (existing != null)
+            Undo.DestroyObjectImmediate(existing);
+
+        var panel = UiBuilder.Panel(LeaderboardPanelName, canvas.transform);
+        Undo.RegisterCreatedObjectUndo(panel, "Montar seleção de fase");
+        panel.transform.SetAsLastSibling();
+
+        var box = UiBuilder.Box("Caixa", panel.transform, BoxSize, Vector2.zero);
+
+        UiBuilder.Label("Titulo", box.transform, "Placar", 60f,
+                        new Vector2(0f, 560f), new Vector2(820f, 100f), UiBuilder.LabelColor);
+
+        var level = UiBuilder.Label("Fase", box.transform, string.Empty, 36f,
+                                    new Vector2(0f, 480f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
+
+        var view = UiBuilder.Leaderboard(box.transform, new Vector2(0f, -20f), new Vector2(840f, 860f), 30f,
+                                         "Ninguém completou esta fase ainda.\nO primeiro tempo pode ser o seu.");
+
+        var play = UiBuilder.Button("BotaoJogar", box.transform, "Jogar",
+                                    new Vector2(-210f, -570f), new Vector2(380f, 110f),
+                                    UiBuilder.PrimaryButton);
+
+        var back = UiBuilder.Button("BotaoVoltar", box.transform, "Voltar",
+                                    new Vector2(210f, -570f), new Vector2(380f, 110f),
+                                    UiBuilder.NeutralButton);
+
+        var leaderboard = panel.AddComponent<LeaderboardPanel>();
+        UiBuilder.SetReference(leaderboard, "menu", menu);
+        UiBuilder.SetReference(leaderboard, "view", view);
+        UiBuilder.SetReference(leaderboard, "titleLabel", level);
+        UiBuilder.SetReference(leaderboard, "playButton", play);
+
+        UnityEventTools.AddPersistentListener(play.onClick, leaderboard.OnPlayButton);
+        UnityEventTools.AddPersistentListener(back.onClick, leaderboard.OnBackButton);
+
+        return leaderboard;
     }
 
     static GameObject FindAnywhere(string name)

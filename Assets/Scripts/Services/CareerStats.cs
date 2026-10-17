@@ -76,6 +76,9 @@ public static class CareerStats
 
     public static void AddKill() => pendingKills++;
 
+    /// <summary>Abates da corrida em andamento. Zera no <see cref="RaceEnded"/>: quem precisa lê antes.</summary>
+    public static int RaceKills => pendingKills;
+
     public static void AddCrash() => pendingCrashes++;
 
     /// <summary>A corrida chegou ao fim. Soma tudo e grava uma vez.</summary>

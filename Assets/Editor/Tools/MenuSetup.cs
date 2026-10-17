@@ -7,9 +7,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Ajusta a Menu.unity: botões maiores, o terceiro botão (Recordes) entre
-/// Jogar e Sair, o painel da tabela e a transição que mostra o pódio antes da
-/// partida começar.
+/// Ajusta a Menu.unity: botões maiores e a transição que mostra o pódio da sem
+/// fim antes de ela começar. O botão e o painel de Recordes saíram em
+/// 17/10/2026 — os placares moram na seleção de fase.
 ///
 /// Os botões que já existiam são reaproveitados — a fiação deles com
 /// <c>Menu.OnPlayButton</c> e <c>Menu.OnQuitButton</c> continua de pé.
@@ -54,7 +54,6 @@ static class MenuSetup
         var buttons = GetOrCreateButtonsRoot(canvas);
         var play = AdoptButton(PlayButton, buttons);
         var quit = AdoptButton(QuitButton, buttons);
-        var records = GetOrCreateRecordsButton(buttons, menu);
 
         if (play == null || quit == null)
         {
@@ -62,23 +61,21 @@ static class MenuSetup
             return;
         }
 
-        // Ordem visual: Jogar em cima, Sair embaixo, Recordes logo acima do Sair.
-        // O que estiver no meio — hoje a aba de Naves — fica onde a montagem dele
-        // o pôs, e é por isso que aqui não se numera ninguém no meio.
+        RemoveRecords();
+
+        // Ordem visual: Jogar em cima, Sair embaixo. O que estiver no meio — as
+        // abas de Naves e Conquistas — fica onde a montagem delas o pôs, e é por
+        // isso que aqui não se numera ninguém no meio.
         play.transform.SetAsFirstSibling();
         quit.transform.SetAsLastSibling();
-        records.transform.SetSiblingIndex(buttons.childCount - 2);
 
         RelayoutButtons();
 
-        var recordsPanel = BuildRecordsPanel(canvas, menu);
         var transitionPanel = BuildTransitionPanel(canvas, menu);
 
-        UiBuilder.SetReference(menu, "recordsPanel", recordsPanel);
         UiBuilder.SetReference(menu, "transitionPanel", transitionPanel);
         UiBuilder.SetReference(menu, "buttonsRoot", buttons.gameObject);
 
-        recordsPanel.SetActive(false);
         transitionPanel.SetActive(false);
         buttons.gameObject.SetActive(true);
 
@@ -90,8 +87,9 @@ static class MenuSetup
         Selection.activeGameObject = buttons.gameObject;
         EditorGUIUtility.PingObject(buttons.gameObject);
 
-        Debug.Log("[Menu] Botões maiores (440x110), botão Recordes no meio, painel da tabela e " +
-                  "transição com o pódio montados em " + ScenePath + ".", buttons);
+        Debug.Log("[Menu] Botões maiores (440x110) e transição com o pódio da sem fim montados em " +
+                  ScenePath + ". O botão e o painel de Recordes saíram: os placares moram na " +
+                  "seleção de fase.", buttons);
     }
 
     [MenuItem(ProjectTools.MenuSceneUndoItem, false, 111)]
@@ -101,24 +99,16 @@ static class MenuSetup
         if (!scene.IsValid())
             return;
 
-        int removed = 0;
-        foreach (var name in new[] { RecordsPanel, TransitionPanel })
-        {
-            var target = FindAnywhere(name);
-            if (target == null)
-                continue;
+        int removed = RemoveRecords();
 
-            Undo.DestroyObjectImmediate(target);
+        var transition = FindAnywhere(TransitionPanel);
+        if (transition != null)
+        {
+            Undo.DestroyObjectImmediate(transition);
             removed++;
         }
 
-        var records = FindAnywhere(RecordsButton);
-        if (records != null)
-        {
-            Undo.DestroyObjectImmediate(records);
-            removed++;
-        }
-
+        RelayoutButtons();
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
 
@@ -167,23 +157,26 @@ static class MenuSetup
         return button;
     }
 
-    static Button GetOrCreateRecordsButton(RectTransform parent, Menu menu)
+    /// <summary>
+    /// Tira o botão e o painel de Recordes, que existiram até 17/10/2026. A
+    /// tabela da sem fim aparece na transição antes dela, e cada fase tem o
+    /// placar dela na seleção — um terceiro lugar para ver recordes só mostrava
+    /// a tabela errada no lugar errado.
+    /// </summary>
+    static int RemoveRecords()
     {
-        var existing = FindAnywhere(RecordsButton);
-        if (existing != null)
+        int removed = 0;
+        foreach (var name in new[] { RecordsButton, RecordsPanel })
         {
-            Undo.SetTransformParent(existing.transform, parent, "Montar menu");
-            UiBuilder.PlaceCentered(existing, Vector2.zero, ButtonSize);
-            GrowLabel(existing);
-            return existing.GetComponent<Button>();
+            var target = FindAnywhere(name);
+            if (target == null)
+                continue;
+
+            Undo.DestroyObjectImmediate(target);
+            removed++;
         }
 
-        var button = UiBuilder.Button(RecordsButton, parent, "Recordes",
-                                      Vector2.zero, ButtonSize, UiBuilder.NeutralButton);
-        Undo.RegisterCreatedObjectUndo(button.gameObject, "Montar menu");
-        UnityEventTools.AddPersistentListener(button.onClick, menu.OnRecordsButton);
-
-        return button;
+        return removed;
     }
 
     /// <summary>
@@ -231,45 +224,6 @@ static class MenuSetup
         label.enableAutoSizing = false;
         label.alignment = TextAlignmentOptions.Center;
         EditorUtility.SetDirty(label);
-    }
-
-    static GameObject BuildRecordsPanel(Canvas canvas, Menu menu)
-    {
-        var existing = canvas.transform.Find(RecordsPanel);
-        if (existing != null)
-            Undo.DestroyObjectImmediate(existing.gameObject);
-
-        var panel = UiBuilder.Panel(RecordsPanel, canvas.transform);
-        Undo.RegisterCreatedObjectUndo(panel, "Montar menu");
-        panel.transform.SetAsLastSibling();
-
-        var box = UiBuilder.Box("Caixa", panel.transform, new Vector2(880f, 1100f), Vector2.zero);
-
-        UiBuilder.Label("Titulo", box.transform, "Recordes", 64f,
-                        new Vector2(0f, 460f), new Vector2(800f, 110f), UiBuilder.LabelColor);
-
-        UiBuilder.Label("Ajuda", box.transform, "Distância na fase sem fim — maior é melhor", 30f,
-                        new Vector2(0f, 380f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
-
-        var listObject = UiBuilder.NewUI("Lista", box.transform);
-        UiBuilder.PlaceCentered(listObject, new Vector2(0f, -20f), new Vector2(800f, 700f));
-        var list = UiBuilder.Label(listObject, string.Empty, 38f, UiBuilder.LabelColor);
-        list.alignment = TextAlignmentOptions.Top;
-
-        var board = listObject.AddComponent<RecordsBoard>();
-        UiBuilder.SetReference(board, "target", list);
-
-        var boardSerialized = new SerializedObject(board);
-        boardSerialized.FindProperty("emptyMessage").stringValue =
-            "Ainda sem recordes.\nCorra na fase sem fim para inaugurar a tabela.";
-        boardSerialized.ApplyModifiedPropertiesWithoutUndo();
-
-        var close = UiBuilder.Button("BotaoVoltar", box.transform, "Voltar",
-                                     new Vector2(0f, -450f), new Vector2(420f, 110f),
-                                     UiBuilder.NeutralButton);
-        UnityEventTools.AddPersistentListener(close.onClick, menu.OnCloseRecordsButton);
-
-        return panel;
     }
 
     static GameObject BuildTransitionPanel(Canvas canvas, Menu menu)

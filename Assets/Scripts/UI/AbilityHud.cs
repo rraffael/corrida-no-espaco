@@ -15,9 +15,11 @@ using UnityEngine.UI;
 ///
 /// **Não se parece com modificador de fase, e isso é regra.** Modificador de
 /// fase é item redondo na pista e vira um quadradinho com relógio no alto à
-/// ESQUERDA; este aqui é um canto fixo no alto à DIREITA, que só **pisca quando
-/// fica pronto**. Se os dois se anunciassem igual, o jogador não saberia o que
-/// tem e o que pode ativar.
+/// ESQUERDA; este aqui é um canto fixo no alto à DIREITA, que **pisca quando
+/// fica pronto** e, enquanto estiver pronto, tem um **risco dourado dando a
+/// volta na borda** (<see cref="ReadyGlowBorder"/>, desde 17/10/2026). Se os
+/// dois se anunciassem igual, o jogador não saberia o que tem e o que pode
+/// ativar.
 ///
 /// Nave sem poder equipado: o canto some inteiro. Não existe "slot vazio" na
 /// tela — espaço ocupado por nada é espaço que ensina errado.
@@ -39,6 +41,10 @@ public class AbilityHud : MonoBehaviour
 
     [Tooltip("Segundos que faltam da recarga. Some quando está pronto.")]
     [SerializeField] TextMeshProUGUI cooldownLabel;
+
+    [Tooltip("A borda dourada que corre em volta do canto enquanto o poder está pronto. " +
+             "Some quando ele é usado, junto com o começo da recarga.")]
+    [SerializeField] Graphic readyGlow;
 
     [Header("Aparência")]
     [Tooltip("Opacidade do canto com a recarga correndo, ou sem uso sobrando.")]
@@ -131,6 +137,10 @@ public class AbilityHud : MonoBehaviour
     /// </summary>
     void StartConditional()
     {
+        // Condicional não se ativa: não existe "pronto" para anunciar.
+        if (readyGlow != null)
+            readyGlow.enabled = false;
+
         var definition = conditional.Definition;
 
         if (icon != null)
@@ -183,6 +193,9 @@ public class AbilityHud : MonoBehaviour
         wasReady = ready;
 
         group.alpha = ready ? ReadyAlpha() : dimAlpha;
+
+        if (readyGlow != null && readyGlow.enabled != ready)
+            readyGlow.enabled = ready;
 
         UpdateUses();
         UpdateCooldown(ready);

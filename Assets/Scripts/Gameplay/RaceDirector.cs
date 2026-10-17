@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 /// Manda no começo, no fim e no cronômetro da corrida. São três desfechos, e
 /// qual deles vale depende do tipo de fase:
 ///
-/// - **Fase de progressão, vitória:** a dobra completa. Destrava a próxima fase.
-///   Não marca placar — estas fases existem para ensinar o jogo e apresentar
-///   obstáculo novo, não para competir.
+/// - **Fase de progressão, vitória:** a dobra completa. Destrava a próxima fase
+///   e entra no placar da fase pelo tempo, com os abates no desempate *(placar
+///   por fase desde 17/10/2026)*.
 /// - **Fase de progressão, derrota:** a vida da nave chega a zero.
 /// - **Fase sem fim:** a nave cair **é o fim previsto**, e não uma derrota. Lá a
-///   corrida vale a **distância percorrida**, que é a única pontuação do jogo.
+///   corrida vale a **distância percorrida**.
 /// </summary>
 [DefaultExecutionOrder(-30)]
 public class RaceDirector : MonoBehaviour
@@ -43,12 +43,17 @@ public class RaceDirector : MonoBehaviour
     [Tooltip("Onde a vitória conta o que foi destravado.")]
     [SerializeField] TMP_Text victoryUnlockLabel;
 
+    [Tooltip("Onde a vitória conta a posição no placar da fase.")]
+    [SerializeField] TMP_Text victoryPlacementLabel;
+
+    [SerializeField] LeaderboardView victoryBoard;
+
     [Header("Fim de corrida — fase sem fim")]
     [SerializeField] GameObject endlessPanel;
     [SerializeField] TMP_Text endlessDistanceLabel;
     [SerializeField] TMP_InputField nameField;
     [SerializeField] TMP_Text placementLabel;
-    [SerializeField] RecordsBoard recordsBoard;
+    [SerializeField] LeaderboardView endlessBoard;
 
     [Tooltip("Some com estes objetos quando a corrida acaba: HUD e botão de menu.")]
     [SerializeField] GameObject[] hideOnEnd;
@@ -91,6 +96,7 @@ public class RaceDirector : MonoBehaviour
     RaceSpeed race;
     Health shipHealth;
     bool scoreSaved;
+    int runKills;
 
     void Awake()
     {
@@ -239,13 +245,17 @@ public class RaceDirector : MonoBehaviour
     }
 
     /// <summary>
-    /// Fase de progressão vencida. Sem placar de propósito: o prêmio destas
-    /// fases é a próxima fase, não uma posição em tabela.
+    /// Fase de progressão vencida: destrava a próxima e entra no placar da fase.
+    /// O placar entra sozinho, sem pedir nome — o nome vem da Play Store quando
+    /// ela chegar; até lá, é o último usado na sem fim.
     /// </summary>
     void Win()
     {
         if (!IsRunning)
             return;
+
+        // Antes do RaceEnded, que zera a contagem da corrida.
+        runKills = CareerStats.RaceKills;
 
         EndRace();
         CareerStats.RaceEnded(CareerStats.Outcome.Win, Distance, Elapsed);
@@ -256,8 +266,31 @@ public class RaceDirector : MonoBehaviour
         if (victoryUnlockLabel != null)
             victoryUnlockLabel.text = RegisterProgress();
 
+        string boardId = ScoreBoard.BoardId(Level, LevelSelection.Difficulty);
+        var entry = new ScoreBoard.Entry
+        {
+            name = ScoreBoard.PilotName,
+            time = Elapsed,
+            distance = Distance,
+            kills = runKills,
+        };
+        var placement = ScoreBoard.Submit(boardId, entry);
+
+        if (victoryPlacementLabel != null)
+            victoryPlacementLabel.text = DescribePlacement(placement);
+
+        // O painel liga antes da subida: ela é uma corrotina, e corrotina não
+        // começa em objeto desligado.
         SetActive(victoryPanel, true);
+
+        if (victoryBoard != null)
+            victoryBoard.PlayClimb(boardId, placement.Rank > 0 ? entry : null, placement.FromRank);
     }
+
+    static string DescribePlacement(ScoreBoard.Placement placement) =>
+        placement.Rank > 0
+            ? $"{placement.Rank}º lugar no placar!"
+            : $"Fora do top {ScoreBoard.MaxEntries} desta vez.";
 
     /// <summary>
     /// Vencer anda com a corrente de progressão. Devolve o que contar ao jogador
@@ -283,6 +316,8 @@ public class RaceDirector : MonoBehaviour
     {
         if (!IsRunning)
             return;
+
+        runKills = CareerStats.RaceKills;
 
         EndRace();
         CareerStats.RaceEnded(IsEndless ? CareerStats.Outcome.Endless : CareerStats.Outcome.Defeat,
@@ -312,6 +347,9 @@ public class RaceDirector : MonoBehaviour
             placementLabel.text = "Salve sua distância na tabela.";
 
         SetActive(endlessPanel, true);
+
+        if (endlessBoard != null)
+            endlessBoard.Show(ScoreBoard.EndlessBoardId);
     }
 
     void EndRace()
@@ -344,9 +382,10 @@ public class RaceDirector : MonoBehaviour
     }
 
     /// <summary>
-    /// Botão "Salvar" do painel da fase sem fim. Só ela tem placar — a guarda do
-    /// <see cref="IsEndless"/> é o que impede uma fase de progressão de entrar na
-    /// tabela, se um dia alguém ligar este botão no painel errado.
+    /// Botão "Salvar" do painel da fase sem fim. A fase de progressão entra no
+    /// placar dela sozinha, na vitória — a guarda do <see cref="IsEndless"/> é o
+    /// que impede uma derrota de entrar na tabela da sem fim, se um dia alguém
+    /// ligar este botão no painel errado.
     /// </summary>
     public void SaveScore()
     {
@@ -356,17 +395,27 @@ public class RaceDirector : MonoBehaviour
         scoreSaved = true;
 
         string name = nameField != null ? nameField.text : string.Empty;
-        int position = ScoreBoard.Submit(name, Distance);
+        var entry = new ScoreBoard.Entry
+        {
+            name = name,
+            distance = Distance,
+            time = Elapsed,
+            kills = runKills,
+        };
+
+        // O nome digitado aqui é o que as fases usam enquanto o apelido da Play
+        // Store não chega. Antes do Submit, que é quem grava.
+        if (!string.IsNullOrWhiteSpace(name))
+            ScoreBoard.LastName = name.Trim();
+
+        var placement = ScoreBoard.Submit(ScoreBoard.EndlessBoardId, entry);
 
         if (placementLabel != null)
-        {
-            placementLabel.text = position >= 0
-                ? $"{position + 1}º lugar na tabela!"
-                : "Fora do top 10 desta vez.";
-        }
+            placementLabel.text = DescribePlacement(placement);
 
-        if (recordsBoard != null)
-            recordsBoard.Refresh();
+        if (endlessBoard != null)
+            endlessBoard.PlayClimb(ScoreBoard.EndlessBoardId, placement.Rank > 0 ? entry : null,
+                                   placement.FromRank);
 
         if (nameField != null)
             nameField.interactable = false;

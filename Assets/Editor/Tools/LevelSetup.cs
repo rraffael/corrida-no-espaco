@@ -73,6 +73,22 @@ static class LevelSetup
             stats.shrapnelCount = 1;
         }, pixel);
 
+        // O Rastro (17/10/2026) nasce com os números do Detrito, como ponto de
+        // partida: o que o diferencia é o vácuo. Não entra em fase nenhuma daqui —
+        // onde ele aparece é decisão do Raffael, na ficha da fase.
+        GetOrCreateObstacle("Obstaculo4-Rastro", stats =>
+        {
+            stats.displayName = "Rastro";
+            stats.color = new Color(0.5f, 1f, 0.6f, 1f);
+            stats.laneSpan = 1;
+            stats.height = 0.9f;
+            stats.maxHealth = 50f;
+            stats.contactDamage = 20f;
+            stats.killWeight = 1.5f;
+            stats.speedPenaltyOnCrash = 2f;
+            stats.pullsOnPass = true;
+        }, pixel);
+
         var fase1 = GetOrCreateLevel("Fase1", level =>
         {
             level.displayName = "Fase 1 — Cinturão";

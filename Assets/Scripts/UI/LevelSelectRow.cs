@@ -20,6 +20,9 @@ public class LevelSelectRow : MonoBehaviour
     [Tooltip("O cadeado. Ligado só quando a fase está trancada.")]
     [SerializeField] GameObject padlock;
 
+    [Tooltip("O troféu que abre o placar da fase. Desligado na sem fim, que mostra o dela antes da corrida.")]
+    [SerializeField] Button trophyButton;
+
     [Header("Cores")]
     [SerializeField] Color unlockedColor = new Color(0.16f, 0.42f, 0.75f, 0.95f);
     [SerializeField] Color lockedColor = new Color(0.13f, 0.15f, 0.22f, 0.95f);
@@ -30,8 +33,11 @@ public class LevelSelectRow : MonoBehaviour
     /// Põe a fase na linha. <paramref name="detail"/> é o que a linha de baixo
     /// diz: a regra da dobra quando dá para jogar, o que falta vencer quando não.
     /// </summary>
-    public void Bind(LevelDefinition level, bool unlocked, string detail, Action<LevelDefinition> onChosen)
+    public void Bind(LevelDefinition level, bool unlocked, string detail, Action<LevelDefinition> onChosen,
+                     Action<LevelDefinition> onTrophy)
     {
+        BindTrophy(level, onTrophy);
+
         if (nameLabel != null)
         {
             nameLabel.text = level != null ? level.displayName : "—";
@@ -57,5 +63,22 @@ public class LevelSelectRow : MonoBehaviour
 
         if (unlocked && level != null && onChosen != null)
             button.onClick.AddListener(() => onChosen(level));
+    }
+
+    /// <summary>
+    /// O troféu funciona até em fase trancada: ver quem já passou dali é um bom
+    /// motivo para querer chegar lá.
+    /// </summary>
+    void BindTrophy(LevelDefinition level, Action<LevelDefinition> onTrophy)
+    {
+        if (trophyButton == null)
+            return;
+
+        bool shown = level != null && !level.endless && onTrophy != null;
+        trophyButton.gameObject.SetActive(shown);
+
+        trophyButton.onClick.RemoveAllListeners();
+        if (shown)
+            trophyButton.onClick.AddListener(() => onTrophy(level));
     }
 }

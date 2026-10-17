@@ -44,7 +44,7 @@ static class ProjectTools
     public const string ModifiersItem = MenuRoot + "Montagem/Criar modificadores de fase";
     public const string BattleItem = MenuRoot + "Montagem/Montar combate (nave, obstáculos, fim)";
     public const string BattleUndoItem = MenuRoot + "Montagem/Desmontar combate";
-    public const string MenuSceneItem = MenuRoot + "Montagem/Montar menu (recordes + transição)";
+    public const string MenuSceneItem = MenuRoot + "Montagem/Montar menu (botões + transição)";
     public const string MenuSceneUndoItem = MenuRoot + "Montagem/Desmontar menu";
     public const string LevelSelectItem = MenuRoot + "Montagem/Montar seleção de fase";
     public const string LevelSelectUndoItem = MenuRoot + "Montagem/Desmontar seleção de fase";
@@ -52,6 +52,7 @@ static class ProjectTools
     public const string ShipSelectUndoItem = MenuRoot + "Montagem/Desmontar aba de naves";
     public const string AchievementsItem = MenuRoot + "Montagem/Montar conquistas";
     public const string AchievementsUndoItem = MenuRoot + "Montagem/Desmontar conquistas";
+    public const string LaneChangeSpeedFixItem = MenuRoot + "Correções/Troca de faixa mais rápida";
 
     public const string RaceId = "corrida-fundo-hud";
     public const string LevelsId = "fases-e-obstaculos";
@@ -62,6 +63,7 @@ static class ProjectTools
     public const string LevelSelectId = "selecao-de-fase";
     public const string ShipSelectId = "aba-de-naves";
     public const string AchievementsId = "conquistas";
+    public const string LaneChangeSpeedFixId = "troca-de-faixa-18";
 
     /// <summary>
     /// O diário vive em <c>UserSettings/</c>, que o .gitignore já ignora: é
@@ -144,9 +146,9 @@ static class ProjectTools
         new Tool
         {
             Id = MenuSceneId,
-            Title = "Montar menu (recordes + transição)",
-            Summary = "Botões maiores, botão Recordes entre Jogar e Sair, painel da tabela e a " +
-                      "transição com o pódio antes da partida.",
+            Title = "Montar menu (botões + transição)",
+            Summary = "Botões maiores e a transição com o pódio antes da sem fim. Tira o botão e " +
+                      "o painel de Recordes antigos: os placares moram na seleção de fase.",
             MenuPath = MenuSceneItem,
             UndoMenuPath = MenuSceneUndoItem,
         },
@@ -155,7 +157,8 @@ static class ProjectTools
             Id = LevelSelectId,
             Title = "Montar seleção de fase",
             Summary = "A tela que o \"Jogar\" abre: lista das fases do catálogo, dificuldade num " +
-                      "seletor e cadeado no que ainda não foi destravado. Depende do 'Montar menu' " +
+                      "seletor, cadeado no que ainda não foi destravado e o troféu que abre o placar " +
+                      "de cada fase. Depende do 'Montar menu' " +
                       "e do 'Criar fases e fichas de obstáculo'.",
             MenuPath = LevelSelectItem,
             UndoMenuPath = LevelSelectUndoItem,
@@ -179,6 +182,14 @@ static class ProjectTools
                       "Depende do 'Montar menu'.",
             MenuPath = AchievementsItem,
             UndoMenuPath = AchievementsUndoItem,
+        },
+        new Tool
+        {
+            Id = LaneChangeSpeedFixId,
+            Title = "Troca de faixa mais rápida (conserto pontual)",
+            Summary = "Põe a troca de faixa da nave da Game.unity em 18 u/s (era 12, +50%). Roda uma " +
+                      "vez e sai do projeto depois de aprovado.",
+            MenuPath = LaneChangeSpeedFixItem,
         },
         new Tool
         {

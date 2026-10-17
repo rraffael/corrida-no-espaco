@@ -51,6 +51,10 @@ public class Shrapnel : MonoBehaviour
         if (ship == null || !ship.Health.IsAlive)
             return;
 
+        // Estilhaço é pedaço de obstáculo: quem atravessa um atravessa o outro.
+        if (ship.Has(ShipTrait.Phasing))
+            return;
+
         if (Vector2.Distance(transform.position, ship.transform.position) > hitDistance)
             return;
 

@@ -11,10 +11,10 @@ using UnityEngine.UI;
 /// obstáculos que descem pelas faixas, o HUD de vida e os **três** painéis de fim
 /// de corrida.
 ///
-/// São três porque os desfechos são diferentes: fase de progressão vencida (sem
-/// placar, só o que destravou), nave destruída numa fase de progressão, e o fim
-/// da fase sem fim — o único com campo de nome e tabela, porque é a única fase
-/// que pontua.
+/// São três porque os desfechos são diferentes: fase de progressão vencida (o
+/// tempo, o que destravou e o placar da fase), nave destruída numa fase de
+/// progressão, e o fim da fase sem fim — com campo de nome e a tabela de
+/// distâncias.
 /// </summary>
 static class BattleSetup
 {
@@ -102,6 +102,7 @@ static class BattleSetup
         // da Predadora. Entra em toda nave pelo mesmo motivo do piloto: sem
         // condicional com estágio, ele não toca em nada.
         GetOrAdd<ShipStageLook>(ship);
+        GetOrAdd<ShipPhaseLook>(ship);
 
         var weapon = GetOrAdd<ShipWeapon>(ship);
         UiBuilder.SetReference(weapon, "projectileSprite", pixel);
@@ -150,13 +151,15 @@ static class BattleSetup
         UiBuilder.SetReference(director, "victoryPanel", victory.panel);
         UiBuilder.SetReference(director, "victoryTimeLabel", victory.time);
         UiBuilder.SetReference(director, "victoryUnlockLabel", victory.unlock);
+        UiBuilder.SetReference(director, "victoryPlacementLabel", victory.placement);
+        UiBuilder.SetReference(director, "victoryBoard", victory.board);
         UiBuilder.SetReference(director, "defeatPanel", defeat);
 
         UiBuilder.SetReference(director, "endlessPanel", endless.panel);
         UiBuilder.SetReference(director, "endlessDistanceLabel", endless.distance);
         UiBuilder.SetReference(director, "nameField", endless.nameField);
         UiBuilder.SetReference(director, "placementLabel", endless.placement);
-        UiBuilder.SetReference(director, "recordsBoard", endless.board);
+        UiBuilder.SetReference(director, "endlessBoard", endless.board);
 
         // O HUD e o botão de pausa somem quando a corrida acaba, para não
         // competirem com o painel de fim.
@@ -185,7 +188,7 @@ static class BattleSetup
         Debug.Log(
             "[Combate] Nave com ficha (vida 100, dano 25, 3 tiros/s), obstáculos, HUD de vida e " +
             "de dobra, e os três painéis de fim montados em " + ScenePath + ". " +
-            "Fase de progressão: vencer é segurar a dobra, e não marca placar. " +
+            "Fase de progressão: vencer é segurar a dobra, e o tempo entra no placar da fase. " +
             "Fase sem fim: a corrida acaba quando a nave cai, e vale a distância percorrida.",
             ship);
     }
@@ -229,6 +232,7 @@ static class BattleSetup
         RemoveComponent<ShipWeapon>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<Autopilot>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<ShipStageLook>(FindInScene(scene, ShipObject), ref removed);
+        RemoveComponent<ShipPhaseLook>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<ShipAbilities>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<LevelModifiers>(FindInScene(scene, ShipObject), ref removed);
         RemoveComponent<ShipStats>(FindInScene(scene, ShipObject), ref removed);
@@ -342,6 +346,13 @@ static class BattleSetup
         icon.preserveAspect = true;
         UiBuilder.Stretch(iconObject, 22f);
 
+        // A borda dourada de "pronto", por cima do ícone e por baixo dos números.
+        var glowObject = UiBuilder.NewUI("BrilhoPronto", hud.transform);
+        UiBuilder.Stretch(glowObject);
+        var glow = glowObject.AddComponent<ReadyGlowBorder>();
+        glow.color = new Color(1f, 0.84f, 0.3f, 1f);
+        glow.raycastTarget = false;
+
         // Usos no canto de baixo, recarga no meio: o número grande do meio é o
         // que muda o tempo todo, e o de baixo só desce de um em um.
         var cooldownObject = UiBuilder.NewUI("Recarga", hud.transform);
@@ -374,6 +385,7 @@ static class BattleSetup
         UiBuilder.SetReference(component, "icon", icon);
         UiBuilder.SetReference(component, "usesLabel", uses);
         UiBuilder.SetReference(component, "cooldownLabel", cooldown);
+        UiBuilder.SetReference(component, "readyGlow", glow);
 
         return hud;
     }
@@ -595,12 +607,15 @@ static class BattleSetup
         public GameObject panel;
         public TextMeshProUGUI time;
         public TextMeshProUGUI unlock;
+        public TextMeshProUGUI placement;
+        public LeaderboardView board;
     }
 
     /// <summary>
-    /// Fase de progressão vencida. **Sem campo de nome e sem tabela**: estas
-    /// fases não pontuam, elas ensinam o jogo e apresentam obstáculo novo. O que
-    /// o jogador leva daqui é a fase seguinte, e é isso que o painel anuncia.
+    /// Fase de progressão vencida: o tempo, o que destravou e o placar da fase,
+    /// com a corrida subindo até a posição dela *(placar por fase desde
+    /// 17/10/2026)*. Sem campo de nome — o nome vem da Play Store quando ela
+    /// chegar.
     /// </summary>
     static VictoryPanel BuildVictoryPanel(Transform canvas, RaceDirector director)
     {
@@ -612,23 +627,30 @@ static class BattleSetup
         Undo.RegisterCreatedObjectUndo(panel, "Montar combate");
         panel.transform.SetAsLastSibling();
 
-        var box = UiBuilder.Box("Caixa", panel.transform, new Vector2(900f, 780f), Vector2.zero);
+        var box = UiBuilder.Box("Caixa", panel.transform, new Vector2(900f, 1400f), Vector2.zero);
 
         UiBuilder.Label("Titulo", box.transform, "Fase concluída!", 64f,
-                        new Vector2(0f, 280f), new Vector2(820f, 110f), UiBuilder.LabelColor);
+                        new Vector2(0f, 600f), new Vector2(820f, 110f), UiBuilder.LabelColor);
 
         UiBuilder.Label("Rotulo", box.transform, "Seu tempo", 34f,
-                        new Vector2(0f, 190f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
+                        new Vector2(0f, 510f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
 
-        var time = UiBuilder.Label("Tempo", box.transform, "0:00.00", 96f,
-                                   new Vector2(0f, 100f), new Vector2(820f, 130f), UiBuilder.LabelColor);
+        var time = UiBuilder.Label("Tempo", box.transform, "0:00.00", 88f,
+                                   new Vector2(0f, 430f), new Vector2(820f, 110f), UiBuilder.LabelColor);
 
-        var unlock = UiBuilder.Label("Destravou", box.transform, string.Empty, 36f,
-                                     new Vector2(0f, -30f), new Vector2(820f, 110f),
+        var unlock = UiBuilder.Label("Destravou", box.transform, string.Empty, 32f,
+                                     new Vector2(0f, 345f), new Vector2(820f, 60f),
                                      new Color(0.7f, 1f, 0.8f, 1f));
 
+        var placement = UiBuilder.Label("Colocacao", box.transform, string.Empty, 32f,
+                                        new Vector2(0f, 285f), new Vector2(820f, 60f),
+                                        UiBuilder.DimLabelColor);
+
+        var board = UiBuilder.Leaderboard(box.transform, new Vector2(0f, -60f), new Vector2(840f, 580f), 30f,
+                                          "Ninguém completou esta fase ainda.");
+
         var back = UiBuilder.Button("BotaoVoltar", box.transform, "Voltar ao menu",
-                                    new Vector2(0f, -250f), new Vector2(440f, 110f),
+                                    new Vector2(0f, -560f), new Vector2(440f, 110f),
                                     UiBuilder.NeutralButton);
         UnityEventTools.AddPersistentListener(back.onClick, director.BackToMenu);
 
@@ -637,6 +659,8 @@ static class BattleSetup
             panel = panel,
             time = time,
             unlock = unlock,
+            placement = placement,
+            board = board,
         };
     }
 
@@ -646,13 +670,13 @@ static class BattleSetup
         public TextMeshProUGUI distance;
         public TextMeshProUGUI placement;
         public TMP_InputField nameField;
-        public RecordsBoard board;
+        public LeaderboardView board;
     }
 
     /// <summary>
     /// Fim da fase sem fim. Não é derrota: a nave cair é o fim previsto de lá, e
-    /// o que interessa é até onde ela chegou. É o **único** painel com campo de
-    /// nome e tabela, porque é a única fase que pontua.
+    /// o que interessa é até onde ela chegou. É o único painel com campo de
+    /// nome — o nome digitado aqui é o que as fases usam até a Play Store dar um.
     /// </summary>
     static EndlessPanel BuildEndlessPanel(Transform canvas, RaceDirector director)
     {
@@ -688,20 +712,8 @@ static class BattleSetup
                                         new Vector2(0f, -35f), new Vector2(820f, 60f),
                                         UiBuilder.DimLabelColor);
 
-        UiBuilder.Label("TituloTabela", box.transform, "Maiores distâncias", 36f,
-                        new Vector2(0f, -110f), new Vector2(820f, 60f), UiBuilder.DimLabelColor);
-
-        var listObject = UiBuilder.NewUI("Lista", box.transform);
-        UiBuilder.PlaceCentered(listObject, new Vector2(0f, -320f), new Vector2(760f, 340f));
-        var list = UiBuilder.Label(listObject, string.Empty, 36f, UiBuilder.LabelColor);
-        list.alignment = TextAlignmentOptions.Top;
-
-        var board = listObject.AddComponent<RecordsBoard>();
-        UiBuilder.SetReference(board, "target", list);
-
-        var boardSerialized = new SerializedObject(board);
-        boardSerialized.FindProperty("maxRows").intValue = 5;
-        boardSerialized.ApplyModifiedPropertiesWithoutUndo();
+        var board = UiBuilder.Leaderboard(box.transform, new Vector2(0f, -280f), new Vector2(840f, 400f), 30f,
+                                          "Ainda sem recordes.\nSalve a sua distância para inaugurar a tabela.");
 
         var back = UiBuilder.Button("BotaoVoltar", box.transform, "Voltar ao menu",
                                     new Vector2(0f, -540f), new Vector2(440f, 110f),

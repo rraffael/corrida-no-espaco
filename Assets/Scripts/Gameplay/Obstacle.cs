@@ -81,6 +81,8 @@ public class Obstacle : MonoBehaviour
         float step = (race != null ? race.Current : 0f) * Time.deltaTime;
         transform.position += Vector3.down * step;
 
+        WatchPass();
+
         if (transform.position.y < despawnY)
         {
             // Passou pela nave e saiu de cena sem ser destruído: é o obstáculo
@@ -88,6 +90,9 @@ public class Obstacle : MonoBehaviour
             // aqui.
             if (stats != null)
             {
+                if (pullArmed)
+                    PullShip();
+
                 // Os dois sistemas de poder são avisados em separado, e nenhum sabe
                 // do outro. Quem os junta é a nave, aqui.
                 if (LevelModifiers.Instance != null)
@@ -107,6 +112,11 @@ public class Obstacle : MonoBehaviour
     {
         var ship = ShipStats.Instance;
         if (ship == null || !ship.Health.IsAlive || stats == null)
+            return;
+
+        // Atravessando: a nave passa por dentro e o obstáculo segue inteiro, para
+        // ser destruído ou desviado depois como qualquer outro.
+        if (ship.Has(ShipTrait.Phasing))
             return;
 
         // Distância no plano, e não faixa contra faixa: bater no meio de uma
@@ -153,6 +163,71 @@ public class Obstacle : MonoBehaviour
     }
 
     float LaneWidth() => track != null ? track.LaneWidth : 1.6f;
+
+    // ── Vácuo (o Rastro) ─────────────────────────────────────────────────
+
+    bool passChecked;
+    bool pullArmed;
+
+    /// <summary>
+    /// O instante em que o obstáculo cruza a altura da nave decide se ele vai
+    /// puxar: só puxa quem passou **na faixa vizinha**. Decidir aqui, e não na
+    /// hora de sumir, é o que faz a regra ser legível — o jogador vê o Rastro
+    /// passar colado nele e já sabe o que vem.
+    /// </summary>
+    void WatchPass()
+    {
+        if (passChecked || stats == null || !stats.pullsOnPass)
+            return;
+
+        var ship = ShipStats.Instance;
+        if (ship == null || transform.position.y > ship.transform.position.y)
+            return;
+
+        passChecked = true;
+
+        var lanes = ShipLanes(ship);
+        if (lanes == null)
+            return;
+
+        int lane = lanes.CurrentLane;
+        pullArmed = lane == Lane - 1 || lane == Lane + LaneSpan;
+    }
+
+    /// <summary>
+    /// Puxa a nave uma faixa na direção do obstáculo. Uma faixa só, mesmo que
+    /// ela já tenha se afastado: o vácuo é forte perto e fraco longe, e uma nave
+    /// que fugiu duas faixas sente só um tranco.
+    /// </summary>
+    void PullShip()
+    {
+        var ship = ShipStats.Instance;
+        if (ship == null || !ship.Health.IsAlive)
+            return;
+
+        if (RaceDirector.Instance != null && !RaceDirector.Instance.IsRunning)
+            return;
+
+        var lanes = ShipLanes(ship);
+        if (lanes == null)
+            return;
+
+        int lane = lanes.CurrentLane;
+        if (Occupies(lane))
+            return;
+
+        lanes.MoveTo(lane < Lane ? lane + 1 : lane - 1);
+    }
+
+    static ShipLaneController shipLanes;
+
+    static ShipLaneController ShipLanes(ShipStats ship)
+    {
+        if (shipLanes == null || shipLanes.gameObject != ship.gameObject)
+            shipLanes = ship.GetComponent<ShipLaneController>();
+
+        return shipLanes;
+    }
 
     void OnDied()
     {

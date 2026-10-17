@@ -89,6 +89,21 @@ static class ShipSetup
                 conditional.color = new Color(0.95f, 0.35f, 0.3f, 1f);
             });
 
+        // O Espreitador (17/10/2026, desenho do Gabriel): 3 s atravessando
+        // obstáculo, e 5 un/s a menos no fim. Uma vez por corrida; o patamar 3
+        // (nível 40) dá a segunda. A recarga só pesa no upgrade, que tem dois usos.
+        var phase = GetOrCreatePower<PhaseThroughAbility>("Poder-Atravessar", ability =>
+        {
+            FillPhaseThrough(ability);
+            ability.usesPerRace = 1;
+        });
+
+        var phaseUpgrade = GetOrCreatePower<PhaseThroughAbility>("Poder-Atravessar-Upgrade2", ability =>
+        {
+            FillPhaseThrough(ability);
+            ability.usesPerRace = 2;
+        });
+
         var ships = new List<ShipDefinition>
         {
             GetOrCreateShip("Nave-Nay", ship =>
@@ -116,6 +131,16 @@ static class ShipSetup
                 ship.color = new Color(0.95f, 0.35f, 0.3f, 1f);
                 ship.conditionalAbility = reinforcement;
             }),
+
+            // Atributos de fábrica, como as outras: o pedido trouxe o poder.
+            GetOrCreateShip("Nave-Espreitador", ship =>
+            {
+                ship.displayName = "Espreitador Espacial";
+                ship.description = "Some por um instante e passa por dentro do que vier. Sai do outro lado um pouco mais devagar.";
+                ship.color = new Color(0.75f, 0.6f, 1f, 1f);
+                ship.intrinsicAbility = phase;
+                ship.abilityUpgrade2 = phaseUpgrade;
+            }),
         };
 
         // A ficha antiga continua existindo e entra no catálogo como as outras:
@@ -130,6 +155,21 @@ static class ShipSetup
 
         ships.Insert(0, starter);
         return ships;
+    }
+
+    /// <summary>
+    /// O que as duas fichas do Atravessar têm em comum — tudo menos os usos. É
+    /// isto que garante que o upgrade muda **só** os usos, que é o que foi pedido.
+    /// </summary>
+    static void FillPhaseThrough(PhaseThroughAbility ability)
+    {
+        ability.displayName = "Atravessar";
+        ability.description = "Por 3 s a nave fica translúcida e atravessa os obstáculos. No fim, perde 5 de velocidade.";
+        ability.lifetime = ShipAbility.Lifetime.PorTempo;
+        ability.durationSeconds = 3f;
+        ability.cooldownSeconds = 20f;
+        ability.speedLossAtEnd = 0.5f;
+        ability.color = new Color(0.75f, 0.6f, 1f, 1f);
     }
 
     /// <summary>

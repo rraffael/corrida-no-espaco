@@ -166,7 +166,7 @@
 
 <p><span class="badge b-ok">Aprovado no aparelho</span> O tiro é automático e não tem munição — <strong>mas a nave para de atirar enquanto troca de faixa</strong>. É o que faz o único comando do jogo valer duas coisas ao mesmo tempo: <em>ficar</em> na faixa é atirar e ganhar velocidade; <em>sair</em> é desviar e abrir mão do abate. Sem essa regra o tiro não seria decisão de ninguém — estaria sempre ligado, de graça, premiando ficar parado, que é o oposto do que o jogo pede.</p>
 
-<p>Nasceu como experiência em 22/08/2026, de uma dúvida de testador — “o jogo é destruir ou desviar?” — e foi <strong>confirmada no celular em 30/08/2026</strong>. O receio era que fosse sutil demais: a troca de faixa dura pouco mais de um décimo de segundo, contra um terço de segundo entre tiros. Não foi: o custo se sente. A dúvida do testador deixou de ser mal-entendido e virou a pergunta que o jogo faz o tempo todo.</p>
+<p>Nasceu como experiência em 22/08/2026, de uma dúvida de testador — “o jogo é destruir ou desviar?” — e foi <strong>confirmada no celular em 30/08/2026</strong>. O receio era que fosse sutil demais: a troca de faixa durava pouco mais de um décimo de segundo, contra um terço de segundo entre tiros. Não foi: o custo se sente. <em>Em 17/10/2026 a troca ficou 50% mais rápida — menos de um décimo de segundo —, junto com a Super IA passar a medir o tempo de cruzar; vale conferir se o custo de sair da faixa continua se sentindo.</em> A dúvida do testador deixou de ser mal-entendido e virou a pergunta que o jogo faz o tempo todo.</p>
 
 <h3>A velocidade é a moeda de tudo</h3>
 <p>É o coração do jogo, e vale entender por quê: a velocidade não é só um número na tela, é <strong>o placar, o relógio e o risco ao mesmo tempo</strong>. Ela se move por quatro forças:</p>
@@ -227,6 +227,7 @@
   <li><strong>Detrito</strong> — o básico, presente desde o primeiro segundo de qualquer fase.</li>
   <li><strong>Barcaça</strong> — mais vida e <strong>ocupa duas faixas</strong>. Aparece a partir da fase 2 e é a primeira coisa que obriga a escolher o lado.</li>
   <li><strong>Casulo</strong> — ao morrer solta <strong>estilhaços que descem pela própria faixa</strong>, mais rápido que a corrida. Entra na fase 3, e é o primeiro elemento que <strong>obriga a trocar de faixa</strong>: até ele, dava para vencer parado no meio segurando o gatilho.</li>
+  <li><strong>Rastro</strong> <em>(17/10/2026)</em> — deixa um <strong>vácuo</strong> atrás de si. Se passar pela faixa <strong>vizinha</strong> da nave sem ser destruído, assim que some da tela <strong>puxa a nave uma faixa na direção dele</strong>, como se o jogador tivesse arrastado. Desviar dele não basta: ou se destrói, ou se desvia para longe. Ainda não entrou em fase nenhuma — onde ele aparece é decisão da reforma das fases.</li>
 </ul>
 
 <div class="panel note">
@@ -241,9 +242,18 @@
 <p>O tempo de dobra virou escada em <strong>01/09/2026</strong>, e a razão está no que a calibragem mostrou: <strong>1,5 s é rápido demais e 5 s começa a arrastar</strong>, e entre os dois cabe mais de um jogo. Um número só teria de servir para quem está aprendendo e para quem já domina — a escada deixa cada dificuldade usar a sua parte do intervalo. É a mesma ideia que já valia para a velocidade, aplicada à resistência.</p>
 
 <h3>A fase sem fim, e onde se compete</h3>
-<p>Existe uma quarta fase, <strong>fora da corrente e aberta desde o começo</strong>. Ela não tem dobra e não tem fim: endurece sozinha até a nave cair. É a <strong>única com placar</strong>, e a pontuação é a <strong>distância percorrida</strong> — maior é melhor, e ela é medida integrando a velocidade a cada quadro, de modo que acelerar cedo vale mais do que acelerar no último segundo.</p>
+<p>Existe uma quarta fase, <strong>fora da corrente e aberta desde o começo</strong>. Ela não tem dobra e não tem fim: endurece sozinha até a nave cair. A pontuação dela é a <strong>distância percorrida</strong> — maior é melhor, e ela é medida integrando a velocidade a cada quadro, de modo que acelerar cedo vale mais do que acelerar no último segundo.</p>
 
-<p>A divisão é deliberada e vale para tudo o que vier: <strong>as fases numeradas ensinam o jogo</strong> — obstáculo novo, desafio novo, e o prêmio é a próxima fase; <strong>a fase sem fim é onde se compete</strong>. Por isso o painel de vitória das numeradas mostra o que foi destravado, e o da sem fim mostra a tabela de recordes. E cair na fase sem fim <strong>não é derrota</strong>: é a única coisa que ela permite que aconteça, e chamar isso de derrota seria punir o jogador por jogar.</p>
+<p>As fases numeradas continuam sendo <strong>o caminho que ensina o jogo</strong> — obstáculo novo, desafio novo, e o prêmio de vencer é a próxima fase. Cair na fase sem fim <strong>não é derrota</strong>: é a única coisa que ela permite que aconteça, e chamar isso de derrota seria punir o jogador por jogar.</p>
+
+<h3>Os placares</h3>
+<p><strong>Desde 17/10/2026, toda fase tem placar</strong>, um por dificuldade — antes, só a sem fim tinha. Nas fases numeradas vale o <strong>tempo até a dobra</strong>, menor é melhor; empatou no tempo, ganha quem <strong>destruiu mais obstáculos</strong>. Na sem fim vale a distância. Empate completo não passa ninguém: quem marcou antes segura a posição.</p>
+
+<p>Cada linha mostra a posição, o piloto, a <strong>nave com o nível</strong> e a pontuação. A tela mostra sempre <strong>os 100 primeiros</strong>; se o jogador estiver mais para trás, vêm reticências, ele com <strong>dois acima e dois abaixo</strong>, e reticências de novo — o topo, onde ele está comparado a quem está logo ali, e a ideia de que tem muita gente atrás.</p>
+
+<p><strong>Onde se vê:</strong> o placar de uma fase abre pelo <strong>troféu</strong> na linha dela, na seleção, e aparece de novo ao <strong>concluir a fase</strong>, com a linha da corrida <strong>subindo</strong> até a posição nova. A sem fim mostra o pódio dela antes da corrida, como sempre, e o placar inteiro ao fim. Não há mais botão de Recordes no menu: cada placar fica onde ele importa.</p>
+
+<p class="qa">Por enquanto os placares são <strong>do aparelho</strong> — as corridas feitas nele —, e o nome é o último digitado na sem fim. Com o Play Games (Fase 7) eles passam a ser online, com o apelido da Play Store, e aí as posições depois do 100º e as reticências passam a aparecer de verdade. A tela já é desenhada para esse dia.</p>
 
 <hr>
 
@@ -351,7 +361,7 @@
 
     <p class="q">O jogador nunca confunde os dois</p>
     <p><span class="badge b-ok">Feito</span> Modificador de fase é um item <strong>redondo</strong> na pista — contra o retângulo do obstáculo, para a forma separar “pegar” de “desviar” antes mesmo de a cor ser lida — e, uma vez pego, vira um quadradinho no alto à <strong>esquerda</strong>, com o ícone no meio e um anel esvaziando em volta. <strong>Sem número nenhum</strong>: o jogador está desviando a quinze unidades por segundo e não vai ler “2,4 s”; o que ele consegue é um relance, e um anel que esvazia responde “quanto falta” mais depressa que qualquer algarismo.</p>
-    <p>O poder da nave é um canto fixo no <strong>rodapé à esquerda</strong>, e a vida no <strong>rodapé à direita</strong> — em cantos opostos, para os dois não competirem pelo mesmo olhar. Ele <strong>só informa</strong>: não recebe toque, senão viraria um pedaço morto da tela onde o toque duplo não funciona. E <strong>pisca ao ficar pronto</strong>, por pouco mais de um segundo — o que interessa é o instante em que o poder volta; canto que pisca o tempo todo vira alarme, e o jogador aprende a não olhar.</p>
+    <p>O poder da nave é um canto fixo no <strong>rodapé à esquerda</strong>, e a vida no <strong>rodapé à direita</strong> — em cantos opostos, para os dois não competirem pelo mesmo olhar. Ele <strong>só informa</strong>: não recebe toque, senão viraria um pedaço morto da tela onde o toque duplo não funciona. E <strong>pisca ao ficar pronto</strong>, por pouco mais de um segundo — o que interessa é o instante em que o poder volta; canto que pisca o tempo todo vira alarme, e o jogador aprende a não olhar. Desde <strong>17/10/2026</strong>, enquanto o poder está pronto, <strong>um risco dourado dá a volta na borda</strong> do canto; ao usar, o brilho some e a recarga começa. É movimento lento e contínuo, e não um piscar: diz "pronto" sem virar alarme.</p>
     <p>Forma diferente, canto diferente, comportamento diferente: nenhuma das três coincidências existe, e é de propósito. Na tela, <strong>os quatro cantos têm dono e nenhum divide com ninguém</strong> — pausa no alto à direita, modificadores no alto à esquerda, poder da nave no rodapé à esquerda, vida no rodapé à direita.</p>
   </div>
 </div>
@@ -372,6 +382,7 @@
     <tr><td>Nay</td><td><strong>Tiros teleguiados</strong> (ativo) — os tiros perseguem o obstáculo, esteja a nave na faixa que estiver</td><td>3 s de efeito, recarga de 30 s, sem limite de usos</td></tr>
     <tr><td>Raffa</td><td><strong>Super IA</strong> (ativo) — o jogo assume a nave e desvia sozinho</td><td>3 s de efeito, uma carga que não volta</td></tr>
     <tr><td>Predadora</td><td><strong>Reforço estrutural</strong> (condicional) — cada abate é uma carga, que soma 4% em aceleração, dano e cadência, e 4 pontos de defesa</td><td>dispara sozinho a cada abate, até 40% (10 cargas); vale até o fim da corrida. O canto do poder mostra as cargas, e a nave muda de visual com 5 e com 10</td></tr>
+    <tr><td>Espreitador Espacial</td><td><strong>Atravessar</strong> (ativo) — a nave fica translúcida e passa por dentro dos obstáculos e dos estilhaços</td><td>3 s de efeito; ao acabar, a corrida perde 5 un/s. Um uso por corrida, e dois a partir do nível 40, com 20 s entre eles. <em>Desenho do Gabriel, 17/10/2026</em></td></tr>
     </tbody>
     </table>
     </div>
@@ -385,7 +396,9 @@
     <p>A evolução é <strong>um bônus por cima da nave</strong>, e não uma nave nova: todo poder mede o que dá contra os números de fábrica, então evoluir não faz um poder render mais, e um poder não faz a evolução render mais. O upgrade do poder é outra ficha do mesmo poder, com números maiores — nave nova herda a progressão inteira de um molde só, e o que ela precisa ter de próprio são os dois upgrades e a passiva.</p>
     <p>Evoluir custa uma moeda, que por enquanto é <strong>provisória</strong>: nome de mentira, saldo zero e custo zero, para dar para testar tudo. Como se ganha e quanto custa é a etapa de economia.</p>
 
-    <p><strong>A Super IA pilota por duas regras, e as duas nasceram de ela ter batido</strong> na primeira versão. Trocar de faixa não é teletransporte — a nave <em>atravessa</em> as faixas do meio —, e a primeira versão só olhava para o destino: desviava de algo distante e no caminho passava por cima do que estava perto. Agora ela <strong>só desvia quando o perigo está perto</strong>, e <strong>só desvia para onde dá para chegar</strong>: o destino e cada faixa do trajeto precisam estar livres. Sem saída, ela fica e leva o golpe — melhor do que sair correndo para bater em outro.</p>
+    <p><strong>A Super IA pilota por duas regras, e as duas nasceram de ela ter batido</strong> na primeira versão. Trocar de faixa não é teletransporte — a nave <em>atravessa</em> as faixas do meio —, e a primeira versão só olhava para o destino: desviava de algo distante e no caminho passava por cima do que estava perto. Agora ela <strong>só desvia quando o perigo está perto</strong>, e <strong>só desvia para onde dá para chegar</strong>: o destino precisa estar livre, e nada pode alcançá-la no trajeto. Sem saída, ela fica e leva o golpe — melhor do que sair correndo para bater em outro.</p>
+
+    <p><strong>Desde 17/10/2026 o trajeto é medido em tempo.</strong> Antes, qualquer obstáculo perto numa faixa do meio fechava o caminho — e uma Barcaça na beirada, que ocupa a faixa da nave e a do meio, a deixava sem saída: batia sempre. Agora ela calcula se cruza a faixa antes de o obstáculo chegar, na velocidade da corrida, e isso também a faz recusar uma fuga que chegaria tarde demais. Junto, a troca de faixa ficou <strong>50% mais rápida</strong> para todo mundo.</p>
 
     <p><span class="badge b-ok">Feito</span> Há também uma <strong>aba de naves no menu</strong>, com os atributos e os poderes de cada uma, e a escolha sobrevive a fechar o jogo — ao contrário da fase, que se escolhe a cada partida. Nave é o que o jogador <em>é</em>, e refazer essa escolha toda vez que abrisse o app seria pedir que ele repetisse uma decisão já tomada.</p>
 

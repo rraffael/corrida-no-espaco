@@ -280,6 +280,7 @@ public static class ShipEvolution
             { "charges", "cargas" },
             { "percentPerKill", "% por carga" },
             { "maxPercent", "teto (%)" },
+            { "speedLossAtEnd", "velocidade perdida no fim" },
         };
 
     static string FieldName(string field) =>

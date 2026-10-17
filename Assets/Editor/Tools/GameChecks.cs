@@ -153,6 +153,8 @@ static class GameChecks
             CheckLevels(report);
             CheckAchievements(report);
             CheckSaveRoundTrip(report);
+            CheckLeaderboardLayout(report);
+            CheckLeaderboardOrder(report);
         }
         catch (Exception e)
         {
@@ -638,11 +640,106 @@ static class GameChecks
         original.shipLevels.Add(new ShipLevelEntry { ship = "Nave-Teste", level = 37 });
         original.records.Add(new ScoreBoard.Entry { name = "Piloto", distance = 480.5f });
 
+        var board = new BoardData { id = "Fase1.Normal" };
+        board.entries.Add(new ScoreBoard.Entry { name = "Piloto", time = 61.25f, kills = 9, ship = "Nave-Teste", shipLevel = 12 });
+        original.boards.Add(board);
+
         var back = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(original));
 
         report.Check(back.stagesCleared == 4 && back.ship == "Nave-Teste" && back.wallet == 123 &&
                      back.lastName == "Piloto" && back.shipLevels.Count == 1 && back.shipLevels[0].level == 37 &&
                      back.records.Count == 1 && Mathf.Approximately(back.records[0].distance, 480.5f),
                      "salvamento vai e volta pelo JSON sem perder campo");
+
+        var row = back.boards.Count == 1 && back.boards[0].entries.Count == 1 ? back.boards[0].entries[0] : null;
+        report.Check(back.boards[0].id == "Fase1.Normal" && row != null && Mathf.Approximately(row.time, 61.25f) &&
+                     row.kills == 9 && row.ship == "Nave-Teste" && row.shipLevel == 12,
+                     "placar de fase vai e volta pelo JSON sem perder campo");
+    }
+
+    // ── Placar ───────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// As reticências do placar caem onde o Raffael desenhou: topo inteiro,
+    /// reticências, o jogador com dois de cada lado, reticências.
+    /// </summary>
+    static void CheckLeaderboardLayout(Report report)
+    {
+        void Expect(int total, int player, string expected)
+        {
+            string actual = DescribeSlots(LeaderboardLayout.Slots(total, player));
+            report.Check(actual == expected,
+                         $"placar com {total} linhas e o jogador em {player}: deu \"{actual}\", esperado \"{expected}\"");
+        }
+
+        Expect(0, 0, "");
+        Expect(5, 0, "1-5");
+        Expect(5, 3, "1-5");
+        Expect(500, 0, "1-100 …");
+        Expect(500, 50, "1-100 …");
+        Expect(500, 100, "1-102 …");
+        Expect(500, 103, "1-105 …");
+        Expect(500, 105, "1-100 … 103-107 …");
+        Expect(20000, 10024, "1-100 … 10022-10026 …");
+        Expect(10026, 10026, "1-100 … 10024-10026");
+        Expect(101, 101, "1-101");
+    }
+
+    /// <summary>Escreve as posições em faixas — "1-100 … 10022-10026 …" — para a mensagem de erro ser lida.</summary>
+    static string DescribeSlots(List<int> slots)
+    {
+        var text = new StringBuilder();
+        int i = 0;
+        while (i < slots.Count)
+        {
+            if (text.Length > 0)
+                text.Append(' ');
+
+            if (slots[i] == LeaderboardLayout.Gap)
+            {
+                text.Append('…');
+                i++;
+                continue;
+            }
+
+            int start = slots[i];
+            while (i + 1 < slots.Count && slots[i + 1] == slots[i] + 1)
+                i++;
+
+            text.Append(start == slots[i] ? $"{start}" : $"{start}-{slots[i]}");
+            i++;
+        }
+
+        return text.ToString();
+    }
+
+    /// <summary>
+    /// A ordem dos placares: fase por tempo, com abates no desempate; sem fim
+    /// por distância; e empate completo não passa quem chegou antes.
+    /// </summary>
+    static void CheckLeaderboardOrder(Report report)
+    {
+        ScoreBoard.Entry Run(float seconds, int kills) => new ScoreBoard.Entry { time = seconds, kills = kills };
+
+        var phase = new List<ScoreBoard.Entry> { Run(50f, 3), Run(60f, 10), Run(60f, 2), Run(70f, 0) };
+
+        report.Check(ScoreBoard.InsertionIndex(phase, Run(40f, 0), false) == 0,
+                     "placar de fase: tempo menor vai para o topo");
+        report.Check(ScoreBoard.InsertionIndex(phase, Run(60f, 5), false) == 2,
+                     "placar de fase: no mesmo tempo, mais abates passa na frente");
+        report.Check(ScoreBoard.InsertionIndex(phase, Run(60f, 2), false) == 3,
+                     "placar de fase: empate completo fica atrás de quem chegou antes");
+        report.Check(ScoreBoard.InsertionIndex(phase, Run(90f, 99), false) == 4,
+                     "placar de fase: abate não compensa tempo pior");
+
+        var endless = new List<ScoreBoard.Entry>
+        {
+            new ScoreBoard.Entry { distance = 900f },
+            new ScoreBoard.Entry { distance = 500f },
+        };
+        report.Check(ScoreBoard.InsertionIndex(endless, new ScoreBoard.Entry { distance = 700f }, true) == 1,
+                     "placar da sem fim: maior distância na frente");
+        report.Check(ScoreBoard.InsertionIndex(endless, new ScoreBoard.Entry { distance = 500f }, true) == 2,
+                     "placar da sem fim: empate fica atrás de quem chegou antes");
     }
 }

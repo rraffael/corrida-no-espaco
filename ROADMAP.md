@@ -33,8 +33,54 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 ### 📦 Para rodar agora
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-*Nada pendente.* Os commits de 11/10/2026 estão todos feitos — o último é *"ROADMAP: fechamento
-de 11/10, versão 2 no teste interno"*.
+**A leva de 17/10/2026** — placares por fase, Espreitador Espacial, Rastro e o brilho de poder
+pronto. Os detalhes estão em *"Leva de 17/10/2026"* na Fase 6.
+
+- [ ] **Commitar antes de montar** (o Montar reconstrói os painéis das duas cenas):
+      `git add -A` e
+      `git commit -m "Placar por fase, Espreitador, Rastro, brilho do poder, Super IA mede o tempo e troca de faixa +50%"`
+- [ ] **Montar** — um clique: **Tools → Corrida no Espaço → Montar**. São seis passos: as
+      fichas do Espreitador e do Rastro, a `Game.unity` (placar no fim, nave translúcida, brilho
+      do poder, troca de faixa 12 → 18) e a `Menu.unity` (menu sem Recordes, troféu na seleção).
+      Depois, **Testes → Rodar verificações** tem de dar tudo verde (entraram 18 verificações do
+      placar)
+- [ ] **Conferir o placar no Editor:**
+      - O menu **não tem mais o botão Recordes**, e a coluna de botões se reempilhou sem buraco
+      - Na seleção, cada fase tem um **troféu dourado** à direita, inclusive as trancadas; a sem
+        fim não tem. Tocar no troféu **não** começa a fase — abre o placar
+      - Placar vazio diz "Ninguém completou esta fase ainda"; **Jogar** começa a fase (apagado se
+        ela estiver trancada) e **Voltar** volta para a lista **na mesma dificuldade**
+      - Tocar numa fase **vai direto para a corrida**, sem o pódio da sem fim
+      - Tocar na sem fim **mostra o pódio** antes, como sempre
+      - Vencer uma fase: o painel mostra tempo, o que destravou, a posição e o placar com a
+        **linha dourada subindo** até o lugar dela. Vença a mesma fase umas 4 vezes para ter
+        linhas e ver a subida passar por cima das outras
+      - Sem fim: salvar a distância faz a mesma subida no placar de baixo
+- [ ] **Conferir o Espreitador Espacial:** ele aparece no fim da aba de naves. Toque duplo → 3 s
+      translúcido passando por dentro de obstáculo e estilhaço, sem dano e sem tranco; no fim, a
+      velocidade cai 5. Um uso só; evolua até o nível 40 (custa 0 por enquanto) e veja **2 usos**
+- [ ] **Conferir o Rastro:** ele **não está em fase nenhuma** — onde ele entra é seu. Para
+      testar: abra `Assets/Levels/Fase1.asset`, em *Obstacles* aumente a lista e arraste
+      `Assets/Levels/Obstaculos/Obstaculo4-Rastro` para o item novo (peso 1, os dois tempos em 0).
+      Deixe o bloco verde passar na faixa **do lado** sem atirar: quando ele some embaixo, a nave
+      é puxada uma faixa para o lado dele. Destruído, não puxa. **Depois do teste, decida se ele
+      fica na fase ou sai**
+- [ ] **Conferir o brilho do poder:** com a Nay ou a Raffa, o canto do poder tem um **risco
+      dourado dando a volta na borda** enquanto o poder está pronto; ao usar, some e a recarga
+      começa. A Predadora (condicional) não tem brilho
+- [ ] **Conferir a troca de faixa e a Super IA:**
+      - **A troca 50% mais rápida no dedo** — ficou bom de controlar? E **o custo de sair da
+        faixa** (a arma cala durante a troca) ainda se sente? Agora ela dura menos de um décimo
+        de segundo
+      - **A Super IA contra a Barcaça na beirada** — com a Raffa, fique na faixa da beirada, deixe
+        uma Barcaça vir ocupando a sua faixa e a do meio, e ligue a Super IA: ela tem de cruzar
+        para o outro lado. Fase 2 ou 3, de preferência no Difícil, que é a dobra mais alta
+      - *Nada a fazer aqui além de contar como foi:* depois do Montar, o arquivo
+        `Correções/LaneChangeSpeedFix.cs` já cumpriu o papel, e o Claude o apaga na sessão seguinte
+- [ ] ⚠️ **Olhar com atenção, é onde posso ter errado sem a Unity na mão:** as colunas do placar
+      (`#`, Piloto, Nave, Tempo, Abates) cabendo sem encavalar, o placar do painel de vitória não
+      ficando por cima do botão, a rolagem acompanhando a linha dourada, e o risco do brilho
+      correndo liso. Se algo ficar torto, um print basta
 
 ### 🛒 Play Console — acompanhar
 - [ ] **A primeira revisão da Play** — os 10 itens (página do app e declarações de 08/08) foram
@@ -44,30 +90,29 @@ de 11/10, versão 2 no teste interno"*.
       pt-BR virou **"Corrida no Espaço"**, com "E" maiúsculo, e o **"Google Play Games no PC"** foi
       desativado. As correções foram para a revisão
 
-### 📱 Jogando no aparelho — com a esposa
-*Versão 2 (`0.1.0`, código 2) no teste interno desde 11/10/2026, instalada pela Play nos dois
-celulares. A lista para ela foi mandada no chat; esta é a mesma, com o porquê.*
+### 📱 Jogando no aparelho — versão 2 ✅
+*Versão 2 (`0.1.0`, código 2) no teste interno desde 11/10/2026. **Lista fechada em 17/10/2026**
+com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozinho.*
 
-- [ ] **O salvamento migrou sozinho** — no celular dela, que tinha a versão de agosto: as fases
-      vencidas, a nave escolhida e os recordes continuam lá *(Parte 8)*. Sem anotação prévia
-      *(decisão do Raffael, 11/10)*: se algo sumiu, ela vai notar
-- [ ] **O salvamento aguenta fechar o app** — evoluir uma nave, fechar pelo multitarefa, abrir de
-      novo: o nível tem de estar lá *(Parte 8)*
-- [ ] **A oficina no celular** — evoluir uma nave até o máximo e **jogar com ela**: a diferença
-      se sente? *(Parte 6)*
-- [ ] **O upgrade valendo na corrida** — com uma nave que tenha upgrade ligado, no nível 15 ou
-      mais, o poder tem de sair com o número novo *(Parte 6)*
-- [ ] **A lista de rolagem da aba de naves** — rolar com o dedo por cima dos botões *(Parte 6)*
-- [ ] **As conquistas no celular** — o cartão verde ao evoluir e ao voltar de uma corrida com
-      abate, o **Resgatar** somando Sucata, e as `????????` se revelando *(Parte 8)*
-- [ ] **As estatísticas contam certo** — uma corrida vencida, uma perdida e uma sem fim, e abrir
-      **Conquistas**: os números do alto batem com o que aconteceu *(Parte 8)*
-- [ ] **Nada mudou nas fases** — os campos novos da ficha (cenário e largura da pista) nascem
-      vazios; as quatro fases têm de estar iguais *(Parte 7)*
-- [ ] **Trazer o retorno** — travou, fechou sozinho, chato, difícil ou fácil demais: o Claude
-      registra aqui e organiza o próximo passo. Fechou sozinho: com os símbolos no Console, o
-      relatório chega legível em *Qualidade → Android vitals → Falhas e ANRs*
-- [ ] **E a sessão de balancear** — ver ⚖️ abaixo
+- [x] **O salvamento migrou sozinho** — **Nay** ✅, no celular com a versão de agosto: fases,
+      recordes e níveis das naves continuaram lá depois de atualizar
+- [x] **O salvamento aguenta fechar o app** — **Gabriel** ✅
+- [x] **A oficina no celular** — os dois ✅. A Nay: "diferença perceptível entre os níveis, e
+      destroem os quadrados com mais facilidade". O Gabriel: "dá para sentir, mas talvez precise
+      ser balanceado diferente" — ver ⚖️
+- [x] **O upgrade valendo na corrida** — funciona, mas **pouco se sente**: o Gabriel achou leve
+      ("dá para perceber que é exponencial"), a Nay não percebeu grande diferença nos poderes —
+      ver ⚖️
+- [x] **A lista de rolagem da aba de naves** — **Gabriel** ✅
+- [x] **As conquistas no celular** — **Gabriel** ✅ (cartão ao evoluir e ao voltar com abate,
+      Resgatar, `????????`). A **Nay não viu o cartão**: quando foi olhar, todas já estavam
+      completas, e o Resgatar pagou a Sucata. Pode ter sido distração; se ela não vir o cartão na
+      próxima conquista, trazer — aí é defeito
+- [x] **As estatísticas contam certo** — **Gabriel** ✅; a Nay achou "verídico", mas não deu para
+      conferir conta a conta
+- [x] **Nada mudou nas fases** — **Gabriel** ✅
+- [x] **Os recordes de fase** — os dois notaram, cada um do seu jeito, que o recorde era um só
+      para tudo (sem fim, fase, Fácil, Normal). **Virou os placares por fase** (ver 📦)
 
 ### ✏️ Pequenos, quando der
 - [ ] **O nome da conquista de evoluir** — a ficha `PrimeiraEvolucao` está com o nome
@@ -75,6 +120,15 @@ celulares. A lista para ela foi mandada no chat; esta é a mesma, com o porquê.
       dele)*. Mudou: entra no próximo envio
 
 ### ⚖️ Balancear
+- [ ] **O que os testadores sentiram (17/10/2026)** — a evolução **se sente nos atributos** (a
+      Nay: "destroem os quadrados com mais facilidade"; o Gabriel: "talvez precise de outro
+      balanceamento"), mas **o upgrade de poder quase não se sente** (o Gabriel: "leve diferença";
+      a Nay: "não percebi uma diferença grande nas ults"). Hoje só a Nay e a Raffa têm poder com
+      upgrade possível, e os números do upgrade são seus. Primeiro dado de fora para a conversa
+      dos ranks S → E e da curva de evolução *(Parte 6)*
+- [ ] **Os números do Espreitador** — 3 s de efeito, 5 un/s a menos no fim, 1 uso (2 no nível
+      40). **A recarga de 20 s entre os dois usos foi chute meu**: o pedido não dizia, e ela só
+      pesa no upgrade *(Parte 5)*
 - [ ] **O painel bate com o jogo?** — o tempo até a dobra que o painel estima para o nível 1 tem
       de parecer com o que se sente jogando. Se não bater, a estimativa precisa de ajuste antes de
       servir para balancear
@@ -122,12 +176,40 @@ celulares. A lista para ela foi mandada no chat; esta é a mesma, com o porquê.
       disponíveis: corridas, vitórias, corridas sem fim, abates, distância total, evoluções de nave e melhor
       distância sem fim. Conquista que precise de outra condição pede um contador novo — é só
       pedir *(Parte 8)*
+- [ ] **O nome do poder do Espreitador** — está "Atravessar", que é **provisório meu**: o pedido
+      trouxe o nome da nave e o efeito, não o nome do poder *(Parte 5)*
+- [ ] **Em que fase o Rastro entra** — a ficha existe e não está em fase nenhuma *(Parte 7)*
+- [ ] **Rastro × Atravessar** — hoje o Espreitador atravessando **ainda é puxado** pelo Rastro
+      (o puxão não é batida). Se o atravessar devesse ignorar o vácuo também, é uma linha
+
+### 📚 Para o tutorial — quando chegar a hora
+*Aberta em 17/10/2026, a pedido do Raffael: o tutorial só começa com tudo balanceado e o sistema
+de fases pronto, mas o que ele precisa ensinar vai entrando aqui para não se perder.*
+
+**O formato não é um só:** nem todo tutorial tem de ser jogável. Alguns podem ser **escritos,
+com dicas (tooltips) para ler a qualquer momento**; outros, um tutorial que se **pode jogar de
+novo**.
+
+- **Usar o poder da nave** — toque duplo na tela, **sem arrastar**
+- **Arrastar a nave** entre as faixas
+- **Vida** — o que tira, e que zero é derrota (e que na sem fim não é)
+- **Dano** — quantos tiros cada obstáculo leva
+- **Defesa** — o desconto no dano, com o mínimo de 1
+- **A dobra** — chegar na velocidade e **segurar** a carga
+- **Os obstáculos** — o Casulo solta estilhaço, a Barcaça ocupa duas faixas, o Rastro puxa
+- **Modificador de fase × poder da nave** — um se pega na pista, o outro se ativa
+- **Evolução e patamares** — o que sobe a cada nível e o que muda no 15, 40 e 60
+- *etc. — a lista continua*
 
 ### 🤖 O que o Claude pode fazer sem esperar decisão
 *Estrutura, ferramenta e segurança — nada que escolha conteúdo ou número de jogo. Basta o
 Raffael pedir pelo nome.*
 
 **Próximos, na ordem sugerida:**
+
+- [ ] **60 quadros por segundo no celular** — *só com o OK do Raffael*. O jogo não pede taxa de
+      quadros, e no celular a Unity roda a **30** por padrão. Pedir 60 deixa tudo mais liso e dobra a margem de
+      reação da Super IA, **ao custo de bateria e calor**. É uma linha
 
 - [ ] **Aviso de conquista completa já no fim da corrida** — hoje o cartão aparece ao voltar ao
       menu; isto o traria para o painel de vitória, derrota ou sem fim. Pede remontar a
@@ -2540,6 +2622,97 @@ nascem funcionais e sem acabamento; esta parte é a passada única que unifica t
 - [ ] **Navegação inteira** — é aqui que se decide como se anda entre menu, loja, oficina e
       corrida sem o jogador se perder. Hoje são duas cenas e uma transição de pódio
 - [ ] Testar no aparelho — fecha o MVP e abre a fase de arte, áudio e acabamento
+
+### Leva de 17/10/2026 — placares por fase, Espreitador, Rastro 🟡
+*Pedido do Raffael a partir do retorno do Gabriel, que viu o pódio da sem fim antes de cada fase.
+**Reabre a decisão de 06/08/2026** de que as fases numeradas não pontuam.*
+
+- [x] **Um placar por fase e dificuldade**, mais o da sem fim — `Services/ScoreBoard.cs`, no
+      `save.json` (campo `boards`; a sem fim continua em `records`, sem migração)
+      - **Fase:** tempo até a dobra, menor é melhor; empate no tempo, mais abates na frente
+      - **Sem fim:** distância, como sempre
+      - **Empate completo não passa ninguém** — a entrada nova é inserida no lugar, e não ordenada
+        junto (o `List.Sort` não garante a ordem de empatados)
+      - Cada linha guarda **nave e nível** na hora da corrida, além de tempo, distância e abates
+      - **Local, até 100 linhas por placar**, com o nome do último digitado na sem fim
+- [x] **Topo + reticências + jogador ± 2 + reticências** — `Services/LeaderboardLayout.cs`, conta
+      pura. Jogador no 10.024º de 20.000: 1 a 100, …, 10.022 a 10.026, …
+      - Decidido por mim: **reticências que esconderiam uma linha só não aparecem** — a linha
+        aparece no lugar delas
+- [x] **A tela do placar** — `UI/LeaderboardView.cs`: posição, piloto, nave (nível) e
+      pontuação, a linha do jogador em dourado e a rolagem centrada nela
+      - **A subida:** ao concluir, a linha da corrida sai da posição antiga e sobe até a nova em
+        ~1,6 s, com o número contando. **Local, "a posição antiga" é o fim da tabela** — a
+        corrida é uma linha nova. Online será a posição anterior do jogador
+- [x] **Onde se vê:** troféu em cada fase na seleção (`UI/LeaderboardPanel.cs`, com Jogar e
+      Voltar), painel de vitória e fim da sem fim. A sem fim mantém o pódio antes da corrida;
+      **as fases vão direto** para a corrida
+- [x] **Saiu o botão Recordes do menu**, e o painel dele
+- [x] **Conserto de carona:** a seleção de fase voltava ao Fácil ao ser reaberta, com o seletor
+      ainda mostrando a dificuldade anterior
+- [x] **Verificações:** onde caem as reticências (11 casos), a ordem dos placares (6) e o placar
+      de fase indo e voltando pelo JSON
+- [ ] **Montar e testar** — ver 📦 na Lista
+- [ ] **Depois de 100 posições — muito para depois** *(pedido do Raffael)*. Local nunca passa de
+      100, então as reticências e a subida longa só aparecem de verdade com o placar online
+- [ ] **Fase 7:** o placar online do Play Games entra pelo `ScoreBoard`, e o nome passa a ser o
+      apelido da Play Store. **Gatilho de documentação:** placar online mexe na Segurança dos
+      dados — ver `docs/play-console/declaracoes-do-app.md`
+
+**O resto da leva de 17/10/2026** — pedidos do Raffael com o retorno do Gabriel e da Nay:
+
+- [x] **Espreitador Espacial** *(nave do Gabriel)* — `Nave-Espreitador`, atributos de fábrica.
+      Poder ativo **Atravessar** (`ShipAbilities/PhaseThroughAbility.cs`): 3 s com o traço novo
+      `ShipTrait.Phasing` — obstáculo e estilhaço não batem, e a nave fica translúcida
+      (`VFX/ShipPhaseLook.cs`) — e ao acabar a corrida perde 0,5 interno, **5 no painel**
+      *(escolha do Raffael)*. 1 uso; **o upgrade do patamar 3 (nível 40)** é a ficha
+      `Poder-Atravessar-Upgrade2`, igual com 2 usos *(escolha do Raffael)*
+      - O obstáculo atravessado **segue inteiro**: dá para destruí-lo depois, ou ele passa e conta
+        como desviado
+- [x] **Rastro** — obstáculo novo, `Obstaculo4-Rastro`, com os números do Detrito como ponto de
+      partida e o campo novo **"Vácuo"** na ficha (`pullsOnPass`). Passou pela faixa vizinha da
+      nave sem ser destruído → ao sumir da tela, **troca de faixa forçada** uma faixa na direção
+      dele *(escolha do Raffael: o puxão é a troca forçada, não um escorregão)*. Quem decide se
+      ele vai puxar é o instante em que cruza a altura da nave
+- [x] **Brilho de poder pronto** — `UI/ReadyGlowBorder.cs`: um risco dourado dá a volta na borda
+      do canto do poder enquanto ele está pronto; some ao usar. Desenhado em código, sem sprite
+- [x] **📚 Notas do tutorial** abertas na Lista
+- [x] **A Super IA aguenta velocidade alta?** *(pergunta do Gabriel)* — **conta feita com os
+      números da cena**, sem simulação:
+      - **Como ela reage:** só se mexe quando o obstáculo está a **5 unidades** da nave, e para
+        escapar precisa sair **0,7** de lado (o alcance da batida), a **12 u/s** de troca de
+        faixa — 0,06 s. Some-se até um quadro de atraso para enxergar o perigo
+      - **A margem:** o obstáculo leva 4,3 / velocidade segundos para chegar. Na dobra mais alta
+        do jogo (Difícil, **190 un/s** no painel), são 0,23 s contra uns 0,09 s necessários a 30
+        quadros: **sobra mais que o dobro**. Nas fases, ela desvia a tempo
+      - **O limite:** a ~**470 un/s** no painel (30 quadros) ou ~**570 un/s** (60) ela começa a
+        chegar tarde. **Só a sem fim passa disso**, porque lá não há teto
+      - **E um achado que não depende de velocidade:** a Barcaça na beirada. Com a nave na faixa
+        da beirada e uma Barcaça ocupando ela e a do meio, a única saída era cruzar a faixa do
+        meio — e o piloto recusava, porque a Barcaça também estava lá. **Batia sempre.** Mexer
+        só na troca de faixa não resolvia: a recusa era regra, e não falta de tempo
+- [x] **A Super IA passou a medir o tempo** *(pedido do Raffael)* — `Autopilot.CrossingIsSafe`:
+      para cada obstáculo, a janela de tempo em que ele bate (a mesma conta do `Obstacle`) contra
+      o trecho que a nave percorre de lado nessa janela. Faixa do meio ocupada **vale** se dá
+      para cruzá-la antes; fuga que chegaria tarde **não vale**, mesmo para faixa livre — é aí
+      que a velocidade da corrida entra. A regra do destino com folga (7) continua, e
+      Debilitante no caminho continua fechando
+      - Margem de 0,15 de lado e um quadro de atraso na conta
+      - **A conta da Barcaça na beirada, na dobra do Difícil e a 30 quadros:** com a troca a 12
+        u/s a nave ainda estaria dentro do alcance — **a Super IA recusaria**. A 18 u/s sobra
+        ~0,25 de folga. **É a troca mais rápida que faz este caso passar**
+- [x] **Troca de faixa 50% mais rápida** *(pedido do Raffael)* — 12 → 18 u/s. A padrão do
+      `ShipLaneController` virou 18, e a cena recebe pelo conserto pontual abaixo
+      - ⚠️ **Mexe no custo de sair da faixa:** a arma cala durante a troca, que agora dura
+        ~0,09 s em vez de ~0,13 s. Conferir no aparelho se a escolha "ficar e atirar × sair e
+        desviar" ainda se sente
+
+| Conserto pontual | O que faz | Estado |
+|---|---|---|
+| `Correções/LaneChangeSpeedFix.cs` | Põe a troca de faixa da nave da `Game.unity` em 18 u/s. Existe porque o número mora na cena e nenhuma montagem escreve nele. | **No Montar**, esperando rodar (17/10/2026) |
+      - **De carona:** a 30 quadros, acima de ~**420 un/s**, o obstáculo anda mais que a janela
+        de batida (1,4) em um quadro só e pode **atravessar a nave sem bater** — vale para
+        qualquer nave, a favor do jogador. Só na sem fim, e some junto se o jogo for a 60
 
 ### Backlog solto da Fase 6
 *Coisas que não pertencem a nenhuma parte e não bloqueiam nada.*

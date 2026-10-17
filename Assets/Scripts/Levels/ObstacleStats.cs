@@ -67,6 +67,12 @@ public class ObstacleStats : ScriptableObject
     [Tooltip("Quantos estilhaços saem, espalhados pelas faixas que o obstáculo ocupava.")]
     [Min(1)] public int shrapnelCount = 1;
 
+    [Header("Vácuo")]
+    [Tooltip("Ao passar pela faixa VIZINHA da nave sem ser destruído, deixa um vácuo: assim que " +
+             "some da tela, puxa a nave uma faixa na direção dele, como se o jogador tivesse " +
+             "arrastado. É o Rastro (17/10/2026). Destruído a tiro, não puxa.")]
+    public bool pullsOnPass;
+
     /// <summary>Largura em unidades de mundo, dada a largura de faixa do corredor.</summary>
     public float WidthFor(LaneTrack track) =>
         Mathf.Max(0.1f, laneSpan * track.LaneWidth - lanePadding * 2f);

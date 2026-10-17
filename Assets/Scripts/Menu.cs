@@ -3,18 +3,22 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Menu inicial: jogar, ver as naves, ver recordes ou sair.
+/// Menu inicial: jogar, ver as naves, ver as conquistas ou sair.
 ///
-/// "Jogar" não carrega a cena na hora — abre a seleção de fase e, escolhida a
-/// fase, passa pela transição que mostra os três primeiros da tabela. Os nomes
-/// dos métodos públicos estão ligados aos botões dentro da cena: renomear aqui
-/// quebra a fiação de lá.
+/// "Jogar" não carrega a cena na hora — abre a seleção de fase. Escolhida a
+/// **sem fim**, passa pela transição que mostra os três primeiros da tabela;
+/// escolhida uma **fase**, vai direto para a corrida. O placar de cada fase se
+/// vê pelo troféu da linha dela *(decisão do Raffael, 17/10/2026 — até então a
+/// transição mostrava a tabela da sem fim antes de qualquer fase)*.
+///
+/// Os nomes dos métodos públicos estão ligados aos botões dentro da cena:
+/// renomear aqui quebra a fiação de lá.
 /// </summary>
 public class Menu : MonoBehaviour
 {
     [Header("Painéis")]
-    [SerializeField] GameObject recordsPanel;
     [SerializeField] GameObject levelSelectPanel;
+    [SerializeField] LeaderboardPanel leaderboardPanel;
     [SerializeField] GameObject shipsPanel;
     [SerializeField] GameObject achievementsPanel;
     [SerializeField] GameObject transitionPanel;
@@ -64,7 +68,23 @@ public class Menu : MonoBehaviour
             return;
 
         LevelSelection.Choose(level, difficulty);
-        BeginTransition();
+
+        // O pódio da transição é a tabela da sem fim: antes de uma fase, ele
+        // mostraria o placar de outra coisa.
+        if (level != null && level.endless)
+            BeginTransition();
+        else
+            LoadGame();
+    }
+
+    /// <summary>Troféu de uma linha da seleção: abre o placar daquela fase.</summary>
+    public void ShowLeaderboard(LevelDefinition level, Difficulty difficulty)
+    {
+        if (loading || leaderboardPanel == null)
+            return;
+
+        Show(leaderboard: true);
+        leaderboardPanel.Open(level, difficulty);
     }
 
     /// <summary>Botão "Naves".</summary>
@@ -78,12 +98,6 @@ public class Menu : MonoBehaviour
 
     /// <summary>Botão "Voltar" do painel de conquistas.</summary>
     public void OnCloseAchievementsButton() => Show();
-
-    /// <summary>Botão "Recordes".</summary>
-    public void OnRecordsButton() => Show(records: true);
-
-    /// <summary>Botão "Voltar" do painel de recordes.</summary>
-    public void OnCloseRecordsButton() => Show();
 
     /// <summary>Botão "Voltar" da tela de seleção de fase.</summary>
     public void OnCloseLevelSelectButton() => Show();
@@ -127,17 +141,17 @@ public class Menu : MonoBehaviour
     /// Um painel de cada vez, e os botões só quando nenhum está aberto. Sem
     /// argumento nenhum, volta ao menu.
     /// </summary>
-    void Show(bool records = false, bool levelSelect = false, bool ships = false,
+    void Show(bool levelSelect = false, bool leaderboard = false, bool ships = false,
               bool transition = false, bool achievements = false)
     {
         if (achievementsPanel != null)
             achievementsPanel.SetActive(achievements);
 
-        if (recordsPanel != null)
-            recordsPanel.SetActive(records);
-
         if (levelSelectPanel != null)
             levelSelectPanel.SetActive(levelSelect);
+
+        if (leaderboardPanel != null)
+            leaderboardPanel.gameObject.SetActive(leaderboard);
 
         if (shipsPanel != null)
             shipsPanel.SetActive(ships);
@@ -146,6 +160,6 @@ public class Menu : MonoBehaviour
             transitionPanel.SetActive(transition);
 
         if (buttonsRoot != null)
-            buttonsRoot.SetActive(!records && !levelSelect && !ships && !transition && !achievements);
+            buttonsRoot.SetActive(!levelSelect && !leaderboard && !ships && !transition && !achievements);
     }
 }

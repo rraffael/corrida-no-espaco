@@ -36,11 +36,20 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 11/10/2026: **vazio.** O cartão de "Conquista completa" foi
-    /// montado em 27/09/2026 e está na Menu.unity; nada mais espera montagem.
+    /// Estado em 17/10/2026: **os placares por fase, o Espreitador, o Rastro e o
+    /// brilho de poder pronto.** Fichas novas (nave, poder, upgrade e obstáculo);
+    /// na Game.unity, o placar no fim de corrida, a nave translúcida e o brilho
+    /// no canto do poder, e a troca de faixa 50% mais rápida; na Menu.unity, o
+    /// menu sem Recordes e o troféu na seleção.
     /// </summary>
     static readonly Step[] Steps =
     {
+        new Step("Espreitador Espacial, Atravessar e o upgrade (fichas)", ShipSetup.Setup),
+        new Step("Ficha do Rastro (fichas)", LevelSetup.Setup),
+        new Step("Placar no fim, nave translúcida e brilho do poder (Game.unity)", BattleSetup.Setup),
+        new Step("Troca de faixa 50% mais rápida (Game.unity)", LaneChangeSpeedFix.Run),
+        new Step("Menu sem o botão de Recordes (Menu.unity)", MenuSetup.Setup),
+        new Step("Troféu na seleção e painel do placar (Menu.unity)", LevelSelectSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

@@ -37,8 +37,11 @@ public class LevelSelectMenu : MonoBehaviour
         if (catalog == null)
             return;
 
-        // A escolha anterior sobrevive a fechar e reabrir a tela.
-        difficulty = LevelSelection.Difficulty;
+        // A escolha anterior sobrevive a fechar e reabrir a tela. Só na primeira
+        // abertura: depois, quem manda é o seletor — voltar do placar de uma fase
+        // no Normal não pode cair de novo no Fácil com o seletor dizendo Normal.
+        if (!built)
+            difficulty = LevelSelection.Difficulty;
 
         Build();
         Refresh();
@@ -137,7 +140,7 @@ public class LevelSelectMenu : MonoBehaviour
         {
             var level = levels[i];
             bool unlocked = LevelProgress.IsUnlocked(catalog, level, difficulty);
-            rows[i].Bind(level, unlocked, DetailFor(level, unlocked), Choose);
+            rows[i].Bind(level, unlocked, DetailFor(level, unlocked), Choose, OpenLeaderboard);
         }
 
         if (progressLabel == null)
@@ -176,5 +179,11 @@ public class LevelSelectMenu : MonoBehaviour
     {
         if (menu != null)
             menu.StartRace(level, difficulty);
+    }
+
+    void OpenLeaderboard(LevelDefinition level)
+    {
+        if (menu != null)
+            menu.ShowLeaderboard(level, difficulty);
     }
 }
