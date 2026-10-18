@@ -37,16 +37,19 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 Montar vazio: é só código e uma ficha.
 
 - [ ] **Commit antes** —
-      `git add -A` e `git commit -m "Perfeito com 0,08 s e tabela de naves no relatório"`
-- [ ] **A rodada** — **Tools → Corrida no Espaço → Simulador de corridas**:
-      - **Personas:** as 5 · **Naves:** todas as 5 · **Níveis da nave:** `1, 15, 40, 60`
-      - **Fases:** 1, 2 e 3 · **Dificuldade:** Normal · **Repetições:** 5 · semente 1
-      - São **1.500 corridas**. A de 75 levou 3 min, então conte **perto de 1 hora** — nos
-        níveis altos a corrida acaba mais cedo, deve sair menos. A janela mostra a estimativa
-        antes de rodar. Pode deixar rodando e fazer outra coisa; "Parar e salvar" a qualquer
-        momento ainda gera relatório do que rodou
-      - Quando terminar, **me avise**. O relatório ganhou uma tabela nova, **uma linha por nave e
-        nível** com as cinco personas e o total — é onde a discrepância aparece
+      `git add -A` e
+      `git commit -m "Perfeito com 0,08 s, retrato completo no simulador e tabela de naves"`
+- [ ] **A rodada completa** — **Tools → Corrida no Espaço → Simulador de corridas**, botão
+      **"Marcar o retrato completo"**: as 5 personas, as 5 naves, os níveis **1, 15, 40 e 60**,
+      as **Fases 1 a 3** (sem a sem fim), **Fácil, Normal e Difícil**. Repetições **5**, semente 1
+      - São **4.500 corridas**. Pela última rodada (2,4 s cada), **perto de 3 horas** — deve
+        sair menos, porque nos níveis altos a corrida acaba mais cedo. A janela mostra a
+        estimativa. Pode deixar rodando; "Parar e salvar" a qualquer momento gera relatório do
+        que rodou. *A ordem é fase → dificuldade → nave → nível:* parar no meio deixa as últimas
+        fases de fora, mas o que rodou compara as cinco personas
+      - Quando terminar, **me avise**. O relatório ganhou **uma linha por nave e nível** com as
+        cinco personas e o total — somando tudo e depois por dificuldade. É onde a discrepância
+        aparece
 
 *O que mudou para esta rodada:* o **Perfeito reage em 0,08 s** em vez de 0 *(pedido do Raffael)*,
 na ficha e na receita do `SimulationSetup`. Por isso o relatório de 20h39 deixa de ser régua
@@ -390,7 +393,8 @@ cinco por vir), e a lista 📱 fechou em 17/10.
 
 ### O que vem agora
 1. **O retrato das naves** (📦 da Lista) — as 5 naves nos níveis 1, 15, 40 e 60, as 5
-   personas, Fases 1 a 3, Normal, 5 repetições; depois, ler juntos atrás de discrepância
+   personas, Fases 1 a 3, as três dificuldades, 5 repetições (4.500 corridas); depois, ler
+   juntos atrás de discrepância
 2. **Afinar as personas** pela leitura em ⚖️ — depois, as **personas sob encomenda** (🤖, mais
    para frente): testes que o Raffael define, com resultado específico
 3. **Decidir a Super IA enxergar estilhaço** (🤖)

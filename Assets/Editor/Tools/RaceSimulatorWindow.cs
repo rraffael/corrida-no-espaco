@@ -19,7 +19,11 @@ public class RaceSimulatorWindow : EditorWindow
     /// <summary>O que está desmarcado, pelo nome do asset. Guardar o desmarcado faz coisa nova nascer marcada.</summary>
     [SerializeField] List<string> excluded = new List<string>();
 
-    [SerializeField] string shipLevelsText = "1";
+    /// <summary>Os patamares marcados (1, 15, 40, 60 pelo molde de evolução).</summary>
+    [SerializeField] List<int> tierLevels = new List<int> { 1 };
+
+    /// <summary>Níveis fora dos patamares, por vírgula.</summary>
+    [SerializeField] string extraLevelsText = string.Empty;
     [SerializeField] bool easy;
     [SerializeField] bool normal = true;
     [SerializeField] bool hard;
@@ -71,18 +75,35 @@ public class RaceSimulatorWindow : EditorWindow
                                     MessageType.Warning);
         }
 
-        Section("Personas");
+        EditorGUILayout.Space();
+        if (GUILayout.Button(new GUIContent("Marcar o retrato completo",
+                "Todas as personas, naves, patamares de nível, fases (menos a sem fim) e dificuldades. " +
+                "Para comparar tudo com tudo numa rodada só — é a mais longa.")))
+            MarkEverything(personas, ships, levels);
+
+        Section("Personas", personas.Select(p => p.name));
         foreach (var persona in personas)
             Toggle(persona.name, $"{persona.skillRank}. {persona.displayName}");
 
-        Section("Naves");
+        Section("Naves", ships.Select(s => s.name));
         foreach (var ship in ships)
             Toggle(ship.name, ship.displayName);
 
-        shipLevelsText = EditorGUILayout.TextField(
-            new GUIContent("Níveis da nave", "Separados por vírgula. Ex.: 1, 15, 40, 60"), shipLevelsText);
+        Section("Níveis da nave");
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            foreach (int tier in Tiers())
+            {
+                bool on = tierLevels.Contains(tier);
+                bool now = EditorGUILayout.ToggleLeft(tier.ToString(), on, GUILayout.Width(50));
+                if (now && !on) tierLevels.Add(tier);
+                if (!now && on) tierLevels.Remove(tier);
+            }
+        }
+        extraLevelsText = EditorGUILayout.TextField(
+            new GUIContent("Outros níveis", "Fora dos patamares, separados por vírgula. Ex.: 5, 30"), extraLevelsText);
 
-        Section("Fases");
+        Section("Fases", levels.Select(l => l.name));
         foreach (var level in levels)
             Toggle(level.name, level.displayName);
 
@@ -166,11 +187,13 @@ public class RaceSimulatorWindow : EditorWindow
         plan.ships.AddRange(ships.Where(s => !excluded.Contains(s.name)).Select(s => s.name));
         plan.levels.AddRange(levels.Where(l => !excluded.Contains(l.name)).Select(l => l.name));
 
-        foreach (string part in shipLevelsText.Split(',', ';', ' '))
+        var shipLevels = new List<int>(tierLevels);
+        foreach (string part in extraLevelsText.Split(',', ';', ' '))
         {
-            if (int.TryParse(part.Trim(), out int level) && level >= 1 && !plan.shipLevels.Contains(level))
-                plan.shipLevels.Add(level);
+            if (int.TryParse(part.Trim(), out int level) && level >= 1)
+                shipLevels.Add(level);
         }
+        plan.shipLevels.AddRange(shipLevels.Distinct().OrderBy(l => l));
 
         if (easy) plan.difficulties.Add(Difficulty.Facil);
         if (normal) plan.difficulties.Add(Difficulty.Normal);
@@ -210,10 +233,49 @@ public class RaceSimulatorWindow : EditorWindow
         return levels;
     }
 
+    /// <summary>Os patamares do molde de evolução — os mesmos níveis do painel de balanceamento.</summary>
+    static int[] Tiers()
+    {
+        var model = ShipEvolutionModel.Default;
+        if (model == null)
+            return new[] { 1, 15, 40, 60 };
+
+        return new[] { 1, model.upgrade1Level, model.upgrade2Level, model.maxLevel }.Distinct().ToArray();
+    }
+
+    void MarkEverything(List<PilotPersona> personas, List<ShipDefinition> ships, List<LevelDefinition> levels)
+    {
+        excluded.Clear();
+
+        // A sem fim fica de fora: não tem vitória, e o teto de tempo dela
+        // alongaria a rodada sem dizer nada sobre as fases.
+        var catalog = LevelCatalog.Load();
+        if (catalog != null && catalog.endlessLevel != null)
+            excluded.Add(catalog.endlessLevel.name);
+
+        tierLevels = Tiers().ToList();
+        extraLevelsText = string.Empty;
+        easy = normal = hard = true;
+    }
+
     static void Section(string title)
     {
         EditorGUILayout.Space();
         EditorGUILayout.LabelField(title, EditorStyles.boldLabel);
+    }
+
+    /// <summary>Título com "Todas" e "Nenhuma" ao lado, para as listas de marcar.</summary>
+    void Section(string title, IEnumerable<string> keys)
+    {
+        EditorGUILayout.Space();
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField(title, EditorStyles.boldLabel);
+            if (GUILayout.Button("Todas", EditorStyles.miniButtonLeft, GUILayout.Width(60)))
+                excluded.RemoveAll(keys.Contains);
+            if (GUILayout.Button("Nenhuma", EditorStyles.miniButtonRight, GUILayout.Width(60)))
+                excluded.AddRange(keys.Where(k => !excluded.Contains(k)));
+        }
     }
 
     void Toggle(string key, string label)

@@ -78,9 +78,20 @@ static class SimulationReport
             // colunas; deitada, uma nave por linha, a discrepância salta aos olhos.
             if (races.Select(r => (r.shipName, r.shipLevel)).Distinct().Count() > 1)
             {
-                text.AppendLine("## Vitórias por nave e nível — todas as fases somadas");
+                text.AppendLine("## Vitórias por nave e nível — todas as fases e dificuldades somadas");
                 text.AppendLine();
                 ShipRows(text, races);
+
+                var difficulties = races.Select(r => r.difficulty).Distinct().OrderBy(d => d).ToList();
+                if (difficulties.Count > 1)
+                {
+                    foreach (var difficulty in difficulties)
+                    {
+                        text.AppendLine($"### Por nave e nível — só o {DifficultyName(difficulty)}");
+                        text.AppendLine();
+                        ShipRows(text, races.Where(r => r.difficulty == difficulty).ToList());
+                    }
+                }
             }
         }
 
