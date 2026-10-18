@@ -36,11 +36,17 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 18/10/2026: **vazia.** A leva de 17/10 e o ajuste do menu de
-    /// 18/10 já foram montados.
+    /// Estado em 18/10/2026, segunda leva: o nome Intangibilidade e a passiva do
+    /// Espreitador, o Rastro na Fase 3, o placar por linha (nos três lugares em
+    /// que ele aparece) e o Compêndio.
     /// </summary>
     static readonly Step[] Steps =
     {
+        new Step("Naves e poderes — Intangibilidade e a passiva do nível 60", ShipSetup.Setup),
+        new Step("Correção — Rastro na Fase 3", RastroNaFase3.Run),
+        new Step("Game.unity — placar novo nos painéis de vitória e da sem fim", BattleSetup.Setup),
+        new Step("Menu.unity — placar novo no troféu da seleção", LevelSelectSetup.Setup),
+        new Step("Menu.unity — Compêndio (catálogo, painel e botão)", CompendiumSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

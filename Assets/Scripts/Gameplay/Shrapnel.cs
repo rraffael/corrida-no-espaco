@@ -16,6 +16,7 @@ public class Shrapnel : MonoBehaviour
     float hitDistance = 0.45f;
 
     RaceSpeed race;
+    bool phasedThrough;
 
     public void Configure(float shrapnelDamage, float speedOverRace, float bottomY)
     {
@@ -51,11 +52,23 @@ public class Shrapnel : MonoBehaviour
         if (ship == null || !ship.Health.IsAlive)
             return;
 
-        // Estilhaço é pedaço de obstáculo: quem atravessa um atravessa o outro.
-        if (ship.Has(ShipTrait.Phasing))
-            return;
+        bool touching = Vector2.Distance(transform.position, ship.transform.position) <= hitDistance;
 
-        if (Vector2.Distance(transform.position, ship.transform.position) > hitDistance)
+        // Estilhaço é pedaço de obstáculo: quem atravessa um atravessa o outro,
+        // com a mesma carência do Obstacle quando o efeito acaba lá dentro.
+        if (ship.Has(ShipTrait.Phasing))
+        {
+            phasedThrough = touching;
+            return;
+        }
+
+        if (!touching)
+        {
+            phasedThrough = false;
+            return;
+        }
+
+        if (phasedThrough)
             return;
 
         var hit = ship.TakeHit(damage);

@@ -66,6 +66,10 @@ public abstract class LevelModifier : ScriptableObject
     [Tooltip("Uma linha dizendo o que ele faz, para a tela que mostrar isso.")]
     [TextArea(1, 3)] public string description = "";
 
+    [Tooltip("Curiosidades, para a seção \"Extra\" do Compêndio. Vazio: o Compêndio mostra só o " +
+             "que ele mesmo calcula.")]
+    [TextArea(1, 4)] public string extraNotes = "";
+
     [Tooltip("Arte do item na pista e do quadradinho no HUD.")]
     public Sprite sprite;
 

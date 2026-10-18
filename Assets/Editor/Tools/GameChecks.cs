@@ -152,6 +152,7 @@ static class GameChecks
             CheckPowerFieldNames(report);
             CheckLevels(report);
             CheckAchievements(report);
+            CheckCompendium(report);
             CheckSaveRoundTrip(report);
             CheckLeaderboardLayout(report);
             CheckLeaderboardOrder(report);
@@ -627,6 +628,41 @@ static class GameChecks
         }
     }
 
+    /// <summary>
+    /// O Compêndio mostra tudo: toda ficha de obstáculo e de modificador está no
+    /// catálogo dele, e todo obstáculo tem descrição — senão o cartão abre sem
+    /// dizer o que a coisa é.
+    /// </summary>
+    static void CheckCompendium(Report report)
+    {
+        var catalog = AssetDatabase.LoadAssetAtPath<CompendiumCatalog>(CompendiumSetup.CatalogPath);
+        report.Warn(catalog != null, "catálogo do compêndio existe — rode o Montar");
+        if (catalog == null)
+            return;
+
+        var obstacles = new HashSet<ObstacleStats>(catalog.obstacles);
+        foreach (string guid in AssetDatabase.FindAssets("t:ObstacleStats"))
+        {
+            var stats = AssetDatabase.LoadAssetAtPath<ObstacleStats>(AssetDatabase.GUIDToAssetPath(guid));
+            if (stats == null)
+                continue;
+
+            report.Warn(obstacles.Contains(stats),
+                        $"obstáculo {stats.name} fora do compêndio — rode o Montar para ele aparecer");
+            report.Warn(!string.IsNullOrWhiteSpace(stats.description),
+                        $"obstáculo {stats.name} sem descrição para o compêndio");
+        }
+
+        var modifiers = new HashSet<LevelModifier>(catalog.modifiers);
+        foreach (string guid in AssetDatabase.FindAssets("t:LevelModifier"))
+        {
+            var modifier = AssetDatabase.LoadAssetAtPath<LevelModifier>(AssetDatabase.GUIDToAssetPath(guid));
+            if (modifier != null)
+                report.Warn(modifiers.Contains(modifier),
+                            $"modificador {modifier.name} fora do compêndio — rode o Montar para ele aparecer");
+        }
+    }
+
     /// <summary>O salvamento vai e volta pelo JSON sem perder nada.</summary>
     static void CheckSaveRoundTrip(Report report)
     {
@@ -641,7 +677,7 @@ static class GameChecks
         original.records.Add(new ScoreBoard.Entry { name = "Piloto", distance = 480.5f });
 
         var board = new BoardData { id = "Fase1.Normal" };
-        board.entries.Add(new ScoreBoard.Entry { name = "Piloto", time = 61.25f, kills = 9, ship = "Nave-Teste", shipLevel = 12 });
+        board.entries.Add(new ScoreBoard.Entry { name = "Piloto", time = 61.25f, kills = 9, ship = "Nave-Teste", shipLevel = 12, topSpeed = 21.5f });
         original.boards.Add(board);
 
         var back = JsonUtility.FromJson<SaveData>(JsonUtility.ToJson(original));
@@ -653,7 +689,8 @@ static class GameChecks
 
         var row = back.boards.Count == 1 && back.boards[0].entries.Count == 1 ? back.boards[0].entries[0] : null;
         report.Check(back.boards[0].id == "Fase1.Normal" && row != null && Mathf.Approximately(row.time, 61.25f) &&
-                     row.kills == 9 && row.ship == "Nave-Teste" && row.shipLevel == 12,
+                     row.kills == 9 && row.ship == "Nave-Teste" && row.shipLevel == 12 &&
+                     Mathf.Approximately(row.topSpeed, 21.5f),
                      "placar de fase vai e volta pelo JSON sem perder campo");
     }
 

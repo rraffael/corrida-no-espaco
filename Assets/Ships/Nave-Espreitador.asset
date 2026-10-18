@@ -16,6 +16,9 @@ MonoBehaviour:
   description: Some por um instante e passa por dentro do que vier. Sai do outro
     lado um pouco mais devagar.
   color: {r: 0.75, g: 0.6, b: 1, a: 1}
+  extraNotes: "O obst\xE1culo atravessado segue inteiro: d\xE1 para destru\xED-lo
+    depois, ou ele passa e conta como desviado. Se o efeito acaba com a nave dentro
+    dele, n\xE3o bate \u2014 h\xE1 uma car\xEAncia at\xE9 ela sair."
   cruiseSpeed: 8
   acceleration: 4
   killGainFactor: 0.16
@@ -27,7 +30,7 @@ MonoBehaviour:
   abilityUpgrade2: {fileID: 11400000, guid: 788d914e906432d489ff6c01a3c588a9, type: 2}
   conditionalUpgrade1: {fileID: 0}
   conditionalUpgrade2: {fileID: 0}
-  passiveAbility: {fileID: 0}
+  passiveAbility: {fileID: 11400000, guid: 477d30e4888497a478c60ae6544310c2, type: 2}
   damage: 25
   attackSpeed: 3
   maxHealth: 100

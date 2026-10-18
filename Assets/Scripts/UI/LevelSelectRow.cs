@@ -20,7 +20,7 @@ public class LevelSelectRow : MonoBehaviour
     [Tooltip("O cadeado. Ligado só quando a fase está trancada.")]
     [SerializeField] GameObject padlock;
 
-    [Tooltip("O troféu que abre o placar da fase. Desligado na sem fim, que mostra o dela antes da corrida.")]
+    [Tooltip("O troféu que abre o placar da fase. Toda fase tem, a sem fim inclusive.")]
     [SerializeField] Button trophyButton;
 
     [Header("Cores")]
@@ -67,14 +67,16 @@ public class LevelSelectRow : MonoBehaviour
 
     /// <summary>
     /// O troféu funciona até em fase trancada: ver quem já passou dali é um bom
-    /// motivo para querer chegar lá.
+    /// motivo para querer chegar lá. **A sem fim também tem** *(pedido do
+    /// Raffael, 18/10/2026)*: o pódio antes da corrida só mostrava o placar dela
+    /// a quem fosse jogar.
     /// </summary>
     void BindTrophy(LevelDefinition level, Action<LevelDefinition> onTrophy)
     {
         if (trophyButton == null)
             return;
 
-        bool shown = level != null && !level.endless && onTrophy != null;
+        bool shown = level != null && onTrophy != null;
         trophyButton.gameObject.SetActive(shown);
 
         trophyButton.onClick.RemoveAllListeners();

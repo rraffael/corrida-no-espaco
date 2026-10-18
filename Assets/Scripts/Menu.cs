@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Menu inicial: jogar, ver as naves, ver as conquistas ou sair.
+/// Menu inicial: jogar, ver as naves, ver as conquistas, abrir o compêndio ou sair.
 ///
 /// "Jogar" não carrega a cena na hora — abre a seleção de fase. Escolhida a
 /// **sem fim**, passa pela transição que mostra os três primeiros da tabela;
@@ -21,6 +21,7 @@ public class Menu : MonoBehaviour
     [SerializeField] LeaderboardPanel leaderboardPanel;
     [SerializeField] GameObject shipsPanel;
     [SerializeField] GameObject achievementsPanel;
+    [SerializeField] GameObject compendiumPanel;
     [SerializeField] GameObject transitionPanel;
 
     [Tooltip("Botões do menu, escondidos enquanto um painel está aberto.")]
@@ -104,6 +105,12 @@ public class Menu : MonoBehaviour
     /// <summary>Botão "Voltar" do painel de conquistas.</summary>
     public void OnCloseAchievementsButton() => Show();
 
+    /// <summary>Botão "Compêndio".</summary>
+    public void OnCompendiumButton() => Show(compendium: true);
+
+    /// <summary>Botão "Voltar" do compêndio.</summary>
+    public void OnCloseCompendiumButton() => Show();
+
     /// <summary>Botão "Voltar" da tela de seleção de fase.</summary>
     public void OnCloseLevelSelectButton() => Show();
 
@@ -147,8 +154,11 @@ public class Menu : MonoBehaviour
     /// argumento nenhum, volta ao menu.
     /// </summary>
     void Show(bool levelSelect = false, bool leaderboard = false, bool ships = false,
-              bool transition = false, bool achievements = false)
+              bool transition = false, bool achievements = false, bool compendium = false)
     {
+        if (compendiumPanel != null)
+            compendiumPanel.SetActive(compendium);
+
         if (achievementsPanel != null)
             achievementsPanel.SetActive(achievements);
 
@@ -164,7 +174,7 @@ public class Menu : MonoBehaviour
         if (transitionPanel != null)
             transitionPanel.SetActive(transition);
 
-        bool home = !levelSelect && !leaderboard && !ships && !transition && !achievements;
+        bool home = !levelSelect && !leaderboard && !ships && !transition && !achievements && !compendium;
 
         if (buttonsRoot != null)
             buttonsRoot.SetActive(home);

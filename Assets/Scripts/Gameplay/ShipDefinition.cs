@@ -30,6 +30,10 @@ public class ShipDefinition : ScriptableObject
     [Tooltip("Cor da nave na aba de seleção. Enquanto não há arte, é o que diferencia uma da outra.")]
     public Color color = new Color(0.6f, 0.85f, 1f, 1f);
 
+    [Tooltip("Curiosidades sobre a nave, para a seção \"Extra\" do Compêndio. Vazio: o Compêndio " +
+             "mostra só o que ele mesmo calcula.")]
+    [TextArea(1, 4)] public string extraNotes = "";
+
     [Header("Corrida")]
     [Tooltip("Velocidade de cruzeiro: o padrão para onde a nave acelera sozinha, em unidades por segundo.")]
     [SerializeField, Min(0f)] float cruiseSpeed = 8f;

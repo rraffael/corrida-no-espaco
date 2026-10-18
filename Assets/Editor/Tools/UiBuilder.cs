@@ -314,34 +314,114 @@ static class UiBuilder
     }
 
     /// <summary>
-    /// Um placar rolável: um texto só dentro da rolagem, com o
-    /// <see cref="LeaderboardView"/> ligado. Serve ao painel do troféu e aos dois
-    /// painéis de fim de corrida.
+    /// Onde cada coluna do placar começa e termina, em fração da largura da
+    /// linha: posição, piloto, nave, pontuação e a coluna do fim (abates ou
+    /// velocidade máxima). Em fração, e não em pixel, para a mesma linha servir
+    /// ao painel do menu e aos de fim de corrida.
+    /// </summary>
+    static readonly float[] LeaderboardColumns = { 0f, 0.09f, 0.36f, 0.62f, 0.82f, 1f };
+
+    /// <summary>
+    /// Um placar rolável *(linha por componente desde 18/10/2026)*: o cabeçalho
+    /// fixo em cima, e embaixo a rolagem com a <see cref="LeaderboardRow"/>
+    /// modelo, desligada, que o <see cref="LeaderboardView"/> clona por posição.
+    /// Serve ao painel do troféu e aos dois painéis de fim de corrida.
     /// </summary>
     public static LeaderboardView Leaderboard(Transform parent, Vector2 position, Vector2 size, float fontSize,
                                               string emptyMessage)
     {
-        var content = ShipSelectSetup.BuildScroll(parent, position, size, out var contentObject);
+        float rowHeight = Mathf.Round(fontSize * 1.7f);
+        const float headerGap = 6f;
+
+        var root = NewUI("Placar", parent);
+        PlaceCentered(root, position, size);
+
+        var header = LeaderboardRowObject("Cabecalho", root.transform, rowHeight, fontSize);
+        header.gameObject.SetActive(true);
+
+        float listHeight = size.y - rowHeight - headerGap;
+        var content = ShipSelectSetup.BuildScroll(root.transform, new Vector2(0f, -(rowHeight + headerGap) * 0.5f),
+                                                  new Vector2(size.x, listHeight), out var contentObject);
         var scroll = content.GetComponentInParent<ScrollRect>();
-        scroll.transform.name = "Placar";
 
-        var textObject = NewUI("Texto", contentObject.transform);
-        Stretch(textObject);
-        var text = Label(textObject, string.Empty, fontSize, LabelColor);
-        text.alignment = TextAlignmentOptions.TopLeft;
-        // Sem quebra: cada posição é uma linha, e a rolagem até o jogador conta
-        // com todas as linhas da mesma altura.
-        text.textWrappingMode = TextWrappingModes.NoWrap;
+        var template = LeaderboardRowObject("ModeloDeLinha", contentObject.transform, rowHeight, fontSize);
 
-        var view = scroll.gameObject.AddComponent<LeaderboardView>();
+        var empty = Label("Vazio", root.transform, emptyMessage, fontSize, Vector2.zero,
+                          new Vector2(size.x, size.y * 0.5f), DimLabelColor);
+
+        var view = root.AddComponent<LeaderboardView>();
         SetReference(view, "scroll", scroll);
-        SetReference(view, "target", text);
+        SetReference(view, "header", header);
+        SetReference(view, "rowTemplate", template);
+        SetReference(view, "emptyLabel", empty);
 
         var serialized = new SerializedObject(view);
         serialized.FindProperty("emptyMessage").stringValue = emptyMessage;
         serialized.ApplyModifiedPropertiesWithoutUndo();
 
         return view;
+    }
+
+    /// <summary>
+    /// A peça da linha do placar: o fundo (que acende na linha do jogador) e um
+    /// texto por coluna. Presa no topo do pai, de borda a borda, com a altura
+    /// fixa — o <see cref="LeaderboardView"/> só desce cada uma para o lugar.
+    /// Nasce desligada.
+    /// </summary>
+    static LeaderboardRow LeaderboardRowObject(string name, Transform parent, float height, float fontSize)
+    {
+        var go = NewUI(name, parent);
+        var rect = (RectTransform)go.transform;
+        rect.anchorMin = new Vector2(0f, 1f);
+        rect.anchorMax = new Vector2(1f, 1f);
+        rect.pivot = new Vector2(0.5f, 1f);
+        rect.sizeDelta = new Vector2(0f, height);
+        rect.anchoredPosition = Vector2.zero;
+
+        var background = go.AddComponent<Image>();
+        background.sprite = BuiltinSprite();
+        background.type = Image.Type.Sliced;
+        background.color = Color.clear;
+        background.raycastTarget = false;
+
+        var columns = new TextMeshProUGUI[LeaderboardColumns.Length - 1];
+        string[] names = { "Posicao", "Piloto", "Nave", "Pontuacao", "Fim" };
+        for (int i = 0; i < columns.Length; i++)
+        {
+            var cell = NewUI(names[i], go.transform);
+            var cellRect = (RectTransform)cell.transform;
+            cellRect.anchorMin = new Vector2(LeaderboardColumns[i], 0f);
+            cellRect.anchorMax = new Vector2(LeaderboardColumns[i + 1], 1f);
+            cellRect.offsetMin = new Vector2(8f, 0f);
+            cellRect.offsetMax = new Vector2(-8f, 0f);
+
+            var label = Label(cell, string.Empty, fontSize, LabelColor);
+            // Os números à direita, para as casas se alinharem de uma linha para
+            // a outra; os nomes à esquerda.
+            label.alignment = i >= 3 ? TextAlignmentOptions.MidlineRight : TextAlignmentOptions.MidlineLeft;
+            label.textWrappingMode = TextWrappingModes.NoWrap;
+            label.overflowMode = TextOverflowModes.Ellipsis;
+            // Encolhe antes de cortar: "Espreitad… Nv 40" e "212 un/s" apertam
+            // as colunas mais estreitas.
+            label.enableAutoSizing = true;
+            label.fontSizeMax = fontSize;
+            label.fontSizeMin = Mathf.Round(fontSize * 0.6f);
+            columns[i] = label;
+        }
+
+        // O nome é digitado pelo jogador: sem marcação, um "<" nele é só texto.
+        columns[1].richText = false;
+
+        var row = go.AddComponent<LeaderboardRow>();
+        SetReference(row, "background", background);
+        SetReference(row, "rankLabel", columns[0]);
+        SetReference(row, "nameLabel", columns[1]);
+        SetReference(row, "shipLabel", columns[2]);
+        SetReference(row, "scoreLabel", columns[3]);
+        SetReference(row, "extraLabel", columns[4]);
+
+        go.SetActive(false);
+        return row;
     }
 
     public static void SetReference(Object owner, string propertyName, Object value)

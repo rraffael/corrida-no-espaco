@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Obstaculo2-Largo
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleStats
   displayName: "Barca\xE7a"
+  description: Cargueiro largo o bastante para fechar duas faixas. Aguenta muito
+    tiro, e rende mais velocidade quando cai.
+  extraNotes: 
   sprite: {fileID: 21300000, guid: 04092d4273808164f9876d6f6aa611aa, type: 3}
   color: {r: 0.7, g: 0.6, b: 1, a: 1}
   laneSpan: 2
@@ -20,7 +23,7 @@ MonoBehaviour:
   lanePadding: 0.15
   maxHealth: 140
   contactDamage: 30
-  speedBonusOnKill: 2.5
+  killWeight: 2.5
   speedPenaltyOnCrash: 3
   crashDistance: 0.8
   hitDistance: 0.6
@@ -28,3 +31,4 @@ MonoBehaviour:
   shrapnelDamage: 15
   shrapnelSpeed: 6
   shrapnelCount: 1
+  pullsOnPass: 0

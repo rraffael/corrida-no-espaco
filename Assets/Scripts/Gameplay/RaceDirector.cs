@@ -69,6 +69,9 @@ public class RaceDirector : MonoBehaviour
     /// </summary>
     public float Distance { get; private set; }
 
+    /// <summary>A maior velocidade da corrida, em unidades internas. Vai para o placar da sem fim.</summary>
+    public float TopSpeed { get; private set; }
+
     /// <summary>Falso depois da vitória ou da derrota — arma e spawner consultam.</summary>
     public bool IsRunning { get; private set; }
 
@@ -133,6 +136,7 @@ public class RaceDirector : MonoBehaviour
 
         Elapsed = 0f;
         Distance = 0f;
+        TopSpeed = 0f;
         WarpCharge = 0f;
         IsCharging = false;
         scoreSaved = false;
@@ -208,7 +212,10 @@ public class RaceDirector : MonoBehaviour
         // Integra a velocidade a cada frame, em vez de multiplicar no fim: é o
         // que faz acelerar cedo valer mais do que acelerar no último segundo.
         if (race != null)
+        {
             Distance += race.Current * Time.deltaTime;
+            TopSpeed = Mathf.Max(TopSpeed, race.Current);
+        }
 
         UpdateWarpCharge();
     }
@@ -273,6 +280,7 @@ public class RaceDirector : MonoBehaviour
             time = Elapsed,
             distance = Distance,
             kills = runKills,
+            topSpeed = TopSpeed,
         };
         var placement = ScoreBoard.Submit(boardId, entry);
 
@@ -401,6 +409,7 @@ public class RaceDirector : MonoBehaviour
             distance = Distance,
             time = Elapsed,
             kills = runKills,
+            topSpeed = TopSpeed,
         };
 
         // O nome digitado aqui é o que as fases usam enquanto o apelido da Play

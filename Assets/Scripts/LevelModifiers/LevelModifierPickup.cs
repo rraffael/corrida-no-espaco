@@ -88,6 +88,11 @@ public class LevelModifierPickup : MonoBehaviour
         if (Mathf.Abs(delta.x) > pickupDistance || Mathf.Abs(delta.y) > pickupDistance)
             return;
 
+        // Imune, o Debilitante passa por dentro da nave e segue descendo. Reforço
+        // e Especial continuam valendo: a imunidade protege, não tira o que é bom.
+        if (ship.IsUntouchable && definition.category == LevelModifier.Category.Debilitante)
+            return;
+
         if (LevelModifiers.Instance != null)
             LevelModifiers.Instance.Grant(definition);
 

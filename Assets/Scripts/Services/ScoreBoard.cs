@@ -63,6 +63,14 @@ public static class ScoreBoard
         /// <summary>Nome do asset da nave, e não o de tela — o mesmo motivo do <see cref="ShipSelection"/>.</summary>
         public string ship;
         public int shipLevel;
+
+        /// <summary>
+        /// A maior velocidade da corrida, em unidades internas *(18/10/2026)*. Guardada
+        /// em toda linha, mas só o placar da sem fim mostra: nas fases ela bate no
+        /// teto da dobra e diria a mesma coisa em todas as linhas. Linha antiga abre
+        /// com zero, e a tela mostra um traço.
+        /// </summary>
+        public float topSpeed;
     }
 
     /// <summary>Onde a corrida caiu. <see cref="Rank"/> 0 é "não entrou no placar".</summary>
@@ -251,6 +259,10 @@ public static class ScoreBoard
         int shown = Mathf.RoundToInt(Mathf.Max(0f, distance) * DisplayScale);
         return shown.ToString("n0") + " " + DisplayUnit;
     }
+
+    /// <summary>Velocidade máxima como o painel da corrida mostra: "212 un/s". Zero vira traço.</summary>
+    public static string FormatTopSpeed(float speed) =>
+        speed > 0f ? RaceSpeed.Format(speed) : "—";
 
     /// <summary>
     /// Tempo em m:ss.cc — o formato de cronômetro que se lê de relance. É a

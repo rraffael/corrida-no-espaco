@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 175fd3cb000901f4ea46187c59353819, type: 3}
+  m_Name: CompendiumCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::CompendiumCatalog
+  obstacles:
+  - {fileID: 11400000, guid: 509473fa05c12ba4dbd38c3ce00144a9, type: 2}
+  - {fileID: 11400000, guid: e380381f306cd714f97b72faba17f0df, type: 2}
+  - {fileID: 11400000, guid: 1448116241811324f95a961f54c2828f, type: 2}
+  - {fileID: 11400000, guid: c496ba538fdaf644fb21efc5a8739c92, type: 2}
+  modifiers:
+  - {fileID: 11400000, guid: bf572fb335c8ed5439bc71849cb8020f, type: 2}
+  - {fileID: 11400000, guid: 34b631df375b72547a6cdac632e6bf56, type: 2}
+  - {fileID: 11400000, guid: 3f6bd1cd62c06534495ceac385aad749, type: 2}
+  - {fileID: 11400000, guid: ad811e3399c42fd4fb0022d3ac6abc7b, type: 2}
+  placeholder: {fileID: 21300000, guid: ece4dbf307d321e4b8ae8e9987b483b1, type: 3}

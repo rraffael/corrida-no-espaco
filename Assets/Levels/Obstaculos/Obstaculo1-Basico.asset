@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Obstaculo1-Basico
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleStats
   displayName: Detrito
+  description: "Destro\xE7o \xE0 deriva, o obst\xE1culo mais comum da pista. Atire
+    ou desvie."
+  extraNotes: 
   sprite: {fileID: 21300000, guid: 04092d4273808164f9876d6f6aa611aa, type: 3}
   color: {r: 1, g: 0.55, b: 0.4, a: 1}
   laneSpan: 1
@@ -20,7 +23,7 @@ MonoBehaviour:
   lanePadding: 0.15
   maxHealth: 50
   contactDamage: 20
-  speedBonusOnKill: 1.5
+  killWeight: 1.5
   speedPenaltyOnCrash: 2
   crashDistance: 0.7
   hitDistance: 0.5
@@ -28,3 +31,4 @@ MonoBehaviour:
   shrapnelDamage: 15
   shrapnelSpeed: 6
   shrapnelCount: 1
+  pullsOnPass: 0

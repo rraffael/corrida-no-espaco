@@ -33,60 +33,53 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 ### 📦 Para rodar agora
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-**A leva de 17/10/2026** — placares por fase, Espreitador Espacial, Rastro e o brilho de poder
-pronto. Os detalhes estão em *"Leva de 17/10/2026"* na Fase 6.
+**A segunda leva de 18/10/2026** — o que saiu do seu check: carência e passiva do Espreitador,
+o nome **Intangibilidade**, o Rastro na Fase 3, o placar por linha com a velocidade máxima, o
+troféu da sem fim e o **Compêndio**. Os detalhes estão em *"Leva de 18/10/2026"* na Fase 6.
 
-- [x] Commit da leva (`6086e97`)
-- [x] Montar da leva (os seis passos)
-- [x] Commit e Montar do ajuste do menu e do pente fino de 18/10 *(o Raffael disse "pronto" em
-      18/10; os testes ficaram para a próxima sessão)*
-- [ ] **Testes → Rodar verificações** tem de dar tudo verde (entraram 2 do placar no pente fino)
+- [ ] **Commit antes do Montar** — o Montar roda um conserto pontual (o Rastro na Fase 3), e
+      conserto pontual sai do projeto depois; sem o commit não há de onde resgatar
+- [ ] **Montar** — 5 passos: naves e poderes → Rastro na Fase 3 → Game.unity → seleção de fase
+      → Compêndio. **Atenção:** o primeiro passo **renomeia** `Poder-Atravessar` e
+      `Poder-Atravessar-Upgrade2` para `Poder-Intangibilidade…` pelo AssetDatabase (o `.meta`
+      vai junto e a nave não perde a ficha). No commit seguinte, o git vai mostrar o arquivo
+      antigo apagado e o novo criado — é isso mesmo
+- [ ] **Testes → Rodar verificações** tudo verde. Entraram: o Compêndio com toda ficha e todo
+      obstáculo com descrição, e a velocidade máxima no placar indo e voltando pelo JSON
+- [ ] **Depois do Montar e das verificações, me avise** — eu apago o `RastroNaFase3.cs` (com o
+      `.meta`) e registro aqui como trazer de volta
 
-**Daqui para baixo, tudo pendente de teste — o Raffael encerrou 18/10 e testa depois.**
-- [ ] **Conferir o menu** *(ajuste de 18/10)*: **um Jogar só**, que funciona; o título
-      **"Corrida no Espaço" fica no alto**, sem nada por cima; os botões ficam numa coluna
-      centrada na parte de baixo. Vale olhar no Game com duas resoluções (ex.: 1080x1920 e
-      1080x2400): o título acompanha o topo e não encosta nos botões. E o **Jogar do placar** da
-      seleção (troféu) continua lá e começa a fase. Abrindo qualquer painel (Jogar, Naves,
-      Conquistas), o título **some** junto com os botões, e volta ao fechar
-- [ ] **Do pente fino de 18/10, conferir no placar:** a nave aparece curta, como "Espreitad… Nv
-      40" ou "Nay Nv 3", sem encostar no tempo; e um nome com `<` digitado na sem fim aparece
-      como texto, sem bagunçar as colunas
-- [ ] **Conferir o placar no Editor:**
-      - O menu **não tem mais o botão Recordes**, e a coluna de botões se reempilhou sem buraco
-      - Na seleção, cada fase tem um **troféu dourado** à direita, inclusive as trancadas; a sem
-        fim não tem. Tocar no troféu **não** começa a fase — abre o placar
-      - Placar vazio diz "Ninguém completou esta fase ainda"; **Jogar** começa a fase (apagado se
-        ela estiver trancada) e **Voltar** volta para a lista **na mesma dificuldade**
-      - Tocar numa fase **vai direto para a corrida**, sem o pódio da sem fim
-      - Tocar na sem fim **mostra o pódio** antes, como sempre
-      - Vencer uma fase: o painel mostra tempo, o que destravou, a posição e o placar com a
-        **linha dourada subindo** até o lugar dela. Vença a mesma fase umas 4 vezes para ter
-        linhas e ver a subida passar por cima das outras
-      - Sem fim: salvar a distância faz a mesma subida no placar de baixo
-- [ ] **Conferir o Espreitador Espacial:** ele aparece no fim da aba de naves. Toque duplo → 3 s
-      translúcido passando por dentro de obstáculo e estilhaço, sem dano e sem tranco; no fim, a
-      velocidade cai 5. Um uso só; evolua até o nível 40 (custa 0 por enquanto) e veja **2 usos**
-- [ ] **Conferir o Rastro:** ele **não está em fase nenhuma** — onde ele entra é seu. Para
-      testar: abra `Assets/Levels/Fase1.asset`, em *Obstacles* aumente a lista e arraste
-      `Assets/Levels/Obstaculos/Obstaculo4-Rastro` para o item novo (peso 1, os dois tempos em 0).
-      Deixe o bloco verde passar na faixa **do lado** sem atirar: quando ele some embaixo, a nave
-      é puxada uma faixa para o lado dele. Destruído, não puxa. **Depois do teste, decida se ele
-      fica na fase ou sai**
-- [ ] **Conferir o brilho do poder:** com a Nay ou a Raffa, o canto do poder tem um **risco
-      dourado dando a volta na borda** enquanto o poder está pronto; ao usar, some e a recarga
-      começa. A Predadora (condicional) não tem brilho
-- [ ] **Conferir a troca de faixa e a Super IA:**
-      - **A troca 50% mais rápida no dedo** — ficou bom de controlar? E **o custo de sair da
-        faixa** (a arma cala durante a troca) ainda se sente? Agora ela dura menos de um décimo
-        de segundo
-      - **A Super IA contra a Barcaça na beirada** — com a Raffa, fique na faixa da beirada, deixe
-        uma Barcaça vir ocupando a sua faixa e a do meio, e ligue a Super IA: ela tem de cruzar
-        para o outro lado. Fase 2 ou 3, de preferência no Difícil, que é a dobra mais alta
-- [ ] ⚠️ **Olhar com atenção, é onde posso ter errado sem a Unity na mão:** as colunas do placar
-      (`#`, Piloto, Nave, Tempo, Abates) cabendo sem encavalar, o placar do painel de vitória não
-      ficando por cima do botão, a rolagem acompanhando a linha dourada, e o risco do brilho
-      correndo liso. Se algo ficar torto, um print basta
+**Para testar desta leva:**
+- [ ] **Espreitador — a carência:** ative a Intangibilidade e deixe os 3 s acabarem **dentro**
+      de uma Barcaça. Não pode bater; e, depois de sair dela, um obstáculo novo bate normal
+- [ ] **Espreitador — o nome:** a aba de naves mostra **Intangibilidade** no Ativo e
+      **Intangibilidade perfeita — destrava no nível 60** no Passivo
+- [ ] **Espreitador — o nível 60** (evolua com o "Nv máx"): intangível, passe ao lado de um
+      **Rastro** — não puxa. E passe por cima de um **Debilitante** (vermelho) — não pega.
+      Abaixo do 60, os dois continuam pegando. *Ver a decisão da imunidade em ✏️*
+- [ ] **O Rastro na Fase 3** — aparece entre os 12 e 20 s, junto do Casulo. Os testes dele
+      continuam valendo: passar **ao lado** sem atirar → ao sumir embaixo, a nave é puxada uma
+      faixa para o lado dele; **destruído, não puxa**
+- [ ] **O placar por linha** — agora cada linha é uma peça: posição, piloto, nave, pontuação e a
+      última coluna. Confira nos três lugares (troféu na seleção, vitória da fase, fim da sem
+      fim): o cabeçalho fica parado no alto enquanto a lista rola, as colunas não encavalam, a
+      linha dourada sobe e a rolagem a acompanha
+- [ ] **A velocidade máxima** — só na sem fim, na coluna **Vel. máx.** Corridas salvas antes
+      desta leva mostram "—" ali (elas não guardaram)
+- [ ] **O troféu da sem fim** — a linha da sem fim agora tem troféu; o placar abre com o título
+      "Sem fim", sem dificuldade, e o Jogar dali passa pelo pódio, como sempre
+- [ ] **O Compêndio** — botão novo no menu, entre Conquistas e Sair. Três abas; cada cartão com
+      imagem, descrição, Atributos, Poder e Extra. **Confira o conteúdo:** as descrições dos
+      quatro obstáculos são **rascunho meu** (o campo nasceu agora), e o resto sai das fichas.
+      Para mudar um texto, é editar a ficha: `description` e o campo novo **Extra Notes**, que
+      toda nave, obstáculo e modificador ganhou
+
+**Ainda da leva de 17/10, que não deu para testar:**
+- [ ] **O menu em duas resoluções** — no Game, em 1080x1920 e em 1080x2400: o título acompanha
+      o topo e não encosta nos botões. *Agora são cinco botões, com o Compêndio*
+- [ ] **A Super IA contra a Barcaça na beirada** — com a Raffa, fique na faixa da beirada, deixe
+      uma Barcaça vir ocupando a sua faixa e a do meio, e ligue a Super IA: ela tem de cruzar
+      para o outro lado. Fase 2 ou 3, de preferência no Difícil
 
 ### 🛒 Play Console — acompanhar
 - [ ] **A primeira revisão da Play** — os 10 itens (página do app e declarações de 08/08) foram
@@ -182,16 +175,16 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
       disponíveis: corridas, vitórias, corridas sem fim, abates, distância total, evoluções de nave e melhor
       distância sem fim. Conquista que precise de outra condição pede um contador novo — é só
       pedir *(Parte 8)*
-- [ ] **O nome do poder do Espreitador** — está "Atravessar", que é **provisório meu**: o pedido
-      trouxe o nome da nave e o efeito, não o nome do poder *(Parte 5)*
-- [ ] **Em que fase o Rastro entra** — a ficha existe e não está em fase nenhuma *(Parte 7)*
-- [ ] **Rastro × Atravessar** — hoje o Espreitador atravessando **ainda é puxado** pelo Rastro
-      (o puxão não é batida). Se o atravessar devesse ignorar o vácuo também, é uma linha
-- [ ] **Atravessar acabando dentro de um obstáculo** *(achado no pente fino de 18/10)* — se os
-      3 s acabam com a nave no meio de um bloco (uma Barcaça, por exemplo), ela **bate na hora**,
-      e ainda perde os 5 de velocidade do fim do efeito. Dá para dar uma carência: o que estava
-      sendo atravessado quando o efeito acabou não bate mais. Mexe na regra do poder, então é
-      sua: **deixar como está** (o jogador tem de calcular a saída) **ou pôr a carência?**
+- [ ] **A imunidade do nível 60 — o que ela cobre** *(escolha minha ao escrever, confirme)*:
+      enquanto a Intangibilidade dura, a Intangibilidade perfeita **ignora o vácuo do Rastro e
+      deixa passar o modificador Debilitante** sem pegar. **Reforço e Especial continuam sendo
+      pegos** — li "imune" como proteção, e perder um Reforço por estar intangível pareceu
+      castigo. E um Debilitante **que já estava valendo** antes de ativar o poder continua
+      valendo. Se "imunidade total" era para atravessar também os modificadores bons, ou para
+      suspender o Debilitante ativo, é uma linha cada
+- [ ] **O pódio antes da sem fim** — você pensou em manter o top 10 antes da corrida, mas deixou
+      para depois: o troféu da sem fim já resolve ver o placar sem jogar. Fica aqui para quando
+      quiser voltar a isso
 
 ### 📚 Para o tutorial — quando chegar a hora
 *Aberta em 17/10/2026, a pedido do Raffael: o tutorial só começa com tudo balanceado e o sistema
@@ -217,6 +210,17 @@ novo**.
 Raffael pedir pelo nome.*
 
 **Próximos, na ordem sugerida:**
+
+- [ ] **Um piloto automático de teste, para medir limites** *(proposta, a partir da sua pergunta
+      de 18/10: "dá para o Claude jogar o jogo?")*. Eu não consigo jogar de verdade — não vejo a
+      tela da Unity nem toco nela. Mas dá para fazer o próximo melhor: um **simulador de corridas
+      no Editor**, que roda a Game.unity em modo acelerado com um piloto robô (o mesmo cérebro
+      da Super IA, com reflexo e erro configuráveis) e joga **centenas de corridas** por nave,
+      nível, fase e dificuldade. Sai uma tabela: taxa de vitória, tempo até a dobra, batidas,
+      quanto cada poder muda o resultado e onde a dificuldade quebra. É o painel de
+      balanceamento, só que **jogado** em vez de estimado. *Pede o seu OK para começar* — é
+      uma peça de ferramenta grande, e só mede o que o robô sabe fazer: diz onde o jogo é
+      impossível ou fácil demais, não se ele é divertido
 
 - [ ] **60 quadros por segundo no celular** — *só com o OK do Raffael*. O jogo não pede taxa de
       quadros, e no celular a Unity roda a **30** por padrão. Pedir 60 deixa tudo mais liso e dobra a margem de
@@ -352,10 +356,11 @@ Raffael pedir pelo nome.*
 
 *Resumo para retomar rápido. O detalhe de cada item está na Lista, no topo, e nas Partes.*
 
-**Etapa atual: testar no Editor a leva de 17–18/10** — placares por fase, Espreitador Espacial,
-Rastro, brilho do poder, troca de faixa +50%, Super IA que mede o tempo e o menu responsivo. Está
-**commitada e montada**; os testes ficaram para a próxima sessão. A próxima conversa começa pelo
-📦 da Lista.
+**Etapa atual: commit, Montar e teste da segunda leva de 18/10** — o Raffael conferiu a leva de
+17/10 (passou quase tudo) e decidiu as três pendências do Espreitador. Daí veio a segunda leva:
+carência e passiva do Espreitador, o nome **Intangibilidade**, o Rastro na Fase 3, o placar por
+linha com velocidade máxima, o troféu da sem fim e o **Compêndio**. Está **escrita, sem commit e
+sem Montar**. A próxima conversa começa pelo 📦 da Lista.
 
 ### Como estava antes
 Versão 2 no teste interno desde 11/10. Chegou o retorno dos testadores (Gabriel e Nay, com mais
@@ -375,14 +380,20 @@ cinco por vir), e a lista 📱 fechou em 17/10.
   nome). Veio daí o **pente fino**: nave invadindo a coluna do tempo e nome com `<` no placar,
   consertados; o Atravessar acabando dentro de obstáculo, para decidir
 - **O conserto `LaneChangeSpeedFix` rodou e saiu do projeto**
-- **O `Montar.cs` voltou a ficar vazio**
+- **O check do Raffael (18/10):** menu, placar, Espreitador, brilho e troca de faixa passaram.
+  Ficaram sem teste o menu em duas resoluções, o Rastro e a Super IA × Barcaça na beirada
+- **A segunda leva (18/10):** as três decisões viraram código (carência, Rastro puxa abaixo do
+  60 e a passiva **Intangibilidade perfeita** no 60, o nome **Intangibilidade**), o Rastro foi
+  para a Fase 3, o placar virou uma peça por linha com a **velocidade máxima** na sem fim, a sem
+  fim ganhou troféu, e o menu ganhou o **Compêndio**. Detalhe em *"Leva de 18/10/2026"*
+- **O `Montar.cs` tem 5 passos**, um deles o conserto pontual do Rastro
 
 ### O que vem agora
-1. **Testar a leva** pelo 📦 da Lista e rodar as verificações
-2. **As três decisões do ✏️:** Atravessar dentro de obstáculo, Rastro × Atravessar, e o nome do
-   poder; e em que fase o Rastro entra
-3. **Os outros cinco retornos** dos testadores
-4. **Acompanhar a revisão da Play** (🛒)
+1. **Commit, Montar, verificações e teste** pelo 📦 da Lista; depois, apagar o `RastroNaFase3`
+2. **Revisar o Compêndio** — as descrições dos obstáculos são rascunho meu
+3. **Confirmar o alcance da imunidade** do nível 60 (✏️)
+4. **Decidir o simulador de corridas** (🤖) — a resposta a "dá para o Claude jogar?"
+5. **Os outros cinco retornos** dos testadores e a **revisão da Play** (🛒)
 
 ---
 
@@ -2781,6 +2792,63 @@ nascem funcionais e sem acabamento; esta parte é a passada única que unifica t
       - **De carona:** a 30 quadros, acima de ~**420 un/s**, o obstáculo anda mais que a janela
         de batida (1,4) em um quadro só e pode **atravessar a nave sem bater** — vale para
         qualquer nave, a favor do jogador. Só na sem fim, e some junto se o jogo for a 60
+
+### Leva de 18/10/2026 — o check do Raffael, o placar por linha e o Compêndio 🟡
+*Do check que o Raffael fez da leva de 17/10: o menu, o placar, o Espreitador, o brilho e a troca
+de faixa passaram. Daí saíram as três decisões do Espreitador, o Rastro na Fase 3 e três pedidos
+novos.*
+
+- [x] **A carência da Intangibilidade** *(decisão do Raffael: "nunca deve bater se acabar o tempo
+      dentro do obstáculo")* — `Obstacle` e `Shrapnel` guardam se a nave estava dentro deles
+      atravessando. Acabou o efeito lá dentro, **não bate até ela sair**; saiu, volta a valer.
+      Os 5 de velocidade do fim continuam sendo cobrados
+- [x] **O nome: Intangibilidade** *(escolha do Raffael)* — o `ShipSetup` renomeia as duas fichas
+      (`Poder-Intangibilidade` e `…-Upgrade2`) pelo AssetDatabase, que mantém o GUID. A classe
+      continua `PhaseThroughAbility`
+- [x] **A passiva do nível 60: Intangibilidade perfeita** *(pedido do Raffael)* —
+      `ShipAbilities/PerfectIntangibilityPassive.cs`, a primeira passiva do jogo. Liga o traço
+      novo `ShipTrait.PhasingImmunity`; o `ShipStats.IsUntouchable` junta os dois (atravessando
+      **e** imune), e é ele que o Rastro e o item da pista perguntam. Abaixo do 60 o Rastro
+      continua puxando o Espreitador atravessando, como o Raffael quis
+      - **Escolhido por mim, para confirmar** (ver ✏️): a imunidade ignora o vácuo e o
+        Debilitante; Reforço e Especial continuam sendo pegos
+- [x] **O Rastro na Fase 3** *(pedido do Raffael)* — na janela do Casulo (12 a 20 s), peso 1.
+      Pelo conserto pontual `Correções/RastroNaFase3.cs`, porque a ficha da fase é do Raffael e
+      o `LevelSetup` não reescreve ficha existente; o modelo do `LevelSetup` também ganhou o
+      Rastro, para uma Fase 3 criada do zero
+- [x] **O placar por linha** *(pedido do Raffael: "um componente que replica para cada
+      ranking")* — `UI/LeaderboardRow.cs` é a linha (posição, piloto, nave, pontuação e a última
+      coluna), e a `LeaderboardView` clona uma por posição, a mesma peça servindo de cabeçalho e
+      de reticências. Colunas em fração da largura, com a letra encolhendo antes de vazar
+      - O cabeçalho saiu da rolagem: fica parado no alto
+      - **A linha só reescreve o texto quando o conteúdo dela muda** — na subida, a vista refaz a
+        tabela a cada quadro, e só duas linhas mudam de fato
+      - O nome do piloto vai numa coluna sem rich text: o `<` continua aparecendo como texto
+      - Montado pelo `UiBuilder.Leaderboard`, que já servia aos três lugares
+- [x] **Velocidade máxima no placar da sem fim** *(pedido do Raffael)* — `RaceDirector.TopSpeed`
+      e o campo `topSpeed` na linha do placar, gravado em toda corrida e mostrado só na sem fim
+      (nas fases todo mundo termina no teto da dobra). Linha antiga mostra "—"
+- [x] **Troféu na sem fim** *(pedido do Raffael)* — o placar dela abre sem jogar, com o título
+      "Sem fim" e um aviso próprio de vazio. O pódio antes da corrida continua
+- [x] **O Compêndio** *(pedido do Raffael)* — botão no menu e painel com três abas: Naves,
+      Modificadores de Fase, Obstáculos e Inimigos. Um cartão por coisa, no modelo dele: imagem,
+      descrição, Atributos, Poder e Extra; seção vazia some
+      - `UI/Compendium.cs` transforma as fichas em cartão — **quase tudo é calculado**: atributos
+        nos níveis 1 e 60, poder com usos e upgrades, em que fases aparece, como a dificuldade
+        endurece o obstáculo. O que não sai de conta mora na ficha: `description` e o campo
+        novo `extraNotes`, que nave, obstáculo e modificador ganharam
+      - `Levels/CompendiumCatalog.cs`, em Resources, preenchido pelo Montar com **toda** ficha das
+        pastas de obstáculo e de modificador — mesmo a que não está em fase nenhuma. As naves vêm
+        do catálogo de naves
+      - `Editor/Tools/CompendiumSetup.cs` monta catálogo, painel e botão, e escreve a descrição
+        dos obstáculos que estiverem sem uma (**rascunho meu**, para o Raffael revisar)
+- [x] **Verificações:** o Compêndio com toda ficha e todo obstáculo com descrição (avisos), e a
+      velocidade máxima indo e voltando pelo JSON
+- [ ] **Montar e testar** — ver 📦 na Lista
+
+| Conserto pontual | O que faz | Estado |
+|---|---|---|
+| `Correções/RastroNaFase3.cs` | Acrescenta o Rastro à Fase 3, na janela do Casulo. Não duplica se rodar de novo. | No Montar de 18/10. **Sai do projeto depois de rodar** |
 
 ### Backlog solto da Fase 6
 *Coisas que não pertencem a nenhuma parte e não bloqueiam nada.*

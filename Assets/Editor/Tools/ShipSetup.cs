@@ -92,16 +92,32 @@ static class ShipSetup
         // O Espreitador (17/10/2026, desenho do Gabriel): 3 s atravessando
         // obstáculo, e 5 un/s a menos no fim. Uma vez por corrida; o patamar 3
         // (nível 40) dá a segunda. A recarga só pesa no upgrade, que tem dois usos.
-        var phase = GetOrCreatePower<PhaseThroughAbility>("Poder-Atravessar", ability =>
+        //
+        // O poder ganhou nome em 18/10/2026 — "Atravessar" era provisório. O
+        // arquivo muda junto, pelo AssetDatabase, que mantém o GUID: a nave não
+        // perde a ficha dela.
+        RenamePower("Poder-Atravessar", "Poder-Intangibilidade");
+        RenamePower("Poder-Atravessar-Upgrade2", "Poder-Intangibilidade-Upgrade2");
+
+        var phase = GetOrCreatePower<PhaseThroughAbility>("Poder-Intangibilidade", ability =>
         {
             FillPhaseThrough(ability);
             ability.usesPerRace = 1;
         });
 
-        var phaseUpgrade = GetOrCreatePower<PhaseThroughAbility>("Poder-Atravessar-Upgrade2", ability =>
+        var phaseUpgrade = GetOrCreatePower<PhaseThroughAbility>("Poder-Intangibilidade-Upgrade2", ability =>
         {
             FillPhaseThrough(ability);
             ability.usesPerRace = 2;
+        });
+
+        // Nível 60 (18/10/2026): imune a tudo de fora enquanto a Intangibilidade
+        // dura. É a passiva que dá o "perfeita" ao nome.
+        var perfect = GetOrCreatePower<PerfectIntangibilityPassive>("Passiva-IntangibilidadePerfeita", passive =>
+        {
+            passive.displayName = "Intangibilidade perfeita";
+            passive.description = "Durante a Intangibilidade, nada de fora mexe na nave: nem o vácuo do " +
+                                  "Rastro, nem modificador Debilitante.";
         });
 
         var ships = new List<ShipDefinition>
@@ -140,8 +156,26 @@ static class ShipSetup
                 ship.color = new Color(0.75f, 0.6f, 1f, 1f);
                 ship.intrinsicAbility = phase;
                 ship.abilityUpgrade2 = phaseUpgrade;
+                ship.passiveAbility = perfect;
             }),
         };
+
+        // A passiva e a curiosidade chegaram depois da nave, e a ficha de nave
+        // não é reescrita: só se preenche o que estiver vazio.
+        var stalker = ships[ships.Count - 1];
+        if (stalker.passiveAbility == null)
+        {
+            stalker.passiveAbility = perfect;
+            EditorUtility.SetDirty(stalker);
+        }
+
+        if (string.IsNullOrEmpty(stalker.extraNotes))
+        {
+            stalker.extraNotes = "O obstáculo atravessado segue inteiro: dá para destruí-lo depois, ou ele " +
+                                 "passa e conta como desviado. Se o efeito acaba com a nave dentro dele, " +
+                                 "não bate — há uma carência até ela sair.";
+            EditorUtility.SetDirty(stalker);
+        }
 
         // A ficha antiga continua existindo e entra no catálogo como as outras:
         // ela é a nave com que o jogo foi aprovado no aparelho, e é a única sem
@@ -158,12 +192,12 @@ static class ShipSetup
     }
 
     /// <summary>
-    /// O que as duas fichas do Atravessar têm em comum — tudo menos os usos. É
-    /// isto que garante que o upgrade muda **só** os usos, que é o que foi pedido.
+    /// O que as duas fichas da Intangibilidade têm em comum — tudo menos os usos.
+    /// É isto que garante que o upgrade muda **só** os usos, que é o que foi pedido.
     /// </summary>
     static void FillPhaseThrough(PhaseThroughAbility ability)
     {
-        ability.displayName = "Atravessar";
+        ability.displayName = "Intangibilidade";
         ability.description = "Por 3 s a nave fica translúcida e atravessa os obstáculos. No fim, perde 5 de velocidade.";
         ability.lifetime = ShipAbility.Lifetime.PorTempo;
         ability.durationSeconds = 3f;
@@ -246,6 +280,23 @@ static class ShipSetup
 
         AssetDatabase.CreateAsset(created, path);
         return created;
+    }
+
+    /// <summary>
+    /// Renomeia a ficha de um poder, se ela ainda estiver com o nome antigo e o
+    /// novo não existir. Pelo AssetDatabase, e nunca pelo disco: é ele que leva o
+    /// <c>.meta</c> junto e mantém o GUID.
+    /// </summary>
+    static void RenamePower(string from, string to)
+    {
+        string path = $"{AbilityFolder}/{from}.asset";
+        if (AssetDatabase.LoadAssetAtPath<ScriptableObject>(path) == null ||
+            AssetDatabase.LoadAssetAtPath<ScriptableObject>($"{AbilityFolder}/{to}.asset") != null)
+            return;
+
+        string error = AssetDatabase.RenameAsset(path, to);
+        if (!string.IsNullOrEmpty(error))
+            Debug.LogWarning($"[Naves] Não deu para renomear {from} para {to}: {error}");
     }
 
     public const string EvolutionModelPath =

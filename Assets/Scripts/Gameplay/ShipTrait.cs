@@ -36,4 +36,12 @@ public enum ShipTrait
     /// <see cref="ShipPhaseLook"/>.
     /// </summary>
     Phasing,
+
+    /// <summary>
+    /// Enquanto a nave estiver com <see cref="Phasing"/>, **nada de fora mexe
+    /// nela**: nem o vácuo do Rastro, nem modificador Debilitante na pista.
+    /// Sozinho não faz nada — quem liga é a passiva do Espreitador no nível 60
+    /// *(pedido do Raffael, 18/10/2026)*. Ver <see cref="ShipStats.IsUntouchable"/>.
+    /// </summary>
+    PhasingImmunity,
 }

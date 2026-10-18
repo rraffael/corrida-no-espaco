@@ -174,6 +174,13 @@ public class ShipStats : MonoBehaviour
     public bool Has(ShipTrait trait) => traits[(int)trait] > 0;
 
     /// <summary>
+    /// Atravessando **e** imune: é a pergunta que o obstáculo e o modificador
+    /// fazem antes de mexer na nave. Junta os dois traços num lugar só para
+    /// ninguém lembrar de um e esquecer o outro.
+    /// </summary>
+    public bool IsUntouchable => Has(ShipTrait.Phasing) && Has(ShipTrait.PhasingImmunity);
+
+    /// <summary>
     /// O nível de evolução desta nave, lido uma vez na largada. Evoluir é coisa
     /// de menu; no meio da corrida ele não muda.
     /// </summary>

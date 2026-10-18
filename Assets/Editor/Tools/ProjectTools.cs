@@ -52,6 +52,10 @@ static class ProjectTools
     public const string ShipSelectUndoItem = MenuRoot + "Montagem/Desmontar aba de naves";
     public const string AchievementsItem = MenuRoot + "Montagem/Montar conquistas";
     public const string AchievementsUndoItem = MenuRoot + "Montagem/Desmontar conquistas";
+    public const string CompendiumItem = MenuRoot + "Montagem/Montar compêndio";
+    public const string CompendiumUndoItem = MenuRoot + "Montagem/Desmontar compêndio";
+
+    public const string RastroFase3Item = MenuRoot + "Correções/Pôr o Rastro na Fase 3";
 
     public const string RaceId = "corrida-fundo-hud";
     public const string LevelsId = "fases-e-obstaculos";
@@ -62,6 +66,7 @@ static class ProjectTools
     public const string LevelSelectId = "selecao-de-fase";
     public const string ShipSelectId = "aba-de-naves";
     public const string AchievementsId = "conquistas";
+    public const string CompendiumId = "compendio";
 
     /// <summary>
     /// O diário vive em <c>UserSettings/</c>, que o .gitignore já ignora: é
@@ -180,6 +185,23 @@ static class ProjectTools
                       "Depende do 'Montar menu'.",
             MenuPath = AchievementsItem,
             UndoMenuPath = AchievementsUndoItem,
+        },
+        new Tool
+        {
+            Id = CompendiumId,
+            Title = "Montar compêndio",
+            Summary = "O catálogo do compêndio em Resources (com toda ficha de obstáculo e de modificador " +
+                      "das pastas) e o painel \"Compêndio\" do menu, com as abas Naves, Modificadores de " +
+                      "Fase e Obstáculos e Inimigos. Depende do 'Montar menu'.",
+            MenuPath = CompendiumItem,
+            UndoMenuPath = CompendiumUndoItem,
+        },
+        new Tool
+        {
+            Title = "Correção — Pôr o Rastro na Fase 3",
+            Summary = "Acrescenta o Rastro à Fase 3, na mesma janela do Casulo. Roda uma vez pelo Montar e " +
+                      "sai do projeto depois.",
+            MenuPath = RastroFase3Item,
         },
         new Tool
         {

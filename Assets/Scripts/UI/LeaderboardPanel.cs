@@ -18,6 +18,7 @@ public class LeaderboardPanel : MonoBehaviour
 
     LevelDefinition level;
     Difficulty difficulty;
+    string phaseEmptyMessage;
 
     /// <summary>Chamado pelo <see cref="Menu"/> depois de ligar o painel.</summary>
     public void Open(LevelDefinition chosen, Difficulty chosenDifficulty)
@@ -30,14 +31,28 @@ public class LeaderboardPanel : MonoBehaviour
         if (titleLabel != null)
         {
             string difficultyName = catalog != null ? catalog.SettingsFor(difficulty).displayName : difficulty.ToString();
-            titleLabel.text = level != null ? $"{level.displayName} ({difficultyName})" : "Placar";
+            // A sem fim tem um placar só, valendo para qualquer dificuldade.
+            if (level == null)
+                titleLabel.text = "Placar";
+            else if (level.endless)
+                titleLabel.text = level.displayName;
+            else
+                titleLabel.text = $"{level.displayName} ({difficultyName})";
         }
 
         if (playButton != null)
             playButton.interactable = LevelProgress.IsUnlocked(catalog, level, difficulty);
 
         if (view != null)
+        {
+            if (phaseEmptyMessage == null)
+                phaseEmptyMessage = view.EmptyMessage;
+
+            view.EmptyMessage = level != null && level.endless
+                ? "Ninguém correu a sem fim ainda.\nA primeira distância pode ser a sua."
+                : phaseEmptyMessage;
             view.Show(ScoreBoard.BoardId(level, difficulty));
+        }
     }
 
     /// <summary>Botão "Jogar" do painel.</summary>

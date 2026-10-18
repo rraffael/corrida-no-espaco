@@ -16,6 +16,13 @@ public class ObstacleStats : ScriptableObject
     [Header("Identidade")]
     public string displayName = "Obstáculo";
 
+    [Tooltip("Uma ou duas linhas sobre ele, para o Compêndio.")]
+    [TextArea(1, 3)] public string description = "";
+
+    [Tooltip("Curiosidades, para a seção \"Extra\" do Compêndio. Vazio: o Compêndio mostra só o " +
+             "que ele mesmo calcula.")]
+    [TextArea(1, 4)] public string extraNotes = "";
+
     [Tooltip("Arte. Vazio: o obstáculo fica invisível, mas continua batendo.")]
     public Sprite sprite;
 

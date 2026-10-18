@@ -74,9 +74,9 @@ static class LevelSetup
         }, pixel);
 
         // O Rastro (17/10/2026) nasce com os números do Detrito, como ponto de
-        // partida: o que o diferencia é o vácuo. Não entra em fase nenhuma daqui —
-        // onde ele aparece é decisão do Raffael, na ficha da fase.
-        GetOrCreateObstacle("Obstaculo4-Rastro", stats =>
+        // partida: o que o diferencia é o vácuo. Desde 18/10 ele está na Fase 3,
+        // ao lado do Casulo — escolha do Raffael.
+        var rastro = GetOrCreateObstacle("Obstaculo4-Rastro", stats =>
         {
             stats.displayName = "Rastro";
             stats.color = new Color(0.5f, 1f, 0.6f, 1f);
@@ -137,6 +137,7 @@ static class LevelSetup
                 Schedule(basico, 0f, 0f, 2f),
                 Schedule(largo, 5f, 10f, 1f),
                 Schedule(estilhacos, 12f, 20f, 1.5f),
+                Schedule(rastro, 12f, 20f, 1f),
             };
         });
 

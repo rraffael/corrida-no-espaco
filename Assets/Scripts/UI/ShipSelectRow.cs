@@ -202,7 +202,7 @@ public class ShipSelectRow : MonoBehaviour
     }
 
     /// <summary>Como o poder ativo se recarrega, na linguagem do jogador.</summary>
-    static string Activation(ShipAbility ability)
+    internal static string Activation(ShipAbility ability)
     {
         string duration = ability.lifetime == ShipAbility.Lifetime.PorTempo
             ? $"{ability.durationSeconds:0.#}s"

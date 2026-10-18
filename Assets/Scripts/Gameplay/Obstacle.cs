@@ -108,15 +108,13 @@ public class Obstacle : MonoBehaviour
         CheckCrash();
     }
 
+    /// <summary>A nave estava dentro deste obstáculo, atravessando, e ainda não saiu.</summary>
+    bool phasedThrough;
+
     void CheckCrash()
     {
         var ship = ShipStats.Instance;
         if (ship == null || !ship.Health.IsAlive || stats == null)
-            return;
-
-        // Atravessando: a nave passa por dentro e o obstáculo segue inteiro, para
-        // ser destruído ou desviado depois como qualquer outro.
-        if (ship.Has(ShipTrait.Phasing))
             return;
 
         // Distância no plano, e não faixa contra faixa: bater no meio de uma
@@ -124,8 +122,28 @@ public class Obstacle : MonoBehaviour
         // largo, a folga horizontal cresce junto com a largura dele.
         var delta = ship.transform.position - transform.position;
         float horizontalReach = stats.crashDistance + (LaneSpan - 1) * 0.5f * LaneWidth();
+        bool touching = Mathf.Abs(delta.x) <= horizontalReach && Mathf.Abs(delta.y) <= stats.crashDistance;
 
-        if (Mathf.Abs(delta.x) > horizontalReach || Mathf.Abs(delta.y) > stats.crashDistance)
+        // Atravessando: a nave passa por dentro e o obstáculo segue inteiro, para
+        // ser destruído ou desviado depois como qualquer outro.
+        //
+        // E a carência *(decisão do Raffael, 18/10/2026)*: o que estava sendo
+        // atravessado quando o efeito acabou não bate mais, até a nave sair de
+        // dentro dele. Sem ela, os 3 s acabando no meio de uma Barcaça davam uma
+        // batida que o jogador não tinha como evitar.
+        if (ship.Has(ShipTrait.Phasing))
+        {
+            phasedThrough = touching;
+            return;
+        }
+
+        if (!touching)
+        {
+            phasedThrough = false;
+            return;
+        }
+
+        if (phasedThrough)
             return;
 
         // Pela nave, e não direto na vida: é lá que a defesa desconta e que os
@@ -190,8 +208,10 @@ public class Obstacle : MonoBehaviour
         if (lanes == null)
             return;
 
+        // Imune passando ao lado, não puxa depois — mesmo que o efeito já tenha
+        // acabado quando o Rastro sumir da tela.
         int lane = lanes.CurrentLane;
-        pullArmed = lane == Lane - 1 || lane == Lane + LaneSpan;
+        pullArmed = !ship.IsUntouchable && (lane == Lane - 1 || lane == Lane + LaneSpan);
     }
 
     /// <summary>
@@ -202,7 +222,7 @@ public class Obstacle : MonoBehaviour
     void PullShip()
     {
         var ship = ShipStats.Instance;
-        if (ship == null || !ship.Health.IsAlive)
+        if (ship == null || !ship.Health.IsAlive || ship.IsUntouchable)
             return;
 
         if (RaceDirector.Instance != null && !RaceDirector.Instance.IsRunning)

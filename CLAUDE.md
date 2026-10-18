@@ -109,6 +109,11 @@ quê**, não o que a linha já diz.
   Google Play é `Services/PlayGamesMirror.cs`, vazio até a Fase 7
 - **Carreira:** `Services/CareerStats.cs` — contadores que as conquistas e a economia leem
 - **Moeda provisória:** `Services/Wallet.cs`, "Sucata", custo 0 até a Parte 8
+- **Compêndio (18/10/2026):** `UI/Compendium.cs` monta os cartões das fichas, e o
+  `Levels/CompendiumCatalog.cs` (Resources) lista todo obstáculo e modificador das pastas, preenchido
+  pelo Montar. Coisa nova no jogo: texto na ficha (`description`, `extraNotes`), o resto é calculado
+- **Placar:** uma `UI/LeaderboardRow.cs` por linha, clonada pela `LeaderboardView`; montada pelo
+  `UiBuilder.Leaderboard`, que serve aos três lugares onde o placar aparece
 - SDK do Android: menu **Tools → Corrida no Espaço → Conferir SDK do Android** diz qual SDK o
   Editor usa, quais Platforms estão nele e o Target API Level atual. A `6000.3.20f1` traz 34, 35
   e 36 (conferido em 07/08/2026).

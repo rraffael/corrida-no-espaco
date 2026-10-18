@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,9 +8,12 @@ using UnityEngine.UI;
 /// Desenha um placar: o topo, as reticências e o jogador com os vizinhos — a
 /// regra de quais posições aparecem é do <see cref="LeaderboardLayout"/>.
 ///
-/// **Um texto só dentro de uma rolagem**, como o <see cref="RecordsBoard"/> já
-/// fazia: cem linhas de texto não pesam, e cem objetos de linha pesariam ao
-/// abrir e ao animar.
+/// **Uma <see cref="LeaderboardRow"/> por posição** *(pedido do Raffael,
+/// 18/10/2026)*. Até ali era um texto só com colunas por marcação; agora cada
+/// linha é a mesma peça, clonada da linha modelo, e o que ela mostra muda num
+/// lugar só. As linhas são reaproveitadas de um desenho para o outro, e a linha
+/// só reescreve o texto quando o conteúdo dela mudou — é o que deixa a subida
+/// leve com cem linhas na tela.
 ///
 /// **A subida** *(pedido do Raffael, 17/10/2026)*: ao concluir uma corrida, a
 /// linha do jogador sai da posição antiga e sobe até a nova, com o número
@@ -21,25 +23,33 @@ using UnityEngine.UI;
 public class LeaderboardView : MonoBehaviour
 {
     [SerializeField] ScrollRect scroll;
-    [SerializeField] TMP_Text target;
+
+    [Tooltip("O cabeçalho das colunas, fora da rolagem: fica à vista enquanto a tabela rola.")]
+    [SerializeField] LeaderboardRow header;
+
+    [Tooltip("Linha modelo, desligada, dentro do conteúdo da rolagem. É clonada por posição.")]
+    [SerializeField] LeaderboardRow rowTemplate;
+
+    [Tooltip("O aviso de placar vazio.")]
+    [SerializeField] TMP_Text emptyLabel;
 
     [SerializeField] string emptyMessage = "Ninguém completou ainda.\nO primeiro tempo pode ser o seu.";
 
     [Tooltip("Quanto a subida dura, em segundos de tempo real.")]
     [SerializeField, Min(0.2f)] float climbSeconds = 1.6f;
 
-    [SerializeField] Color highlightColor = new Color(1f, 0.84f, 0.3f, 1f);
-    [SerializeField] Color headerColor = new Color(0.68f, 0.76f, 0.9f, 1f);
+    [Tooltip("Espaço entre uma linha e a outra.")]
+    [SerializeField, Min(0f)] float rowSpacing = 4f;
 
-    // Colunas em porcentagem da largura: a mesma tela serve ao painel do menu e
-    // ao de fim de corrida, que não têm a mesma largura.
-    const string ShipColumn = "<pos=43%>";
-    const string ScoreColumn = "<pos=72%>";
-    const string KillsColumn = "<pos=90%>";
-    const string NameColumn = "<pos=11%>";
-    const int NameLength = 12;
+    /// <summary>O aviso de placar vazio. O painel do troféu troca quando abre a sem fim.</summary>
+    public string EmptyMessage
+    {
+        get => emptyMessage;
+        set => emptyMessage = value;
+    }
 
     readonly List<ScoreBoard.Entry> others = new List<ScoreBoard.Entry>();
+    readonly List<LeaderboardRow> pool = new List<LeaderboardRow>();
     ScoreBoard.Entry player;
     bool byDistance;
     Coroutine climb;
@@ -114,6 +124,9 @@ public class LeaderboardView : MonoBehaviour
             else
                 others.Add(entry);
         }
+
+        if (header != null)
+            header.BindHeader(byDistance);
     }
 
     int RankOfPlayer()
@@ -129,55 +142,75 @@ public class LeaderboardView : MonoBehaviour
     /// <summary>Desenha com o jogador na posição <paramref name="playerRank"/> e rola até ele.</summary>
     void Render(int playerRank)
     {
-        if (target == null)
-            return;
-
         int total = others.Count + (player != null ? 1 : 0);
-        if (total == 0)
+
+        if (emptyLabel != null)
         {
-            target.text = emptyMessage;
-            FitAndScroll(-1, 1);
-            return;
+            emptyLabel.text = emptyMessage;
+            emptyLabel.gameObject.SetActive(total == 0);
         }
 
-        var text = new StringBuilder();
-        AppendHeader(text);
-        int lines = 1;
+        if (header != null)
+            header.gameObject.SetActive(total > 0);
+
+        int used = 0;
         int playerLine = -1;
 
-        foreach (int rank in LeaderboardLayout.Slots(total, player != null ? playerRank : 0))
+        if (total > 0)
         {
-            if (rank == LeaderboardLayout.Gap)
+            foreach (int rank in LeaderboardLayout.Slots(total, player != null ? playerRank : 0))
             {
-                // Três pontos em pé: o "tem muito mais gente aqui no meio".
-                text.Append("\n<align=center>.\n.\n.</align>");
-                lines += 3;
-                continue;
+                if (rank == LeaderboardLayout.Gap)
+                {
+                    Row(used++).BindGap();
+                    continue;
+                }
+
+                bool isPlayer = player != null && rank == playerRank;
+                var entry = isPlayer ? player : OtherAt(rank, playerRank);
+                if (entry == null)
+                    continue;
+
+                if (isPlayer)
+                    playerLine = used;
+
+                Row(used++).Bind(rank, entry, byDistance, isPlayer);
             }
-
-            bool isPlayer = player != null && rank == playerRank;
-            var entry = isPlayer ? player : OtherAt(rank, playerRank);
-            if (entry == null)
-                continue;
-
-            text.Append('\n');
-            if (isPlayer)
-            {
-                playerLine = lines;
-                text.Append("<color=#").Append(ColorUtility.ToHtmlStringRGB(highlightColor)).Append("><b>");
-            }
-
-            AppendRow(text, rank, entry);
-
-            if (isPlayer)
-                text.Append("</b></color>");
-
-            lines++;
         }
 
-        target.text = text.ToString();
-        FitAndScroll(playerLine, lines);
+        for (int i = used; i < pool.Count; i++)
+        {
+            if (pool[i].gameObject.activeSelf)
+                pool[i].gameObject.SetActive(false);
+        }
+
+        FitAndScroll(playerLine, used);
     }
+
+    /// <summary>A linha de número <paramref name="index"/>, ligada; clona mais uma se faltar.</summary>
+    LeaderboardRow Row(int index)
+    {
+        while (pool.Count <= index)
+        {
+            var created = Instantiate(rowTemplate, rowTemplate.transform.parent, false);
+            created.name = $"Linha {pool.Count + 1}";
+            pool.Add(created);
+        }
+
+        var row = pool[index];
+        if (!row.gameObject.activeSelf)
+            row.gameObject.SetActive(true);
+
+        // Posição pela conta, e não por grupo de layout: a rolagem até o
+        // jogador precisa saber onde cada linha está no mesmo quadro.
+        var rect = row.Rect;
+        rect.anchoredPosition = new Vector2(0f, -index * Step());
+        return row;
+    }
+
+    float RowHeight() => rowTemplate != null ? rowTemplate.Rect.rect.height : 48f;
+
+    float Step() => RowHeight() + rowSpacing;
 
     /// <summary>A linha de outro jogador na posição de tela, pulando a do jogador.</summary>
     ScoreBoard.Entry OtherAt(int rank, int playerRank)
@@ -189,51 +222,16 @@ public class LeaderboardView : MonoBehaviour
         return index >= 0 && index < others.Count ? others[index] : null;
     }
 
-    void AppendHeader(StringBuilder text)
-    {
-        text.Append("<color=#").Append(ColorUtility.ToHtmlStringRGB(headerColor)).Append('>')
-            .Append('#').Append(NameColumn).Append("Piloto")
-            .Append(ShipColumn).Append("Nave");
-
-        if (byDistance)
-            text.Append(ScoreColumn).Append("Distância");
-        else
-            text.Append(ScoreColumn).Append("Tempo").Append(KillsColumn).Append("Abates");
-
-        text.Append("</color>");
-    }
-
-    void AppendRow(StringBuilder text, int rank, ScoreBoard.Entry entry)
-    {
-        string name = string.IsNullOrEmpty(entry.name) ? "Piloto" : entry.name;
-        if (name.Length > NameLength)
-            name = name.Substring(0, NameLength);
-
-        // O nome é digitado pelo jogador: sem o noparse, um "<" nele viraria
-        // marcação e desmontaria as colunas. A nave vai um pouco menor, que é a
-        // coluna mais apertada.
-        text.Append(rank.ToString("n0")).Append(NameColumn)
-            .Append("<noparse>").Append(name).Append("</noparse>")
-            .Append(ShipColumn).Append("<size=85%>").Append(ScoreBoard.DescribeShip(entry)).Append("</size>");
-
-        if (byDistance)
-            text.Append(ScoreColumn).Append(ScoreBoard.FormatDistance(entry.distance));
-        else
-            text.Append(ScoreColumn).Append(ScoreBoard.FormatTime(entry.time))
-                .Append(KillsColumn).Append(entry.kills);
-    }
-
     /// <summary>
-    /// Ajusta a altura do conteúdo ao texto e rola até a linha do jogador, com
-    /// ela no meio da janela. Todas as linhas têm a mesma altura — o texto não
-    /// quebra —, então a posição sai de uma conta, sem medir linha a linha.
+    /// Ajusta a altura do conteúdo às linhas e rola até a do jogador, com ela no
+    /// meio da janela.
     /// </summary>
     void FitAndScroll(int playerLine, int lines)
     {
         if (scroll == null || scroll.content == null)
             return;
 
-        float height = target.preferredHeight;
+        float height = lines > 0 ? lines * Step() - rowSpacing : 0f;
         var content = scroll.content;
         content.sizeDelta = new Vector2(content.sizeDelta.x, height);
 
@@ -241,13 +239,16 @@ public class LeaderboardView : MonoBehaviour
         float room = Mathf.Max(0f, height - viewport);
 
         float y = 0f;
-        if (playerLine >= 0 && lines > 0)
-        {
-            float lineHeight = height / lines;
-            y = Mathf.Clamp(playerLine * lineHeight - (viewport - lineHeight) * 0.5f, 0f, room);
-        }
+        if (playerLine >= 0)
+            y = Mathf.Clamp(playerLine * Step() - (viewport - RowHeight()) * 0.5f, 0f, room);
 
         scroll.StopMovement();
         content.anchoredPosition = new Vector2(content.anchoredPosition.x, y);
+    }
+
+    void Awake()
+    {
+        if (rowTemplate != null)
+            rowTemplate.gameObject.SetActive(false);
     }
 }
