@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Ajusta a Menu.unity: botões maiores e a transição que mostra o pódio da sem
+/// Ajusta a Menu.unity: o título no alto, a coluna de botões que se arruma
+/// sozinha (18/10/2026) e a transição que mostra o pódio da sem
 /// fim antes de ela começar. O botão e o painel de Recordes saíram em
 /// 17/10/2026 — os placares moram na seleção de fase.
 ///
@@ -24,11 +25,19 @@ static class MenuSetup
     const string QuitButton = "BotaoSair";
     const string RecordsPanel = "PainelRecordes";
     const string TransitionPanel = "PainelTransicao";
+    const string TitleName = "Titulo";
 
-    // Os botões eram 300x65. "Um pouco maiores" com folga para o dedo, e com
-    // espaçamento que cabe a coluna inteira sem encostar no título.
+    // Os botões eram 300x65. "Um pouco maiores" com folga para o dedo.
     internal static readonly Vector2 ButtonSize = new Vector2(440f, 110f);
-    const float ButtonSpacing = 140f;
+    const float ButtonMinHeight = 80f;
+    const float ButtonGap = 30f;
+
+    // Faixas da tela, em fração da altura (de baixo para cima). Não se cruzam:
+    // é isso que garante que o título nunca mais fica atrás de um botão, seja
+    // qual for a tela ou o número de botões.
+    static readonly Vector2 TitleBand = new Vector2(0.70f, 0.92f);
+    static readonly Vector2 ButtonsBand = new Vector2(0.08f, 0.66f);
+    const float TitleSideMargin = 0.06f;
 
     [MenuItem(ProjectTools.MenuSceneItem, false, 110)]
     internal static void Setup()
@@ -87,7 +96,7 @@ static class MenuSetup
         Selection.activeGameObject = buttons.gameObject;
         EditorGUIUtility.PingObject(buttons.gameObject);
 
-        Debug.Log("[Menu] Botões maiores (440x110) e transição com o pódio da sem fim montados em " +
+        Debug.Log("[Menu] Título no alto, coluna de botões que se arruma sozinha e transição com o pódio da sem fim montados em " +
                   ScenePath + ". O botão e o painel de Recordes saíram: os placares moram na " +
                   "seleção de fase.", buttons);
     }
@@ -120,7 +129,7 @@ static class MenuSetup
 
     /// <summary>
     /// Junta os botões num objeto só, para o menu sumir inteiro quando um painel
-    /// abre. O contêiner cobre o Canvas, então as posições dos botões não mudam.
+    /// abre. O retângulo dele é a faixa dos botões — ver <see cref="RelayoutButtons"/>.
     /// </summary>
     static RectTransform GetOrCreateButtonsRoot(Canvas canvas)
     {
@@ -144,11 +153,9 @@ static class MenuSetup
         if (button == null)
             return null;
 
-        // O contêiner tem o mesmo retângulo do Canvas, então reparentar não move
-        // o botão de lugar — só muda quem o liga e desliga.
+        // A posição fica para o RelayoutButtons, que liga o grupo de layout da
+        // coluna: aqui só o tamanho, porque quem sabe quantos botões existem é ele.
         Undo.SetTransformParent(target.transform, parent, "Montar menu");
-        // A altura fica para o RelayoutButtons, que recentra a coluna inteira no
-        // fim: aqui só o tamanho, porque quem sabe quantos botões existem é ele.
         UiBuilder.PlaceCentered(target, Vector2.zero, ButtonSize);
 
         GrowLabel(target);
@@ -180,36 +187,106 @@ static class MenuSetup
     }
 
     /// <summary>
-    /// Recentra a coluna de botões, dando a cada um a altura que a posição dele
-    /// na hierarquia pede.
+    /// Arruma a tela do menu inteira: o título preso no alto e a coluna de
+    /// botões no espaço que sobra embaixo dele.
     ///
-    /// **A altura sai da ordem, e não de um número decorado por botão** — foi o
-    /// que quebrou quando entrou a aba de Naves em 30/08/2026: cada montagem
-    /// sabia a altura dos botões dela e nenhuma sabia quantos botões existiam ao
-    /// todo, então o quarto nasceu por cima do terceiro. Agora quem monta um
-    /// botão novo só precisa pô-lo na ordem certa e chamar isto.
+    /// **Quem empilha os botões é um <see cref="VerticalLayoutGroup"/>, não esta
+    /// conta** *(18/10/2026)*. Até ali a coluna era centrada na tela pelo número
+    /// de botões, e o título também morava no centro — com quatro botões, ele
+    /// ficava atrás deles. Agora as duas coisas vivem em faixas da tela que não
+    /// se cruzam, medidas em proporção, e o grupo de layout recentra a coluna
+    /// sozinho a cada botão que entra ou sai — inclusive um botão desligado em
+    /// jogo, que ele pula. Se botões demais apertarem a faixa, eles encolhem até
+    /// <see cref="ButtonMinHeight"/> antes de transbordar.
     ///
-    /// É <c>internal</c> porque o <see cref="ShipSelectSetup"/> chama: o dono da
-    /// coluna é esta ferramenta, e quem acrescenta um botão pede a ela para
-    /// reempilhar.
+    /// Continua <c>internal</c> e com o mesmo nome porque o
+    /// <see cref="ShipSelectSetup"/> e o <see cref="AchievementsSetup"/> chamam:
+    /// quem acrescenta um botão só precisa pô-lo na ordem certa e chamar isto.
     /// </summary>
     internal static void RelayoutButtons()
     {
         var canvas = Object.FindAnyObjectByType<Canvas>();
-        var buttons = canvas != null ? canvas.transform.Find(ButtonsRoot) : null;
+        if (canvas == null)
+            return;
+
+        LayoutTitle(canvas.transform.Find(TitleName));
+
+        var buttons = canvas.transform.Find(ButtonsRoot) as RectTransform;
         if (buttons == null)
             return;
 
-        // A coluna fica centrada seja qual for o número de botões: com quatro e
-        // 140 de passo, o primeiro sobe 210 e o último desce 210.
-        float top = (buttons.childCount - 1) * ButtonSpacing * 0.5f;
+        Undo.RecordObject(buttons, "Montar menu");
+        buttons.anchorMin = new Vector2(0f, ButtonsBand.x);
+        buttons.anchorMax = new Vector2(1f, ButtonsBand.y);
+        buttons.pivot = new Vector2(0.5f, 0.5f);
+        buttons.offsetMin = Vector2.zero;
+        buttons.offsetMax = Vector2.zero;
+        EditorUtility.SetDirty(buttons);
+
+        var column = buttons.GetComponent<VerticalLayoutGroup>();
+        if (column == null)
+            column = Undo.AddComponent<VerticalLayoutGroup>(buttons.gameObject);
+
+        Undo.RecordObject(column, "Montar menu");
+        column.childAlignment = TextAnchor.MiddleCenter;
+        column.spacing = ButtonGap;
+        column.childControlWidth = true;
+        column.childControlHeight = true;
+        column.childForceExpandWidth = false;
+        column.childForceExpandHeight = false;
+        column.padding = new RectOffset(0, 0, 0, 0);
+        EditorUtility.SetDirty(column);
 
         for (int i = 0; i < buttons.childCount; i++)
         {
             var child = buttons.GetChild(i).gameObject;
-            UiBuilder.PlaceCentered(child, new Vector2(0f, top - i * ButtonSpacing), ButtonSize);
-            EditorUtility.SetDirty(child);
+
+            var element = child.GetComponent<LayoutElement>();
+            if (element == null)
+                element = Undo.AddComponent<LayoutElement>(child);
+
+            // Preferido é o tamanho de sempre; o mínimo é até onde a altura
+            // cede quando a faixa aperta. Na largura não cede: 440 cabe em
+            // qualquer celular em pé.
+            Undo.RecordObject(element, "Montar menu");
+            element.preferredWidth = ButtonSize.x;
+            element.preferredHeight = ButtonSize.y;
+            element.minWidth = ButtonSize.x;
+            element.minHeight = ButtonMinHeight;
+            EditorUtility.SetDirty(element);
         }
+    }
+
+    /// <summary>
+    /// O título ocupa a faixa de cima, de borda a borda com margem, e o tamanho
+    /// da letra se ajusta à faixa — numa tela estreita ele quebra em duas linhas
+    /// em vez de vazar.
+    /// </summary>
+    static void LayoutTitle(Transform title)
+    {
+        if (title == null)
+            return;
+
+        var rect = (RectTransform)title;
+        Undo.RecordObject(rect, "Montar menu");
+        rect.anchorMin = new Vector2(TitleSideMargin, TitleBand.x);
+        rect.anchorMax = new Vector2(1f - TitleSideMargin, TitleBand.y);
+        rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+        EditorUtility.SetDirty(rect);
+
+        var label = title.GetComponent<TMP_Text>();
+        if (label == null)
+            return;
+
+        Undo.RecordObject(label, "Montar menu");
+        label.alignment = TextAlignmentOptions.Center;
+        label.textWrappingMode = TextWrappingModes.Normal;
+        label.enableAutoSizing = true;
+        label.fontSizeMin = 56f;
+        label.fontSizeMax = 120f;
+        EditorUtility.SetDirty(label);
     }
 
     /// <summary>O texto tem de crescer junto com o botão, senão fica perdido no meio.</summary>

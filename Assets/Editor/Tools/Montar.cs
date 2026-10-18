@@ -40,7 +40,8 @@ static class Montar
     /// brilho de poder pronto.** Fichas novas (nave, poder, upgrade e obstáculo);
     /// na Game.unity, o placar no fim de corrida, a nave translúcida e o brilho
     /// no canto do poder, e a troca de faixa 50% mais rápida; na Menu.unity, o
-    /// menu sem Recordes e o troféu na seleção.
+    /// menu sem Recordes e o troféu na seleção. Em 18/10, o título do menu
+    /// saiu de trás dos botões: faixas próprias e coluna com grupo de layout.
     /// </summary>
     static readonly Step[] Steps =
     {
@@ -48,7 +49,7 @@ static class Montar
         new Step("Ficha do Rastro (fichas)", LevelSetup.Setup),
         new Step("Placar no fim, nave translúcida e brilho do poder (Game.unity)", BattleSetup.Setup),
         new Step("Troca de faixa 50% mais rápida (Game.unity)", LaneChangeSpeedFix.Run),
-        new Step("Menu sem o botão de Recordes (Menu.unity)", MenuSetup.Setup),
+        new Step("Menu sem Recordes, título no alto e coluna automática (Menu.unity)", MenuSetup.Setup),
         new Step("Troféu na seleção e painel do placar (Menu.unity)", LevelSelectSetup.Setup),
     };
 

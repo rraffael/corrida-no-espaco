@@ -36,14 +36,19 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 **A leva de 17/10/2026** — placares por fase, Espreitador Espacial, Rastro e o brilho de poder
 pronto. Os detalhes estão em *"Leva de 17/10/2026"* na Fase 6.
 
-- [ ] **Commitar antes de montar** (o Montar reconstrói os painéis das duas cenas):
-      `git add -A` e
-      `git commit -m "Placar por fase, Espreitador, Rastro, brilho do poder, Super IA mede o tempo e troca de faixa +50%"`
+- [x] Commit da leva (`6086e97`)
+- [ ] **Commitar o ajuste do menu de 18/10 antes de montar:**
+      `git add -A` e `git commit -m "Menu: título no alto e coluna de botões automática"`
 - [ ] **Montar** — um clique: **Tools → Corrida no Espaço → Montar**. São seis passos: as
       fichas do Espreitador e do Rastro, a `Game.unity` (placar no fim, nave translúcida, brilho
-      do poder, troca de faixa 12 → 18) e a `Menu.unity` (menu sem Recordes, troféu na seleção).
-      Depois, **Testes → Rodar verificações** tem de dar tudo verde (entraram 18 verificações do
-      placar)
+      do poder, troca de faixa 12 → 18) e a `Menu.unity` (menu sem Recordes, título no alto,
+      troféu na seleção). Se já tinha montado antes do ajuste do menu, pode montar de novo: os
+      passos refazem o mesmo. Depois, **Testes → Rodar verificações** tem de dar tudo verde
+      (entraram 18 verificações do placar)
+- [ ] **Conferir o menu** *(ajuste de 18/10)*: o título **"Corrida no Espaço" fica no alto**,
+      sem nada por cima; os botões ficam numa coluna centrada na parte de baixo. Vale olhar no
+      Game com duas resoluções (ex.: 1080x1920 e 1080x2400): o título acompanha o topo e não
+      encosta nos botões
 - [ ] **Conferir o placar no Editor:**
       - O menu **não tem mais o botão Recordes**, e a coluna de botões se reempilhou sem buraco
       - Na seleção, cada fase tem um **troféu dourado** à direita, inclusive as trancadas; a sem
@@ -2648,6 +2653,11 @@ nascem funcionais e sem acabamento; esta parte é a passada única que unifica t
       Voltar), painel de vitória e fim da sem fim. A sem fim mantém o pódio antes da corrida;
       **as fases vão direto** para a corrida
 - [x] **Saiu o botão Recordes do menu**, e o painel dele
+- [x] **Menu responsivo (18/10):** o título estava no centro da tela, atrás da coluna de botões.
+      Agora título e botões ocupam faixas da tela que não se cruzam (em proporção da altura), o
+      título ajusta o tamanho da letra à faixa, e a coluna é um `VerticalLayoutGroup`: botão que
+      entra ou sai recentra o resto sozinho, e com botões demais eles encolhem até 80 de altura.
+      Em `MenuSetup.RelayoutButtons`, que as abas de Naves e Conquistas já chamavam
 - [x] **Conserto de carona:** a seleção de fase voltava ao Fácil ao ser reaberta, com o seletor
       ainda mostrando a dificuldade anterior
 - [x] **Verificações:** onde caem as reticências (11 casos), a ordem dos placares (6) e o placar
