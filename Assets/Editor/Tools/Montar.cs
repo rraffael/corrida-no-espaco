@@ -36,21 +36,11 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 17/10/2026: **os placares por fase, o Espreitador, o Rastro e o
-    /// brilho de poder pronto.** Fichas novas (nave, poder, upgrade e obstáculo);
-    /// na Game.unity, o placar no fim de corrida, a nave translúcida e o brilho
-    /// no canto do poder, e a troca de faixa 50% mais rápida; na Menu.unity, o
-    /// menu sem Recordes e o troféu na seleção. Em 18/10, o título do menu
-    /// saiu de trás dos botões: faixas próprias e coluna com grupo de layout.
+    /// Estado em 18/10/2026: **vazia.** A leva de 17/10 e o ajuste do menu de
+    /// 18/10 já foram montados.
     /// </summary>
     static readonly Step[] Steps =
     {
-        new Step("Espreitador Espacial, Atravessar e o upgrade (fichas)", ShipSetup.Setup),
-        new Step("Ficha do Rastro (fichas)", LevelSetup.Setup),
-        new Step("Placar no fim, nave translúcida e brilho do poder (Game.unity)", BattleSetup.Setup),
-        new Step("Troca de faixa 50% mais rápida (Game.unity)", LaneChangeSpeedFix.Run),
-        new Step("Menu sem Recordes, título no alto e coluna automática (Menu.unity)", MenuSetup.Setup),
-        new Step("Troféu na seleção e painel do placar (Menu.unity)", LevelSelectSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

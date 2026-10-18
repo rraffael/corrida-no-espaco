@@ -37,18 +37,21 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 pronto. Os detalhes estão em *"Leva de 17/10/2026"* na Fase 6.
 
 - [x] Commit da leva (`6086e97`)
-- [ ] **Commitar o ajuste do menu de 18/10 antes de montar:**
-      `git add -A` e `git commit -m "Menu: título no alto e coluna de botões automática"`
-- [ ] **Montar** — um clique: **Tools → Corrida no Espaço → Montar**. São seis passos: as
-      fichas do Espreitador e do Rastro, a `Game.unity` (placar no fim, nave translúcida, brilho
-      do poder, troca de faixa 12 → 18) e a `Menu.unity` (menu sem Recordes, título no alto,
-      troféu na seleção). Se já tinha montado antes do ajuste do menu, pode montar de novo: os
-      passos refazem o mesmo. Depois, **Testes → Rodar verificações** tem de dar tudo verde
-      (entraram 18 verificações do placar)
-- [ ] **Conferir o menu** *(ajuste de 18/10)*: o título **"Corrida no Espaço" fica no alto**,
-      sem nada por cima; os botões ficam numa coluna centrada na parte de baixo. Vale olhar no
-      Game com duas resoluções (ex.: 1080x1920 e 1080x2400): o título acompanha o topo e não
-      encosta nos botões
+- [x] Montar da leva (os seis passos)
+- [x] Commit e Montar do ajuste do menu e do pente fino de 18/10 *(o Raffael disse "pronto" em
+      18/10; os testes ficaram para a próxima sessão)*
+- [ ] **Testes → Rodar verificações** tem de dar tudo verde (entraram 2 do placar no pente fino)
+
+**Daqui para baixo, tudo pendente de teste — o Raffael encerrou 18/10 e testa depois.**
+- [ ] **Conferir o menu** *(ajuste de 18/10)*: **um Jogar só**, que funciona; o título
+      **"Corrida no Espaço" fica no alto**, sem nada por cima; os botões ficam numa coluna
+      centrada na parte de baixo. Vale olhar no Game com duas resoluções (ex.: 1080x1920 e
+      1080x2400): o título acompanha o topo e não encosta nos botões. E o **Jogar do placar** da
+      seleção (troféu) continua lá e começa a fase. Abrindo qualquer painel (Jogar, Naves,
+      Conquistas), o título **some** junto com os botões, e volta ao fechar
+- [ ] **Do pente fino de 18/10, conferir no placar:** a nave aparece curta, como "Espreitad… Nv
+      40" ou "Nay Nv 3", sem encostar no tempo; e um nome com `<` digitado na sem fim aparece
+      como texto, sem bagunçar as colunas
 - [ ] **Conferir o placar no Editor:**
       - O menu **não tem mais o botão Recordes**, e a coluna de botões se reempilhou sem buraco
       - Na seleção, cada fase tem um **troféu dourado** à direita, inclusive as trancadas; a sem
@@ -80,8 +83,6 @@ pronto. Os detalhes estão em *"Leva de 17/10/2026"* na Fase 6.
       - **A Super IA contra a Barcaça na beirada** — com a Raffa, fique na faixa da beirada, deixe
         uma Barcaça vir ocupando a sua faixa e a do meio, e ligue a Super IA: ela tem de cruzar
         para o outro lado. Fase 2 ou 3, de preferência no Difícil, que é a dobra mais alta
-      - *Nada a fazer aqui além de contar como foi:* depois do Montar, o arquivo
-        `Correções/LaneChangeSpeedFix.cs` já cumpriu o papel, e o Claude o apaga na sessão seguinte
 - [ ] ⚠️ **Olhar com atenção, é onde posso ter errado sem a Unity na mão:** as colunas do placar
       (`#`, Piloto, Nave, Tempo, Abates) cabendo sem encavalar, o placar do painel de vitória não
       ficando por cima do botão, a rolagem acompanhando a linha dourada, e o risco do brilho
@@ -186,6 +187,11 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
 - [ ] **Em que fase o Rastro entra** — a ficha existe e não está em fase nenhuma *(Parte 7)*
 - [ ] **Rastro × Atravessar** — hoje o Espreitador atravessando **ainda é puxado** pelo Rastro
       (o puxão não é batida). Se o atravessar devesse ignorar o vácuo também, é uma linha
+- [ ] **Atravessar acabando dentro de um obstáculo** *(achado no pente fino de 18/10)* — se os
+      3 s acabam com a nave no meio de um bloco (uma Barcaça, por exemplo), ela **bate na hora**,
+      e ainda perde os 5 de velocidade do fim do efeito. Dá para dar uma carência: o que estava
+      sendo atravessado quando o efeito acabou não bate mais. Mexe na regra do poder, então é
+      sua: **deixar como está** (o jogador tem de calcular a saída) **ou pôr a carência?**
 
 ### 📚 Para o tutorial — quando chegar a hora
 *Aberta em 17/10/2026, a pedido do Raffael: o tutorial só começa com tudo balanceado e o sistema
@@ -342,9 +348,45 @@ Raffael pedir pelo nome.*
 
 ---
 
-## 🚀 Onde estamos — fechamento de 11/10/2026
+## 🚀 Onde estamos — fechamento de 18/10/2026
 
 *Resumo para retomar rápido. O detalhe de cada item está na Lista, no topo, e nas Partes.*
+
+**Etapa atual: testar no Editor a leva de 17–18/10** — placares por fase, Espreitador Espacial,
+Rastro, brilho do poder, troca de faixa +50%, Super IA que mede o tempo e o menu responsivo. Está
+**commitada e montada**; os testes ficaram para a próxima sessão. A próxima conversa começa pelo
+📦 da Lista.
+
+### Como estava antes
+Versão 2 no teste interno desde 11/10. Chegou o retorno dos testadores (Gabriel e Nay, com mais
+cinco por vir), e a lista 📱 fechou em 17/10.
+
+### O que foi feito (17 e 18/10)
+- **Do retorno do Gabriel:** placar por fase e dificuldade, aberto pelo troféu na seleção, com
+  topo de 100, reticências e o jogador ±2; o placar no fim da fase com a linha subindo; o botão
+  Recordes saiu do menu
+- **Pedidos do Raffael:** o obstáculo **Rastro** (puxa a nave ao passar do lado; fora de fase
+  por enquanto), a nave **Espreitador Espacial** com o poder **Atravessar** (2 usos no nível
+  40), o **brilho dourado** do poder pronto, a troca de faixa **12 → 18** e a **Super IA medindo
+  o tempo** para cruzar a faixa (agora desvia da Barcaça na beirada)
+- **Menu responsivo:** título no alto, coluna de botões com grupo de layout, título some com
+  painel aberto
+- **Um erro meu, consertado:** o segundo Montar puxou para o menu o Jogar do placar (busca por
+  nome). Veio daí o **pente fino**: nave invadindo a coluna do tempo e nome com `<` no placar,
+  consertados; o Atravessar acabando dentro de obstáculo, para decidir
+- **O conserto `LaneChangeSpeedFix` rodou e saiu do projeto**
+- **O `Montar.cs` voltou a ficar vazio**
+
+### O que vem agora
+1. **Testar a leva** pelo 📦 da Lista e rodar as verificações
+2. **As três decisões do ✏️:** Atravessar dentro de obstáculo, Rastro × Atravessar, e o nome do
+   poder; e em que fase o Rastro entra
+3. **Os outros cinco retornos** dos testadores
+4. **Acompanhar a revisão da Play** (🛒)
+
+---
+
+## O fechamento de 11/10/2026
 
 **Etapa atual: teste no aparelho da leva de 26/09** — evolução das naves, oficina, conquistas,
 salvamento em arquivo e estatísticas. A versão está com os testadores; a próxima conversa
@@ -2658,6 +2700,22 @@ nascem funcionais e sem acabamento; esta parte é a passada única que unifica t
       título ajusta o tamanho da letra à faixa, e a coluna é um `VerticalLayoutGroup`: botão que
       entra ou sai recentra o resto sozinho, e com botões demais eles encolhem até 80 de altura.
       Em `MenuSetup.RelayoutButtons`, que as abas de Naves e Conquistas já chamavam
+- [x] **Jogar a mais no menu (18/10):** o `MenuSetup` procurava o "BotaoJogar" pelo nome na cena
+      inteira, e o placar da seleção também tem um. No segundo Montar, ele puxou o do placar para
+      a coluna: um Jogar azul e sem função. Agora só aceita, na coluna ou na raiz do Canvas, o
+      botão que chama o `Menu`, e apaga da coluna os homônimos
+- [x] **Pente fino de 18/10**, depois do Jogar a mais. Revisados: as buscas por nome de todas
+      as montagens (nas duas cenas, os outros nomes são únicos, e a Game.unity só busca na raiz),
+      o placar (ordem, rolagem, subida, fim de corrida, abates), o Atravessar, a nave translúcida,
+      o brilho, o Rastro e o fluxo menu → seleção → placar. Achados e consertados:
+      - **A nave invadia a coluna do tempo.** "Espreitador Espacial (Nv 40)" e "Nave inicial (Nv
+        12)" passam dos ~240 px da coluna. Agora o nome corta em 11 letras com reticências, o
+        nível vira "Nv 40", e a célula sai em 85% do tamanho. Ganhou 2 verificações
+      - **Nome com `<` desmontava o placar:** o nome é digitado na sem fim e entrava como
+        marcação de texto. Agora vai dentro de `<noparse>`
+      - **O título do menu aparecia apagado atrás dos painéis**, encostado no título deles, depois
+        que subiu para o alto. Agora some junto com os botões
+      - Para decidir, não consertado: o Atravessar que acaba dentro de um obstáculo (ver ✏️)
 - [x] **Conserto de carona:** a seleção de fase voltava ao Fácil ao ser reaberta, com o seletor
       ainda mostrando a dificuldade anterior
 - [x] **Verificações:** onde caem as reticências (11 casos), a ordem dos placares (6) e o placar
@@ -2719,7 +2777,7 @@ nascem funcionais e sem acabamento; esta parte é a passada única que unifica t
 
 | Conserto pontual | O que faz | Estado |
 |---|---|---|
-| `Correções/LaneChangeSpeedFix.cs` | Põe a troca de faixa da nave da `Game.unity` em 18 u/s. Existe porque o número mora na cena e nenhuma montagem escreve nele. | **No Montar**, esperando rodar (17/10/2026) |
+| `Correções/LaneChangeSpeedFix.cs` | Põe a troca de faixa da nave da `Game.unity` em 18 u/s. Existe porque o número mora na cena e nenhuma montagem escreve nele. | Rodou no Montar e **saiu do projeto em 18/10/2026**. Para trazer de volta: `git checkout 6086e97 -- "Assets/Editor/Tools/Correções"` |
       - **De carona:** a 30 quadros, acima de ~**420 un/s**, o obstáculo anda mais que a janela
         de batida (1,4) em um quadro só e pode **atravessar a nave sem bater** — vale para
         qualquer nave, a favor do jogador. Só na sem fim, e some junto se o jogo for a 60

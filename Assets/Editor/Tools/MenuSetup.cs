@@ -61,8 +61,8 @@ static class MenuSetup
         }
 
         var buttons = GetOrCreateButtonsRoot(canvas);
-        var play = AdoptButton(PlayButton, buttons);
-        var quit = AdoptButton(QuitButton, buttons);
+        var play = AdoptButton(PlayButton, canvas, buttons, menu);
+        var quit = AdoptButton(QuitButton, canvas, buttons, menu);
 
         if (play == null || quit == null)
         {
@@ -84,6 +84,10 @@ static class MenuSetup
 
         UiBuilder.SetReference(menu, "transitionPanel", transitionPanel);
         UiBuilder.SetReference(menu, "buttonsRoot", buttons.gameObject);
+
+        var title = canvas.transform.Find(TitleName);
+        if (title != null)
+            UiBuilder.SetReference(menu, "title", title.gameObject);
 
         transitionPanel.SetActive(false);
         buttons.gameObject.SetActive(true);
@@ -142,16 +146,40 @@ static class MenuSetup
         return UiBuilder.Stretch(go);
     }
 
-    /// <summary>Move um botão que já existe para o contêiner, no tamanho e na altura novos.</summary>
-    static Button AdoptButton(string name, RectTransform parent)
+    /// <summary>
+    /// Move um botão que já existe para o contêiner, no tamanho novo.
+    ///
+    /// **Só procura na coluna e na raiz do Canvas, e só aceita o botão ligado
+    /// ao <see cref="Menu"/>** *(18/10/2026)*. Até ali a busca varria a cena
+    /// inteira pelo nome, e o placar da seleção de fase também tem um
+    /// "BotaoJogar": no segundo Montar, ele foi puxado para o menu e apareceu
+    /// um Jogar a mais, azul e sem função. O que já tiver sido puxado assim é
+    /// apagado aqui.
+    /// </summary>
+    static Button AdoptButton(string name, Canvas canvas, RectTransform parent, Menu menu)
     {
-        var target = FindAnywhere(name);
-        if (target == null)
-            return null;
+        Button button = null;
+        foreach (Transform root in new[] { (Transform)parent, canvas.transform })
+        {
+            foreach (Transform child in root)
+            {
+                if (child.name == name && child.TryGetComponent<Button>(out var candidate) &&
+                    CallsMenu(candidate, menu))
+                {
+                    button = candidate;
+                    break;
+                }
+            }
 
-        var button = target.GetComponent<Button>();
+            if (button != null)
+                break;
+        }
+
         if (button == null)
             return null;
+
+        var target = button.gameObject;
+        RemoveStrays(name, parent, button);
 
         // A posição fica para o RelayoutButtons, que liga o grupo de layout da
         // coluna: aqui só o tamanho, porque quem sabe quantos botões existem é ele.
@@ -162,6 +190,32 @@ static class MenuSetup
         EditorUtility.SetDirty(target);
 
         return button;
+    }
+
+    /// <summary>O botão chama algum método do Menu? É o que separa o Jogar do menu dos homônimos.</summary>
+    static bool CallsMenu(Button button, Menu menu)
+    {
+        for (int i = 0; i < button.onClick.GetPersistentEventCount(); i++)
+        {
+            if (button.onClick.GetPersistentTarget(i) == menu)
+                return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>Apaga da coluna os homônimos que não são o botão do menu.</summary>
+    static void RemoveStrays(string name, RectTransform parent, Button keep)
+    {
+        for (int i = parent.childCount - 1; i >= 0; i--)
+        {
+            var child = parent.GetChild(i);
+            if (child.name == name && child.gameObject != keep.gameObject)
+            {
+                Debug.Log($"[Menu] Removido um \"{name}\" a mais da coluna — não era o do menu.");
+                Undo.DestroyObjectImmediate(child.gameObject);
+            }
+        }
     }
 
     /// <summary>

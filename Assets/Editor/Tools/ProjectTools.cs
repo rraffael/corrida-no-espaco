@@ -52,7 +52,6 @@ static class ProjectTools
     public const string ShipSelectUndoItem = MenuRoot + "Montagem/Desmontar aba de naves";
     public const string AchievementsItem = MenuRoot + "Montagem/Montar conquistas";
     public const string AchievementsUndoItem = MenuRoot + "Montagem/Desmontar conquistas";
-    public const string LaneChangeSpeedFixItem = MenuRoot + "Correções/Troca de faixa mais rápida";
 
     public const string RaceId = "corrida-fundo-hud";
     public const string LevelsId = "fases-e-obstaculos";
@@ -63,7 +62,6 @@ static class ProjectTools
     public const string LevelSelectId = "selecao-de-fase";
     public const string ShipSelectId = "aba-de-naves";
     public const string AchievementsId = "conquistas";
-    public const string LaneChangeSpeedFixId = "troca-de-faixa-18";
 
     /// <summary>
     /// O diário vive em <c>UserSettings/</c>, que o .gitignore já ignora: é
@@ -182,14 +180,6 @@ static class ProjectTools
                       "Depende do 'Montar menu'.",
             MenuPath = AchievementsItem,
             UndoMenuPath = AchievementsUndoItem,
-        },
-        new Tool
-        {
-            Id = LaneChangeSpeedFixId,
-            Title = "Troca de faixa mais rápida (conserto pontual)",
-            Summary = "Põe a troca de faixa da nave da Game.unity em 18 u/s (era 12, +50%). Roda uma " +
-                      "vez e sai do projeto depois de aprovado.",
-            MenuPath = LaneChangeSpeedFixItem,
         },
         new Tool
         {

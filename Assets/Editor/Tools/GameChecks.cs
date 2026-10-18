@@ -741,5 +741,12 @@ static class GameChecks
                      "placar da sem fim: maior distância na frente");
         report.Check(ScoreBoard.InsertionIndex(endless, new ScoreBoard.Entry { distance = 500f }, true) == 2,
                      "placar da sem fim: empate fica atrás de quem chegou antes");
+
+        // A coluna da nave é estreita: nome comprido não pode invadir o tempo.
+        string longShip = ScoreBoard.DescribeShip(new ScoreBoard.Entry { ship = "Espreitador Espacial", shipLevel = 60 });
+        report.Check(longShip.Length <= ScoreBoard.ShipNameLength + " Nv 60".Length && longShip.EndsWith("… Nv 60"),
+                     $"placar: nome de nave comprido é cortado (\"{longShip}\")");
+        report.Check(ScoreBoard.DescribeShip(new ScoreBoard.Entry { ship = "Nay", shipLevel = 3 }) == "Nay Nv 3",
+                     "placar: nome de nave curto fica inteiro");
     }
 }

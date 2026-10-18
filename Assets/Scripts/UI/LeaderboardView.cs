@@ -209,8 +209,12 @@ public class LeaderboardView : MonoBehaviour
         if (name.Length > NameLength)
             name = name.Substring(0, NameLength);
 
-        text.Append(rank.ToString("n0")).Append(NameColumn).Append(name)
-            .Append(ShipColumn).Append(ScoreBoard.DescribeShip(entry));
+        // O nome é digitado pelo jogador: sem o noparse, um "<" nele viraria
+        // marcação e desmontaria as colunas. A nave vai um pouco menor, que é a
+        // coluna mais apertada.
+        text.Append(rank.ToString("n0")).Append(NameColumn)
+            .Append("<noparse>").Append(name).Append("</noparse>")
+            .Append(ShipColumn).Append("<size=85%>").Append(ScoreBoard.DescribeShip(entry)).Append("</size>");
 
         if (byDistance)
             text.Append(ScoreColumn).Append(ScoreBoard.FormatDistance(entry.distance));

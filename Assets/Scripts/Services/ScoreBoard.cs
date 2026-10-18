@@ -222,7 +222,14 @@ public static class ScoreBoard
         return created.entries;
     }
 
-    /// <summary>Nome de tela da nave da linha, com o nível — "Faísca (Nv 12)".</summary>
+    /// <summary>Quantas letras do nome da nave cabem na coluna do placar.</summary>
+    public const int ShipNameLength = 11;
+
+    /// <summary>
+    /// Nome de tela da nave da linha, com o nível — "Faísca Nv 12". Nome longo
+    /// é cortado com reticências: a coluna da nave tem pouco mais de um terço
+    /// da linha, e "Espreitador Espacial (Nv 40)" invadia o tempo ao lado.
+    /// </summary>
     public static string DescribeShip(Entry entry)
     {
         if (entry == null || string.IsNullOrEmpty(entry.ship))
@@ -232,7 +239,10 @@ public static class ScoreBoard
         var ship = catalog != null ? catalog.ByName(entry.ship) : null;
         string name = ship != null ? ship.displayName : entry.ship;
 
-        return entry.shipLevel > 0 ? $"{name} (Nv {entry.shipLevel})" : name;
+        if (name.Length > ShipNameLength)
+            name = name.Substring(0, ShipNameLength - 1).TrimEnd() + "…";
+
+        return entry.shipLevel > 0 ? $"{name} Nv {entry.shipLevel}" : name;
     }
 
     /// <summary>Distância como o jogador lê: "4.800 un".</summary>

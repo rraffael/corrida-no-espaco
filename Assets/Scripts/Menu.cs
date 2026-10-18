@@ -26,6 +26,11 @@ public class Menu : MonoBehaviour
     [Tooltip("Botões do menu, escondidos enquanto um painel está aberto.")]
     [SerializeField] GameObject buttonsRoot;
 
+    [Tooltip("O título do jogo. Some junto com os botões: desde 18/10/2026 ele mora no alto da " +
+             "tela, e as caixas dos painéis chegam até lá — aparecendo por trás do fundo escuro, " +
+             "ele embolava com o título do painel.")]
+    [SerializeField] GameObject title;
+
     [Header("Transição")]
     [Tooltip("Segundos mostrando o pódio antes de a partida começar.")]
     [SerializeField, Min(0.5f)] float transitionSeconds = 3f;
@@ -159,7 +164,12 @@ public class Menu : MonoBehaviour
         if (transitionPanel != null)
             transitionPanel.SetActive(transition);
 
+        bool home = !levelSelect && !leaderboard && !ships && !transition && !achievements;
+
         if (buttonsRoot != null)
-            buttonsRoot.SetActive(!levelSelect && !leaderboard && !ships && !transition && !achievements);
+            buttonsRoot.SetActive(home);
+
+        if (title != null)
+            title.SetActive(home);
     }
 }
