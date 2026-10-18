@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Persona-5-Perfeito
   m_EditorClassIdentifier: Assembly-CSharp::PilotPersona
   displayName: Perfeito
-  description: "A Super IA jogando o tempo todo, e ca\xE7ando: reage no mesmo quadro,
-    nunca erra, cruza as faixas de uma vez. \xC9 o teto \u2014 se ele n\xE3o vence,
-    ningu\xE9m vence."
+  description: "O teto humano: o c\xE9rebro da Super IA, ca\xE7ando, nunca erra e cruza
+    as faixas de uma vez — mas reage em 0,08 s, o reflexo de gente no auge.
+    Se ele n\xE3o vence, ningu\xE9m vence."
   skillRank: 5
-  reactionSeconds: 0
+  reactionSeconds: 0.08
   thinkInterval: 0
   swipeInterval: 0
   dangerDistance: 5

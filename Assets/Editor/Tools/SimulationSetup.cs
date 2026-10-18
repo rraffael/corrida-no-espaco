@@ -81,9 +81,9 @@ static class SimulationSetup
         new Seed
         {
             File = "Persona-5-Perfeito", Name = "Perfeito", Rank = 5,
-            Description = "A Super IA jogando o tempo todo, e caçando: reage no mesmo quadro, nunca erra, " +
-                          "cruza as faixas de uma vez. É o teto — se ele não vence, ninguém vence.",
-            Reaction = 0f, Think = 0f, Swipe = 0f,
+            Description = "O teto humano: o cérebro da Super IA, caçando, nunca erra e cruza as faixas de " +
+                          "uma vez — mas reage em 0,08 s, o reflexo de gente no auge. Se ele não vence, ninguém vence.",
+            Reaction = 0.08f, Think = 0f, Swipe = 0f,
             Danger = 5f, Clear = 7f, Look = 14f,
             Mistake = 0f, Hunt = 1f,
             Rewards = true, Debuffs = true, Power = PilotPersona.PowerHabit.Esperto,

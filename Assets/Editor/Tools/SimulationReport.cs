@@ -73,6 +73,15 @@ static class SimulationReport
             text.AppendLine("## Vitórias por persona e nave");
             text.AppendLine();
             Matrix(text, races, r => ShipLabel(r), r => (0, 0), WinCell);
+
+            // Com várias naves e níveis, a tabela de cima vira uma fileira de
+            // colunas; deitada, uma nave por linha, a discrepância salta aos olhos.
+            if (races.Select(r => (r.shipName, r.shipLevel)).Distinct().Count() > 1)
+            {
+                text.AppendLine("## Vitórias por nave e nível — todas as fases somadas");
+                text.AppendLine();
+                ShipRows(text, races);
+            }
         }
 
         if (endless.Count > 0)
@@ -166,6 +175,34 @@ static class SimulationReport
             });
 
             text.AppendLine($"| {persona.Key.persona} | " + string.Join(" | ", cells) + " |");
+        }
+
+        text.AppendLine();
+    }
+
+    /// <summary>Linhas por nave e nível, colunas por persona, e o total da linha no fim.</summary>
+    static void ShipRows(StringBuilder text, List<RaceSimulation.Result> results)
+    {
+        var personas = results
+            .GroupBy(r => (r.personaRank, r.persona))
+            .OrderBy(p => p.Key.personaRank)
+            .Select(p => p.Key)
+            .ToList();
+
+        text.AppendLine("| Nave | " + string.Join(" | ", personas.Select(p => p.persona)) + " | Todas |");
+        text.AppendLine("|---|" + string.Concat(Enumerable.Repeat("---|", personas.Count + 1)));
+
+        foreach (var ship in results.GroupBy(r => (r.shipName, r.shipLevel))
+                                    .OrderBy(g => g.Key.shipName).ThenBy(g => g.Key.shipLevel))
+        {
+            var cells = personas.Select(p =>
+            {
+                var group = ship.Where(r => r.personaRank == p.personaRank && r.persona == p.persona).ToList();
+                return group.Count > 0 ? WinCell(group) : "—";
+            });
+
+            text.AppendLine($"| {ship.Key.shipName} nv {ship.Key.shipLevel} | " + string.Join(" | ", cells) +
+                            $" | {WinCell(ship.ToList())} |");
         }
 
         text.AppendLine();

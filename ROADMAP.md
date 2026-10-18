@@ -33,16 +33,27 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 ### 📦 Para rodar agora
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-- [ ] **Commit** — fecha as três levas de 18/10, todas testadas:
-      `git add -A` e
-      `git commit -m "Simulador de corridas, personas e conserto do Canvas do menu"`.
-      Os relatórios em `docs/simulacoes/` vão junto: o de 20h39 é a **régua** para comparar as
-      próximas mudanças (os de 19h17 e 20h31 foram ensaios; pode apagar antes, se quiser)
+**O retrato das naves** *(pedido do Raffael, 18/10)* — o primeiro dado jogado de balanceamento.
+Montar vazio: é só código e uma ficha.
 
-*A terceira leva de 18/10 fechou toda* ✅ *(Raffael, 18/10)*: Montar com 3 passos, verificações
-verdes, seleção de fase e placar no lugar novo, Super IA igual, Compêndio, Rastro na Fase 3,
-Espreitador, e a primeira rodada do simulador — 75 corridas, o Play fechou sozinho e o
-salvamento não mudou. A leitura do relatório está em ⚖️, *"Os números das cinco personas"*.
+- [ ] **Commit antes** —
+      `git add -A` e `git commit -m "Perfeito com 0,08 s e tabela de naves no relatório"`
+- [ ] **A rodada** — **Tools → Corrida no Espaço → Simulador de corridas**:
+      - **Personas:** as 5 · **Naves:** todas as 5 · **Níveis da nave:** `1, 15, 40, 60`
+      - **Fases:** 1, 2 e 3 · **Dificuldade:** Normal · **Repetições:** 5 · semente 1
+      - São **1.500 corridas**. A de 75 levou 3 min, então conte **perto de 1 hora** — nos
+        níveis altos a corrida acaba mais cedo, deve sair menos. A janela mostra a estimativa
+        antes de rodar. Pode deixar rodando e fazer outra coisa; "Parar e salvar" a qualquer
+        momento ainda gera relatório do que rodou
+      - Quando terminar, **me avise**. O relatório ganhou uma tabela nova, **uma linha por nave e
+        nível** com as cinco personas e o total — é onde a discrepância aparece
+
+*O que mudou para esta rodada:* o **Perfeito reage em 0,08 s** em vez de 0 *(pedido do Raffael)*,
+na ficha e na receita do `SimulationSetup`. Por isso o relatório de 20h39 deixa de ser régua
+para o Perfeito — as outras quatro personas continuam comparáveis.
+
+*A terceira leva de 18/10 fechou toda* ✅ *(Raffael, 18/10)*, com commit. A leitura da primeira
+rodada está em ⚖️, *"Os números das cinco personas"*.
 
 ### 🛒 Play Console — acompanhar
 - [ ] **A primeira revisão da Play** — os 10 itens (página do app e declarações de 08/08) foram
@@ -113,7 +124,9 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
         Fase 1 premia isso. Os degraus de baixo estão perto demais, ou a régua (Fase 1 a 3 no
         nv 1) não separa esses três
       - **O degrau Veterano → Perfeito é um penhasco** (2/5 e 1/5 contra 5/5 nas Fases 2 e 3).
-        Reflexo zero não é humano; um "Perfeito" de 0,08 s seria o teto alcançável por gente
+        Reflexo zero não é humano; um "Perfeito" de 0,08 s seria o teto alcançável por gente.
+        **Feito** *(pedido do Raffael, 18/10)*: o Perfeito agora reage em 0,08 s — a rodada das
+        naves (📦) é a primeira com ele
       - **A Fase 1 → Fase 2 é um penhasco do jogo, não das personas:** com a Nave inicial no
         nível 1, até o Veterano cai de 100% para 40%. Pode ser o certo (a nave evolui antes), mas
         é o primeiro número **jogado** para a conversa da curva — vale rodar com o nível 15
@@ -376,7 +389,8 @@ cinco por vir), e a lista 📱 fechou em 17/10.
 - **Tudo testado pelo Raffael** — e o **`Montar.cs` voltou a ficar vazio**
 
 ### O que vem agora
-1. **Commit** (📦 da Lista)
+1. **O retrato das naves** (📦 da Lista) — as 5 naves nos níveis 1, 15, 40 e 60, as 5
+   personas, Fases 1 a 3, Normal, 5 repetições; depois, ler juntos atrás de discrepância
 2. **Afinar as personas** pela leitura em ⚖️ — depois, as **personas sob encomenda** (🤖, mais
    para frente): testes que o Raffael define, com resultado específico
 3. **Decidir a Super IA enxergar estilhaço** (🤖)
@@ -2857,7 +2871,7 @@ modificador, fase, obstáculo.*
       | 2 | Casual | 0,32 s | 3,8 | 12% | 15% | desvia | no aperto |
       | 3 | Regular | 0,22 s | 4,5 | 6% | 40% | desvia | no aperto |
       | 4 | Veterano | 0,15 s | 5 | 2% | 75% | desvia | esperto |
-      | 5 | Perfeito | 0 | 5 | 0 | sempre | desvia | esperto |
+      | 5 | Perfeito | 0,08 s *(era 0 até 18/10, à noite)* | 5 | 0 | sempre | desvia | esperto |
 
       Também mudam de uma para outra: de quanto em quanto tempo olham a pista, o tempo entre
       um arraste e outro, até onde enxergam e se vão atrás de Reforço. "Esperto" é: no aperto,
