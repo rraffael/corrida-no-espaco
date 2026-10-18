@@ -1,0 +1,11 @@
+﻿persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado
+Novato;1;Nave inicial;1;Fase 1 — Cinturão;Difícil;1;Derrota;26,63;246,34;145;;7;3;0;0
+Casual;2;Nave inicial;1;Fase 1 — Cinturão;Difícil;1;Derrota;14,37;100,83;106;;2;3;0;0
+Regular;3;Nave inicial;1;Fase 1 — Cinturão;Difícil;1;Derrota;33,5;363,66;171;;7;3;0;0
+Veterano;4;Nave inicial;1;Fase 1 — Cinturão;Difícil;1;Derrota;46;595,02;181;;9;3;0;0
+Perfeito;5;Nave inicial;1;Fase 1 — Cinturão;Difícil;1;Vitoria;42,27;620,22;190;38,77;5;0;1;0
+Novato;1;Nave inicial;1;Fase 1 — Cinturão;Difícil;2;Derrota;28,7;279,54;139;;7;3;0;0
+Casual;2;Nave inicial;1;Fase 1 — Cinturão;Difícil;2;Derrota;21,3;169,38;113;;5;3;0;0
+Regular;3;Nave inicial;1;Fase 1 — Cinturão;Difícil;2;Derrota;33,7;327,92;153;;9;3;0;0
+Veterano;4;Nave inicial;1;Fase 1 — Cinturão;Difícil;2;Derrota;63,6;829,79;190;62,17;8;3;0;0
+Perfeito;5;Nave inicial;1;Fase 1 — Cinturão;Difícil;2;Vitoria;61,13;813,58;190;57,63;4;0;1;0

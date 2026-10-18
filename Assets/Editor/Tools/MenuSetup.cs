@@ -53,7 +53,7 @@ static class MenuSetup
             return;
         }
 
-        var canvas = Object.FindAnyObjectByType<Canvas>();
+        var canvas = MenuCanvas();
         if (canvas == null)
         {
             Debug.LogError("[Menu] Nenhum Canvas na cena.");
@@ -259,7 +259,7 @@ static class MenuSetup
     /// </summary>
     internal static void RelayoutButtons()
     {
-        var canvas = Object.FindAnyObjectByType<Canvas>();
+        var canvas = MenuCanvas();
         if (canvas == null)
             return;
 
@@ -405,6 +405,30 @@ static class MenuSetup
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// O Canvas do menu — o que tem a coluna de botões. A cena tem mais de um (o
+    /// aviso de conquista tem o próprio, por cima de tudo), e o
+    /// <c>FindAnyObjectByType</c> devolve qualquer um: foi assim que o Compêndio
+    /// de 18/10 deixou de montar, sem acusar nada no Montar.
+    /// </summary>
+    internal static Canvas MenuCanvas()
+    {
+        Canvas fallback = null;
+        foreach (var canvas in Object.FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (canvas.transform.Find(ButtonsRoot) != null)
+                return canvas;
+
+            // Antes do primeiro "Montar menu" ainda não há coluna; vale o Canvas
+            // de topo da cena, nunca um aninhado ou o do aviso.
+            if (canvas.transform.parent == null && canvas.name != AchievementsSetup.ToastName &&
+                (fallback == null || canvas.name == "Canvas"))
+                fallback = canvas;
+        }
+
+        return fallback;
     }
 
     static Scene OpenMenuScene()

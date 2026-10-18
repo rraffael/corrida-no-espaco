@@ -81,9 +81,24 @@ public static class CareerStats
 
     public static void AddCrash() => pendingCrashes++;
 
+    /// <summary>Batidas da corrida em andamento. Zera no <see cref="RaceEnded"/>, como os abates.</summary>
+    public static int RaceCrashes => pendingCrashes;
+
+    /// <summary>
+    /// Abates e batidas da corrida que acabou de terminar. Existe para o
+    /// simulador de corridas, que só olha depois do fim — quando os pendentes já
+    /// foram zerados.
+    /// </summary>
+    public static int LastRaceKills { get; private set; }
+
+    public static int LastRaceCrashes { get; private set; }
+
     /// <summary>A corrida chegou ao fim. Soma tudo e grava uma vez.</summary>
     public static void RaceEnded(Outcome outcome, float distance, float seconds)
     {
+        LastRaceKills = pendingKills;
+        LastRaceCrashes = pendingCrashes;
+
         var data = Data;
 
         data.races++;

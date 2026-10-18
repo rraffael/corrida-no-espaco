@@ -92,6 +92,12 @@ quê**, não o que a linha já diz.
   verificação aqui.** Em 26/09/2026 eram 223, todas passando
 - **Painel de balanceamento**: menu **Tools → Corrida no Espaço → Balanceamento** — naves nos
   níveis de patamar, tempo estimado até a dobra e tiros por obstáculo
+- **Simulador de corridas** *(18/10/2026)*: menu **Tools → Corrida no Espaço → Simulador de
+  corridas** — as cinco personas (`Assets/Simulacao/Personas/`, do Novato ao Perfeito) jogam a
+  Game.unity em Play acelerado, e o relatório sai em `docs/simulacoes/` (`.md` + `.csv`). É o
+  jeito de medir balanceamento **jogado**: rodar o mesmo plano antes e depois de mexer em nave,
+  fase, obstáculo ou modificador — as sementes se repetem. Várias repetições por combinação,
+  porque a fase é sorteada. Quem roda é o Raffael; eu leio o relatório
 - **Salvamento**: `save.json` em `Application.persistentDataPath`, pelo `Services/SaveGame.cs`.
   Tudo o que é do jogador mora ali — nada de `PlayerPrefs` novo. Menu **Testes → Apagar o
   salvamento** zera no Editor

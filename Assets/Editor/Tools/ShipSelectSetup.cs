@@ -41,7 +41,7 @@ static class ShipSelectSetup
             return;
         }
 
-        var canvas = Object.FindAnyObjectByType<Canvas>();
+        var canvas = MenuSetup.MenuCanvas();
         if (canvas == null)
         {
             Debug.LogError("[Naves] Nenhum Canvas na cena.");

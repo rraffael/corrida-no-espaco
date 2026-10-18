@@ -29,6 +29,7 @@ static class ProjectTools
 
     public const string PreflightItem = MenuRoot + "Conferir configuração";
     public const string BalanceItem = MenuRoot + "Balanceamento";
+    public const string SimulatorItem = MenuRoot + "Simulador de corridas";
     public const string ChecksItem = MenuRoot + "Testes/Rodar verificações";
     public const string DeleteSaveItem = MenuRoot + "Testes/Apagar o salvamento";
     public const string AndroidSdkItem = MenuRoot + "Conferir SDK do Android";
@@ -54,8 +55,7 @@ static class ProjectTools
     public const string AchievementsUndoItem = MenuRoot + "Montagem/Desmontar conquistas";
     public const string CompendiumItem = MenuRoot + "Montagem/Montar compêndio";
     public const string CompendiumUndoItem = MenuRoot + "Montagem/Desmontar compêndio";
-
-    public const string RastroFase3Item = MenuRoot + "Correções/Pôr o Rastro na Fase 3";
+    public const string PersonasItem = MenuRoot + "Montagem/Criar personas do simulador";
 
     public const string RaceId = "corrida-fundo-hud";
     public const string LevelsId = "fases-e-obstaculos";
@@ -67,6 +67,7 @@ static class ProjectTools
     public const string ShipSelectId = "aba-de-naves";
     public const string AchievementsId = "conquistas";
     public const string CompendiumId = "compendio";
+    public const string PersonasId = "personas-do-simulador";
 
     /// <summary>
     /// O diário vive em <c>UserSettings/</c>, que o .gitignore já ignora: é
@@ -198,17 +199,26 @@ static class ProjectTools
         },
         new Tool
         {
-            Title = "Correção — Pôr o Rastro na Fase 3",
-            Summary = "Acrescenta o Rastro à Fase 3, na mesma janela do Casulo. Roda uma vez pelo Montar e " +
-                      "sai do projeto depois.",
-            MenuPath = RastroFase3Item,
-        },
-        new Tool
-        {
             Title = "Balanceamento",
             Summary = "Todas as naves nos níveis 1, 15, 40 e 60, com os atributos de cada um e o tempo " +
                       "estimado até completar a dobra em cada dificuldade. Estimativa, não simulação.",
             MenuPath = BalanceItem,
+        },
+        new Tool
+        {
+            Id = PersonasId,
+            Title = "Criar personas do simulador",
+            Summary = "As cinco personas do simulador de corridas, do Novato ao Perfeito, em " +
+                      "Assets/Simulacao/Personas/. Rodar de novo não sobrescreve o que você ajustou.",
+            MenuPath = PersonasItem,
+        },
+        new Tool
+        {
+            Title = "Simulador de corridas",
+            Summary = "Joga corridas de verdade com as personas, em Play acelerado, e escreve o relatório " +
+                      "em docs/simulacoes/. Para comparar nave, fase, obstáculo e modificador antes e " +
+                      "depois de mexer. Não grava nada no salvamento.",
+            MenuPath = SimulatorItem,
         },
         new Tool
         {

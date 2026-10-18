@@ -1,0 +1,16 @@
+﻿persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado
+Novato;1;Nave inicial;60;Fase 3 — Ninho;Difícil;1;Derrota;23,07;247,13;156;;6;4;0;0
+Regular;3;Nave inicial;60;Fase 3 — Ninho;Difícil;1;Derrota;26,97;283,04;182;;7;5;0;0
+Perfeito;5;Nave inicial;60;Fase 3 — Ninho;Difícil;1;Vitoria;14,73;219,5;190;11,23;5;0;1;0
+Novato;1;Nave inicial;60;Fase 3 — Ninho;Difícil;2;Derrota;30,27;328,14;190;30,1;9;4;0;0
+Regular;3;Nave inicial;60;Fase 3 — Ninho;Difícil;2;Derrota;43,23;500,62;181;;8;5;0;0
+Perfeito;5;Nave inicial;60;Fase 3 — Ninho;Difícil;2;Vitoria;19,87;278,85;190;16,37;5;0;1;0
+Novato;1;Nave inicial;60;Fase 3 — Ninho;Difícil;3;Derrota;19,33;183,88;161;;5;5;0;0
+Regular;3;Nave inicial;60;Fase 3 — Ninho;Difícil;3;Derrota;38,07;522,03;190;10,93;14;5;0;0
+Perfeito;5;Nave inicial;60;Fase 3 — Ninho;Difícil;3;Vitoria;14,43;214,36;190;10,93;6;0;1;0
+Novato;1;Nave inicial;60;Fase 3 — Ninho;Difícil;4;Vitoria;12,77;192,4;190;9,27;7;0;1;0
+Regular;3;Nave inicial;60;Fase 3 — Ninho;Difícil;4;Derrota;29,83;372,55;190;9,17;11;5;0;0
+Perfeito;5;Nave inicial;60;Fase 3 — Ninho;Difícil;4;Vitoria;12,53;189,32;190;9,03;7;0;1;0
+Novato;1;Nave inicial;60;Fase 3 — Ninho;Difícil;5;Derrota;30;353,93;190;24,03;12;4;0;0
+Regular;3;Nave inicial;60;Fase 3 — Ninho;Difícil;5;Derrota;29,47;330,3;156;;7;4;0;0
+Perfeito;5;Nave inicial;60;Fase 3 — Ninho;Difícil;5;Vitoria;19,73;282,31;190;16,23;6;0;1;0

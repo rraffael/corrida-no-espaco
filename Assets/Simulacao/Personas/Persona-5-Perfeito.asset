@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbcb8353b073974f88afda4a47604c3, type: 3}
+  m_Name: Persona-5-Perfeito
+  m_EditorClassIdentifier: Assembly-CSharp::PilotPersona
+  displayName: Perfeito
+  description: "A Super IA jogando o tempo todo, e ca\xE7ando: reage no mesmo quadro,
+    nunca erra, cruza as faixas de uma vez. \xC9 o teto \u2014 se ele n\xE3o vence,
+    ningu\xE9m vence."
+  skillRank: 5
+  reactionSeconds: 0
+  thinkInterval: 0
+  swipeInterval: 0
+  dangerDistance: 5
+  clearDistance: 7
+  lookAhead: 14
+  mistakeChance: 0
+  huntChance: 1
+  seeksRewards: 1
+  avoidsDebuffs: 1
+  powerHabit: 3

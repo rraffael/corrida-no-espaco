@@ -106,7 +106,9 @@ public static class SaveGame
     /// <summary>Grava o que está em memória. Os serviços chamam depois de mudar algo.</summary>
     public static void Save()
     {
-        if (data == null)
+        // No rascunho, nada vai para o disco: é o simulador jogando centenas de
+        // corridas, e nenhuma delas é do jogador.
+        if (data == null || IsSandboxed)
             return;
 
         data.version = CurrentVersion;
@@ -259,5 +261,34 @@ public static class SaveGame
     /// mesmo depois de apagado no disco.
     /// </summary>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-    static void ResetOnLoad() => data = null;
+    static void ResetOnLoad()
+    {
+        data = null;
+        IsSandboxed = false;
+    }
+
+    // ── Rascunho (simulador de corridas) ─────────────────────────────────
+
+    /// <summary>
+    /// O salvamento em memória é um rascunho em branco, e <see cref="Save"/> não
+    /// grava nada. É o que deixa o simulador mexer no nível da nave, vencer fase
+    /// e entrar em placar sem encostar no save.json de quem está testando.
+    /// </summary>
+    public static bool IsSandboxed { get; private set; }
+
+    public static void UseSandbox()
+    {
+        data = new SaveData();
+        IsSandboxed = true;
+    }
+
+    /// <summary>Sai do rascunho. O próximo acesso relê o arquivo de verdade.</summary>
+    public static void EndSandbox()
+    {
+        if (!IsSandboxed)
+            return;
+
+        data = null;
+        IsSandboxed = false;
+    }
 }

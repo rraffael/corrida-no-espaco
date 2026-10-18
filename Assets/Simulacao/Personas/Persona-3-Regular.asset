@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbcb8353b073974f88afda4a47604c3, type: 3}
+  m_Name: Persona-3-Regular
+  m_EditorClassIdentifier: Assembly-CSharp::PilotPersona
+  displayName: Regular
+  description: "O jogador m\xE9dio. Rea\xE7\xE3o de gente atenta, erra pouco, vai
+    atr\xE1s de pr\xEAmio e ca\xE7a obst\xE1culo quando a pista est\xE1 calma. Poder
+    no aperto."
+  skillRank: 3
+  reactionSeconds: 0.22
+  thinkInterval: 0.1
+  swipeInterval: 0.15
+  dangerDistance: 4.5
+  clearDistance: 6
+  lookAhead: 12
+  mistakeChance: 0.06
+  huntChance: 0.4
+  seeksRewards: 1
+  avoidsDebuffs: 1
+  powerHabit: 2

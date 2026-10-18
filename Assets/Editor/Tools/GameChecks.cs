@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEditor;
@@ -153,6 +154,7 @@ static class GameChecks
             CheckLevels(report);
             CheckAchievements(report);
             CheckCompendium(report);
+            CheckPersonas(report);
             CheckSaveRoundTrip(report);
             CheckLeaderboardLayout(report);
             CheckLeaderboardOrder(report);
@@ -661,6 +663,42 @@ static class GameChecks
                 report.Warn(modifiers.Contains(modifier),
                             $"modificador {modifier.name} fora do compêndio — rode o Montar para ele aparecer");
         }
+    }
+
+    /// <summary>
+    /// As personas do simulador sobem de habilidade com o número: cada uma reage
+    /// no máximo tão devagar e erra no máximo tanto quanto a de baixo. Se uma
+    /// ficha for afinada fora de ordem, a comparação entre elas deixa de dizer
+    /// "do pior ao melhor".
+    /// </summary>
+    static void CheckPersonas(Report report)
+    {
+        var personas = AssetDatabase.FindAssets("t:PilotPersona")
+            .Select(guid => AssetDatabase.LoadAssetAtPath<PilotPersona>(AssetDatabase.GUIDToAssetPath(guid)))
+            .Where(p => p != null)
+            .OrderBy(p => p.skillRank)
+            .ToList();
+
+        report.Warn(personas.Count > 0, "nenhuma persona do simulador — rode o Montar");
+
+        for (int i = 1; i < personas.Count; i++)
+        {
+            var worse = personas[i - 1];
+            var better = personas[i];
+            string pair = $"persona {better.displayName} acima de {worse.displayName}";
+
+            report.Warn(better.skillRank != worse.skillRank, $"{pair}: as duas têm o mesmo número de habilidade");
+            report.Warn(better.reactionSeconds <= worse.reactionSeconds, $"{pair}, mas reage mais devagar");
+            report.Warn(better.mistakeChance <= worse.mistakeChance, $"{pair}, mas erra mais");
+        }
+
+        // O rascunho do simulador não pode gravar, e sair dele tem de soltar o
+        // salvamento de verdade.
+        SaveGame.UseSandbox();
+        report.Check(SaveGame.IsSandboxed && SaveGame.Data.stagesCleared == 0,
+                     "simulador: o salvamento vira rascunho em branco");
+        SaveGame.EndSandbox();
+        report.Check(!SaveGame.IsSandboxed, "simulador: sair do rascunho volta ao salvamento de verdade");
     }
 
     /// <summary>O salvamento vai e volta pelo JSON sem perder nada.</summary>

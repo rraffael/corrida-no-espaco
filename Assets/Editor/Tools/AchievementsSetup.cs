@@ -26,7 +26,7 @@ static class AchievementsSetup
 
     const string PanelName = "PainelConquistas";
     const string MenuButton = "BotaoConquistas";
-    const string ToastName = "AvisoConquista";
+    internal const string ToastName = "AvisoConquista";
     const string ButtonsRoot = "Botoes";
 
     static readonly Vector2 BoxSize = new Vector2(880f, 1320f);
@@ -43,7 +43,7 @@ static class AchievementsSetup
             return;
 
         var menu = Object.FindAnyObjectByType<Menu>();
-        var canvas = Object.FindAnyObjectByType<Canvas>();
+        var canvas = MenuSetup.MenuCanvas();
         var buttons = canvas != null ? canvas.transform.Find(ButtonsRoot) as RectTransform : null;
         if (menu == null || buttons == null)
         {

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbcb8353b073974f88afda4a47604c3, type: 3}
+  m_Name: Persona-4-Veterano
+  m_EditorClassIdentifier: Assembly-CSharp::PilotPersona
+  displayName: Veterano
+  description: "Conhece o jogo. Reflexo r\xE1pido, quase n\xE3o erra, ca\xE7a quase
+    sempre e guarda o poder para o aperto e para o fim da dobra."
+  skillRank: 4
+  reactionSeconds: 0.15
+  thinkInterval: 0.05
+  swipeInterval: 0.1
+  dangerDistance: 5
+  clearDistance: 7
+  lookAhead: 14
+  mistakeChance: 0.02
+  huntChance: 0.75
+  seeksRewards: 1
+  avoidsDebuffs: 1
+  powerHabit: 3

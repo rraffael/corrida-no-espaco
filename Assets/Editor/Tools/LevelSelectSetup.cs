@@ -39,7 +39,7 @@ static class LevelSelectSetup
             return;
         }
 
-        var canvas = Object.FindAnyObjectByType<Canvas>();
+        var canvas = MenuSetup.MenuCanvas();
         if (canvas == null)
         {
             Debug.LogError("[Seleção] Nenhum Canvas na cena.");

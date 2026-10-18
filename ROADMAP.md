@@ -33,53 +33,16 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 ### 📦 Para rodar agora
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-**A segunda leva de 18/10/2026** — o que saiu do seu check: carência e passiva do Espreitador,
-o nome **Intangibilidade**, o Rastro na Fase 3, o placar por linha com a velocidade máxima, o
-troféu da sem fim e o **Compêndio**. Os detalhes estão em *"Leva de 18/10/2026"* na Fase 6.
+- [ ] **Commit** — fecha as três levas de 18/10, todas testadas:
+      `git add -A` e
+      `git commit -m "Simulador de corridas, personas e conserto do Canvas do menu"`.
+      Os relatórios em `docs/simulacoes/` vão junto: o de 20h39 é a **régua** para comparar as
+      próximas mudanças (os de 19h17 e 20h31 foram ensaios; pode apagar antes, se quiser)
 
-- [ ] **Commit antes do Montar** — o Montar roda um conserto pontual (o Rastro na Fase 3), e
-      conserto pontual sai do projeto depois; sem o commit não há de onde resgatar
-- [ ] **Montar** — 5 passos: naves e poderes → Rastro na Fase 3 → Game.unity → seleção de fase
-      → Compêndio. **Atenção:** o primeiro passo **renomeia** `Poder-Atravessar` e
-      `Poder-Atravessar-Upgrade2` para `Poder-Intangibilidade…` pelo AssetDatabase (o `.meta`
-      vai junto e a nave não perde a ficha). No commit seguinte, o git vai mostrar o arquivo
-      antigo apagado e o novo criado — é isso mesmo
-- [ ] **Testes → Rodar verificações** tudo verde. Entraram: o Compêndio com toda ficha e todo
-      obstáculo com descrição, e a velocidade máxima no placar indo e voltando pelo JSON
-- [ ] **Depois do Montar e das verificações, me avise** — eu apago o `RastroNaFase3.cs` (com o
-      `.meta`) e registro aqui como trazer de volta
-
-**Para testar desta leva:**
-- [ ] **Espreitador — a carência:** ative a Intangibilidade e deixe os 3 s acabarem **dentro**
-      de uma Barcaça. Não pode bater; e, depois de sair dela, um obstáculo novo bate normal
-- [ ] **Espreitador — o nome:** a aba de naves mostra **Intangibilidade** no Ativo e
-      **Intangibilidade perfeita — destrava no nível 60** no Passivo
-- [ ] **Espreitador — o nível 60** (evolua com o "Nv máx"): intangível, passe ao lado de um
-      **Rastro** — não puxa. E passe por cima de um **Debilitante** (vermelho) — não pega.
-      Abaixo do 60, os dois continuam pegando. *Ver a decisão da imunidade em ✏️*
-- [ ] **O Rastro na Fase 3** — aparece entre os 12 e 20 s, junto do Casulo. Os testes dele
-      continuam valendo: passar **ao lado** sem atirar → ao sumir embaixo, a nave é puxada uma
-      faixa para o lado dele; **destruído, não puxa**
-- [ ] **O placar por linha** — agora cada linha é uma peça: posição, piloto, nave, pontuação e a
-      última coluna. Confira nos três lugares (troféu na seleção, vitória da fase, fim da sem
-      fim): o cabeçalho fica parado no alto enquanto a lista rola, as colunas não encavalam, a
-      linha dourada sobe e a rolagem a acompanha
-- [ ] **A velocidade máxima** — só na sem fim, na coluna **Vel. máx.** Corridas salvas antes
-      desta leva mostram "—" ali (elas não guardaram)
-- [ ] **O troféu da sem fim** — a linha da sem fim agora tem troféu; o placar abre com o título
-      "Sem fim", sem dificuldade, e o Jogar dali passa pelo pódio, como sempre
-- [ ] **O Compêndio** — botão novo no menu, entre Conquistas e Sair. Três abas; cada cartão com
-      imagem, descrição, Atributos, Poder e Extra. **Confira o conteúdo:** as descrições dos
-      quatro obstáculos são **rascunho meu** (o campo nasceu agora), e o resto sai das fichas.
-      Para mudar um texto, é editar a ficha: `description` e o campo novo **Extra Notes**, que
-      toda nave, obstáculo e modificador ganhou
-
-**Ainda da leva de 17/10, que não deu para testar:**
-- [ ] **O menu em duas resoluções** — no Game, em 1080x1920 e em 1080x2400: o título acompanha
-      o topo e não encosta nos botões. *Agora são cinco botões, com o Compêndio*
-- [ ] **A Super IA contra a Barcaça na beirada** — com a Raffa, fique na faixa da beirada, deixe
-      uma Barcaça vir ocupando a sua faixa e a do meio, e ligue a Super IA: ela tem de cruzar
-      para o outro lado. Fase 2 ou 3, de preferência no Difícil
+*A terceira leva de 18/10 fechou toda* ✅ *(Raffael, 18/10)*: Montar com 3 passos, verificações
+verdes, seleção de fase e placar no lugar novo, Super IA igual, Compêndio, Rastro na Fase 3,
+Espreitador, e a primeira rodada do simulador — 75 corridas, o Play fechou sozinho e o
+salvamento não mudou. A leitura do relatório está em ⚖️, *"Os números das cinco personas"*.
 
 ### 🛒 Play Console — acompanhar
 - [ ] **A primeira revisão da Play** — os 10 itens (página do app e declarações de 08/08) foram
@@ -128,6 +91,33 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
 - [ ] **Os números do Espreitador** — 3 s de efeito, 5 un/s a menos no fim, 1 uso (2 no nível
       40). **A recarga de 20 s entre os dois usos foi chute meu**: o pedido não dizia, e ela só
       pesa no upgrade *(Parte 5)*
+- [ ] **Os números das cinco personas** *(chute meu, 18/10)* — reflexo de 0,45 s no Novato a 0 no
+      Perfeito, erro de 25% a 0, caça de 0 a 100%. Cada uma é uma ficha em
+      `Assets/Simulacao/Personas/` — as verificações avisam se uma ficar fora de ordem.
+      **A primeira rodada** (`docs/simulacoes/2026-10-18_20h39.md`: Nave inicial nv 1, Fases 1–3,
+      Normal, 5 repetições) — vitórias:
+
+      | Persona | Fase 1 | Fase 2 | Fase 3 |
+      |---|---|---|---|
+      | Novato | 5/5 | 0/5 | 0/5 |
+      | Casual | 5/5 | 0/5 | 0/5 |
+      | Regular | 4/5 | 1/5 | 0/5 |
+      | Veterano | 5/5 | 2/5 | 1/5 |
+      | Perfeito | 5/5 | 5/5 | 5/5 |
+
+      **Leitura do Claude, para conversar — nada foi mexido:**
+      - **As pontas funcionam:** o Perfeito vence tudo sem bater, e o Veterano é o melhor dos
+        humanos nas três fases
+      - **Novato, Casual e Regular saem iguais** (5 de 15 cada). Na Fase 1 o Novato vence com 90%
+        de vida, mais que o Casual e o Regular — ele não caça e quase não troca de faixa, e a
+        Fase 1 premia isso. Os degraus de baixo estão perto demais, ou a régua (Fase 1 a 3 no
+        nv 1) não separa esses três
+      - **O degrau Veterano → Perfeito é um penhasco** (2/5 e 1/5 contra 5/5 nas Fases 2 e 3).
+        Reflexo zero não é humano; um "Perfeito" de 0,08 s seria o teto alcançável por gente
+      - **A Fase 1 → Fase 2 é um penhasco do jogo, não das personas:** com a Nave inicial no
+        nível 1, até o Veterano cai de 100% para 40%. Pode ser o certo (a nave evolui antes), mas
+        é o primeiro número **jogado** para a conversa da curva — vale rodar com o nível 15
+      - **O poder não foi medido:** a Nave inicial não tem poder ativo
 - [ ] **O painel bate com o jogo?** — o tempo até a dobra que o painel estima para o nível 1 tem
       de parecer com o que se sente jogando. Se não bater, a estimativa precisa de ajuste antes de
       servir para balancear
@@ -175,13 +165,6 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
       disponíveis: corridas, vitórias, corridas sem fim, abates, distância total, evoluções de nave e melhor
       distância sem fim. Conquista que precise de outra condição pede um contador novo — é só
       pedir *(Parte 8)*
-- [ ] **A imunidade do nível 60 — o que ela cobre** *(escolha minha ao escrever, confirme)*:
-      enquanto a Intangibilidade dura, a Intangibilidade perfeita **ignora o vácuo do Rastro e
-      deixa passar o modificador Debilitante** sem pegar. **Reforço e Especial continuam sendo
-      pegos** — li "imune" como proteção, e perder um Reforço por estar intangível pareceu
-      castigo. E um Debilitante **que já estava valendo** antes de ativar o poder continua
-      valendo. Se "imunidade total" era para atravessar também os modificadores bons, ou para
-      suspender o Debilitante ativo, é uma linha cada
 - [ ] **O pódio antes da sem fim** — você pensou em manter o top 10 antes da corrida, mas deixou
       para depois: o troféu da sem fim já resolve ver o placar sem jogar. Fica aqui para quando
       quiser voltar a isso
@@ -211,16 +194,23 @@ Raffael pedir pelo nome.*
 
 **Próximos, na ordem sugerida:**
 
-- [ ] **Um piloto automático de teste, para medir limites** *(proposta, a partir da sua pergunta
-      de 18/10: "dá para o Claude jogar o jogo?")*. Eu não consigo jogar de verdade — não vejo a
-      tela da Unity nem toco nela. Mas dá para fazer o próximo melhor: um **simulador de corridas
-      no Editor**, que roda a Game.unity em modo acelerado com um piloto robô (o mesmo cérebro
-      da Super IA, com reflexo e erro configuráveis) e joga **centenas de corridas** por nave,
-      nível, fase e dificuldade. Sai uma tabela: taxa de vitória, tempo até a dobra, batidas,
-      quanto cada poder muda o resultado e onde a dificuldade quebra. É o painel de
-      balanceamento, só que **jogado** em vez de estimado. *Pede o seu OK para começar* — é
-      uma peça de ferramenta grande, e só mede o que o robô sabe fazer: diz onde o jogo é
-      impossível ou fácil demais, não se ele é divertido
+- [ ] **A Super IA não enxerga estilhaço** *(achado de 18/10, ao escrever o simulador)* — ela
+      lê obstáculo e Debilitante, mas o estilhaço do Casulo não tem lista de vivos, então ela
+      (e as personas, que pensam com o mesmo cérebro) passa por cima dele sem saber. Dar a lista
+      ao estilhaço e pôr na leitura da pista é pouca coisa, **mas muda a Super IA, que você
+      acabou de testar** — por isso espera o seu OK. O simulador mede o antes e o depois
+- [ ] **Simulador: a sem fim por "quanto aguenta"** — hoje a sem fim tem teto de 300 s no
+      simulador, para não rodar para sempre com o Perfeito. Se o Perfeito bater o teto sempre,
+      vale trocar o teto por "distância em que metade das corridas já caiu"
+
+**Mais para frente** *(pedido do Raffael, 18/10/2026)*:
+
+- [ ] **As personas sob encomenda** — hoje o simulador é uma janela de marcar e rodar. A ideia é
+      evoluir para **testes específicos que o Raffael define** ("a nave X passa da Fase 3 no
+      Difícil?", "o modificador Y faz o Regular vencer mais?") com **resultados específicos**, e
+      com o tempo ficar tudo automatizado. Antes disso, **avaliar e afinar as personas** pelos
+      relatórios: o degrau de cada uma, o uso do poder (ainda não visto: os ensaios foram com a
+      Nave inicial, que não tem poder ativo) e a caça. O formato do teste e o que o resultado deve dizer são dele
 
 - [ ] **60 quadros por segundo no celular** — *só com o OK do Raffael*. O jogo não pede taxa de
       quadros, e no celular a Unity roda a **30** por padrão. Pedir 60 deixa tudo mais liso e dobra a margem de
@@ -356,11 +346,10 @@ Raffael pedir pelo nome.*
 
 *Resumo para retomar rápido. O detalhe de cada item está na Lista, no topo, e nas Partes.*
 
-**Etapa atual: commit, Montar e teste da segunda leva de 18/10** — o Raffael conferiu a leva de
-17/10 (passou quase tudo) e decidiu as três pendências do Espreitador. Daí veio a segunda leva:
-carência e passiva do Espreitador, o nome **Intangibilidade**, o Rastro na Fase 3, o placar por
-linha com velocidade máxima, o troféu da sem fim e o **Compêndio**. Está **escrita, sem commit e
-sem Montar**. A próxima conversa começa pelo 📦 da Lista.
+**Etapa atual: afinar as personas** — as três levas de 18/10 estão **montadas e testadas** pelo
+Raffael, inclusive o simulador: a primeira rodada (75 corridas) fechou sozinha, sem tocar no
+salvamento. Falta só o commit. A próxima conversa começa pela leitura do relatório em ⚖️ —
+os degraus de baixo saíram iguais e o Perfeito ficou longe demais do Veterano.
 
 ### Como estava antes
 Versão 2 no teste interno desde 11/10. Chegou o retorno dos testadores (Gabriel e Nay, com mais
@@ -370,30 +359,28 @@ cinco por vir), e a lista 📱 fechou em 17/10.
 - **Do retorno do Gabriel:** placar por fase e dificuldade, aberto pelo troféu na seleção, com
   topo de 100, reticências e o jogador ±2; o placar no fim da fase com a linha subindo; o botão
   Recordes saiu do menu
-- **Pedidos do Raffael:** o obstáculo **Rastro** (puxa a nave ao passar do lado; fora de fase
-  por enquanto), a nave **Espreitador Espacial** com o poder **Atravessar** (2 usos no nível
-  40), o **brilho dourado** do poder pronto, a troca de faixa **12 → 18** e a **Super IA medindo
-  o tempo** para cruzar a faixa (agora desvia da Barcaça na beirada)
-- **Menu responsivo:** título no alto, coluna de botões com grupo de layout, título some com
-  painel aberto
-- **Um erro meu, consertado:** o segundo Montar puxou para o menu o Jogar do placar (busca por
-  nome). Veio daí o **pente fino**: nave invadindo a coluna do tempo e nome com `<` no placar,
-  consertados; o Atravessar acabando dentro de obstáculo, para decidir
-- **O conserto `LaneChangeSpeedFix` rodou e saiu do projeto**
-- **O check do Raffael (18/10):** menu, placar, Espreitador, brilho e troca de faixa passaram.
-  Ficaram sem teste o menu em duas resoluções, o Rastro e a Super IA × Barcaça na beirada
-- **A segunda leva (18/10):** as três decisões viraram código (carência, Rastro puxa abaixo do
-  60 e a passiva **Intangibilidade perfeita** no 60, o nome **Intangibilidade**), o Rastro foi
-  para a Fase 3, o placar virou uma peça por linha com a **velocidade máxima** na sem fim, a sem
-  fim ganhou troféu, e o menu ganhou o **Compêndio**. Detalhe em *"Leva de 18/10/2026"*
-- **O `Montar.cs` tem 5 passos**, um deles o conserto pontual do Rastro
+- **Pedidos do Raffael:** o obstáculo **Rastro**, a nave **Espreitador Espacial**, o **brilho
+  dourado** do poder pronto, a troca de faixa **12 → 18** e a **Super IA medindo o tempo** para
+  cruzar a faixa
+- **Menu responsivo**, e o **pente fino** depois do Jogar a mais no menu
+- **A segunda leva (18/10):** carência, nome **Intangibilidade** e a passiva **Intangibilidade
+  perfeita** no 60 (alcance confirmado pelo Raffael), o Rastro na Fase 3, o placar por linha com
+  **velocidade máxima** na sem fim, o troféu da sem fim e o **Compêndio**. Montada e verificada;
+  placar testado. O conserto `RastroNaFase3` **rodou e saiu do projeto**
+- **A terceira leva (18/10): o simulador de corridas** — cinco personas, um piloto que joga pelas
+  portas do jogador com o cérebro da Super IA (`LaneSense`, tirado do `Autopilot`), corridas em
+  Play acelerado com sorte numerada e salvamento em rascunho, e o relatório em `docs/simulacoes/`
+- **O conserto do Canvas do menu:** a seleção de fase e o placar tinham sido montados dentro do
+  Canvas do aviso de conquista, e o Compêndio não montava; o Montar agora para em qualquer erro
+  do Console
+- **Tudo testado pelo Raffael** — e o **`Montar.cs` voltou a ficar vazio**
 
 ### O que vem agora
-1. **Commit, Montar, verificações e teste** pelo 📦 da Lista; depois, apagar o `RastroNaFase3`
-2. **Revisar o Compêndio** — as descrições dos obstáculos são rascunho meu
-3. **Confirmar o alcance da imunidade** do nível 60 (✏️)
-4. **Decidir o simulador de corridas** (🤖) — a resposta a "dá para o Claude jogar?"
-5. **Os outros cinco retornos** dos testadores e a **revisão da Play** (🛒)
+1. **Commit** (📦 da Lista)
+2. **Afinar as personas** pela leitura em ⚖️ — depois, as **personas sob encomenda** (🤖, mais
+   para frente): testes que o Raffael define, com resultado específico
+3. **Decidir a Super IA enxergar estilhaço** (🤖)
+4. **Os outros cinco retornos** dos testadores e a **revisão da Play** (🛒)
 
 ---
 
@@ -2681,7 +2668,7 @@ nascem funcionais e sem acabamento; esta parte é a passada única que unifica t
       corrida sem o jogador se perder. Hoje são duas cenas e uma transição de pódio
 - [ ] Testar no aparelho — fecha o MVP e abre a fase de arte, áudio e acabamento
 
-### Leva de 17/10/2026 — placares por fase, Espreitador, Rastro 🟡
+### Leva de 17/10/2026 — placares por fase, Espreitador, Rastro ✅
 *Pedido do Raffael a partir do retorno do Gabriel, que viu o pódio da sem fim antes de cada fase.
 **Reabre a decisão de 06/08/2026** de que as fases numeradas não pontuam.*
 
@@ -2731,7 +2718,9 @@ nascem funcionais e sem acabamento; esta parte é a passada única que unifica t
       ainda mostrando a dificuldade anterior
 - [x] **Verificações:** onde caem as reticências (11 casos), a ordem dos placares (6) e o placar
       de fase indo e voltando pelo JSON
-- [ ] **Montar e testar** — ver 📦 na Lista
+- [x] **Montar e testar** ✅ *(Raffael, 17 e 18/10)* — tudo passou, inclusive o menu em 1080x1920 e
+      1080x2400 e a Super IA cruzando a Barcaça na beirada. O teste do Rastro foi junto com ele
+      para a Fase 3 (ver a leva seguinte)
 - [ ] **Depois de 100 posições — muito para depois** *(pedido do Raffael)*. Local nunca passa de
       100, então as reticências e a subida longa só aparecem de verdade com o placar online
 - [ ] **Fase 7:** o placar online do Play Games entra pelo `ScoreBoard`, e o nome passa a ser o
@@ -2793,7 +2782,7 @@ nascem funcionais e sem acabamento; esta parte é a passada única que unifica t
         de batida (1,4) em um quadro só e pode **atravessar a nave sem bater** — vale para
         qualquer nave, a favor do jogador. Só na sem fim, e some junto se o jogo for a 60
 
-### Leva de 18/10/2026 — o check do Raffael, o placar por linha e o Compêndio 🟡
+### Leva de 18/10/2026 — o check do Raffael, o placar por linha e o Compêndio ✅
 *Do check que o Raffael fez da leva de 17/10: o menu, o placar, o Espreitador, o brilho e a troca
 de faixa passaram. Daí saíram as três decisões do Espreitador, o Rastro na Fase 3 e três pedidos
 novos.*
@@ -2810,8 +2799,8 @@ novos.*
       novo `ShipTrait.PhasingImmunity`; o `ShipStats.IsUntouchable` junta os dois (atravessando
       **e** imune), e é ele que o Rastro e o item da pista perguntam. Abaixo do 60 o Rastro
       continua puxando o Espreitador atravessando, como o Raffael quis
-      - **Escolhido por mim, para confirmar** (ver ✏️): a imunidade ignora o vácuo e o
-        Debilitante; Reforço e Especial continuam sendo pegos
+      - **Confirmado pelo Raffael (18/10):** a imunidade ignora o vácuo e o Debilitante novo;
+        Reforço e Especial continuam sendo pegos, e um Debilitante já ativo continua valendo
 - [x] **O Rastro na Fase 3** *(pedido do Raffael)* — na janela do Casulo (12 a 20 s), peso 1.
       Pelo conserto pontual `Correções/RastroNaFase3.cs`, porque a ficha da fase é do Raffael e
       o `LevelSetup` não reescreve ficha existente; o modelo do `LevelSetup` também ganhou o
@@ -2844,11 +2833,76 @@ novos.*
         dos obstáculos que estiverem sem uma (**rascunho meu**, para o Raffael revisar)
 - [x] **Verificações:** o Compêndio com toda ficha e todo obstáculo com descrição (avisos), e a
       velocidade máxima indo e voltando pelo JSON
-- [ ] **Montar e testar** — ver 📦 na Lista
+- [x] **Montar e verificações** ✅ *(Raffael, 18/10)* — e o **placar** passou nos três lugares,
+      com a velocidade máxima e o troféu da sem fim. O Espreitador, o Rastro na Fase 3 e o
+      Compêndio também passaram — o Compêndio só montou de fato no Montar da leva seguinte
+      (ver "O conserto do Canvas")
 
 | Conserto pontual | O que faz | Estado |
 |---|---|---|
-| `Correções/RastroNaFase3.cs` | Acrescenta o Rastro à Fase 3, na janela do Casulo. Não duplica se rodar de novo. | No Montar de 18/10. **Sai do projeto depois de rodar** |
+| `Correções/RastroNaFase3.cs` | Acrescentou o Rastro à Fase 3, na janela do Casulo. | **Rodou e foi apagado** (18/10/2026). Para trazer de volta: `git checkout 05edeb2 -- "Assets/Editor/Tools/Correções/RastroNaFase3.cs" "Assets/Editor/Tools/Correções/RastroNaFase3.cs.meta"` |
+
+### Leva de 18/10/2026 — o simulador de corridas ✅
+*Do pedido do Raffael: "cria as 5 personas, cada um com reflexos e erros diferentes, indo desde um
+muito ruim até um muito perfeito". O número de uma persona sozinha não diz muito; **a mesma
+persona em duas circunstâncias** é que vira comparação — e é para isso que ele existe: nave nova,
+modificador, fase, obstáculo.*
+
+- [x] **As cinco personas** — ficha `Simulation/PilotPersona.cs`, criadas pelo Montar em
+      `Assets/Simulacao/Personas/` (o `SimulationSetup` não sobrescreve o que for afinado):
+
+      | # | Persona | Reação | Vê perigo a | Erro | Caça | Debilitante | Poder |
+      |---|---|---|---|---|---|---|---|
+      | 1 | Novato | 0,45 s | 3 | 25% | nunca | nem repara | à toa |
+      | 2 | Casual | 0,32 s | 3,8 | 12% | 15% | desvia | no aperto |
+      | 3 | Regular | 0,22 s | 4,5 | 6% | 40% | desvia | no aperto |
+      | 4 | Veterano | 0,15 s | 5 | 2% | 75% | desvia | esperto |
+      | 5 | Perfeito | 0 | 5 | 0 | sempre | desvia | esperto |
+
+      Também mudam de uma para outra: de quanto em quanto tempo olham a pista, o tempo entre
+      um arraste e outro, até onde enxergam e se vão atrás de Reforço. "Esperto" é: no aperto,
+      no fim da dobra com perigo chegando, e à vontade se o poder recarrega
+- [x] **O piloto** — `Simulation/SimulatedPilot.cs`. **Joga pelas portas do jogador**: uma faixa
+      por arraste, o poder pelo mesmo `Activate` do toque duplo. Decide, espera a reação e só
+      então move — sem reconferir, que é o custo do atraso. Erra congelando ou fugindo para o
+      lado errado. Caça indo para a faixa de um obstáculo que dá tempo de destruir. O relógio
+      dele anda em tempo de gente: no tempo lento, o reflexo não fica mais lento
+- [x] **O mesmo cérebro da Super IA** — a leitura da pista saiu do `Autopilot` para
+      `Gameplay/LaneSense.cs`, com as contas idênticas; o `Autopilot` só passou a usá-la. Assim
+      um conserto na Super IA vale para as personas também
+- [x] **O simulador** — `Simulation/RaceSimulation.cs` roda o plano dentro do Play: recarrega a
+      Game.unity a cada corrida, põe o piloto e anota o desfecho
+      - **Quadro fixo** (`Time.captureDeltaTime`, 1/30 s como no celular, ou 1/60): o Editor roda
+        tão rápido quanto aguenta, e cada quadro vale o mesmo tempo de jogo
+      - **Sorte numerada:** cada repetição tem uma semente, as cinco personas largam com a
+        mesma, e o mesmo plano rodado depois de uma mudança repete as largadas. O dado do piloto
+        é separado do da fase, para errar não mudar o que a fase sorteia
+      - **O salvamento vira rascunho** (`SaveGame.UseSandbox`): evoluir nave, vencer fase e
+        entrar em placar acontecem só em memória
+      - Teto de 240 s nas fases (vira "esgotou") e 300 s na sem fim
+- [x] **A janela** — **Tools → Corrida no Espaço → Simulador de corridas**: personas, naves,
+      níveis, fases, dificuldades, repetições, sementes, tetos. Diz quantas corridas e, depois da
+      primeira rodada, quanto tempo deve levar. "Parar e salvar o que já rodou" a qualquer momento
+- [x] **O relatório** — `docs/simulacoes/AAAA-MM-DD_HHhMM.md` e `.csv` (ponto e vírgula, abre no
+      Excel em português). Vitórias por persona × fase e por persona × nave, distância da sem fim,
+      e o detalhe de cada combinação: vitórias, tempo da vitória (média e mín–máx), quando chegou
+      na dobra, batidas, abates, vida no fim e quantas vezes usou o poder
+- [x] **Verificações:** as personas em ordem de habilidade (aviso) e o rascunho do salvamento
+- [x] **O conserto do Canvas** *(achado pelo Raffael: "o compêndio não montou")* — a Menu.unity tem
+      dois Canvas desde as conquistas: o do menu e o do `AvisoConquista`, aninhado nele. As
+      montagens do menu pegavam o primeiro que o `FindAnyObjectByType` devolvesse. Na segunda
+      leva veio o do aviso: a **seleção de fase e o placar foram montados dentro dele**, e o
+      **Compêndio desistiu** ("não achei a coluna de botões") com um `LogError` — que o Montar
+      não via, e por isso disse "concluído"
+      - `MenuSetup.MenuCanvas()` acha o Canvas que tem a coluna `Botoes`; as cinco montagens do
+        menu (menu, seleção, naves, conquistas, Compêndio) passaram a usá-lo
+      - **O Montar agora para em qualquer erro no Console** durante um passo, não só em exceção
+      - O Montar remonta a seleção de fase (que apaga e refaz o painel e o placar no lugar certo)
+        e o Compêndio
+- [x] **Montar, testes e a primeira rodada** ✅ *(Raffael, 18/10)* — 75 corridas em 3 min de
+      relógio, o Play fechou sozinho e o salvamento não mudou. Seleção de fase, placar e Super IA
+      iguais depois da mudança. A leitura do relatório está em ⚖️. **O `Montar.cs` voltou a ficar
+      vazio**
 
 ### Backlog solto da Fase 6
 *Coisas que não pertencem a nenhuma parte e não bloqueiam nada.*

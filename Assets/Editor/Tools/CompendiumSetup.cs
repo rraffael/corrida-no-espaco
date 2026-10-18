@@ -55,7 +55,7 @@ static class CompendiumSetup
             return;
 
         var menu = Object.FindAnyObjectByType<Menu>();
-        var canvas = Object.FindAnyObjectByType<Canvas>();
+        var canvas = MenuSetup.MenuCanvas();
         var buttons = canvas != null ? canvas.transform.Find(ButtonsRoot) as RectTransform : null;
         if (menu == null || buttons == null)
         {

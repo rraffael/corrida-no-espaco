@@ -36,17 +36,12 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 18/10/2026, segunda leva: o nome Intangibilidade e a passiva do
-    /// Espreitador, o Rastro na Fase 3, o placar por linha (nos três lugares em
-    /// que ele aparece) e o Compêndio.
+    /// Estado em 18/10/2026, fechamento: vazia. A terceira leva (personas,
+    /// seleção de fase de volta ao Canvas do menu e Compêndio) rodou e foi
+    /// testada.
     /// </summary>
     static readonly Step[] Steps =
     {
-        new Step("Naves e poderes — Intangibilidade e a passiva do nível 60", ShipSetup.Setup),
-        new Step("Correção — Rastro na Fase 3", RastroNaFase3.Run),
-        new Step("Game.unity — placar novo nos painéis de vitória e da sem fim", BattleSetup.Setup),
-        new Step("Menu.unity — placar novo no troféu da seleção", LevelSelectSetup.Setup),
-        new Step("Menu.unity — Compêndio (catálogo, painel e botão)", CompendiumSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]
@@ -64,16 +59,36 @@ static class Montar
             var step = Steps[i];
             Debug.Log($"[Montar] {i + 1}/{Steps.Length} — {step.Title}");
 
+            // As montagens desistem com um Debug.LogError e um return, sem
+            // exceção — e foi assim que o Compêndio de 18/10 não montou e o
+            // Montar disse que tinha terminado. Erro no Console conta como falha.
+            string error = null;
+            Application.LogCallback watch = (message, _, type) =>
+            {
+                if (error == null && (type == LogType.Error || type == LogType.Exception || type == LogType.Assert))
+                    error = message;
+            };
+
+            Application.logMessageReceived += watch;
             try
             {
                 step.Run();
             }
             catch (Exception e)
             {
+                error = e.ToString();
+            }
+            finally
+            {
+                Application.logMessageReceived -= watch;
+            }
+
+            if (error != null)
+            {
                 // Parar na primeira falha em vez de seguir: cena montada pela
                 // metade é muito pior de diagnosticar do que uma que nem começou.
                 Debug.LogError($"[Montar] Parou no passo \"{step.Title}\". " +
-                               "Os passos anteriores foram salvos; os seguintes não rodaram.\n" + e);
+                               "Os passos anteriores foram salvos; os seguintes não rodaram.\n" + error);
                 return;
             }
         }

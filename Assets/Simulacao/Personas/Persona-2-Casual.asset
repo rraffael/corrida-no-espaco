@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbcb8353b073974f88afda4a47604c3, type: 3}
+  m_Name: Persona-2-Casual
+  m_EditorClassIdentifier: Assembly-CSharp::PilotPersona
+  displayName: Casual
+  description: "Joga de vez em quando. Desvia do que v\xEA, mas v\xEA tarde; erra
+    de vez em quando, quase n\xE3o ca\xE7a e s\xF3 lembra do poder quando se v\xEA
+    encurralado."
+  skillRank: 2
+  reactionSeconds: 0.32
+  thinkInterval: 0.15
+  swipeInterval: 0.22
+  dangerDistance: 3.8
+  clearDistance: 5
+  lookAhead: 10
+  mistakeChance: 0.12
+  huntChance: 0.15
+  seeksRewards: 0
+  avoidsDebuffs: 1
+  powerHabit: 2
