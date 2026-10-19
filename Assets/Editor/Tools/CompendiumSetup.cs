@@ -303,6 +303,7 @@ static class CompendiumSetup
         var title = HeaderLine(header, "Nome", 40f, UiBuilder.LabelColor, 0.45f, 1f);
         var subtitle = HeaderLine(header, "Tipo", 24f, UiBuilder.DimLabelColor, 0f, 0.45f);
 
+        var difficulty = DifficultyRow(go, out var stars);
         var description = Section(go, "Descricao", 26f, UiBuilder.LabelColor);
         var attributes = Section(go, "Atributos", 23f, UiBuilder.DimLabelColor);
         var power = Section(go, "Poder", 23f, UiBuilder.DimLabelColor);
@@ -316,9 +317,58 @@ static class CompendiumSetup
         UiBuilder.SetReference(card, "attributesLabel", attributes);
         UiBuilder.SetReference(card, "powerLabel", power);
         UiBuilder.SetReference(card, "extraLabel", extra);
+        UiBuilder.SetReference(card, "difficultyRow", difficulty);
+        UiBuilder.SetReferenceArray(card, "stars", stars);
 
         go.SetActive(false);
         return card;
+    }
+
+    /// <summary>
+    /// "Dificuldade" e três estrelas, logo abaixo do cabeçalho *(pedido do
+    /// Raffael, 19/10/2026)*. Só obstáculo acende a linha; o cartão a esconde
+    /// nas outras abas.
+    /// </summary>
+    static GameObject DifficultyRow(GameObject card, out Object[] stars)
+    {
+        var row = UiBuilder.NewUI("Dificuldade", card.transform);
+        var rowSize = row.AddComponent<LayoutElement>();
+        rowSize.minHeight = 44f;
+        rowSize.preferredHeight = 44f;
+
+        var layout = row.AddComponent<HorizontalLayoutGroup>();
+        layout.spacing = 8f;
+        layout.childAlignment = TextAnchor.MiddleLeft;
+        layout.childForceExpandWidth = false;
+        layout.childForceExpandHeight = false;
+        layout.childControlWidth = true;
+        layout.childControlHeight = true;
+
+        var labelObject = UiBuilder.NewUI("Rotulo", row.transform);
+        var labelSize = labelObject.AddComponent<LayoutElement>();
+        labelSize.preferredWidth = 170f;
+        labelSize.preferredHeight = 44f;
+        var label = UiBuilder.Label(labelObject, "<b><color=#FFD65A>Dificuldade</color></b>", 23f,
+                                    UiBuilder.DimLabelColor);
+        label.alignment = TextAlignmentOptions.MidlineLeft;
+
+        var sprite = PlaceholderArt.Star();
+        stars = new Object[3];
+        for (int i = 0; i < stars.Length; i++)
+        {
+            var starObject = UiBuilder.NewUI("Estrela" + (i + 1), row.transform);
+            var starSize = starObject.AddComponent<LayoutElement>();
+            starSize.preferredWidth = 40f;
+            starSize.preferredHeight = 40f;
+
+            var star = starObject.AddComponent<Image>();
+            star.sprite = sprite;
+            star.preserveAspect = true;
+            star.raycastTarget = false;
+            stars[i] = star;
+        }
+
+        return row;
     }
 
     /// <summary>Uma linha do cabeçalho, à direita da imagem, numa faixa da altura dele.</summary>

@@ -13,6 +13,7 @@ static class PlaceholderArt
     const string PadlockPath = Folder + "/padlock.png";
     const string CirclePath = Folder + "/circle.png";
     const string TrophyPath = Folder + "/trophy.png";
+    const string StarPath = Folder + "/star.png";
 
     /// <summary>
     /// Sprite branco de 1x1 unidade de mundo. Escalar no transform dá qualquer
@@ -168,6 +169,75 @@ static class PlaceholderArt
         }
 
         return Write(TrophyPath, size, size, pixels, pixelsPerUnit: size);
+    }
+
+    /// <summary>
+    /// Estrela branca de cinco pontas, para a dificuldade no Compêndio. A cor
+    /// sai do <c>Image</c>: a mesma estrela serve acesa e apagada.
+    ///
+    /// Desenhada e não escrita: a fonte do TextMesh Pro não tem o "★", e o
+    /// caractere sairia como um quadrado.
+    /// </summary>
+    public static Sprite Star()
+    {
+        var existing = AssetDatabase.LoadAssetAtPath<Sprite>(StarPath);
+        if (existing != null)
+            return existing;
+
+        const int size = 64;
+        const int samples = 4;
+        const float outer = 30f, inner = 12.5f;
+        float center = size * 0.5f;
+
+        // As dez pontas, alternando fora e dentro, a primeira apontando para cima.
+        var corners = new Vector2[10];
+        for (int i = 0; i < corners.Length; i++)
+        {
+            float angle = Mathf.PI * 0.5f + i * Mathf.PI / 5f;
+            float radius = i % 2 == 0 ? outer : inner;
+            corners[i] = new Vector2(center + Mathf.Cos(angle) * radius, center + Mathf.Sin(angle) * radius);
+        }
+
+        var pixels = new Color32[size * size];
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                // Quatro por quatro amostras por pixel: borda lisa no celular,
+                // pelo mesmo motivo do círculo.
+                int inside = 0;
+                for (int sy = 0; sy < samples; sy++)
+                {
+                    for (int sx = 0; sx < samples; sx++)
+                    {
+                        var point = new Vector2(x + (sx + 0.5f) / samples, y + (sy + 0.5f) / samples);
+                        if (Inside(corners, point))
+                            inside++;
+                    }
+                }
+
+                byte alpha = (byte)(255 * inside / (samples * samples));
+                pixels[y * size + x] = new Color32(255, 255, 255, alpha);
+            }
+        }
+
+        return Write(StarPath, size, size, pixels, pixelsPerUnit: size);
+    }
+
+    /// <summary>Ponto dentro do polígono, pela regra do raio que cruza as bordas.</summary>
+    static bool Inside(Vector2[] polygon, Vector2 point)
+    {
+        bool inside = false;
+        for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
+        {
+            var a = polygon[i];
+            var b = polygon[j];
+            if ((a.y > point.y) != (b.y > point.y) &&
+                point.x < (b.x - a.x) * (point.y - a.y) / (b.y - a.y) + a.x)
+                inside = !inside;
+        }
+
+        return inside;
     }
 
     static bool Ring(float px, float py, float x, float y, float inner, float outer)

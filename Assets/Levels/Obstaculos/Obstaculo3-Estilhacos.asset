@@ -16,6 +16,7 @@ MonoBehaviour:
   description: "Casca cheia de fragmentos. Destru\xED-lo de frente cobra caro: os
     estilha\xE7os descem na sua faixa."
   extraNotes: 
+  difficultyStars: 2
   sprite: {fileID: 21300000, guid: 04092d4273808164f9876d6f6aa611aa, type: 3}
   color: {r: 1, g: 0.85, b: 0.35, a: 1}
   laneSpan: 1

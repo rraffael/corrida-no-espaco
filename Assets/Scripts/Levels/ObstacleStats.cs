@@ -23,6 +23,10 @@ public class ObstacleStats : ScriptableObject
              "que ele mesmo calcula.")]
     [TextArea(1, 4)] public string extraNotes = "";
 
+    [Tooltip("Quanto ele pesa na fase, de 0 a 3 estrelas, para o Compêndio. É nota do Raffael, " +
+             "não conta: o Detrito é 0, a Barcaça 3 (19/10/2026). Não muda nada na corrida.")]
+    [Range(0, 3)] public int difficultyStars;
+
     [Tooltip("Arte. Vazio: o obstáculo fica invisível, mas continua batendo.")]
     public Sprite sprite;
 

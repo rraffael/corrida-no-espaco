@@ -33,15 +33,24 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 ### 📦 Para rodar agora
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-- [ ] **Commit** — o retrato das naves rodou *(3.000 corridas, 18/10 23h22)*:
-      `git add -A` e `git commit -m "Retrato das naves: 3000 corridas no simulador"`.
-      O relatório `docs/simulacoes/2026-10-18_23h22.md` é a **régua** das naves daqui em diante
-- [ ] **Ler a avaliação** em ⚖️, *"O retrato das naves (18/10)"* — quatro decisões suas, e a
-      principal é **o poder ativo quase não pesa, e a Predadora pesa demais**
+- [ ] **Montar** — **Tools → Corrida no Espaço → Montar** *(19/10: o Compêndio de novo, para o
+      cartão ganhar a linha de dificuldade)*
+- [ ] **Testar no Editor** — Compêndio → aba **Obstáculos e Inimigos**: abaixo do nome, a linha
+      **"Dificuldade"** com três estrelas — Detrito nenhuma acesa, Barcaça 3, Casulo 2, Rastro 1.
+      Nas abas **Naves** e **Modificadores** a linha **não aparece**. A nota de cada um se muda na
+      ficha (`Assets/Levels/Obstaculos/`, campo *Difficulty Stars*)
+- [ ] **Commit antes de rodar o simulador** — `git add -A` e
+      `git commit -m "Reforco da Predadora pela metade e estrelas de dificuldade no Compendio"`
+- [ ] **Rodar o simulador só com a Predadora** *(o Reforço novo: 2% por carga, teto 20%)* —
+      **Marcar o retrato completo**, depois desmarcar as outras quatro naves, desmarcar os níveis
+      **15 e 40** e **marcar a sem fim** de volta. Fica igual ao retrato de 18/10, só com ela:
+      níveis 1 e 60, Fases 1 a 3 e a sem fim, as três dificuldades, as cinco personas, 5
+      repetições = **600 corridas, uns 28 min**. A sem fim entra porque é onde a distância dela
+      (29.543 un contra ~10 mil das outras) mais gritou. As sementes são as mesmas, então eu
+      troco as linhas dela no retrato pelas novas e cruzo com as outras quatro
 
-*O retrato rodou com os níveis **1 e 60** (sem o 15 e o 40) e **com a sem fim** — por isso 3.000
-e não 4.500. Para ver a curva no meio, dá para rodar só os níveis 15 e 40 depois, com o mesmo
-resto marcado: as sementes batem e os dois relatórios se somam.*
+*Próxima rodada da curva, quando der: **só os níveis 15 e 40, sem a sem fim** (pedido do
+Raffael, 19/10). As sementes batem com as do retrato, e os relatórios se somam.*
 
 ### 🛒 Play Console — acompanhar
 - [ ] **A primeira revisão da Play** — os 10 itens (página do app e declarações de 08/08) foram
@@ -124,7 +133,9 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
         de baixo continuam iguais em vitórias** (Novato 56%, Casual 55%, Regular 58% somando
         as fases); só se separam na **distância da sem fim** (Novato < Casual ≈ Regular). Proposta
         do Claude, para o seu OK: abrir o degrau de baixo — Novato com 0,6 s e 35% de erro,
-        Regular mais perto do Veterano (0,18 s, 4%) — e rodar de novo só as personas
+        Regular mais perto do Veterano (0,18 s, 4%) — e rodar de novo só as personas.
+        **Guardado para depois do teste da Predadora** *(decisão do Raffael, 19/10)*: mexer nas
+        personas agora invalidaria o retrato inteiro, e refazê-lo custa 2 horas
 - [ ] **O retrato das naves (18/10)** — `docs/simulacoes/2026-10-18_23h22.md`: as 5 naves nos
       níveis 1 e 60, as 5 personas, as Fases 1 a 3 e a sem fim, as três dificuldades, 5
       repetições = 3.000 corridas, 2 h 18 min. Nenhuma corrida esgotou o tempo. Vitórias de todas
@@ -163,6 +174,59 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
          Normal da Fase 1 para 66% no **Fácil** da Fase 2). E **a Fase 3 não é mais difícil
          que a 2** — sai igual ou mais fácil para quase todas as personas (o Veterano: 88% na
          Fase 2 Fácil, 96% na Fase 3 Fácil)
+
+      **O que o Raffael decidiu (19/10):**
+      - **1 → em teste:** o Reforço caiu **pela metade** — 2% por carga, teto 20%, as mesmas 10
+        cargas (eram 4% e 40%). Ele pediu "1% em vez de 2%, teto 20%"; o Claude seguiu o "pela
+        metade", porque a ficha estava em 4%, e não em 2%: 1% com teto 20% seriam 20 cargas e os
+        estágios de visual (5 e 10) chegariam na metade do caminho. Se a ideia era mesmo 1%, é
+        um número na ficha `Assets/Poderes/Condicional-ReforcoEstrutural.asset` (e o
+        `stageCounts` vira 10 e 20). Medido pela rodada só da Predadora (📦)
+      - **2 → em aberto**
+      - **3 → está certo:** o Difícil é para quem passou do Fácil e do Normal, então a nave já
+        chega evoluída. O nível 1 no Difícil não é um caso real
+      - **4 → fica como está, por ora.** A leitura dele: a **Barcaça** é o que mais derruba
+        vitória, e os obstáculos novos da Fase 3 (Casulo, Rastro) dividem a vez com ela — mais
+        variedade, menos Barcaça, fase mais fácil. Para enxergar isso, os obstáculos ganharam
+        **dificuldade em estrelas** no Compêndio (Detrito 0, Rastro 1, Casulo 2, Barcaça 3)
+
+      **Por nave, dificuldade e persona** — vitórias nas Fases 1 a 3 *(15 corridas por casa)*.
+      A Predadora aqui ainda é a de 40%; a rodada nova troca as linhas dela:
+
+      | Fácil | nv | Novato | Casual | Regular | Veterano | Perfeito | Todas |
+      |---|---|---|---|---|---|---|---|
+      | Nave inicial | 1 | 53% | 40% | 47% | 87% | 100% | 65% |
+      | Nay | 1 | 60% | 40% | 47% | 73% | 100% | 64% |
+      | Espreitador | 1 | 40% | 47% | 47% | 93% | 100% | 65% |
+      | Raffa | 1 | 53% | 40% | 47% | 93% | 100% | 67% |
+      | Predadora | 1 | 73% | 87% | 87% | 100% | 100% | 89% |
+      | *as cinco* | 60 | 100% | 100% | 100% | 100% | 100% | 100% |
+
+      | Normal | nv | Novato | Casual | Regular | Veterano | Perfeito | Todas |
+      |---|---|---|---|---|---|---|---|
+      | Nave inicial | 1 | 33% | 33% | 33% | 53% | 100% | 51% |
+      | Nay | 1 | 33% | 33% | 33% | 47% | 93% | 48% |
+      | Espreitador | 1 | 33% | 33% | 33% | 73% | 100% | 55% |
+      | Raffa | 1 | 33% | 33% | 33% | 73% | 100% | 55% |
+      | Predadora | 1 | 47% | 47% | 60% | 67% | 100% | 64% |
+      | Nave inicial | 60 | 80% | 87% | 93% | 93% | 100% | 91% |
+      | Nay | 60 | 93% | 87% | 93% | 87% | 100% | 92% |
+      | Espreitador | 60 | 73% | 80% | 93% | 100% | 100% | 89% |
+      | Raffa | 60 | 100% | 80% | 87% | 100% | 100% | 93% |
+      | Predadora | 60 | 100% | 100% | 100% | 100% | 100% | 100% |
+
+      | Difícil | nv | Novato | Casual | Regular | Veterano | Perfeito | Todas |
+      |---|---|---|---|---|---|---|---|
+      | Nave inicial | 1 | 0% | 0% | 0% | 0% | 60% | 12% |
+      | Nay | 1 | 0% | 0% | 0% | 0% | 60% | 12% |
+      | Espreitador | 1 | 0% | 0% | 0% | 7% | 67% | 15% |
+      | Raffa | 1 | 0% | 0% | 0% | 7% | 67% | 15% |
+      | Predadora | 1 | 27% | 40% | 40% | 47% | 100% | 51% |
+      | Nave inicial | 60 | 40% | 47% | 47% | 67% | 100% | 60% |
+      | Nay | 60 | 40% | 40% | 40% | 67% | 100% | 57% |
+      | Espreitador | 60 | 47% | 40% | 47% | 93% | 100% | 65% |
+      | Raffa | 60 | 40% | 40% | 40% | 93% | 100% | 63% |
+      | Predadora | 60 | 67% | 73% | 93% | 87% | 100% | 84% |
 - [ ] **O painel bate com o jogo?** — o tempo até a dobra que o painel estima para o nível 1 tem
       de parecer com o que se sente jogando. Se não bater, a estimativa precisa de ajuste antes de
       servir para balancear
@@ -182,7 +246,8 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
       - **No Fácil o Detrito nunca muda** — 2 tiros do nível 1 ao 60. Se o dano tiver de se
         sentir no Fácil também, é o obstáculo que pede ajuste, e não o dano
       *(Parte 6)*
-- [ ] **Defesa empilhada** — evolução (+25) com o Reforço da Predadora (+40) chega a 65% *(Parte 6)*
+- [ ] **Defesa empilhada** — evolução (+25) com o Reforço da Predadora (+20 desde 19/10; eram
+      +40) chega a 45% *(Parte 6)*
 - [ ] **Atributos de cada nave** — hoje todas iguais; dar a cada uma o seu diferencial *(Parte 6)*
 - [ ] **Custo de cada nível e o nome da moeda** — hoje 0 e "Sucata", no molde e no `Wallet`
       *(Parte 8)*
@@ -421,11 +486,14 @@ cinco por vir), e a lista 📱 fechou em 17/10.
 - **Tudo testado pelo Raffael** — e o **`Montar.cs` voltou a ficar vazio**
 
 ### O que vem agora
-1. **Decidir pelo retrato das naves** (⚖️, 3.000 corridas em 18/10) — o poder ativo quase não
-   pesa e a Predadora pesa demais; a evolução dobra a vitória; o Difícil no nível 1 é parede; a
-   Fase 3 não é mais difícil que a 2. E o OK para abrir o degrau de baixo das personas
-2. **Afinar as personas** pela leitura em ⚖️ — depois, as **personas sob encomenda** (🤖, mais
-   para frente): testes que o Raffael define, com resultado específico
+*Atualizado em 19/10: o retrato foi lido e o Raffael decidiu três dos quatro pontos (⚖️). O
+Reforço da Predadora caiu pela metade, e os obstáculos ganharam estrelas de dificuldade no
+Compêndio.*
+
+1. **Rodar só a Predadora** (📦, 600 corridas) e o Claude cruzar com as outras quatro naves do
+   retrato de 18/10 — o poder ativo ainda quase não pesa, e é a próxima conversa depois desta
+2. **Afinar as personas** — **só depois do teste da Predadora** — e então as **personas sob
+   encomenda** (🤖, mais para frente): testes que o Raffael define, com resultado específico
 3. **Decidir a Super IA enxergar estilhaço** (🤖)
 4. **Os outros cinco retornos** dos testadores e a **revisão da Play** (🛒)
 

@@ -36,6 +36,9 @@ public static class Compendium
         public string Attributes;
         public string Power;
         public string Extra;
+
+        /// <summary>De 0 a 3. Negativo: a coisa não tem dificuldade, e a linha some.</summary>
+        public int Stars = -1;
     }
 
     public static List<Entry> Entries(Section section)
@@ -219,6 +222,7 @@ public static class Compendium
             Image = obstacle.sprite,
             Tint = obstacle.color,
             Description = obstacle.description,
+            Stars = obstacle.difficultyStars,
             Attributes = $"Vida {obstacle.maxHealth:0} · Dano da batida {obstacle.contactDamage:0} · " +
                          $"Ocupa {Lanes(obstacle.laneSpan)}\n" +
                          $"Peso do abate {obstacle.killWeight:0.#} · Freada na batida {obstacle.speedPenaltyOnCrash:0.#}",

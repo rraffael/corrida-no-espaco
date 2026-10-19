@@ -2,9 +2,11 @@ using UnityEngine;
 
 /// <summary>
 /// **Reforço estrutural** — o poder da Predadora. Cada obstáculo destruído a
-/// tiro é uma carga: soma 4% em aceleração, dano e cadência, até 40% (10
+/// tiro é uma carga: soma 2% em aceleração, dano e cadência, até 20% (10
 /// cargas), e vale até o fim da corrida. *(Eram 2% e 20 cargas; o Raffael
-/// reduziu para 10 cargas em 26/09/2026, mantendo o teto.)*
+/// reduziu para 10 cargas em 26/09/2026, com 4% cada e o teto em 40%. Em
+/// 19/10/2026 caiu tudo pela metade: o simulador mostrou a Predadora com 25
+/// pontos de vitória a mais que as outras naves no nível 1.)*
 ///
 /// **A velocidade de cruzeiro ficou de fora** *(pedido do Raffael, 26/09/2026)*.
 /// Na primeira versão ela subia junto, e +40% de cruzeiro aproximava demais a
@@ -12,8 +14,8 @@ using UnityEngine;
 ///
 /// **A defesa sobe em pontos, e não em fração da base** *(decidido pelo Raffael
 /// em 26/09/2026)*. Toda nave tem defesa 0%, e 4% de zero é zero: pela regra
-/// dos outros atributos, a defesa nunca subiria. Aqui cada carga soma 4 pontos —
-/// 0% → 4% → 8% … até 40%.
+/// dos outros atributos, a defesa nunca subiria. Aqui cada carga soma 2 pontos —
+/// 0% → 2% → 4% … até 20%.
 ///
 /// A aceleração maior também faz o abate render mais velocidade, porque o ganho
 /// por abate sai dela — ver <see cref="ShipStats"/>. É a mesma regra de
@@ -26,10 +28,10 @@ public class StructuralReinforcementConditional : ShipConditional
     [Header("Efeito")]
     [Tooltip("Quanto cada carga soma, em %. Em aceleração, dano e cadência é fração da base; na " +
              "defesa, pontos de defesa.")]
-    [Min(0f)] public float percentPerKill = 4f;
+    [Min(0f)] public float percentPerKill = 2f;
 
-    [Tooltip("O teto do bônus, em %. Com 4 por carga, 40 são 10 cargas.")]
-    [Min(0f)] public float maxPercent = 40f;
+    [Tooltip("O teto do bônus, em %. Com 2 por carga, 20 são 10 cargas.")]
+    [Min(0f)] public float maxPercent = 20f;
 
     [Header("Visual")]
     [Tooltip("Com quantas cargas a nave muda de visual. Cada número alcançado é um estágio a mais: " +
