@@ -33,30 +33,15 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 ### 📦 Para rodar agora
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-**O retrato das naves** *(pedido do Raffael, 18/10)* — o primeiro dado jogado de balanceamento.
-Montar vazio: é só código e uma ficha.
+- [ ] **Commit** — o retrato das naves rodou *(3.000 corridas, 18/10 23h22)*:
+      `git add -A` e `git commit -m "Retrato das naves: 3000 corridas no simulador"`.
+      O relatório `docs/simulacoes/2026-10-18_23h22.md` é a **régua** das naves daqui em diante
+- [ ] **Ler a avaliação** em ⚖️, *"O retrato das naves (18/10)"* — quatro decisões suas, e a
+      principal é **o poder ativo quase não pesa, e a Predadora pesa demais**
 
-- [ ] **Commit antes** —
-      `git add -A` e
-      `git commit -m "Perfeito com 0,08 s, retrato completo no simulador e tabela de naves"`
-- [ ] **A rodada completa** — **Tools → Corrida no Espaço → Simulador de corridas**, botão
-      **"Marcar o retrato completo"**: as 5 personas, as 5 naves, os níveis **1, 15, 40 e 60**,
-      as **Fases 1 a 3** (sem a sem fim), **Fácil, Normal e Difícil**. Repetições **5**, semente 1
-      - São **4.500 corridas**. Pela última rodada (2,4 s cada), **perto de 3 horas** — deve
-        sair menos, porque nos níveis altos a corrida acaba mais cedo. A janela mostra a
-        estimativa. Pode deixar rodando; "Parar e salvar" a qualquer momento gera relatório do
-        que rodou. *A ordem é fase → dificuldade → nave → nível:* parar no meio deixa as últimas
-        fases de fora, mas o que rodou compara as cinco personas
-      - Quando terminar, **me avise**. O relatório ganhou **uma linha por nave e nível** com as
-        cinco personas e o total — somando tudo e depois por dificuldade. É onde a discrepância
-        aparece
-
-*O que mudou para esta rodada:* o **Perfeito reage em 0,08 s** em vez de 0 *(pedido do Raffael)*,
-na ficha e na receita do `SimulationSetup`. Por isso o relatório de 20h39 deixa de ser régua
-para o Perfeito — as outras quatro personas continuam comparáveis.
-
-*A terceira leva de 18/10 fechou toda* ✅ *(Raffael, 18/10)*, com commit. A leitura da primeira
-rodada está em ⚖️, *"Os números das cinco personas"*.
+*O retrato rodou com os níveis **1 e 60** (sem o 15 e o 40) e **com a sem fim** — por isso 3.000
+e não 4.500. Para ver a curva no meio, dá para rodar só os níveis 15 e 40 depois, com o mesmo
+resto marcado: as sementes batem e os dois relatórios se somam.*
 
 ### 🛒 Play Console — acompanhar
 - [ ] **A primeira revisão da Play** — os 10 itens (página do app e declarações de 08/08) foram
@@ -134,6 +119,50 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
         nível 1, até o Veterano cai de 100% para 40%. Pode ser o certo (a nave evolui antes), mas
         é o primeiro número **jogado** para a conversa da curva — vale rodar com o nível 15
       - **O poder não foi medido:** a Nave inicial não tem poder ativo
+      - **No retrato das naves (abaixo), com o Perfeito a 0,08 s:** o degrau de cima ficou bom —
+        o Perfeito perde algumas no Difícil nível 1 (60–67%) e o Veterano fica no meio. **Os três
+        de baixo continuam iguais em vitórias** (Novato 56%, Casual 55%, Regular 58% somando
+        as fases); só se separam na **distância da sem fim** (Novato < Casual ≈ Regular). Proposta
+        do Claude, para o seu OK: abrir o degrau de baixo — Novato com 0,6 s e 35% de erro,
+        Regular mais perto do Veterano (0,18 s, 4%) — e rodar de novo só as personas
+- [ ] **O retrato das naves (18/10)** — `docs/simulacoes/2026-10-18_23h22.md`: as 5 naves nos
+      níveis 1 e 60, as 5 personas, as Fases 1 a 3 e a sem fim, as três dificuldades, 5
+      repetições = 3.000 corridas, 2 h 18 min. Nenhuma corrida esgotou o tempo. Vitórias de todas
+      as personas somadas (Fases 1 a 3, as três dificuldades):
+
+      | Nave | nv 1 | nv 60 | Sem fim nv 60, Veterano |
+      |---|---|---|---|
+      | Nave inicial *(sem poder)* | 43% | 84% | 9.528 un |
+      | Nay *(Tiros teleguiados)* | 41% | 83% | 9.581 un |
+      | Espreitador *(Intangibilidade)* | 45% | 85% | 9.788 un |
+      | Raffa *(Super IA)* | 45% | 85% | 10.707 un |
+      | **Predadora** *(Reforço estrutural)* | **68%** | **95%** | **29.543 un** |
+
+      **As discrepâncias, da maior para a menor — as decisões são suas:**
+      1. **O poder ativo quase não vale nada; a Predadora vale muito.** As cinco naves têm os
+         **mesmos atributos de fábrica** (vida 100, dano 25, cadência 3, cruzeiro 8, aceleração
+         4) — a única diferença é o poder. E as três de poder ativo saem **iguais à Nave inicial,
+         que não tem poder**: dentro de ±2 pontos, que é sorte. O motivo é de conta: 3 s de
+         efeito, 1 vez por corrida (a Nay, a cada 30 s), numa fase que dura 15 a 40 s. Já o
+         **Reforço estrutural** da Predadora fica ligado a corrida toda e chega a +40% em
+         defesa, dano, cadência e aceleração: +25 pontos no nível 1, e **3 vezes a distância**
+         na sem fim. *Caminhos:* o ativo ficar mais longo ou mais frequente, o Reforço ter
+         teto menor ou ganhar menos por abate — ou as duas coisas. O simulador mede cada
+         tentativa. *Ressalva:* as personas usam o poder por regra (no aperto, ou "esperto"),
+         de 0,3 a 1,4 vez por corrida; um jogador que guarde o poder para a hora certa tira
+         mais dele — mas não 25 pontos
+      2. **A evolução dobra a chance de vencer** (43% → 84% na Nave inicial). Bate com a Nay
+         ("destroem com mais facilidade"); o Gabriel achou leve — talvez porque se sente aos
+         poucos. **No Fácil, nível 60, todas as personas vencem tudo, até o Novato** — não há
+         desafio nenhum ali
+      3. **O Difícil no nível 1 é fechado para gente:** Novato, Casual e Regular fazem **0 de
+         15** com as quatro naves sem a Predadora; o Veterano, 0 ou 1. Só o Perfeito passa
+         (60–67%). Se o Difícil é para quem já evoluiu, está certo; se abre desde o começo, é
+         uma parede
+      4. **A escada das fases:** da Fase 1 para a 2 é um degrau grande (o Novato vai de 100% no
+         Normal da Fase 1 para 66% no **Fácil** da Fase 2). E **a Fase 3 não é mais difícil
+         que a 2** — sai igual ou mais fácil para quase todas as personas (o Veterano: 88% na
+         Fase 2 Fácil, 96% na Fase 3 Fácil)
 - [ ] **O painel bate com o jogo?** — o tempo até a dobra que o painel estima para o nível 1 tem
       de parecer com o que se sente jogando. Se não bater, a estimativa precisa de ajuste antes de
       servir para balancear
@@ -392,9 +421,9 @@ cinco por vir), e a lista 📱 fechou em 17/10.
 - **Tudo testado pelo Raffael** — e o **`Montar.cs` voltou a ficar vazio**
 
 ### O que vem agora
-1. **O retrato das naves** (📦 da Lista) — as 5 naves nos níveis 1, 15, 40 e 60, as 5
-   personas, Fases 1 a 3, as três dificuldades, 5 repetições (4.500 corridas); depois, ler
-   juntos atrás de discrepância
+1. **Decidir pelo retrato das naves** (⚖️, 3.000 corridas em 18/10) — o poder ativo quase não
+   pesa e a Predadora pesa demais; a evolução dobra a vitória; o Difícil no nível 1 é parede; a
+   Fase 3 não é mais difícil que a 2. E o OK para abrir o degrau de baixo das personas
 2. **Afinar as personas** pela leitura em ⚖️ — depois, as **personas sob encomenda** (🤖, mais
    para frente): testes que o Raffael define, com resultado específico
 3. **Decidir a Super IA enxergar estilhaço** (🤖)
