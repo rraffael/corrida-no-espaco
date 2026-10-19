@@ -36,13 +36,11 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 19/10/2026: o Compêndio de novo, porque o cartão modelo ganhou
-    /// a linha de dificuldade com as estrelas. O Reforço da Predadora pela
-    /// metade foi só número na ficha, sem montagem.
+    /// Estado em 19/10/2026: vazia. As estrelas de dificuldade no Compêndio
+    /// rodaram e foram aprovadas pelo Raffael.
     /// </summary>
     static readonly Step[] Steps =
     {
-        new Step("Compêndio (estrelas de dificuldade)", CompendiumSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

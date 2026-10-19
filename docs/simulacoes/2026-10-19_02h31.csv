@@ -1,0 +1,601 @@
+﻿persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado
+Novato;1;Predadora;1;Fase 1 — Cinturão;Fácil;1;Vitoria;27,73;326,91;160;25,73;7;1;0,81;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Fácil;1;Vitoria;26,73;301,5;160;24,73;5;0;1;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Fácil;1;Vitoria;24,5;268,5;160;22,5;5;0;1;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Fácil;1;Vitoria;29,3;347,06;160;27,3;5;0;1;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Fácil;1;Vitoria;28,27;324,74;160;26,27;6;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Fácil;2;Vitoria;18,47;211,67;160;16,47;7;0;1;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Fácil;2;Vitoria;21;248,27;160;19;5;0;1;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Fácil;2;Vitoria;26,23;323,41;160;24,23;4;0;1;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Fácil;2;Vitoria;23,2;281,87;160;21,2;5;0;1;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Fácil;2;Vitoria;23,2;281,87;160;21,2;5;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Fácil;3;Vitoria;19,33;232,52;160;17,33;6;0;1;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Fácil;3;Vitoria;29,83;327,29;160;27,83;8;2;0,62;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Fácil;3;Vitoria;23,37;285,11;160;21,37;5;0;1;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Fácil;3;Vitoria;23,37;285,11;160;21,37;5;0;1;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Fácil;3;Vitoria;23,37;285,11;160;21,37;5;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Fácil;4;Vitoria;22,83;264,77;160;20,83;5;0;1;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Fácil;4;Vitoria;30,5;365;160;28,5;6;1;0,8;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Fácil;4;Vitoria;22,83;264,77;160;20,83;5;0;1;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Fácil;4;Vitoria;22,83;264,77;160;20,83;5;0;1;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Fácil;4;Vitoria;22,83;264,77;160;20,83;5;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Fácil;5;Vitoria;31,37;360,38;160;29,37;4;0;1;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Fácil;5;Vitoria;31,8;375,83;160;29,8;4;1;0,8;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Fácil;5;Vitoria;33,5;410,14;160;18,33;5;1;0,82;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Fácil;5;Vitoria;20,33;227,76;160;18,33;6;0;1;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Fácil;5;Vitoria;20,33;227,76;160;18,33;6;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Fácil;1;Vitoria;13,37;164,26;160;11,37;3;0;1;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Fácil;1;Vitoria;18,13;222,62;160;16,13;4;0;1;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Fácil;1;Vitoria;18,37;219,69;160;16,37;3;0;1;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Fácil;1;Vitoria;17,53;219,35;160;15,53;2;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Fácil;1;Vitoria;17,53;219,35;160;15,53;2;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Fácil;2;Vitoria;15,4;202,27;160;13,4;3;0;1;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Fácil;2;Vitoria;15,4;202,27;160;13,4;4;0;1;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Fácil;2;Vitoria;12,87;163,5;160;10,87;4;0;1;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Fácil;2;Vitoria;15,4;202,27;160;13,4;3;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Fácil;2;Vitoria;15,4;202,27;160;13,4;3;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Fácil;3;Vitoria;14,57;176,03;160;12,57;4;1;0,9;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Fácil;3;Vitoria;17,1;214,66;160;15,1;6;1;0,9;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Fácil;3;Vitoria;17,1;214,63;160;15,1;5;1;0,9;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Fácil;3;Vitoria;13,23;173,61;160;11,23;3;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Fácil;3;Vitoria;13,23;173,61;160;11,23;3;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Fácil;4;Vitoria;14,77;185,08;160;12,77;3;0;1;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Fácil;4;Vitoria;14,7;184,23;160;12,7;3;0;1;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Fácil;4;Vitoria;14,77;185,08;160;12,77;3;0;1;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Fácil;4;Vitoria;14,77;185,08;160;12,77;3;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Fácil;4;Vitoria;14,77;185,08;160;12,77;3;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Fácil;5;Vitoria;24,7;332,3;160;22,7;1;0;1;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Fácil;5;Vitoria;17,6;214,69;160;15,6;3;0;1;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Fácil;5;Vitoria;15,77;199,28;160;13,77;3;0;1;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Fácil;5;Vitoria;15,77;199,28;160;13,77;3;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Fácil;5;Vitoria;15,77;199,28;160;13,77;3;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Normal;1;Vitoria;23,03;292,12;175;20,23;7;0;1;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Normal;1;Vitoria;48,17;520,12;175;45,37;10;4;0,07;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Normal;1;Vitoria;24,67;286,98;175;21,87;7;0;1;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Normal;1;Vitoria;24,67;287,15;175;21,87;7;0;1;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Normal;1;Vitoria;25,87;305,87;175;23,07;7;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Normal;2;Vitoria;28,17;380,11;175;25,37;8;0;1;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Normal;2;Vitoria;34,33;442,79;175;31,53;7;1;0,77;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Normal;2;Vitoria;18,5;228,02;175;15,7;8;0;1;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Normal;2;Vitoria;23,33;296,69;175;20,53;7;0;1;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Normal;2;Vitoria;21,73;277,95;175;18,93;8;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Normal;3;Vitoria;30,63;390,83;175;27,83;8;1;0,77;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Normal;3;Derrota;37,13;344,17;148;;7;4;0;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Normal;3;Vitoria;36,43;467,07;175;21,1;10;2;0,56;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Normal;3;Vitoria;23,9;303,52;175;21,1;7;0;1;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Normal;3;Vitoria;25,2;323,67;175;22,4;7;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Normal;4;Vitoria;35,73;484,13;175;32,93;4;0;1;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Normal;4;Vitoria;30,03;387,48;175;27,23;5;0;1;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Normal;4;Vitoria;35,73;484,13;175;32,93;4;0;1;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Normal;4;Vitoria;29,7;383,66;175;26,9;5;0;1;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Normal;4;Vitoria;35,73;484,13;175;32,93;4;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Normal;5;Vitoria;35,3;466,16;175;32,5;6;1;0,78;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Normal;5;Vitoria;21,5;257,04;175;18,7;9;0;1;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Normal;5;Vitoria;19,57;237,42;175;16,77;9;0;1;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Normal;5;Vitoria;19,57;237,42;175;16,77;8;0;1;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Normal;5;Vitoria;20,67;256,03;175;17,87;8;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Normal;1;Vitoria;14,9;197,8;175;12,1;5;0;1;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Normal;1;Vitoria;27,9;353,75;175;25,1;5;2;0,76;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Normal;1;Vitoria;25;312,79;175;15,57;7;2;0,77;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Normal;1;Vitoria;20,8;280,37;175;18;4;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Normal;1;Vitoria;20,8;280,37;175;18;4;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Normal;2;Vitoria;14,5;199,02;175;11,7;4;0;1;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Normal;2;Vitoria;14,5;199,02;175;11,7;4;0;1;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Normal;2;Vitoria;13,37;180,22;175;10,57;5;0;1;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Normal;2;Vitoria;14,5;199,02;175;11,7;4;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Normal;2;Vitoria;14,5;199,02;175;11,7;4;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Normal;3;Vitoria;22,77;318,72;175;12,73;5;1;0,89;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Normal;3;Vitoria;21,53;285,45;175;18,73;5;1;0,88;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Normal;3;Vitoria;20,93;287,57;175;18,13;5;1;0,88;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Normal;3;Vitoria;18,13;264,53;175;15,33;4;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Normal;3;Vitoria;18,13;264,53;175;15,33;4;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Normal;4;Vitoria;18,27;252,06;175;15,47;4;0;1;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Normal;4;Vitoria;18,27;251,94;175;15,47;4;0;1;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Normal;4;Vitoria;18,27;252,06;175;15,47;4;0;1;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Normal;4;Vitoria;18,27;252,06;175;15,47;4;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Normal;4;Vitoria;18,27;252,06;175;15,47;4;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Normal;5;Vitoria;14,73;196,78;175;11,93;4;0;1;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Normal;5;Vitoria;14,63;195,06;175;11,83;5;0;1;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Normal;5;Vitoria;14,73;196,78;175;11,93;5;0;1;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Normal;5;Vitoria;14,73;196,78;175;11,93;5;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Normal;5;Vitoria;14,73;196,78;175;11,93;5;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Difícil;1;Derrota;17,7;128,51;105;;3;3;0;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Difícil;1;Derrota;21,13;178,41;141;;6;3;0;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Difícil;1;Vitoria;40,2;525,43;190;36,7;9;2;0,46;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Difícil;1;Vitoria;38,33;518,91;190;28,33;12;2;0,5;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Difícil;1;Vitoria;32,73;453,82;190;29,22;6;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Difícil;2;Derrota;35,67;422,72;190;33,33;13;3;0;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Difícil;2;Vitoria;39,9;483,84;190;36,4;11;3;0,16;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Difícil;2;Derrota;29,37;298,58;150;;8;3;0;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Difícil;2;Vitoria;40,87;566,06;190;31,97;10;1;0,74;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Difícil;2;Vitoria;53,23;755,74;190;49,73;4;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Difícil;3;Vitoria;33,28;429,4;190;29,8;10;2;0,46;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Difícil;3;Derrota;33,8;398,43;190;32,1;11;3;0;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Difícil;3;Vitoria;25,4;319,87;190;21,9;9;1;0,72;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Difícil;3;Vitoria;38,57;570,87;190;35,07;5;0;1;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Difícil;3;Vitoria;38,57;570,87;190;35,07;5;0;1;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Difícil;4;Vitoria;36,9;464,41;190;33,4;11;2;0,43;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Difícil;4;Vitoria;33,37;405;190;29,87;10;2;0,42;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Difícil;4;Vitoria;30,82;364,95;190;27,33;10;2;0,43;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Difícil;4;Vitoria;33,5;400,31;190;30;13;3;0,21;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Difícil;4;Vitoria;44,33;612,13;190;40,83;7;1;0,71;0
+Novato;1;Predadora;1;Fase 1 — Cinturão;Difícil;5;Derrota;25,33;240,34;133;;3;3;0;0
+Casual;2;Predadora;1;Fase 1 — Cinturão;Difícil;5;Derrota;37,03;379,66;138;;5;3;0;0
+Regular;3;Predadora;1;Fase 1 — Cinturão;Difícil;5;Derrota;41,73;483,8;160;;7;3;0;0
+Veterano;4;Predadora;1;Fase 1 — Cinturão;Difícil;5;Vitoria;49,68;650,83;190;46,2;10;3;0,19;0
+Perfeito;5;Predadora;1;Fase 1 — Cinturão;Difícil;5;Vitoria;45,9;630,1;190;42,4;4;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Difícil;1;Vitoria;17,93;233,82;190;14,43;6;1;0,85;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Difícil;1;Vitoria;21,37;283,34;190;17,87;6;1;0,85;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Difícil;1;Vitoria;19,2;255,64;190;15,7;10;1;0,86;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Difícil;1;Vitoria;17,63;251,9;190;14,13;8;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Difícil;1;Vitoria;17,63;251,9;190;14,13;7;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Difícil;2;Vitoria;19,47;294,57;190;15,97;4;0;1;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Difícil;2;Vitoria;18,8;283,1;190;15,3;5;0;1;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Difícil;2;Vitoria;38,83;536,32;190;30,23;11;4;0,47;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Difícil;2;Vitoria;25,97;413,44;190;22,47;4;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Difícil;2;Vitoria;25,97;413,44;190;22,47;4;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Difícil;3;Vitoria;28,4;423,09;190;15,23;8;2;0,74;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Difícil;3;Vitoria;21,63;330,54;190;18,13;5;0;1;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Difícil;3;Vitoria;21,63;330,54;190;18,13;5;0;1;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Difícil;3;Vitoria;11,47;170,15;190;7,97;6;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Difícil;3;Vitoria;11,47;170,15;190;7,97;6;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Difícil;4;Vitoria;34,63;527,13;190;31,13;5;1;0,86;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Difícil;4;Vitoria;31,13;400,73;190;27,63;10;3;0,57;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Difícil;4;Vitoria;29,87;412,29;190;26,37;8;2;0,72;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Difícil;4;Vitoria;15,9;225,71;190;12,4;7;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Difícil;4;Vitoria;15,9;225,71;190;12,4;7;0;1;0
+Novato;1;Predadora;60;Fase 1 — Cinturão;Difícil;5;Vitoria;18,93;275,1;190;15,43;6;0;1;0
+Casual;2;Predadora;60;Fase 1 — Cinturão;Difícil;5;Vitoria;36,03;541,35;190;22,47;8;2;0,72;0
+Regular;3;Predadora;60;Fase 1 — Cinturão;Difícil;5;Vitoria;34,97;526,15;190;31,47;7;1;0,85;0
+Veterano;4;Predadora;60;Fase 1 — Cinturão;Difícil;5;Vitoria;26,97;405,31;190;23,47;4;0;1;0
+Perfeito;5;Predadora;60;Fase 1 — Cinturão;Difícil;5;Vitoria;26,97;405,31;190;23,47;4;0;1;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Fácil;1;Derrota;37,6;400,15;136;;6;3;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Fácil;1;Derrota;25,83;212,57;103;;4;3;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Fácil;1;Derrota;42,3;410,24;126;;4;3;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Fácil;1;Vitoria;37,3;433,2;160;35,3;8;2;0,44;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Fácil;1;Vitoria;20,23;239,03;160;18,23;5;0;1;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Fácil;2;Derrota;31,2;323,26;160;29,57;11;3;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Fácil;2;Derrota;35,23;387,54;146;;8;3;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Fácil;2;Derrota;35,23;380,78;155;;9;3;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Fácil;2;Vitoria;18,93;237,81;160;16,93;7;0;1;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Fácil;2;Vitoria;18,93;237,81;160;16,93;7;0;1;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Fácil;3;Derrota;20,7;157,18;101;;3;3;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Fácil;3;Derrota;28,37;288,89;160;18,05;6;3;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Fácil;3;Derrota;39,67;459,71;160;18,05;10;3;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Fácil;3;Derrota;39,7;445,55;160;18,05;9;3;0;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Fácil;3;Vitoria;20,07;236,8;160;18,05;5;0;1;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Fácil;4;Derrota;22,17;186,83;112;;4;3;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Fácil;4;Derrota;26,97;238,19;126;;7;3;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Fácil;4;Vitoria;34,53;372,53;160;32,53;9;2;0,44;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Fácil;4;Derrota;45;547,44;160;24,07;9;3;0;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Fácil;4;Vitoria;26,07;329,89;160;24,07;5;0;1;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Fácil;5;Derrota;41,57;430,12;143;;8;3;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Fácil;5;Vitoria;31,5;371,28;160;12,8;14;3;0,23;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Fácil;5;Derrota;34,57;362,89;155;;10;3;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Fácil;5;Vitoria;31,87;372,24;160;24,07;10;2;0,47;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Fácil;5;Vitoria;20,02;236,46;160;18,03;5;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Fácil;1;Vitoria;13,7;181,06;160;11,7;4;0;1;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Fácil;1;Vitoria;16,43;189,64;160;14,43;4;1;0,85;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Fácil;1;Vitoria;9,93;125,27;160;7,93;3;0;1;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Fácil;1;Vitoria;9,93;125,27;160;7,93;3;0;1;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Fácil;1;Vitoria;9,93;125,27;160;7,93;3;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Fácil;2;Vitoria;10,1;132,3;160;8,1;4;0;1;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Fácil;2;Vitoria;10,1;132,3;160;8,1;4;0;1;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Fácil;2;Vitoria;10,1;132,3;160;8,1;4;0;1;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Fácil;2;Vitoria;10,1;132,3;160;8,1;4;0;1;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Fácil;2;Vitoria;10,1;132,3;160;8,1;4;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Fácil;3;Vitoria;12,43;153,02;160;10,43;3;0;1;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Fácil;3;Vitoria;12,5;154,17;160;10,5;3;0;1;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Fácil;3;Vitoria;12,5;154,17;160;10,5;3;0;1;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Fácil;3;Vitoria;12,5;154,17;160;10,5;3;0;1;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Fácil;3;Vitoria;12,5;154,17;160;10,5;3;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Fácil;4;Vitoria;9,6;125,2;160;7,6;3;0;1;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Fácil;4;Vitoria;9,17;121,2;160;7,17;4;0;1;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Fácil;4;Vitoria;9,6;125,2;160;7,6;3;0;1;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Fácil;4;Vitoria;9,6;125,2;160;7,6;3;0;1;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Fácil;4;Vitoria;13,17;177,77;160;11,17;3;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Fácil;5;Vitoria;11,6;139,02;160;9,6;3;0;1;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Fácil;5;Vitoria;10,03;125,63;160;8,03;5;0;1;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Fácil;5;Vitoria;11,6;139,02;160;9,6;3;0;1;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Fácil;5;Vitoria;11,6;139,02;160;9,6;3;0;1;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Fácil;5;Vitoria;11,6;139,02;160;9,6;3;0;1;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Normal;1;Derrota;29,03;278,44;142;;6;3;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Normal;1;Derrota;33,67;346,93;154;;6;3;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Normal;1;Vitoria;18,6;236,59;175;15,8;7;0;1;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Normal;1;Derrota;39,67;460,98;174;;7;3;0;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Normal;1;Vitoria;26,07;341,44;175;23,27;7;0;1;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Normal;2;Derrota;22,97;218,1;126;;6;3;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Normal;2;Derrota;20,2;182,49;121;;3;2;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Normal;2;Derrota;21,5;206,86;149;;8;3;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Normal;2;Derrota;29,17;335,15;155;;5;2;0;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Normal;2;Vitoria;26,87;355,95;175;24,07;6;0;1;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Normal;3;Derrota;26,83;256;154;;8;3;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Normal;3;Derrota;25,53;248,47;154;;6;3;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Normal;3;Derrota;26,97;278,51;154;;7;3;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Normal;3;Derrota;41,5;517,88;174;;10;3;0;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Normal;3;Vitoria;31,33;398,04;175;28,53;8;1;0,67;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Normal;4;Derrota;33,5;392,67;175;;9;3;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Normal;4;Vitoria;18,9;251,21;175;16,1;7;0;1;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Normal;4;Vitoria;38,23;511,68;175;35,43;10;2;0,36;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Normal;4;Vitoria;29,7;377,23;175;26,9;12;2;0,36;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Normal;4;Vitoria;19,9;266,76;175;17,1;7;0;1;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Normal;5;Derrota;21,9;184,33;129;;3;3;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Normal;5;Derrota;18,9;150,81;123;;3;3;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Normal;5;Derrota;31,53;317,53;132;;6;2;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Normal;5;Vitoria;45,5;618,78;175;28,97;7;1;0,67;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Normal;5;Vitoria;35,43;450,81;175;32,63;5;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Normal;1;Vitoria;46,97;598,23;175;39,67;13;5;0,2;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Normal;1;Vitoria;28,2;347,45;175;25,4;7;3;0,55;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Normal;1;Vitoria;10,9;148,92;175;8,1;4;0;1;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Normal;1;Vitoria;10,9;148,92;175;8,1;4;0;1;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Normal;1;Vitoria;10,9;148,92;175;8,1;4;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Normal;2;Derrota;37,77;452,56;175;25,03;13;7;0;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Normal;2;Vitoria;36,93;426,73;175;34,13;10;6;0,09;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Normal;2;Vitoria;37,7;487,89;175;16,17;14;5;0,25;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Normal;2;Vitoria;17,73;266,23;175;14,93;5;0;1;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Normal;2;Vitoria;17,73;266,23;175;14,93;5;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Normal;3;Vitoria;43,13;537,81;175;31,1;11;5;0,24;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Normal;3;Vitoria;14,23;191,88;175;11,43;5;0;1;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Normal;3;Vitoria;14,23;191,88;175;11,43;5;0;1;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Normal;3;Vitoria;14,23;191,88;175;11,43;5;0;1;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Normal;3;Vitoria;14,23;191,88;175;11,43;5;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Normal;4;Vitoria;17;227,02;175;14,2;6;1;0,83;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Normal;4;Vitoria;10,83;156,86;175;8,03;4;0;1;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Normal;4;Vitoria;27,83;360,72;175;25,03;8;3;0,51;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Normal;4;Vitoria;13,97;201,31;175;11,17;4;0;1;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Normal;4;Vitoria;13,97;201,31;175;11,17;4;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Normal;5;Vitoria;15,2;203,35;175;12,4;4;0;1;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Normal;5;Vitoria;13,83;190,69;175;11,03;6;0;1;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Normal;5;Vitoria;22,97;284,99;175;20,17;9;2;0,67;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Normal;5;Vitoria;28,3;382,99;175;13,3;10;2;0,69;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Normal;5;Vitoria;28,23;381,87;175;13,3;10;2;0,69;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Difícil;1;Derrota;16,67;146,53;125;;5;2;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Difícil;1;Derrota;13,5;110,89;122;;4;2;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Difícil;1;Derrota;24,7;224,99;115;;4;2;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Difícil;1;Derrota;23,9;247,26;147;;6;2;0;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Difícil;1;Vitoria;32,53;461,46;190;29,03;7;0;1;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Difícil;2;Derrota;15,33;131,2;121;;5;2;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Difícil;2;Derrota;17,8;156,55;121;;6;2;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Difícil;2;Derrota;23,63;248,57;155;;5;2;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Difícil;2;Derrota;25,47;258,96;155;;5;2;0;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Difícil;2;Vitoria;41,37;580,84;190;37,87;11;2;0,22;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Difícil;3;Derrota;22,27;195,18;129;;4;2;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Difícil;3;Derrota;26,83;259,73;140;;4;2;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Difícil;3;Derrota;30,57;298,7;148;;6;3;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Difícil;3;Derrota;30,77;346,31;158;;6;2;0;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Difícil;3;Vitoria;58,8;798,04;190;55,3;9;2;0,19;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Difícil;4;Derrota;14,23;111,11;121;;5;3;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Difícil;4;Derrota;12,6;93,46;98;;3;2;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Difícil;4;Derrota;28,57;288,9;140;;7;3;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Difícil;4;Derrota;23,03;251,26;159;;6;2;0;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Difícil;4;Vitoria;29,23;417,48;190;25,73;7;0;1;0
+Novato;1;Predadora;1;Fase 2 — Comboio;Difícil;5;Derrota;12,43;88,93;100;;2;2;0;0
+Casual;2;Predadora;1;Fase 2 — Comboio;Difícil;5;Derrota;27,23;278,75;138;;5;2;0;0
+Regular;3;Predadora;1;Fase 2 — Comboio;Difícil;5;Derrota;29,4;271,48;118;;5;2;0;0
+Veterano;4;Predadora;1;Fase 2 — Comboio;Difícil;5;Derrota;34,07;399,85;182;;10;2;0;0
+Perfeito;5;Predadora;1;Fase 2 — Comboio;Difícil;5;Vitoria;49,5;679,48;190;36,83;11;2;0,21;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Difícil;1;Derrota;26,07;302,95;190;15,07;11;5;0;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Difícil;1;Derrota;24,9;256,21;159;;6;5;0;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Difícil;1;Vitoria;23,93;349,4;190;20,43;6;1;0,79;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Difícil;1;Vitoria;29,83;426,39;190;26,33;8;2;0,59;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Difícil;1;Vitoria;17,17;254,5;190;13,67;5;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Difícil;2;Derrota;25,07;264,61;158;;8;5;0;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Difícil;2;Derrota;27,73;337,63;190;13,23;10;5;0;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Difícil;2;Derrota;30,17;383,42;190;19,97;11;5;0;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Difícil;2;Derrota;30,33;362,69;190;13,23;9;5;0;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Difícil;2;Vitoria;13;195,48;190;9,5;7;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Difícil;3;Derrota;29,6;305,09;147;;8;5;0;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Difícil;3;Derrota;38,17;438,29;170;;7;4;0;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Difícil;3;Derrota;30,17;356,47;181;;5;4;0;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Difícil;3;Derrota;43,13;554,1;190;23,13;9;5;0;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Difícil;3;Vitoria;26,63;365,59;190;23,13;6;1;0,79;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Difícil;4;Derrota;27,5;305,81;168;;8;5;0;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Difícil;4;Derrota;26,4;280,33;179;;9;5;0;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Difícil;4;Vitoria;23,6;328,22;190;20,1;8;2;0,59;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Difícil;4;Vitoria;21,47;323,61;190;11,17;8;1;0,8;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Difícil;4;Vitoria;14,67;221,87;190;11,17;7;0;1;0
+Novato;1;Predadora;60;Fase 2 — Comboio;Difícil;5;Derrota;33,37;393,29;189;;10;5;0;0
+Casual;2;Predadora;60;Fase 2 — Comboio;Difícil;5;Derrota;13,47;97,08;109;;2;5;0;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Difícil;5;Derrota;33,63;412,91;182;;9;5;0;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Difícil;5;Derrota;46,33;639,57;190;32,87;11;5;0;0
+Perfeito;5;Predadora;60;Fase 2 — Comboio;Difícil;5;Vitoria;18,03;264,98;190;14,53;5;0;1;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Fácil;1;Vitoria;30,07;317,11;160;27,37;9;2;0,17;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Fácil;1;Derrota;23,53;188,9;113;;5;3;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Fácil;1;Derrota;34,27;310,49;124;;6;3;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Fácil;1;Vitoria;25,87;284,52;160;23,87;7;1;0,57;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Fácil;1;Vitoria;20,37;239,63;160;18,37;6;0;0,86;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Fácil;2;Derrota;16,27;114,92;92;;0;3;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Fácil;2;Derrota;25,87;202,46;107;;2;3;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Fácil;2;Derrota;27,37;233,79;126;;4;2;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Fácil;2;Vitoria;34,9;390,99;160;25,97;7;1;0,58;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Fácil;2;Vitoria;27,97;306,38;160;25,97;4;0;0,86;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Fácil;3;Vitoria;16,03;189,89;160;14,03;6;0;1;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Fácil;3;Derrota;27,87;263,34;134;;4;2;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Fácil;3;Vitoria;34,13;360,5;160;32,13;10;3;0,18;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Fácil;3;Vitoria;34;412,41;160;21,73;6;1;0,72;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Fácil;3;Vitoria;23,73;280,51;160;21,73;4;0;1;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Fácil;4;Vitoria;23,4;248,65;160;21,4;8;1;0,57;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Fácil;4;Vitoria;21,9;242,59;160;19,13;10;1;0,58;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Fácil;4;Derrota;27,82;258,96;143;;8;3;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Fácil;4;Vitoria;21,9;243,93;160;19,13;10;1;0,58;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Fácil;4;Vitoria;17,27;205,18;160;15,27;7;0;1;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Fácil;5;Derrota;24,67;197,47;108;;4;3;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Fácil;5;Derrota;32,23;291,64;144;;9;4;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Fácil;5;Derrota;40,3;385,6;157;;8;3;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Fácil;5;Vitoria;39,1;436,75;160;37,1;9;2;0,42;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Fácil;5;Vitoria;26,43;314,55;160;24,43;4;0;1;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Fácil;1;Vitoria;11,07;142,05;160;9,07;4;0;1;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Fácil;1;Vitoria;18,47;213,8;160;16,47;4;1;0,85;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Fácil;1;Vitoria;19,07;246,23;160;7,67;6;1;0,79;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Fácil;1;Vitoria;17,07;216,63;160;7,67;6;1;0,86;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Fácil;1;Vitoria;9,67;121,75;160;7,67;3;0;1;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Fácil;2;Vitoria;10,83;127,64;160;8,83;3;0;1;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Fácil;2;Vitoria;10,83;127,64;160;8,83;3;0;1;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Fácil;2;Vitoria;18,63;224,18;160;16,63;5;1;0,85;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Fácil;2;Vitoria;12,83;156,3;160;10,83;3;0;1;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Fácil;2;Vitoria;12,83;156,3;160;10,83;3;0;1;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Fácil;3;Vitoria;10,97;140,04;160;8,97;4;0;1;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Fácil;3;Vitoria;11,1;142;160;9,1;3;0;1;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Fácil;3;Vitoria;11,1;142;160;9,1;4;0;1;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Fácil;3;Vitoria;11,1;142;160;9,1;3;0;1;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Fácil;3;Vitoria;11,1;142;160;9,1;3;0;1;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Fácil;4;Vitoria;9,7;123,46;160;7,7;4;0;1;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Fácil;4;Vitoria;11,07;141,51;160;9,07;3;0;1;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Fácil;4;Vitoria;14,37;177,82;160;7,7;6;1;0,86;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Fácil;4;Vitoria;14,37;177,82;160;7,7;6;1;0,86;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Fácil;4;Vitoria;9,7;123,46;160;7,7;3;0;1;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Fácil;5;Vitoria;13,73;169,97;160;11,73;3;0;1;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Fácil;5;Vitoria;19,9;235,04;160;12,8;4;1;0,85;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Fácil;5;Vitoria;18,33;222,86;160;11,73;4;1;0,85;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Fácil;5;Vitoria;18,33;222,88;160;11,73;4;1;0,85;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Fácil;5;Vitoria;13,73;169,97;160;11,73;2;0;1;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Normal;1;Derrota;23,47;203,23;128;;8;3;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Normal;1;Derrota;19,23;183,43;143;;4;2;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Normal;1;Derrota;23,3;227,07;143;;6;2;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Normal;1;Vitoria;40,6;435,87;175;37,8;10;3;0,09;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Normal;1;Vitoria;45,17;620,69;175;29,5;9;2;0,36;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Normal;2;Derrota;23,37;208,67;139;;7;2;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Normal;2;Derrota;24,07;213,95;122;;5;2;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Normal;2;Vitoria;39,9;428,14;175;37,1;10;3;0,2;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Normal;2;Derrota;49,17;601,28;175;28,03;9;3;0;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Normal;2;Vitoria;29,6;378,59;175;26,8;8;0;1;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Normal;3;Derrota;18,53;154,6;127;;7;3;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Normal;3;Derrota;20,27;178,78;123;;4;2;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Normal;3;Derrota;25,67;252,97;148;;8;2;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Normal;3;Derrota;40,77;496,54;175;26,93;5;3;0;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Normal;3;Vitoria;29,7;383,74;175;26,9;5;0;1;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Normal;4;Derrota;24,83;292,09;175;15,23;11;2;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Normal;4;Derrota;27,27;278,19;152;;5;3;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Normal;4;Derrota;26,9;302,84;175;15,23;9;3;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Normal;4;Derrota;37,23;436,06;163;;9;3;0;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Normal;4;Vitoria;29,23;401,78;175;26,43;6;0;1;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Normal;5;Derrota;14,67;115,98;106;;2;2;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Normal;5;Derrota;26,3;233,01;128;;5;2;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Normal;5;Derrota;21,97;193,5;122;;4;2;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Normal;5;Derrota;44,83;468,25;175;44,33;8;2;0;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Normal;5;Vitoria;35,93;477,17;175;33,13;5;0;1;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Normal;1;Vitoria;18,47;237,83;175;15,67;8;1;0,83;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Normal;1;Vitoria;30,63;404,02;175;12,9;10;3;0,52;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Normal;1;Vitoria;30,57;377,74;175;26,93;10;4;0,31;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Normal;1;Vitoria;30,7;425,74;175;12,97;8;2;0,61;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Normal;1;Vitoria;24,07;341,2;175;12,97;5;1;0,83;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Normal;2;Vitoria;30,57;375,35;175;19,3;6;3;0,54;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Normal;2;Vitoria;30,63;379,36;175;27,83;7;2;0,65;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Normal;2;Vitoria;30,7;368,07;175;27,9;8;3;0,55;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Normal;2;Vitoria;28,83;370,48;175;15,63;7;2;0,67;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Normal;2;Vitoria;26,5;355;175;15,63;4;1;0,83;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Normal;3;Vitoria;21,6;280,47;175;17,43;8;2;0,55;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Normal;3;Vitoria;21,73;279,38;175;18,93;5;1;0,69;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Normal;3;Vitoria;21,63;276,04;175;18,07;8;2;0,54;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Normal;3;Vitoria;20,93;301,95;175;16,33;5;0;0,86;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Normal;3;Vitoria;20,93;301,95;175;16,33;5;0;0,86;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Normal;4;Vitoria;10,9;150,95;175;8,1;5;0;1;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Normal;4;Vitoria;37,6;502,37;175;14,93;19;4;0,04;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Normal;4;Vitoria;10,9;150,95;175;8,1;5;0;1;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Normal;4;Vitoria;10,9;150,95;175;8,1;5;0;1;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Normal;4;Vitoria;10,9;150,95;175;8,1;5;0;1;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Normal;5;Vitoria;19,83;229,87;175;17,03;5;2;0,71;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Normal;5;Vitoria;21,2;272,03;175;18,4;4;1;0,82;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Normal;5;Vitoria;25,17;284;175;22,37;11;3;0,53;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Normal;5;Vitoria;25,87;350,12;175;23,07;4;1;0,83;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Normal;5;Vitoria;25,5;365,51;175;22,7;2;0;1;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Difícil;1;Derrota;18,17;167,95;125;;5;2;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Difícil;1;Derrota;13,73;121,15;125;;3;2;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Difícil;1;Derrota;17,5;148,29;116;;2;2;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Difícil;1;Derrota;16,3;163,67;147;;6;2;0;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Difícil;1;Vitoria;56,4;754,54;190;52,9;10;3;0,02;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Difícil;2;Derrota;21,43;170,56;104;;2;2;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Difícil;2;Derrota;14,93;115,01;104;;2;2;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Difícil;2;Derrota;29,53;271,65;122;;6;3;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Difícil;2;Derrota;46,17;554,08;177;;6;3;0;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Difícil;2;Derrota;59,73;828,09;190;50,37;9;2;0;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Difícil;3;Derrota;14,87;118,63;114;;2;3;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Difícil;3;Derrota;20,23;220,02;153;;7;2;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Difícil;3;Derrota;24,63;262,86;171;;10;3;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Difícil;3;Vitoria;28,9;385,5;190;24,37;13;2;0,36;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Difícil;3;Vitoria;44,03;615,82;190;40,53;10;2;0,2;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Difícil;4;Derrota;17,6;175,84;154;;8;2;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Difícil;4;Derrota;14,13;115,26;108;;4;2;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Difícil;4;Derrota;19,5;193,51;135;;6;2;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Difícil;4;Derrota;35,83;400,93;139;;4;2;0;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Difícil;4;Vitoria;45,17;659,13;190;41,67;4;0;1;0
+Novato;1;Predadora;1;Fase 3 — Ninho;Difícil;5;Derrota;23,23;223,24;137;;7;2;0;0
+Casual;2;Predadora;1;Fase 3 — Ninho;Difícil;5;Derrota;22,53;188,17;114;;5;3;0;0
+Regular;3;Predadora;1;Fase 3 — Ninho;Difícil;5;Derrota;20,6;192,81;127;;6;2;0;0
+Veterano;4;Predadora;1;Fase 3 — Ninho;Difícil;5;Derrota;39,9;488,85;167;;7;2;0;0
+Perfeito;5;Predadora;1;Fase 3 — Ninho;Difícil;5;Derrota;54;719,68;187;;5;2;0;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Difícil;1;Derrota;26,5;278,99;159;;7;5;0;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Difícil;1;Derrota;24,47;249,03;159;;6;5;0;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Difícil;1;Derrota;27,9;315,33;190;26,93;8;4;0;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Difícil;1;Vitoria;34,93;457,95;190;25,83;14;4;0,22;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Difícil;1;Vitoria;25,4;362,15;190;21,9;9;2;0,59;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Difícil;2;Derrota;34,03;356,44;163;;9;5;0;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Difícil;2;Derrota;25,3;231,01;132;;3;5;0;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Difícil;2;Vitoria;41,2;520,57;190;31,8;14;5;0,04;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Difícil;2;Vitoria;19,07;263,9;190;15,57;5;0;1;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Difícil;2;Vitoria;19,07;263,9;190;15,57;5;0;1;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Difícil;3;Derrota;26,6;276,77;162;;7;5;0;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Difícil;3;Vitoria;31,87;436,89;190;10,9;11;4;0,13;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Difícil;3;Derrota;35,07;498,92;190;10,9;13;4;0;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Difícil;3;Vitoria;29,67;449,45;190;10,9;11;2;0,49;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Difícil;3;Vitoria;14,4;214,37;190;10,9;5;0;1;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Difícil;4;Vitoria;12,73;192,41;190;9,23;7;0;1;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Difícil;4;Derrota;26,57;337,58;190;10,03;8;5;0;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Difícil;4;Derrota;27,23;340,33;190;8,33;10;5;0;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Difícil;4;Derrota;26,4;354,57;190;8,33;12;3;0;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Difícil;4;Vitoria;11,83;176,57;190;8,33;8;0;1;0
+Novato;1;Predadora;60;Fase 3 — Ninho;Difícil;5;Derrota;34,7;414,64;190;23,63;13;5;0;0
+Casual;2;Predadora;60;Fase 3 — Ninho;Difícil;5;Vitoria;40,3;535,59;190;35;12;4;0,14;0
+Regular;3;Predadora;60;Fase 3 — Ninho;Difícil;5;Derrota;32,37;395,75;187;;9;4;0;0
+Veterano;4;Predadora;60;Fase 3 — Ninho;Difícil;5;Derrota;36,23;452,65;190;33,93;11;5;0;0
+Perfeito;5;Predadora;60;Fase 3 — Ninho;Difícil;5;Vitoria;25,73;369,55;190;16,17;7;1;0,73;0
+Novato;1;Predadora;1;Sem fim;Fácil;1;FimDaSemFim;34,5;369,56;161;;10;4;0;0
+Casual;2;Predadora;1;Sem fim;Fácil;1;FimDaSemFim;39,43;388,92;136;;6;3;0;0
+Regular;3;Predadora;1;Sem fim;Fácil;1;FimDaSemFim;34,4;374,8;174;;11;3;0;0
+Veterano;4;Predadora;1;Sem fim;Fácil;1;FimDaSemFim;53,27;700,33;200;;11;3;0;0
+Perfeito;5;Predadora;1;Sem fim;Fácil;1;FimDaSemFim;84,17;1779,34;360;;18;3;0;0
+Novato;1;Predadora;1;Sem fim;Fácil;2;FimDaSemFim;51,97;781,16;235;;15;3;0;0
+Casual;2;Predadora;1;Sem fim;Fácil;2;FimDaSemFim;41,4;488,68;182;;11;3;0;0
+Regular;3;Predadora;1;Sem fim;Fácil;2;FimDaSemFim;40,77;511,43;218;;14;3;0;0
+Veterano;4;Predadora;1;Sem fim;Fácil;2;FimDaSemFim;71,13;1396,18;336;;16;2;0;0
+Perfeito;5;Predadora;1;Sem fim;Fácil;2;FimDaSemFim;71,13;1354,96;333;;18;3;0;0
+Novato;1;Predadora;1;Sem fim;Fácil;3;FimDaSemFim;48,4;653,71;200;;12;3;0;0
+Casual;2;Predadora;1;Sem fim;Fácil;3;FimDaSemFim;42,7;510,29;171;;12;4;0;0
+Regular;3;Predadora;1;Sem fim;Fácil;3;FimDaSemFim;47,42;662,42;221;;13;4;0;0
+Veterano;4;Predadora;1;Sem fim;Fácil;3;FimDaSemFim;41,63;593,7;244;;14;3;0;0
+Perfeito;5;Predadora;1;Sem fim;Fácil;3;FimDaSemFim;54,83;897,77;260;;14;4;0;0
+Novato;1;Predadora;1;Sem fim;Fácil;4;FimDaSemFim;29,93;312,11;150;;10;3;0;0
+Casual;2;Predadora;1;Sem fim;Fácil;4;FimDaSemFim;33,07;303,54;119;;6;3;0;0
+Regular;3;Predadora;1;Sem fim;Fácil;4;FimDaSemFim;37,27;452,3;168;;11;3;0;0
+Veterano;4;Predadora;1;Sem fim;Fácil;4;FimDaSemFim;43,27;591,83;201;;12;3;0;0
+Perfeito;5;Predadora;1;Sem fim;Fácil;4;FimDaSemFim;55,4;822,46;206;;11;3;0;0
+Novato;1;Predadora;1;Sem fim;Fácil;5;FimDaSemFim;39,2;390,38;159;;9;3;0;0
+Casual;2;Predadora;1;Sem fim;Fácil;5;FimDaSemFim;51,03;716,47;245;;15;3;0;0
+Regular;3;Predadora;1;Sem fim;Fácil;5;FimDaSemFim;51,07;653,59;221;;13;3;0;0
+Veterano;4;Predadora;1;Sem fim;Fácil;5;FimDaSemFim;54,67;795,42;223;;12;3;0;0
+Perfeito;5;Predadora;1;Sem fim;Fácil;5;FimDaSemFim;61,9;1004,58;267;;15;3;0;0
+Novato;1;Predadora;60;Sem fim;Fácil;1;FimDaSemFim;96;2750,84;594;;25;7;0;0
+Casual;2;Predadora;60;Sem fim;Fácil;1;FimDaSemFim;99,93;2682,43;531;;24;7;0;0
+Regular;3;Predadora;60;Sem fim;Fácil;1;FimDaSemFim;73,3;1416,03;344;;16;6;0;0
+Veterano;4;Predadora;60;Sem fim;Fácil;1;FimDaSemFim;79,72;1883,89;509;;25;6;0;0
+Perfeito;5;Predadora;60;Sem fim;Fácil;1;FimDaSemFim;101;2789,08;553;;23;6;0;0
+Novato;1;Predadora;60;Sem fim;Fácil;2;FimDaSemFim;86,3;2120,31;494;;27;7;0;0
+Casual;2;Predadora;60;Sem fim;Fácil;2;FimDaSemFim;100,63;2882,86;586;;24;6;0;0
+Regular;3;Predadora;60;Sem fim;Fácil;2;FimDaSemFim;96,27;2306,09;425;;16;7;0;0
+Veterano;4;Predadora;60;Sem fim;Fácil;2;FimDaSemFim;101,42;2520,18;527;;25;8;0;0
+Perfeito;5;Predadora;60;Sem fim;Fácil;2;FimDaSemFim;94,93;2274,65;507;;25;7;0;0
+Novato;1;Predadora;60;Sem fim;Fácil;3;FimDaSemFim;73,47;1512,48;436;;20;7;0;0
+Casual;2;Predadora;60;Sem fim;Fácil;3;FimDaSemFim;58,83;1064,61;363;;21;7;0;0
+Regular;3;Predadora;60;Sem fim;Fácil;3;FimDaSemFim;62,17;1072,88;339;;16;7;0;0
+Veterano;4;Predadora;60;Sem fim;Fácil;3;FimDaSemFim;64,97;1142,8;317;;15;7;0;0
+Perfeito;5;Predadora;60;Sem fim;Fácil;3;FimDaSemFim;79,07;1902,09;505;;26;7;0;0
+Novato;1;Predadora;60;Sem fim;Fácil;4;FimDaSemFim;70,77;1409,63;359;;19;8;0;0
+Casual;2;Predadora;60;Sem fim;Fácil;4;FimDaSemFim;101,6;3126,96;610;;27;6;0;0
+Regular;3;Predadora;60;Sem fim;Fácil;4;FimDaSemFim;55,33;885,23;237;;13;7;0;0
+Veterano;4;Predadora;60;Sem fim;Fácil;4;FimDaSemFim;92,2;2183,5;481;;23;8;0;0
+Perfeito;5;Predadora;60;Sem fim;Fácil;4;FimDaSemFim;70,8;1348,54;306;;14;6;0;0
+Novato;1;Predadora;60;Sem fim;Fácil;5;FimDaSemFim;80,8;1768,39;426;;20;6;0;0
+Casual;2;Predadora;60;Sem fim;Fácil;5;FimDaSemFim;66,87;1299,21;399;;19;7;0;0
+Regular;3;Predadora;60;Sem fim;Fácil;5;FimDaSemFim;85,6;2055,19;519;;23;7;0;0
+Veterano;4;Predadora;60;Sem fim;Fácil;5;FimDaSemFim;96,7;2458,3;499;;22;7;0;0
+Perfeito;5;Predadora;60;Sem fim;Fácil;5;FimDaSemFim;105;3314,27;618;;26;5;0;0
+Novato;1;Predadora;1;Sem fim;Normal;1;FimDaSemFim;37,67;421,05;158;;7;2;0;0
+Casual;2;Predadora;1;Sem fim;Normal;1;FimDaSemFim;44,33;571,9;188;;8;2;0;0
+Regular;3;Predadora;1;Sem fim;Normal;1;FimDaSemFim;37,57;507,53;194;;10;2;0;0
+Veterano;4;Predadora;1;Sem fim;Normal;1;FimDaSemFim;44,27;600,21;198;;11;3;0;0
+Perfeito;5;Predadora;1;Sem fim;Normal;1;FimDaSemFim;64,2;1118,51;268;;14;3;0;0
+Novato;1;Predadora;1;Sem fim;Normal;2;FimDaSemFim;44,1;620,59;215;;12;3;0;0
+Casual;2;Predadora;1;Sem fim;Normal;2;FimDaSemFim;32,73;351,06;155;;8;3;0;0
+Regular;3;Predadora;1;Sem fim;Normal;2;FimDaSemFim;36,63;481,05;214;;12;3;0;0
+Veterano;4;Predadora;1;Sem fim;Normal;2;FimDaSemFim;44,07;577,76;210;;13;3;0;0
+Perfeito;5;Predadora;1;Sem fim;Normal;2;FimDaSemFim;60,73;966,04;249;;13;3;0;0
+Novato;1;Predadora;1;Sem fim;Normal;3;FimDaSemFim;26,3;280,45;167;;6;3;0;0
+Casual;2;Predadora;1;Sem fim;Normal;3;FimDaSemFim;37,37;479,73;184;;10;4;0;0
+Regular;3;Predadora;1;Sem fim;Normal;3;FimDaSemFim;47,83;746,59;270;;17;3;0;0
+Veterano;4;Predadora;1;Sem fim;Normal;3;FimDaSemFim;47,07;700,54;232;;12;3;0;0
+Perfeito;5;Predadora;1;Sem fim;Normal;3;FimDaSemFim;81,07;1655,44;330;;17;3;0;0
+Novato;1;Predadora;1;Sem fim;Normal;4;FimDaSemFim;29,07;327,92;183;;11;3;0;0
+Casual;2;Predadora;1;Sem fim;Normal;4;FimDaSemFim;33,33;320,56;126;;4;2;0;0
+Regular;3;Predadora;1;Sem fim;Normal;4;FimDaSemFim;32,2;424,25;207;;12;2;0;0
+Veterano;4;Predadora;1;Sem fim;Normal;4;FimDaSemFim;36,87;473,99;184;;11;3;0;0
+Perfeito;5;Predadora;1;Sem fim;Normal;4;FimDaSemFim;56,57;951,61;261;;15;3;0;0
+Novato;1;Predadora;1;Sem fim;Normal;5;FimDaSemFim;37,8;494,89;220;;12;3;0;0
+Casual;2;Predadora;1;Sem fim;Normal;5;FimDaSemFim;49,5;746,59;238;;10;3;0;0
+Regular;3;Predadora;1;Sem fim;Normal;5;FimDaSemFim;47,73;663,27;211;;10;2;0;0
+Veterano;4;Predadora;1;Sem fim;Normal;5;FimDaSemFim;57,1;826,95;233;;12;4;0;0
+Perfeito;5;Predadora;1;Sem fim;Normal;5;FimDaSemFim;72,9;1264,58;268;;14;4;0;0
+Novato;1;Predadora;60;Sem fim;Normal;1;FimDaSemFim;55,8;842,5;250;;11;5;0;0
+Casual;2;Predadora;60;Sem fim;Normal;1;FimDaSemFim;74,97;1855,28;495;;20;4;0;0
+Regular;3;Predadora;60;Sem fim;Normal;1;FimDaSemFim;67,6;1399,07;418;;19;7;0;0
+Veterano;4;Predadora;60;Sem fim;Normal;1;FimDaSemFim;76,03;2076,37;540;;24;4;0;0
+Perfeito;5;Predadora;60;Sem fim;Normal;1;FimDaSemFim;62,9;1339,15;383;;16;4;0;0
+Novato;1;Predadora;60;Sem fim;Normal;2;FimDaSemFim;63,57;1264,52;363;;19;6;0;0
+Casual;2;Predadora;60;Sem fim;Normal;2;FimDaSemFim;55,97;1037,52;293;;15;5;0;0
+Regular;3;Predadora;60;Sem fim;Normal;2;FimDaSemFim;62,5;1080,12;307;;15;6;0;0
+Veterano;4;Predadora;60;Sem fim;Normal;2;FimDaSemFim;56,03;994,2;272;;14;5;0;0
+Perfeito;5;Predadora;60;Sem fim;Normal;2;FimDaSemFim;62,5;1210,36;362;;19;6;0;0
+Novato;1;Predadora;60;Sem fim;Normal;3;FimDaSemFim;50,53;832,34;283;;15;7;0;0
+Casual;2;Predadora;60;Sem fim;Normal;3;FimDaSemFim;51,27;894,85;317;;16;6;0;0
+Regular;3;Predadora;60;Sem fim;Normal;3;FimDaSemFim;63,63;1280,77;362;;18;6;0;0
+Veterano;4;Predadora;60;Sem fim;Normal;3;FimDaSemFim;51,43;881,9;322;;17;6;0;0
+Perfeito;5;Predadora;60;Sem fim;Normal;3;FimDaSemFim;69,1;1530,14;420;;21;6;0;0
+Novato;1;Predadora;60;Sem fim;Normal;4;FimDaSemFim;42,37;686,46;277;;13;5;0;0
+Casual;2;Predadora;60;Sem fim;Normal;4;FimDaSemFim;58,33;1141,92;397;;16;5;0;0
+Regular;3;Predadora;60;Sem fim;Normal;4;FimDaSemFim;45,67;775,71;335;;18;6;0;0
+Veterano;4;Predadora;60;Sem fim;Normal;4;FimDaSemFim;56,47;1144,01;380;;18;5;0;0
+Perfeito;5;Predadora;60;Sem fim;Normal;4;FimDaSemFim;56,43;1138,96;396;;19;5;0;0
+Novato;1;Predadora;60;Sem fim;Normal;5;FimDaSemFim;57,8;1046,4;350;;19;7;0;0
+Casual;2;Predadora;60;Sem fim;Normal;5;FimDaSemFim;63,23;1170,68;330;;15;6;0;0
+Regular;3;Predadora;60;Sem fim;Normal;5;FimDaSemFim;71,27;1487,79;424;;19;5;0;0
+Veterano;4;Predadora;60;Sem fim;Normal;5;FimDaSemFim;71,53;1450,06;405;;19;5;0;0
+Perfeito;5;Predadora;60;Sem fim;Normal;5;FimDaSemFim;75,7;1761,08;478;;23;5;0;0
+Novato;1;Predadora;1;Sem fim;Difícil;1;FimDaSemFim;16,6;130,24;112;;6;3;0;0
+Casual;2;Predadora;1;Sem fim;Difícil;1;FimDaSemFim;18,63;186,32;140;;6;2;0;0
+Regular;3;Predadora;1;Sem fim;Difícil;1;FimDaSemFim;16,47;139,34;109;;4;2;0;0
+Veterano;4;Predadora;1;Sem fim;Difícil;1;FimDaSemFim;30,63;343,08;150;;5;2;0;0
+Perfeito;5;Predadora;1;Sem fim;Difícil;1;FimDaSemFim;81,93;1306,96;217;;4;2;0;0
+Novato;1;Predadora;1;Sem fim;Difícil;2;FimDaSemFim;27,07;312,94;156;;7;2;0;0
+Casual;2;Predadora;1;Sem fim;Difícil;2;FimDaSemFim;27,93;312,35;156;;6;2;0;0
+Regular;3;Predadora;1;Sem fim;Difícil;2;FimDaSemFim;29,17;275,81;132;;3;3;0;0
+Veterano;4;Predadora;1;Sem fim;Difícil;2;FimDaSemFim;37,5;415,54;149;;5;3;0;0
+Perfeito;5;Predadora;1;Sem fim;Difícil;2;FimDaSemFim;72,03;1114,95;216;;6;2;0;0
+Novato;1;Predadora;1;Sem fim;Difícil;3;FimDaSemFim;17,43;133,37;110;;5;3;0;0
+Casual;2;Predadora;1;Sem fim;Difícil;3;FimDaSemFim;24,13;228,95;143;;6;3;0;0
+Regular;3;Predadora;1;Sem fim;Difícil;3;FimDaSemFim;26,43;277,06;165;;8;3;0;0
+Veterano;4;Predadora;1;Sem fim;Difícil;3;FimDaSemFim;33;344,64;145;;5;2;0;0
+Perfeito;5;Predadora;1;Sem fim;Difícil;3;FimDaSemFim;82,9;1211,73;204;;4;2;0;0
+Novato;1;Predadora;1;Sem fim;Difícil;4;FimDaSemFim;25,33;259,05;157;;10;3;0;0
+Casual;2;Predadora;1;Sem fim;Difícil;4;FimDaSemFim;22,7;197,51;112;;1;2;0;0
+Regular;3;Predadora;1;Sem fim;Difícil;4;FimDaSemFim;22,7;209,58;132;;3;2;0;0
+Veterano;4;Predadora;1;Sem fim;Difícil;4;FimDaSemFim;25;230,78;123;;3;2;0;0
+Perfeito;5;Predadora;1;Sem fim;Difícil;4;FimDaSemFim;78,47;1204,8;207;;4;2;0;0
+Novato;1;Predadora;1;Sem fim;Difícil;5;FimDaSemFim;16,77;142,42;114;;3;2;0;0
+Casual;2;Predadora;1;Sem fim;Difícil;5;FimDaSemFim;21,2;168,48;129;;4;3;0;0
+Regular;3;Predadora;1;Sem fim;Difícil;5;FimDaSemFim;25,5;241,62;124;;3;2;0;0
+Veterano;4;Predadora;1;Sem fim;Difícil;5;FimDaSemFim;45,1;561,92;196;;9;2;0;0
+Perfeito;5;Predadora;1;Sem fim;Difícil;5;FimDaSemFim;70,67;1122,2;249;;10;2;0;0
+Novato;1;Predadora;60;Sem fim;Difícil;1;FimDaSemFim;30,93;376,01;201;;9;5;0;0
+Casual;2;Predadora;60;Sem fim;Difícil;1;FimDaSemFim;39,13;533,77;202;;9;5;0;0
+Regular;3;Predadora;60;Sem fim;Difícil;1;FimDaSemFim;30,4;355,08;182;;9;5;0;0
+Veterano;4;Predadora;60;Sem fim;Difícil;1;FimDaSemFim;46,23;646,79;202;;10;5;0;0
+Perfeito;5;Predadora;60;Sem fim;Difícil;1;FimDaSemFim;58,53;1000,24;318;;14;4;0;0
+Novato;1;Predadora;60;Sem fim;Difícil;2;FimDaSemFim;28,97;344,29;200;;8;5;0;0
+Casual;2;Predadora;60;Sem fim;Difícil;2;FimDaSemFim;47,03;777,02;315;;16;5;0;0
+Regular;3;Predadora;60;Sem fim;Difícil;2;FimDaSemFim;27,97;309,41;180;;7;5;0;0
+Veterano;4;Predadora;60;Sem fim;Difícil;2;FimDaSemFim;58,73;1171,28;335;;14;4;0;0
+Perfeito;5;Predadora;60;Sem fim;Difícil;2;FimDaSemFim;64,5;1342,77;397;;22;5;0;0
+Novato;1;Predadora;60;Sem fim;Difícil;3;FimDaSemFim;36,3;548,4;281;;13;5;0;0
+Casual;2;Predadora;60;Sem fim;Difícil;3;FimDaSemFim;35,27;568,24;298;;13;5;0;0
+Regular;3;Predadora;60;Sem fim;Difícil;3;FimDaSemFim;33,6;473,74;293;;16;6;0;0
+Veterano;4;Predadora;60;Sem fim;Difícil;3;FimDaSemFim;39,43;634,63;287;;13;5;0;0
+Perfeito;5;Predadora;60;Sem fim;Difícil;3;FimDaSemFim;47,4;821,2;281;;11;5;0;0
+Novato;1;Predadora;60;Sem fim;Difícil;4;FimDaSemFim;38,5;596,23;261;;12;4;0;0
+Casual;2;Predadora;60;Sem fim;Difícil;4;FimDaSemFim;30,8;330,68;142;;4;4;0;0
+Regular;3;Predadora;60;Sem fim;Difícil;4;FimDaSemFim;32,13;433,16;217;;7;5;0;0
+Veterano;4;Predadora;60;Sem fim;Difícil;4;FimDaSemFim;48,83;977,01;385;;18;5;0;0
+Perfeito;5;Predadora;60;Sem fim;Difícil;4;FimDaSemFim;57,6;1078,32;354;;15;5;0;0
+Novato;1;Predadora;60;Sem fim;Difícil;5;FimDaSemFim;42,43;583,47;230;;11;6;0;0
+Casual;2;Predadora;60;Sem fim;Difícil;5;FimDaSemFim;53,53;909,05;322;;13;5;0;0
+Regular;3;Predadora;60;Sem fim;Difícil;5;FimDaSemFim;63,27;1265,2;392;;16;4;0;0
+Veterano;4;Predadora;60;Sem fim;Difícil;5;FimDaSemFim;70,4;1689,53;501;;21;4;0;0
+Perfeito;5;Predadora;60;Sem fim;Difícil;5;FimDaSemFim;70,43;1502,99;399;;17;5;0;0

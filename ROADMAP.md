@@ -33,21 +33,11 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 ### 📦 Para rodar agora
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
-- [ ] **Montar** — **Tools → Corrida no Espaço → Montar** *(19/10: o Compêndio de novo, para o
-      cartão ganhar a linha de dificuldade)*
-- [ ] **Testar no Editor** — Compêndio → aba **Obstáculos e Inimigos**: abaixo do nome, a linha
-      **"Dificuldade"** com três estrelas — Detrito nenhuma acesa, Barcaça 3, Casulo 2, Rastro 1.
-      Nas abas **Naves** e **Modificadores** a linha **não aparece**. A nota de cada um se muda na
-      ficha (`Assets/Levels/Obstaculos/`, campo *Difficulty Stars*)
-- [ ] **Commit antes de rodar o simulador** — `git add -A` e
-      `git commit -m "Reforco da Predadora pela metade e estrelas de dificuldade no Compendio"`
-- [ ] **Rodar o simulador só com a Predadora** *(o Reforço novo: 2% por carga, teto 20%)* —
-      **Marcar o retrato completo**, depois desmarcar as outras quatro naves, desmarcar os níveis
-      **15 e 40** e **marcar a sem fim** de volta. Fica igual ao retrato de 18/10, só com ela:
-      níveis 1 e 60, Fases 1 a 3 e a sem fim, as três dificuldades, as cinco personas, 5
-      repetições = **600 corridas, uns 28 min**. A sem fim entra porque é onde a distância dela
-      (29.543 un contra ~10 mil das outras) mais gritou. As sementes são as mesmas, então eu
-      troco as linhas dela no retrato pelas novas e cruzo com as outras quatro
+- [x] **Montar, estrelas no Compêndio e commit** ✅ *(Raffael, 19/10: "as estrelas estão boas")*
+- [x] **O simulador só com a Predadora** ✅ *(19/10 02h31, 600 corridas, 25 min)* — leitura em
+      ⚖️, *"O retrato das naves"*, item 1
+- [ ] **Decidir o Reforço** — fica nos 20%, ou mexe mais? Ver ⚖️
+- [ ] **Commit** — `git add -A` e `git commit -m "Predadora com Reforco de 20%: rodada de comparacao"`
 
 *Próxima rodada da curva, quando der: **só os níveis 15 e 40, sem a sem fim** (pedido do
 Raffael, 19/10). As sementes batem com as do retrato, e os relatórios se somam.*
@@ -143,11 +133,15 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
 
       | Nave | nv 1 | nv 60 | Sem fim nv 60, Veterano |
       |---|---|---|---|
-      | Nave inicial *(sem poder)* | 43% | 84% | 9.528 un |
-      | Nay *(Tiros teleguiados)* | 41% | 83% | 9.581 un |
-      | Espreitador *(Intangibilidade)* | 45% | 85% | 9.788 un |
-      | Raffa *(Super IA)* | 45% | 85% | 10.707 un |
-      | **Predadora** *(Reforço estrutural)* | **68%** | **95%** | **29.543 un** |
+      | Nave inicial *(sem poder)* | 43% | 84% | 953 un |
+      | Nay *(Tiros teleguiados)* | 41% | 83% | 958 un |
+      | Espreitador *(Intangibilidade)* | 45% | 85% | 979 un |
+      | Raffa *(Super IA)* | 45% | 85% | 1.071 un |
+      | **Predadora** *(Reforço estrutural)* | **68%** | **95%** | **2.954 un** |
+
+      *Correção do Claude (19/10): as distâncias saíram **10 vezes maiores** na primeira leitura —
+      o CSV usa vírgula decimal ("2954,3") e a conta engoliu a vírgula. A proporção entre as
+      naves estava certa (a Predadora ~3 vezes as outras).*
 
       **As discrepâncias, da maior para a menor — as decisões são suas:**
       1. **O poder ativo quase não vale nada; a Predadora vale muito.** As cinco naves têm os
@@ -181,7 +175,39 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
         metade", porque a ficha estava em 4%, e não em 2%: 1% com teto 20% seriam 20 cargas e os
         estágios de visual (5 e 10) chegariam na metade do caminho. Se a ideia era mesmo 1%, é
         um número na ficha `Assets/Poderes/Condicional-ReforcoEstrutural.asset` (e o
-        `stageCounts` vira 10 e 20). Medido pela rodada só da Predadora (📦)
+        `stageCounts` vira 10 e 20).
+
+        **Medido** (`docs/simulacoes/2026-10-19_02h31.md`, mesmas sementes, 0 diferenças de
+        plano) — vitórias nas Fases 1 a 3, todas as personas:
+
+        | | Fácil nv 1 | Fácil nv 60 | Normal nv 1 | Normal nv 60 | Difícil nv 1 | Difícil nv 60 | **nv 1** | **nv 60** |
+        |---|---|---|---|---|---|---|---|---|
+        | Outras quatro *(faixa)* | 64–67% | 100% | 48–55% | 89–93% | 12–15% | 57–65% | 41–45% | 83–85% |
+        | Predadora com 40% | 89% | 100% | 64% | 100% | 51% | 84% | 68% | 95% |
+        | **Predadora com 20%** | **67%** | 100% | **55%** | **99%** | **35%** | **61%** | **52%** | **87%** |
+
+        Sem fim, distância média no nível 60 — as outras quatro / Predadora 40% → 20%:
+        Novato 717–843 / 2.233 → **1.112** · Casual 887–1.063 / 2.675 → **1.352** · Regular
+        824–992 / 2.518 → **1.106** · Veterano 953–1.071 / 2.954 → **1.457** · Perfeito
+        1.268–1.564 / 3.144 → **1.624**. Abates por corrida: os mesmos (7 no nv 1, 6 no nv 60) — ela
+        não caça mais que as outras; a vantagem é só o que cada abate rende.
+
+        **Leitura do Claude:**
+        - **Nas fases, resolveu.** Fácil e Normal nv 1 e Difícil nv 60 caíram para **dentro da
+          faixa das outras**. No total ela ainda fica uns **7 pontos acima** no nv 1 (52% contra
+          41–45%) e 2–4 acima no nv 60 — o que um poder que funciona deveria dar
+        - **Sobra o Difícil nv 1** (35% contra 12–15%), mas pela sua decisão do item 3 esse caso
+          não acontece de verdade, porque a nave chega lá evoluída
+        - **Sobra a sem fim: ainda +40 a 50%** de distância no nível 60. É onde um bônus que só
+          cresce mais rende, porque a corrida é longa e ela chega ao teto de 10 cargas. Pode ser
+          aceitável (a sem fim é dela, pelo desenho: "quanto mais caça, mais perigosa"), ou pedir
+          mexer só ali. **Decisão sua.** Caminhos, se quiser mexer: teto em 15%, ou a carga
+          valer só por um tempo
+        - **O problema agora é o outro lado do item 1:** a Predadora já está perto das outras,
+          mas o poder ativo continua **não valendo nada** — Nay, Espreitador e Raffa seguem
+          iguais à Nave inicial, que não tem poder. Um sinal só: no **Difícil nv 60, com o
+          Veterano**, Raffa e Espreitador fazem 93% e Nave inicial e Nay 67%. O ativo pesa na
+          mão de quem sabe usar, e só no aperto
       - **2 → em aberto**
       - **3 → está certo:** o Difícil é para quem passou do Fácil e do Normal, então a nave já
         chega evoluída. O nível 1 no Difícil não é um caso real
@@ -191,7 +217,7 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
         **dificuldade em estrelas** no Compêndio (Detrito 0, Rastro 1, Casulo 2, Barcaça 3)
 
       **Por nave, dificuldade e persona** — vitórias nas Fases 1 a 3 *(15 corridas por casa)*.
-      A Predadora aqui ainda é a de 40%; a rodada nova troca as linhas dela:
+      A Predadora aqui ainda é a de 40%; a de 20% está no item 1, acima:
 
       | Fácil | nv | Novato | Casual | Regular | Veterano | Perfeito | Todas |
       |---|---|---|---|---|---|---|---|
@@ -490,8 +516,8 @@ cinco por vir), e a lista 📱 fechou em 17/10.
 Reforço da Predadora caiu pela metade, e os obstáculos ganharam estrelas de dificuldade no
 Compêndio.*
 
-1. **Rodar só a Predadora** (📦, 600 corridas) e o Claude cruzar com as outras quatro naves do
-   retrato de 18/10 — o poder ativo ainda quase não pesa, e é a próxima conversa depois desta
+1. **A Predadora com 20% rodou** (19/10) e caiu para perto das outras nas fases; sobra a sem
+   fim (+40 a 50%). Decidir se fica assim (⚖️). **Depois, o poder ativo**, que continua sem pesar
 2. **Afinar as personas** — **só depois do teste da Predadora** — e então as **personas sob
    encomenda** (🤖, mais para frente): testes que o Raffael define, com resultado específico
 3. **Decidir a Super IA enxergar estilhaço** (🤖)
