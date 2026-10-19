@@ -55,6 +55,8 @@ public class SimulatedPilot : MonoBehaviour
     /// <summary>Quantas vezes o poder foi ativado nesta corrida.</summary>
     public int PowerUses { get; private set; }
 
+    static bool PowerOnDanger => RaceSimulation.Current != null && RaceSimulation.Current.powerOnDanger;
+
     public void Configure(PilotPersona pilotPersona, int seed)
     {
         persona = pilotPersona;
@@ -182,6 +184,11 @@ public class SimulatedPilot : MonoBehaviour
         if (clock < distractedUntil)
             return;
 
+        // O teto do poder: o perigo chegou e o poder está pronto, aperta — e
+        // desvia do mesmo jeito, porque o poder só entra depois do reflexo.
+        if (PowerOnDanger)
+            ConsiderPower(trapped: true, current);
+
         if (Roll(persona.mistakeChance))
         {
             // Metade das vezes ele trava; metade foge para o lado sem olhar.
@@ -261,7 +268,12 @@ public class SimulatedPilot : MonoBehaviour
             return;
 
         bool use;
-        switch (persona.powerHabit)
+        if (PowerOnDanger)
+        {
+            // No teto, só o perigo dispara; pista calma não gasta o poder.
+            use = trapped;
+        }
+        else switch (persona.powerHabit)
         {
             case PilotPersona.PowerHabit.AToa:
                 use = Roll(Mathf.Max(persona.thinkInterval, Time.deltaTime) / RandomPowerSeconds);

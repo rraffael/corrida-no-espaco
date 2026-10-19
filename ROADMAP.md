@@ -34,10 +34,23 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 *O que ficou pronto do lado do Claude e espera o Raffael. Sai daqui quando ele confirmar.*
 
 - [x] **Montar, estrelas no Compêndio e commit** ✅ *(Raffael, 19/10: "as estrelas estão boas")*
-- [x] **O simulador só com a Predadora** ✅ *(19/10 02h31, 600 corridas, 25 min)* — leitura em
-      ⚖️, *"O retrato das naves"*, item 1
-- [ ] **Decidir o Reforço** — fica nos 20%, ou mexe mais? Ver ⚖️
-- [ ] **Commit** — `git add -A` e `git commit -m "Predadora com Reforco de 20%: rodada de comparacao"`
+- [x] **O simulador só com a Predadora** ✅ *(19/10 02h31, 600 corridas, 25 min)* — o Reforço
+      **fica nos 20%** (decisão do Raffael, 19/10), commit feito
+**Para amanhã (20/10) — medir o poder ativo** *(o plano está em ⚖️, "Como medir o poder
+ativo"; o código foi escrito em 19/10 e ainda não compilou na sua Unity)*:
+
+- [ ] **Abrir a Unity e olhar o Console** — se acusar erro de compilação, me manda a linha.
+      **Montar não precisa**: foi só código
+- [ ] **Commit antes de rodar** — `git add -A` e
+      `git commit -m "Simulador: teto do poder e derrotas com o poder na mao"`
+- [ ] **Rodar o teto do poder** — Simulador de corridas:
+      1. **Marcar o retrato completo**
+      2. Desmarcar as naves **Nave inicial** e **Predadora** (ficam Nay, Espreitador e Raffa)
+      3. Desmarcar os níveis **15 e 40** (ficam 1 e 60) e a dificuldade **Fácil**
+      4. Ligar **"Teto do poder: todos usam o poder no primeiro perigo"**, no fim da janela
+      — Fases 1 a 3, sem a sem fim: **900 corridas, uns 40 min**. Depois é só me avisar; eu
+      comparo com a Nave inicial do retrato de 18/10, pelas mesmas sementes
+- [ ] **Commit do relatório** — `git add -A` e `git commit -m "Teto do poder: 900 corridas"`
 
 *Próxima rodada da curva, quando der: **só os níveis 15 e 40, sem a sem fim** (pedido do
 Raffael, 19/10). As sementes batem com as do retrato, e os relatórios se somam.*
@@ -170,7 +183,10 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
          Fase 2 Fácil, 96% na Fase 3 Fácil)
 
       **O que o Raffael decidiu (19/10):**
-      - **1 → em teste:** o Reforço caiu **pela metade** — 2% por carga, teto 20%, as mesmas 10
+      - **1 → a Predadora está resolvida: o Reforço fica em 20%**, inclusive com a sobra na
+        sem fim. Falta o outro lado do item 1, o poder ativo — ver o item seguinte, *"Como medir
+        o poder ativo"*. O histórico do teste:
+        o Reforço caiu **pela metade** — 2% por carga, teto 20%, as mesmas 10
         cargas (eram 4% e 40%). Ele pediu "1% em vez de 2%, teto 20%"; o Claude seguiu o "pela
         metade", porque a ficha estava em 4%, e não em 2%: 1% com teto 20% seriam 20 cargas e os
         estágios de visual (5 e 10) chegariam na metade do caminho. Se a ideia era mesmo 1%, é
@@ -253,6 +269,47 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
       | Espreitador | 60 | 47% | 40% | 47% | 93% | 100% | 65% |
       | Raffa | 60 | 40% | 40% | 40% | 93% | 100% | 63% |
       | Predadora | 60 | 67% | 73% | 93% | 87% | 100% | 84% |
+- [ ] **Como medir o poder ativo** *(pergunta do Raffael, 19/10; plano do Claude, aprovado — "registra
+      pra eu rodar amanhã"; as duas medidas foram escritas na mesma noite, falta rodar: ver 📦)* —
+      Nay, Espreitador e Raffa saem iguais à Nave inicial, que não tem poder. Antes de mexer no
+      poder, é preciso saber **de quem é a culpa: do poder ou de quem o usa.**
+
+      **O que o retrato já diz** — quantas vezes cada persona usou o poder, Fases 1 a 3:
+
+      | Persona *(hábito)* | Usos por corrida | Corridas sem usar nenhuma vez |
+      |---|---|---|
+      | Novato *(à toa)* | 0,8 | 30% |
+      | Casual *(no aperto)* | 0,3 | **69%** |
+      | Regular *(no aperto)* | 0,2 | **81%** |
+      | Veterano *(esperto)* | 0,6 *(Nay 1,2)* | 38% *(Nay 17%)* |
+      | Perfeito *(esperto)* | 0,6 *(Nay 1,2)* | 36% *(Nay 17%)* |
+
+      Ou seja: **Casual e Regular quase nunca apertam o poder** — o "aperto" que eles esperam
+      quase não acontece, e eles morrem antes. O retrato mediu as naves de poder ativo, na
+      prática, **sem o poder**. Isto é das personas, e entra na revisão delas.
+
+      **O plano — duas medidas no simulador, nenhuma mexe em jogo nem nas personas:**
+      1. **"Morreu com o poder na mão"** — a seção **"Derrotas com o poder na mão"** no
+         relatório e a coluna `poder_sobrando` no CSV: das derrotas, quantas terminaram com o
+         poder pronto e sem usar. É a medida direta de "o poder estava lá e não serviu"
+      2. **O teto do poder** — a opção *"Teto do poder: todos usam o poder no primeiro
+         perigo"*, no fim da janela. Com ela, toda persona aperta o poder no primeiro obstáculo
+         perigoso em que ele estiver pronto (e desvia do mesmo jeito); pista calma não gasta.
+         O relatório avisa no topo quando ela estava ligada. **"Marcar o retrato completo"
+         a desliga**, para não contaminar um retrato normal. Rodar **só Nay, Espreitador e Raffa**, níveis 1 e 60, **Normal e Difícil**
+         (o Fácil nv 60 já é 100% para todo mundo), Fases 1 a 3, sem a sem fim: 900 corridas,
+         ~40 min. As sementes batem com o retrato, então a comparação é com a **Nave inicial**
+         de lá. Leitura: se nem usando sempre o poder passa a Nave inicial, **o poder é fraco**
+         (3 s numa fase de 15 a 40 s); se passa bem, **o poder é bom e as personas é que não o
+         usam**
+
+      **A margem do Raffael** *(proposta dele: as naves de poder ativo terem uma margem, já que
+      o teste não as enxerga)* — o Claude concorda, como **regra de leitura**: no retrato com
+      o hábito normal, nave de poder ativo dentro de **±5 pontos** da Nave inicial conta como
+      "o simulador não vê diferença", e não como defeito. Mas a margem sozinha esconderia o
+      que os testadores já disseram (*"não percebi uma diferença grande nas ults"*) — por isso
+      a medida 2 vem junto: ela diz se o poder **pode** fazer diferença, e aí a margem vale para
+      o resto
 - [ ] **O painel bate com o jogo?** — o tempo até a dobra que o painel estima para o nível 1 tem
       de parecer com o que se sente jogando. Se não bater, a estimativa precisa de ajuste antes de
       servir para balancear
@@ -478,14 +535,21 @@ Raffael pedir pelo nome.*
 
 ---
 
-## 🚀 Onde estamos — fechamento de 18/10/2026
+## 🚀 Onde estamos — fechamento de 19/10/2026
 
 *Resumo para retomar rápido. O detalhe de cada item está na Lista, no topo, e nas Partes.*
 
-**Etapa atual: afinar as personas** — as três levas de 18/10 estão **montadas e testadas** pelo
-Raffael, inclusive o simulador: a primeira rodada (75 corridas) fechou sozinha, sem tocar no
-salvamento. Falta só o commit. A próxima conversa começa pela leitura do relatório em ⚖️ —
-os degraus de baixo saíram iguais e o Perfeito ficou longe demais do Veterano.
+**Etapa atual: balancear as naves pelo simulador.** Em 18 e 19/10 rodaram o retrato das naves
+(3.000 corridas) e a Predadora com o Reforço pela metade (600). **A Predadora está resolvida**
+(Reforço em 20%), o Difícil é para nave evoluída, a escada das fases fica como está, e os
+obstáculos ganharam **estrelas de dificuldade** no Compêndio. **Amanhã (20/10):** o teto do
+poder ativo — ver 📦. As personas só são revistas depois disso, para não refazer o retrato.
+
+*Pendências de antes das personas, conferidas em 19/10:* o teste do 17/10 (menu em 1080x1920 e
+1080x2400, Super IA × Barcaça na beirada, Rastro) **passou todo** e não volta para a lista. Do
+que é seu, continua aberto só o que já está nela: o **nome da conquista de evoluir** (a ficha
+ainda diz "Conquista" e "denovo" — ✏️), a **revisão da Play** (🛒) e o **OK para a Super IA
+enxergar estilhaço** (🤖).
 
 ### Como estava antes
 Versão 2 no teste interno desde 11/10. Chegou o retorno dos testadores (Gabriel e Nay, com mais
@@ -510,14 +574,18 @@ cinco por vir), e a lista 📱 fechou em 17/10.
   Canvas do aviso de conquista, e o Compêndio não montava; o Montar agora para em qualquer erro
   do Console
 - **Tudo testado pelo Raffael** — e o **`Montar.cs` voltou a ficar vazio**
+- **19/10:** o retrato das naves lido e decidido; o **Reforço da Predadora em 20%** (rodada de
+  600 confirmou); **estrelas de dificuldade** nos obstáculos e no Compêndio (aprovadas); e, no
+  simulador, o **teto do poder** e as **derrotas com o poder na mão** — escritos, falta rodar
 
 ### O que vem agora
 *Atualizado em 19/10: o retrato foi lido e o Raffael decidiu três dos quatro pontos (⚖️). O
 Reforço da Predadora caiu pela metade, e os obstáculos ganharam estrelas de dificuldade no
 Compêndio.*
 
-1. **A Predadora com 20% rodou** (19/10) e caiu para perto das outras nas fases; sobra a sem
-   fim (+40 a 50%). Decidir se fica assim (⚖️). **Depois, o poder ativo**, que continua sem pesar
+1. **A Predadora está resolvida** — o Reforço fica em 20% (19/10). **Agora, o poder ativo:** as
+   duas medidas estão escritas; o Raffael roda o teto do poder em 20/10 (📦, ~900 corridas) e o
+   Claude compara com a Nave inicial do retrato
 2. **Afinar as personas** — **só depois do teste da Predadora** — e então as **personas sob
    encomenda** (🤖, mais para frente): testes que o Raffael define, com resultado específico
 3. **Decidir a Super IA enxergar estilhaço** (🤖)

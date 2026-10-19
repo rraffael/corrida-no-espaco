@@ -78,6 +78,14 @@ public static class RaceSimulation
 
         /// <summary>Desliga as câmeras: sem desenhar, cada corrida sai bem mais depressa.</summary>
         public bool hideRendering = true;
+
+        /// <summary>
+        /// O **teto do poder** *(19/10/2026)*: toda persona aperta o poder no
+        /// primeiro perigo em que ele estiver pronto, em vez do hábito dela. O
+        /// retrato de 18/10 mostrou Casual e Regular sem usar o poder em 70 a 80%
+        /// das corridas — com isto ligado, o que se mede é o poder, e não o hábito.
+        /// </summary>
+        public bool powerOnDanger;
     }
 
     [Serializable]
@@ -120,6 +128,12 @@ public static class RaceSimulation
         public float healthLeft;
 
         public int powerUses;
+
+        /// <summary>A nave tem poder ativo — só para estas faz sentido o campo de baixo.</summary>
+        public bool hasPower;
+
+        /// <summary>Perdeu com o poder pronto e sem usar: o poder estava ali e não serviu.</summary>
+        public bool diedWithPowerReady;
     }
 
     public static Plan Current { get; private set; }

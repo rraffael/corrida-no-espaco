@@ -33,6 +33,7 @@ public class RaceSimulatorWindow : EditorWindow
     [SerializeField] float maxEndlessSeconds = 300f;
     [SerializeField] bool sixtyFps;
     [SerializeField] bool hideRendering = true;
+    [SerializeField] bool powerOnDanger;
 
     Vector2 scroll;
 
@@ -123,6 +124,11 @@ public class RaceSimulatorWindow : EditorWindow
         maxEndlessSeconds = Mathf.Max(30f, EditorGUILayout.FloatField("Teto da sem fim (s)", maxEndlessSeconds));
         sixtyFps = EditorGUILayout.ToggleLeft("60 quadros por segundo (o celular roda a 30)", sixtyFps);
         hideRendering = EditorGUILayout.ToggleLeft("Não desenhar a tela (bem mais rápido)", hideRendering);
+        powerOnDanger = EditorGUILayout.ToggleLeft(
+            new GUIContent("Teto do poder: todos usam o poder no primeiro perigo",
+                           "Ignora o hábito de poder das personas: com o poder pronto e um obstáculo perto, " +
+                           "aperta. Mede quanto o poder ativo PODE valer, e não quanto as personas tiram dele."),
+            powerOnDanger);
 
         EditorGUILayout.EndScrollView();
 
@@ -179,6 +185,7 @@ public class RaceSimulatorWindow : EditorWindow
             maxEndlessSeconds = maxEndlessSeconds,
             frameSeconds = sixtyFps ? 1f / 60f : 1f / 30f,
             hideRendering = hideRendering,
+            powerOnDanger = powerOnDanger,
         };
 
         foreach (var persona in personas.Where(p => !excluded.Contains(p.name)))
@@ -256,6 +263,7 @@ public class RaceSimulatorWindow : EditorWindow
         tierLevels = Tiers().ToList();
         extraLevelsText = string.Empty;
         easy = normal = hard = true;
+        powerOnDanger = false;
     }
 
     static void Section(string title)

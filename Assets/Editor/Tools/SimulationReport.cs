@@ -53,6 +53,9 @@ static class SimulationReport
                         $"{plan.maxSeconds:0} s nas fases, {plan.maxEndlessSeconds:0} s na sem fim");
         text.AppendLine($"- **Levou:** {ScoreBoard.FormatTime(realSeconds)} de relógio");
         text.AppendLine($"- **Cada corrida:** `{csvName}`");
+        if (plan.powerOnDanger)
+            text.AppendLine("- **Teto do poder ligado:** toda persona apertou o poder no primeiro perigo, " +
+                            "ignorando o hábito dela — aqui se mede o poder, e não quem o usa");
         text.AppendLine();
         text.AppendLine("> **Como ler.** Uma persona sozinha diz pouco; o que mede é a mesma persona em duas " +
                         "circunstâncias — antes e depois de mexer. Com 5 repetições, cada corrida vale 20 pontos " +
@@ -92,6 +95,19 @@ static class SimulationReport
                         ShipRows(text, races.Where(r => r.difficulty == difficulty).ToList());
                     }
                 }
+            }
+
+            // Só as naves de poder ativo: na Nave inicial e na Predadora a
+            // pergunta nem existe.
+            var powered = races.Where(r => r.hasPower).ToList();
+            if (powered.Any(r => r.outcome == RaceSimulation.Outcome.Derrota))
+            {
+                text.AppendLine("## Derrotas com o poder na mão");
+                text.AppendLine();
+                text.AppendLine("> Das derrotas, quantas terminaram com o poder pronto e sem usar. Alto aqui quer " +
+                                "dizer que o poder estava lá e a persona não o apertou.");
+                text.AppendLine();
+                Matrix(text, powered, r => ShipLabel(r), r => (0, 0), UnusedPowerCell);
             }
         }
 
@@ -228,6 +244,16 @@ static class SimulationReport
         return timedOut > 0 ? cell + $" · {timedOut} esgotou" : cell;
     }
 
+    static string UnusedPowerCell(List<RaceSimulation.Result> runs)
+    {
+        int losses = runs.Count(r => r.outcome == RaceSimulation.Outcome.Derrota);
+        if (losses == 0)
+            return "sem derrota";
+
+        int unused = runs.Count(r => r.diedWithPowerReady);
+        return $"{unused}/{losses} ({100f * unused / losses:0}%)";
+    }
+
     /// <summary>"média (mín–máx)" — o espalhamento é o que diz quanto foi sorte.</summary>
     static string Spread(IEnumerable<float> values, Func<float, string> format)
     {
@@ -258,7 +284,7 @@ static class SimulationReport
     {
         var text = new StringBuilder();
         text.AppendLine("persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;" +
-                        "distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado");
+                        "distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando");
 
         foreach (var r in results)
         {
@@ -267,7 +293,8 @@ static class SimulationReport
                 DifficultyName(r.difficulty), r.seed, r.outcome,
                 Comma(r.seconds), Comma(r.distance), RaceSpeed.Shown(r.topSpeed),
                 r.warpReachedAt >= 0f ? Comma(r.warpReachedAt) : string.Empty,
-                r.kills, r.crashes, Comma(r.healthLeft), r.powerUses));
+                r.kills, r.crashes, Comma(r.healthLeft), r.powerUses,
+                r.hasPower ? (r.diedWithPowerReady ? "1" : "0") : string.Empty));
         }
 
         return text.ToString();

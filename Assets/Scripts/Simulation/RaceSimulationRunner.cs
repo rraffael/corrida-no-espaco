@@ -96,6 +96,9 @@ public class RaceSimulationRunner : MonoBehaviour
         var persona = RaceSimulation.PersonaAt(job.persona);
         var level = director.Level;
 
+        var abilities = ShipAbilities.Instance;
+        bool hasPower = abilities != null && abilities.Equipped != null;
+
         RaceSimulation.Results.Add(new RaceSimulation.Result
         {
             persona = persona.displayName,
@@ -118,6 +121,8 @@ public class RaceSimulationRunner : MonoBehaviour
             crashes = crashes,
             healthLeft = ship.Health.Fraction,
             powerUses = pilot != null ? pilot.PowerUses : 0,
+            hasPower = hasPower,
+            diedWithPowerReady = hasPower && outcome == RaceSimulation.Outcome.Derrota && abilities.IsReady,
         });
 
         index++;
