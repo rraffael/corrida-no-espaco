@@ -279,6 +279,7 @@ public static class ShipEvolution
             { "durationSeconds", "duração (s)" },
             { "charges", "cargas" },
             { "percentPerKill", "% por carga" },
+            { "chargesPerKill", "cargas por abate" },
             { "maxPercent", "teto (%)" },
             { "speedLossAtEnd", "velocidade perdida no fim" },
         };

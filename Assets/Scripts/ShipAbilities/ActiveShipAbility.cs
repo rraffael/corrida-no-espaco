@@ -38,6 +38,13 @@ public class ActiveShipAbility
         ChargesLeft = definition.charges;
     }
 
+    /// <summary>Volta tempo e cargas do efeito ao máximo, sem criar outro por cima.</summary>
+    internal void Renew()
+    {
+        SecondsLeft = Definition.durationSeconds;
+        ChargesLeft = Definition.charges;
+    }
+
     /// <summary>
     /// Gasta uma carga do efeito. Quando a última vai embora, o efeito acaba
     /// **na hora** — o golpe seguinte já não o encontra, mesmo vindo no mesmo

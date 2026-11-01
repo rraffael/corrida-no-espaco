@@ -1,0 +1,161 @@
+﻿persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando
+Regular;3;Raffa;1;Fase 1 — Cinturão;Normal;1;Vitoria;28,2;342,47;175;25,4;6;0;1;0;0
+Regular;3;Raffa;1;Fase 1 — Cinturão;Normal;2;Vitoria;26,67;334,72;175;23,87;9;1;0,76;0;0
+Regular;3;Raffa;1;Fase 1 — Cinturão;Normal;3;Vitoria;32,97;416,1;175;30,17;8;1;0,76;1;0
+Regular;3;Raffa;1;Fase 1 — Cinturão;Normal;4;Vitoria;38,2;521,44;175;35,4;4;0;1;0;0
+Regular;3;Raffa;1;Fase 1 — Cinturão;Normal;5;Vitoria;26,2;353,56;175;23,4;6;0;1;0;0
+Regular;3;Raffa;60;Fase 1 — Cinturão;Normal;1;Vitoria;20,83;280,58;175;18,03;4;0;1;0;0
+Regular;3;Raffa;60;Fase 1 — Cinturão;Normal;2;Vitoria;14,53;199,22;175;11,73;4;0;1;0;0
+Regular;3;Raffa;60;Fase 1 — Cinturão;Normal;3;Vitoria;25,4;334,02;175;22,6;7;2;0,76;0;0
+Regular;3;Raffa;60;Fase 1 — Cinturão;Normal;4;Vitoria;18,87;261,99;175;16,07;4;0;1;0;0
+Regular;3;Raffa;60;Fase 1 — Cinturão;Normal;5;Vitoria;12,53;170,27;175;9,73;4;0;1;0;0
+Regular;3;Espreitador Espacial;1;Fase 1 — Cinturão;Normal;1;Vitoria;36;431,63;175;33,2;7;1;0,76;1;0
+Regular;3;Espreitador Espacial;1;Fase 1 — Cinturão;Normal;2;Vitoria;26,67;334,72;175;23,87;9;1;0,76;0;0
+Regular;3;Espreitador Espacial;1;Fase 1 — Cinturão;Normal;3;Vitoria;32,97;416,1;175;30,17;8;1;0,76;1;0
+Regular;3;Espreitador Espacial;1;Fase 1 — Cinturão;Normal;4;Vitoria;38,2;521,44;175;35,4;4;0;1;0;0
+Regular;3;Espreitador Espacial;1;Fase 1 — Cinturão;Normal;5;Vitoria;26,2;353,56;175;23,4;6;0;1;0;0
+Regular;3;Espreitador Espacial;60;Fase 1 — Cinturão;Normal;1;Vitoria;20,83;280,58;175;18,03;4;0;1;0;0
+Regular;3;Espreitador Espacial;60;Fase 1 — Cinturão;Normal;2;Vitoria;14,53;199,22;175;11,73;4;0;1;0;0
+Regular;3;Espreitador Espacial;60;Fase 1 — Cinturão;Normal;3;Vitoria;25,4;334,02;175;22,6;7;2;0,76;0;0
+Regular;3;Espreitador Espacial;60;Fase 1 — Cinturão;Normal;4;Vitoria;18,87;261,99;175;16,07;4;0;1;0;0
+Regular;3;Espreitador Espacial;60;Fase 1 — Cinturão;Normal;5;Vitoria;12,53;170,27;175;9,73;4;0;1;0;0
+Regular;3;Raffa;1;Fase 1 — Cinturão;Difícil;1;Derrota;36,2;384,18;151;;7;3;0;0;1
+Regular;3;Raffa;1;Fase 1 — Cinturão;Difícil;2;Derrota;42,87;504,66;178;;10;3;0;0;1
+Regular;3;Raffa;1;Fase 1 — Cinturão;Difícil;3;Derrota;37,2;424,4;154;;8;3;0;1;1
+Regular;3;Raffa;1;Fase 1 — Cinturão;Difícil;4;Derrota;37,1;395,29;173;;10;3;0;1;1
+Regular;3;Raffa;1;Fase 1 — Cinturão;Difícil;5;Derrota;37,97;400,48;143;;5;3;0;0;1
+Regular;3;Raffa;60;Fase 1 — Cinturão;Difícil;1;Vitoria;17,67;251,96;190;14,17;7;0;1;1;0
+Regular;3;Raffa;60;Fase 1 — Cinturão;Difícil;2;Vitoria;27,1;432,48;190;23,6;5;0;1;1;0
+Regular;3;Raffa;60;Fase 1 — Cinturão;Difícil;3;Vitoria;21,67;329,8;190;18,17;5;0;1;1;0
+Regular;3;Raffa;60;Fase 1 — Cinturão;Difícil;4;Vitoria;34,83;493,6;190;31,33;6;2;0,69;1;0
+Regular;3;Raffa;60;Fase 1 — Cinturão;Difícil;5;Vitoria;30,33;416,03;190;26,83;6;1;0,85;1;0
+Regular;3;Espreitador Espacial;1;Fase 1 — Cinturão;Difícil;1;Derrota;36,2;384,18;151;;7;3;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 1 — Cinturão;Difícil;2;Derrota;42,87;504,66;178;;10;3;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 1 — Cinturão;Difícil;3;Derrota;37,17;428,6;159;;9;3;0;1;1
+Regular;3;Espreitador Espacial;1;Fase 1 — Cinturão;Difícil;4;Derrota;30,93;306,99;139;;6;3;0;1;1
+Regular;3;Espreitador Espacial;1;Fase 1 — Cinturão;Difícil;5;Derrota;37,97;400,48;143;;5;3;0;0;1
+Regular;3;Espreitador Espacial;60;Fase 1 — Cinturão;Difícil;1;Vitoria;17,67;251,96;190;14,17;8;0;1;1;0
+Regular;3;Espreitador Espacial;60;Fase 1 — Cinturão;Difícil;2;Vitoria;27,1;432,48;190;23,6;5;0;1;2;0
+Regular;3;Espreitador Espacial;60;Fase 1 — Cinturão;Difícil;3;Vitoria;21,67;329,8;190;18,17;5;0;1;1;0
+Regular;3;Espreitador Espacial;60;Fase 1 — Cinturão;Difícil;4;Vitoria;34,83;493,6;190;31,33;6;2;0,69;1;0
+Regular;3;Espreitador Espacial;60;Fase 1 — Cinturão;Difícil;5;Vitoria;30,33;416,03;190;26,83;6;1;0,85;1;0
+Regular;3;Raffa;1;Fase 2 — Comboio;Normal;1;Derrota;32,07;350,59;150;;9;3;0;0;1
+Regular;3;Raffa;1;Fase 2 — Comboio;Normal;2;Derrota;29,17;308,17;147;;5;2;0;0;1
+Regular;3;Raffa;1;Fase 2 — Comboio;Normal;3;Derrota;36,7;404,44;159;;9;3;0;1;1
+Regular;3;Raffa;1;Fase 2 — Comboio;Normal;4;Derrota;32,03;357,92;164;;12;3;0;0;1
+Regular;3;Raffa;1;Fase 2 — Comboio;Normal;5;Derrota;50,1;573,95;174;;10;3;0;1;1
+Regular;3;Raffa;60;Fase 2 — Comboio;Normal;1;Derrota;41,87;528,11;175;8,87;10;5;0;1;1
+Regular;3;Raffa;60;Fase 2 — Comboio;Normal;2;Derrota;35,03;402,53;175;17,13;7;5;0;1;1
+Regular;3;Raffa;60;Fase 2 — Comboio;Normal;3;Vitoria;14,27;192,15;175;11,47;5;0;1;0;0
+Regular;3;Raffa;60;Fase 2 — Comboio;Normal;4;Vitoria;17,13;227,72;175;14,33;6;1;0,82;0;0
+Regular;3;Raffa;60;Fase 2 — Comboio;Normal;5;Vitoria;29,27;349,06;175;26,47;10;3;0,46;1;0
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Normal;1;Derrota;32,07;350,59;150;;9;3;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Normal;2;Derrota;29,17;308,17;147;;5;2;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Normal;3;Derrota;36,73;401,11;159;;9;3;0;1;1
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Normal;4;Derrota;32,03;357,92;164;;12;3;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Normal;5;Derrota;45,63;445,99;143;;8;3;0;1;1
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Normal;1;Vitoria;11,67;162,03;175;8,87;4;0;1;1;0
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Normal;2;Vitoria;19,93;266,11;175;17,13;5;1;0,82;2;0
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Normal;3;Vitoria;14,27;192,15;175;11,47;5;0;1;0;0
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Normal;4;Vitoria;17,13;227,72;175;14,33;6;1;0,82;0;0
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Normal;5;Vitoria;30,6;372,1;175;27,8;10;3;0,46;1;0
+Regular;3;Raffa;1;Fase 2 — Comboio;Difícil;1;Derrota;23,57;211,5;117;;3;2;0;0;1
+Regular;3;Raffa;1;Fase 2 — Comboio;Difícil;2;Derrota;17,87;172,81;135;;7;2;0;0;1
+Regular;3;Raffa;1;Fase 2 — Comboio;Difícil;3;Derrota;29,77;312,01;139;;6;2;0;1;1
+Regular;3;Raffa;1;Fase 2 — Comboio;Difícil;4;Derrota;26,07;273,81;138;;7;2;0;0;1
+Regular;3;Raffa;1;Fase 2 — Comboio;Difícil;5;Derrota;27,63;236,91;122;;4;2;0;1;1
+Regular;3;Raffa;60;Fase 2 — Comboio;Difícil;1;Vitoria;24,03;347,9;190;20,53;6;1;0,77;0;0
+Regular;3;Raffa;60;Fase 2 — Comboio;Difícil;2;Derrota;27,83;362,01;190;13,33;9;4;0;1;1
+Regular;3;Raffa;60;Fase 2 — Comboio;Difícil;3;Derrota;30,13;354,38;180;;6;4;0;1;1
+Regular;3;Raffa;60;Fase 2 — Comboio;Difícil;4;Derrota;33;363,07;157;;8;5;0;1;1
+Regular;3;Raffa;60;Fase 2 — Comboio;Difícil;5;Derrota;36,8;446,9;187;;6;4;0;1;1
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Difícil;1;Derrota;23,57;211,5;117;;3;2;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Difícil;2;Derrota;17,87;172,81;135;;7;2;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Difícil;3;Derrota;28,9;304,01;143;;7;2;0;1;1
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Difícil;4;Derrota;26,07;273,81;138;;7;2;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Difícil;5;Derrota;27,6;232,69;127;;5;2;0;1;1
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Difícil;1;Vitoria;24,03;347,9;190;20,53;6;1;0,77;0;0
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Difícil;2;Derrota;26,13;310,86;190;13,33;8;4;0;1;1
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Difícil;3;Derrota;30,13;353,19;180;;6;4;0;1;1
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Difícil;4;Derrota;29,3;330,41;159;;8;4;0;1;1
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Difícil;5;Derrota;36,8;446,54;187;;6;4;0;1;1
+Regular;3;Raffa;1;Fase 3 — Ninho;Normal;1;Derrota;20,63;185,79;141;;4;3;0;0;1
+Regular;3;Raffa;1;Fase 3 — Ninho;Normal;2;Derrota;22,97;189,69;121;;3;3;0;0;1
+Regular;3;Raffa;1;Fase 3 — Ninho;Normal;3;Derrota;35,4;370,07;146;;7;2;0;1;1
+Regular;3;Raffa;1;Fase 3 — Ninho;Normal;4;Derrota;29,57;333,73;152;;7;3;0;0;1
+Regular;3;Raffa;1;Fase 3 — Ninho;Normal;5;Derrota;23,77;222,54;131;;6;2;0;0;1
+Regular;3;Raffa;60;Fase 3 — Ninho;Normal;1;Vitoria;29,6;385,47;175;12,93;10;3;0,44;1;0
+Regular;3;Raffa;60;Fase 3 — Ninho;Normal;2;Vitoria;42,47;521,36;175;39,67;9;4;0,2;1;0
+Regular;3;Raffa;60;Fase 3 — Ninho;Normal;3;Vitoria;21,83;279,86;175;19,03;5;1;0,66;0;0
+Regular;3;Raffa;60;Fase 3 — Ninho;Normal;4;Vitoria;11,67;164;175;8,87;6;0;1;0;0
+Regular;3;Raffa;60;Fase 3 — Ninho;Normal;5;Vitoria;32,83;415,36;175;8,87;11;4;0,26;1;0
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Normal;1;Derrota;20,63;185,79;141;;4;3;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Normal;2;Derrota;22,97;189,69;121;;3;3;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Normal;3;Derrota;35,37;374,35;150;;8;2;0;1;1
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Normal;4;Derrota;29,57;333,73;152;;7;3;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Normal;5;Derrota;23,77;222,54;131;;6;2;0;0;1
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Normal;1;Vitoria;15,73;220,8;175;12,93;4;0;1;1;0
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Normal;2;Vitoria;30,77;359,78;175;27,97;9;3;0,46;1;0
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Normal;3;Vitoria;21,83;279,86;175;19,03;5;1;0,66;0;0
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Normal;4;Vitoria;11,67;164;175;8,87;6;0;1;0;0
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Normal;5;Vitoria;11,67;161,22;175;8,87;4;0;1;1;0
+Regular;3;Raffa;1;Fase 3 — Ninho;Difícil;1;Derrota;13,1;100,34;108;;2;2;0;0;1
+Regular;3;Raffa;1;Fase 3 — Ninho;Difícil;2;Derrota;28,73;278,86;135;;6;2;0;1;1
+Regular;3;Raffa;1;Fase 3 — Ninho;Difícil;3;Derrota;17;152,94;126;;4;2;0;0;1
+Regular;3;Raffa;1;Fase 3 — Ninho;Difícil;4;Derrota;22,07;191,11;122;;4;3;0;0;1
+Regular;3;Raffa;1;Fase 3 — Ninho;Difícil;5;Derrota;21,7;205,76;131;;5;2;0;0;1
+Regular;3;Raffa;60;Fase 3 — Ninho;Difícil;1;Derrota;28,27;325,08;176;;8;4;0;1;1
+Regular;3;Raffa;60;Fase 3 — Ninho;Difícil;2;Derrota;40,27;474,15;190;38,25;12;5;0;1;1
+Regular;3;Raffa;60;Fase 3 — Ninho;Difícil;3;Derrota;35,1;498,44;190;10,93;12;4;0;1;1
+Regular;3;Raffa;60;Fase 3 — Ninho;Difícil;4;Vitoria;17,8;261,64;190;9,17;7;1;0,77;1;0
+Regular;3;Raffa;60;Fase 3 — Ninho;Difícil;5;Vitoria;24,2;318,83;190;20,7;7;2;0,62;1;0
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Difícil;1;Derrota;13,1;100,34;108;;2;2;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Difícil;2;Derrota;28,77;278,3;130;;6;2;0;1;1
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Difícil;3;Derrota;17;152,94;126;;4;2;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Difícil;4;Derrota;22,07;191,11;122;;4;3;0;0;1
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Difícil;5;Derrota;21,7;205,76;131;;5;2;0;0;1
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Difícil;1;Derrota;28,3;321,44;176;;8;4;0;1;1
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Difícil;2;Vitoria;41,77;502,65;190;38,25;12;5;0,01;1;0
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Difícil;3;Vitoria;14,43;214,36;190;10,93;5;0;1;1;0
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Difícil;4;Derrota;29,67;398,82;190;9,17;12;4;0;1;1
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Difícil;5;Vitoria;28,73;376,29;190;25,23;11;3;0,47;1;0
+Regular;3;Raffa;1;Sem fim;Normal;1;FimDaSemFim;35,8;432,4;175;;10;2;0;0;0
+Regular;3;Raffa;1;Sem fim;Normal;2;FimDaSemFim;33,77;433,49;177;;8;2;0;0;0
+Regular;3;Raffa;1;Sem fim;Normal;3;FimDaSemFim;48,1;701,84;233;;11;3;0;1;0
+Regular;3;Raffa;1;Sem fim;Normal;4;FimDaSemFim;31,77;389,28;183;;11;3;0;1;0
+Regular;3;Raffa;1;Sem fim;Normal;5;FimDaSemFim;43,73;526,82;193;;12;3;0;0;0
+Regular;3;Raffa;60;Sem fim;Normal;1;FimDaSemFim;69,43;1615,14;425;;19;4;0;1;0
+Regular;3;Raffa;60;Sem fim;Normal;2;FimDaSemFim;46,33;708,41;230;;11;5;0;1;0
+Regular;3;Raffa;60;Sem fim;Normal;3;FimDaSemFim;42,37;685,04;266;;14;4;0;1;0
+Regular;3;Raffa;60;Sem fim;Normal;4;FimDaSemFim;39,6;668,03;288;;15;4;0;1;0
+Regular;3;Raffa;60;Sem fim;Normal;5;FimDaSemFim;63,33;1269,03;356;;16;4;0;2;0
+Regular;3;Espreitador Espacial;1;Sem fim;Normal;1;FimDaSemFim;35,8;432,4;175;;10;2;0;0;0
+Regular;3;Espreitador Espacial;1;Sem fim;Normal;2;FimDaSemFim;33,77;433,49;177;;8;2;0;0;0
+Regular;3;Espreitador Espacial;1;Sem fim;Normal;3;FimDaSemFim;48,1;701,84;233;;11;3;0;1;0
+Regular;3;Espreitador Espacial;1;Sem fim;Normal;4;FimDaSemFim;39,9;536,17;190;;12;3;0;1;0
+Regular;3;Espreitador Espacial;1;Sem fim;Normal;5;FimDaSemFim;43,73;526,82;193;;12;3;0;0;0
+Regular;3;Espreitador Espacial;60;Sem fim;Normal;1;FimDaSemFim;65,93;1509,96;429;;19;4;0;2;0
+Regular;3;Espreitador Espacial;60;Sem fim;Normal;2;FimDaSemFim;46,37;701,22;225;;11;5;0;1;0
+Regular;3;Espreitador Espacial;60;Sem fim;Normal;3;FimDaSemFim;47,03;801,27;285;;14;4;0;2;0
+Regular;3;Espreitador Espacial;60;Sem fim;Normal;4;FimDaSemFim;37,83;633,08;283;;12;4;0;1;0
+Regular;3;Espreitador Espacial;60;Sem fim;Normal;5;FimDaSemFim;59;1137,01;330;;15;4;0;2;0
+Regular;3;Raffa;1;Sem fim;Difícil;1;FimDaSemFim;20,47;199,48;138;;5;2;0;0;0
+Regular;3;Raffa;1;Sem fim;Difícil;2;FimDaSemFim;28;278,2;125;;5;2;0;0;0
+Regular;3;Raffa;1;Sem fim;Difícil;3;FimDaSemFim;26,73;255,82;118;;2;2;0;0;0
+Regular;3;Raffa;1;Sem fim;Difícil;4;FimDaSemFim;22,7;208,14;131;;3;2;0;0;0
+Regular;3;Raffa;1;Sem fim;Difícil;5;FimDaSemFim;37,1;416,96;164;;9;2;0;1;0
+Regular;3;Raffa;60;Sem fim;Difícil;1;FimDaSemFim;39,07;518,16;199;;6;4;0;0;0
+Regular;3;Raffa;60;Sem fim;Difícil;2;FimDaSemFim;30,13;422,11;230;;10;4;0;1;0
+Regular;3;Raffa;60;Sem fim;Difícil;3;FimDaSemFim;28,7;371,37;245;;11;5;0;0;0
+Regular;3;Raffa;60;Sem fim;Difícil;4;FimDaSemFim;28,93;428,33;247;;14;4;0;1;0
+Regular;3;Raffa;60;Sem fim;Difícil;5;FimDaSemFim;49,47;766,16;252;;12;4;0;0;0
+Regular;3;Espreitador Espacial;1;Sem fim;Difícil;1;FimDaSemFim;20,47;199,48;138;;5;2;0;0;0
+Regular;3;Espreitador Espacial;1;Sem fim;Difícil;2;FimDaSemFim;28;278,2;125;;5;2;0;0;0
+Regular;3;Espreitador Espacial;1;Sem fim;Difícil;3;FimDaSemFim;26,73;255,82;118;;2;2;0;0;0
+Regular;3;Espreitador Espacial;1;Sem fim;Difícil;4;FimDaSemFim;22,7;208,14;131;;3;2;0;0;0
+Regular;3;Espreitador Espacial;1;Sem fim;Difícil;5;FimDaSemFim;37,07;420,12;169;;10;2;0;1;0
+Regular;3;Espreitador Espacial;60;Sem fim;Difícil;1;FimDaSemFim;39,07;518,16;199;;6;4;0;0;0
+Regular;3;Espreitador Espacial;60;Sem fim;Difícil;2;FimDaSemFim;44;698,2;236;;12;4;0;1;0
+Regular;3;Espreitador Espacial;60;Sem fim;Difícil;3;FimDaSemFim;28,7;371,37;245;;11;5;0;0;0
+Regular;3;Espreitador Espacial;60;Sem fim;Difícil;4;FimDaSemFim;41,57;727,78;321;;17;5;0;1;0
+Regular;3;Espreitador Espacial;60;Sem fim;Difícil;5;FimDaSemFim;49,47;766,16;252;;12;4;0;0;0

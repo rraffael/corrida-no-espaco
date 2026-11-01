@@ -281,6 +281,8 @@ public class ShipStats : MonoBehaviour
     /// **Empilhar não estoura.** Dois <c>×1,5</c> dão o dobro da base, e não
     /// 2,25 vezes. Com multiplicação encadeada, quatro poderes modestos viram um
     /// número que nenhuma fase foi equilibrada para aguentar.
+    ///
+    /// **A única exceção é o <see cref="StatModifier.Zero"/>**, que ganha de tudo.
     /// </summary>
     public static float Combine(IReadOnlyList<StatModifier> modifiers, ShipStat stat, float baseValue)
     {
@@ -291,6 +293,9 @@ public class ShipStats : MonoBehaviour
             var modifier = modifiers[i];
             if (modifier.Stat != stat)
                 continue;
+
+            if (modifier.Zeroes)
+                return 0f;
 
             bonus += modifier.Add;
 
@@ -314,13 +319,8 @@ public class ShipStats : MonoBehaviour
         {
             case ShipStat.Acceleration: return Mathf.Max(0.1f, value);
 
-            // Chega a ZERO de propósito, e é o que faz "desabilitar armas" ser um
-            // modificador de atributo em vez de um interruptor à parte. Zerada, a
-            // arma não atira — ela confere isto antes de disparar. E como é o
-            // mesmo número que um Reforço de cadência mexe, os dois se cancelam
-            // pela regra normal: pegar +100% com as armas desabilitadas devolve a
-            // cadência de fábrica, que é o que o jogador esperaria de dois
-            // efeitos opostos. Um interruptor ganharia do bônus e surpreenderia.
+            // Chega a ZERO de propósito: zerada, a arma não atira — ela confere
+            // isto antes de disparar. É o que o "desabilitar armas" usa.
             case ShipStat.AttackSpeed: return Mathf.Max(0f, value);
             case ShipStat.MaxHealth: return Mathf.Max(1f, value);
             case ShipStat.DefensePercent: return Mathf.Clamp(value, 0f, 99f);

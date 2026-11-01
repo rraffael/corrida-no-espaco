@@ -148,6 +148,7 @@ static class GameChecks
                 CheckTiers(report, ship);
             }
 
+            CheckDefinedEvolutions(report);
             CheckSumRule(report);
             CheckClamps(report);
             CheckPowerFieldNames(report);
@@ -398,6 +399,81 @@ static class GameChecks
                     "regra de soma: a ordem não importa");
         report.Near(ShipStats.Combine(new[] { times, times }, ShipStat.Acceleration, 4f), 8f,
                     "regra de soma: dois ×1,5 dão o dobro da base, e não 2,25 vezes");
+
+        var evolution = StatModifier.Plus(ShipStat.AttackSpeed, 0.45f);
+        var offline = StatModifier.Zero(ShipStat.AttackSpeed);
+        report.Near(ShipStats.Combine(new[] { evolution, offline }, ShipStat.AttackSpeed, 3f), 0f,
+                    "armas desabilitadas: nave evoluída também cala");
+    }
+
+    /// <summary>
+    /// As evoluções decididas pelo Raffael em 01/11/2026, número por número. É o
+    /// que acusa ficha sem ligar: a montagem não reescreve nave que já existe, e um
+    /// upgrade que não ligou não dá erro nenhum — só um teste que mede a nave errada.
+    /// </summary>
+    static void CheckDefinedEvolutions(Report report)
+    {
+        var catalog = AssetDatabase.LoadAssetAtPath<ShipCatalog>(ShipSetup.CatalogPath);
+        if (catalog == null)
+            return;
+
+        CheckActive(report, catalog.ByName("Nave-Nay"), 15, duration: 3f, cooldown: 20f, uses: 0);
+        CheckActive(report, catalog.ByName("Nave-Nay"), 40, duration: 5f, cooldown: 20f, uses: 0);
+        CheckActive(report, catalog.ByName("Nave-Raffa"), 15, duration: 3.5f, cooldown: 0f, uses: 1);
+        CheckActive(report, catalog.ByName("Nave-Raffa"), 40, duration: 4f, cooldown: 0f, uses: 1);
+        CheckActive(report, catalog.ByName("Nave-Espreitador"), 1, duration: 3f, cooldown: 12f, uses: 1);
+        CheckActive(report, catalog.ByName("Nave-Espreitador"), 15, duration: 4f, cooldown: 12f, uses: 1);
+        CheckActive(report, catalog.ByName("Nave-Espreitador"), 40, duration: 4f, cooldown: 12f, uses: 2);
+
+        CheckReinforcement(report, catalog.ByName("Nave-Predadora"), 1, chargesPerKill: 1, maxCharges: 10);
+        CheckReinforcement(report, catalog.ByName("Nave-Predadora"), 15, chargesPerKill: 2, maxCharges: 10);
+        CheckReinforcement(report, catalog.ByName("Nave-Predadora"), 40, chargesPerKill: 2, maxCharges: 20);
+
+        CheckPassive<RapidFirePassive>(report, catalog.ByName("Nave-Nay"));
+        CheckPassive<AutoWarpPassive>(report, catalog.ByName("Nave-Raffa"));
+        CheckPassive<PerfectIntangibilityPassive>(report, catalog.ByName("Nave-Espreitador"));
+        CheckPassive<FrenzyPassive>(report, catalog.ByName("Nave-Predadora"));
+    }
+
+    static void CheckActive(Report report, ShipDefinition ship, int level, float duration, float cooldown, int uses)
+    {
+        if (ship == null)
+            return;
+
+        var ability = ShipEvolution.Ability(ship, level);
+        string who = $"{ship.displayName} no nível {level}";
+        report.Check(ability != null, $"{who} tem poder ativo");
+        if (ability == null)
+            return;
+
+        report.Near(ability.durationSeconds, duration, $"{who}: duração do poder — rode o Montar se faltar");
+        report.Near(ability.cooldownSeconds, cooldown, $"{who}: recarga do poder");
+        report.Check(ability.usesPerRace == uses, $"{who}: {uses} uso(s) por corrida (0 = sem limite)");
+    }
+
+    static void CheckReinforcement(Report report, ShipDefinition ship, int level, int chargesPerKill, int maxCharges)
+    {
+        if (ship == null)
+            return;
+
+        var reinforcement = ShipEvolution.Conditional(ship, level) as StructuralReinforcementConditional;
+        string who = $"{ship.displayName} no nível {level}";
+        report.Check(reinforcement != null, $"{who} tem Reforço estrutural");
+        if (reinforcement == null)
+            return;
+
+        report.Check(reinforcement.chargesPerKill == chargesPerKill, $"{who}: {chargesPerKill} carga(s) por abate — rode o Montar se faltar");
+        report.Check(reinforcement.MaxCount == maxCharges, $"{who}: máximo de {maxCharges} cargas");
+    }
+
+    static void CheckPassive<T>(Report report, ShipDefinition ship) where T : ShipPassive
+    {
+        if (ship == null)
+            return;
+
+        int max = ShipEvolution.MaxLevel(ship);
+        report.Check(ShipEvolution.Passive(ship, max) is T, $"{ship.displayName}: passiva {typeof(T).Name} no nível {max} — rode o Montar se faltar");
+        report.Check(ShipEvolution.Passive(ship, max - 1) == null, $"{ship.displayName}: passiva só no nível {max}");
     }
 
     /// <summary>Os tetos e pisos dos atributos seguram qualquer exagero de poder.</summary>
@@ -444,6 +520,11 @@ static class GameChecks
         if (conditional != null)
             reinforcement = conditional.maxPercent;
 
+        // A passiva entra no pior caso: o Frenesi soma por cima do Reforço.
+        var passive = ShipEvolution.Passive(ship, max);
+        if (passive is FrenzyPassive frenzy)
+            reinforcement += frenzy.maxCharges * frenzy.percentPerCharge;
+
         float defense = ShipEvolution.Value(ship, ShipStat.DefensePercent, max) + reinforcement;
         report.Warn(defense < 99f, $"{who}: defesa no pior caso chega a {defense:0}% e bate no teto de 99%");
 
@@ -454,6 +535,9 @@ static class GameChecks
             if (boost != null)
                 extraAttackSpeed += boost.extraAttackSpeed;
         }
+
+        if (passive is RapidFirePassive rapidFire)
+            extraAttackSpeed += rapidFire.extraAttackSpeed;
 
         float attackSpeed = ShipEvolution.Value(ship, ShipStat.AttackSpeed, max) +
                             ship.AttackSpeed * (reinforcement / 100f + extraAttackSpeed);

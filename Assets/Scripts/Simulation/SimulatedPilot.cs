@@ -52,9 +52,6 @@ public class SimulatedPilot : MonoBehaviour
     bool powerPending;
     float powerAt;
 
-    /// <summary>Quantas vezes o poder foi ativado nesta corrida.</summary>
-    public int PowerUses { get; private set; }
-
     static bool PowerOnDanger => RaceSimulation.Current != null && RaceSimulation.Current.powerOnDanger;
 
     public void Configure(PilotPersona pilotPersona, int seed)
@@ -106,8 +103,8 @@ public class SimulatedPilot : MonoBehaviour
         if (powerPending && clock >= powerAt)
         {
             powerPending = false;
-            if (ShipAbilities.Instance != null && ShipAbilities.Instance.Activate())
-                PowerUses++;
+            if (ShipAbilities.Instance != null)
+                ShipAbilities.Instance.Activate();
         }
 
         if (targetLane >= 0)

@@ -124,6 +124,26 @@ quê**, não o que a linha já diz.
   Editor usa, quais Platforms estão nele e o Target API Level atual. A `6000.3.20f1` traz 34, 35
   e 36 (conferido em 07/08/2026).
 
+## Perfis de agentes (01/11/2026)
+
+Revisores reutilizáveis, um arquivo editável por perfil em `.claude/agents/`. Todos só leem, e nenhum
+decide: as decisões continuam com o Raffael, e o relatório deles passa por mim antes de chegar a ele.
+
+| Perfil | Enfoque |
+|---|---|
+| `tecnico-birrento` | Refuta com argumento técnico válido, para achar erro e melhorar o resultado |
+| `visao-geral` | Big picture: jogador, identidade das naves, progressão e rumo do projeto |
+| `cacador-de-abusos` | Brechas, loops e abusos, supondo que todo jogador vai tentar explorar o jogo |
+
+**Quais usar:** o Raffael pode nomear os perfis no pedido. Se não nomear, o **padrão são os três** antes
+de aplicar uma mudança de jogo que leve a uma rodada longa no simulador; nos outros casos, eu pergunto.
+Agente só roda com pedido dele. Perfil novo é um arquivo a mais na pasta e uma linha nesta tabela.
+
+**Restrições valem para os agentes também** *(pedido do Raffael, 01/11/2026)*: sem `git`, `npm`, shell ou
+acesso fora desta pasta, com a ferramenta limitada no próprio perfil. Se uma restrição atrapalhar, o
+agente não a contorna. Eu aviso o Raffael do motivo e do impacto, e peço autorização expressa: ele decide
+se libera só naquela circunstância, se libera para todos ou se nega.
+
 ## Não fazer
 
 - Rodar `git`, `npm` ou `npx` por conta própria — sugerir o comando para ele rodar.

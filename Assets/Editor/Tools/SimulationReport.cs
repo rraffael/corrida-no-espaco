@@ -18,7 +18,20 @@ static class SimulationReport
 {
     public const string Folder = "docs/simulacoes";
 
+    /// <summary>A rodada em andamento, regravada de tempos em tempos. Sai quando o relatório fica pronto.</summary>
+    public const string PartialCsv = Folder + "/_parcial.csv";
+
     static readonly CultureInfo Br = new CultureInfo("pt-BR");
+
+    /// <summary>
+    /// Grava o que já rodou, para uma queda de energia ou um reinício do Windows
+    /// não levarem horas de corrida junto.
+    /// </summary>
+    public static void WritePartial(IReadOnlyList<RaceSimulation.Result> results)
+    {
+        Directory.CreateDirectory(Folder);
+        File.WriteAllText(PartialCsv, Csv(results), new UTF8Encoding(true));
+    }
 
     /// <summary>Grava os dois arquivos e devolve o caminho do <c>.md</c>.</summary>
     public static string Write(RaceSimulation.Plan plan, IReadOnlyList<RaceSimulation.Result> results,
@@ -33,6 +46,9 @@ static class SimulationReport
         File.WriteAllText(csv, Csv(results), new UTF8Encoding(true));
         File.WriteAllText(markdown, Markdown(plan, results, planned, realSeconds, Path.GetFileName(csv)),
                           new UTF8Encoding(false));
+
+        if (File.Exists(PartialCsv))
+            File.Delete(PartialCsv);
 
         return markdown;
     }
@@ -108,6 +124,14 @@ static class SimulationReport
                                 "dizer que o poder estava lá e a persona não o apertou.");
                 text.AppendLine();
                 Matrix(text, powered, r => ShipLabel(r), r => (0, 0), UnusedPowerCell);
+            }
+
+            // O trunfo da Raffa é este número: quem chega à dobra termina a fase?
+            if (races.Any(r => r.warpReachedAt >= 0f))
+            {
+                text.AppendLine("## Das que chegaram à dobra, quantas venceram");
+                text.AppendLine();
+                Matrix(text, races, r => ShipLabel(r), r => (0, 0), ReachedWarpCell);
             }
         }
 
@@ -254,6 +278,16 @@ static class SimulationReport
         return $"{unused}/{losses} ({100f * unused / losses:0}%)";
     }
 
+    static string ReachedWarpCell(List<RaceSimulation.Result> runs)
+    {
+        int reached = runs.Count(r => r.warpReachedAt >= 0f);
+        if (reached == 0)
+            return "não chegou";
+
+        int wins = runs.Count(r => r.warpReachedAt >= 0f && r.outcome == RaceSimulation.Outcome.Vitoria);
+        return $"{wins}/{reached} ({100f * wins / reached:0}%)";
+    }
+
     /// <summary>"média (mín–máx)" — o espalhamento é o que diz quanto foi sorte.</summary>
     static string Spread(IEnumerable<float> values, Func<float, string> format)
     {
@@ -284,7 +318,8 @@ static class SimulationReport
     {
         var text = new StringBuilder();
         text.AppendLine("persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;" +
-                        "distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando");
+                        "distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando;" +
+                        "renovacoes;recargas_pegas;segundos_de_efeito;cargas_fim;pico_passiva");
 
         foreach (var r in results)
         {
@@ -294,7 +329,8 @@ static class SimulationReport
                 Comma(r.seconds), Comma(r.distance), RaceSpeed.Shown(r.topSpeed),
                 r.warpReachedAt >= 0f ? Comma(r.warpReachedAt) : string.Empty,
                 r.kills, r.crashes, Comma(r.healthLeft), r.powerUses,
-                r.hasPower ? (r.diedWithPowerReady ? "1" : "0") : string.Empty));
+                r.hasPower ? (r.diedWithPowerReady ? "1" : "0") : string.Empty,
+                r.powerRenewals, r.powerRecharges, Comma(r.effectSeconds), r.conditionalCharges, r.passivePeak));
         }
 
         return text.ToString();

@@ -42,23 +42,48 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 
 **Agora — fechar as personas e decidir as evoluções:**
 
-- [ ] **Olhar o Console da Unity** — o `SimulationSetup.cs` mudou. Se acusar erro, me manda a linha.
-      **Montar não precisa**
-- [ ] **Commit antes de rodar** — `git add -A` e
-      `git commit -m "Personas: Regular passa a usar o poder com criterio"`
-- [ ] **Ensaio do Regular** — Simulador de corridas, 120 corridas, **uns 6 min**:
-      1. **Persona:** só o **Regular**
-      2. **Naves:** **Espreitador** e **Raffa**
-      3. **Níveis:** **1 e 60**
-      4. **Dificuldades:** **Normal e Difícil**
-      5. **Fases:** **1 a 3**, sem a sem fim
-      6. **Teto do poder desligado**
+- [x] **Ensaio do Regular** ✅ *(01/11 21h37, 160 corridas, 7 min; passou)* —
+      `docs/simulacoes/2026-11-01_21h37.md`. Espreitador e Raffa, níveis 1 e 60, Normal e Difícil,
+      pelas mesmas sementes do retrato de 18/10:
 
-      Passa se o Regular **usar mais o poder** (hoje, 81% das corridas sem usar). Não é para atingir
-      uma % de vitória. Depois é só me avisar; eu comparo com o retrato de 18/10
-- [ ] **Decidir o upgrade do 15, o do 40 e a passiva do 60 de cada nave** (✏️) — é **o que define a
-      base**: o retrato completo só roda **depois** disto
-- [ ] **Depois dos upgrades: o retrato completo como a nova base** — 3.000 corridas, 2h18
+      | Regular, Fases 1 a 3 | Antes *(No aperto)* | Depois *(Esperto)* |
+      |---|---|---|
+      | Corridas sem usar o poder | 77% | **51%** |
+      | ... no nível 1 | 77% | 68% |
+      | ... no nível 60 | 77% | **33%** |
+      | Vitórias, Espreitador nv 1 / nv 60 | 17% / 70% | 17% / **80%** |
+      | Vitórias, Raffa nv 1 / nv 60 | 17% / 63% | 17% / **70%** |
+
+      O Regular segue abaixo do Veterano. **As personas estão fechadas.** Com 120 corridas, a
+      subida de vitórias é indício, e não prova
+- [x] **Decidir o upgrade do 15, o do 40 e a passiva do 60 de cada nave** ✅ *(01/11)*
+
+**Agora — as evoluções estão escritas, e falta rodar** *(ainda não compilaram na sua Unity)*:
+
+- [ ] **1. Commit antes de rodar** — `git add -A` e
+      `git commit -m "Evolucoes das naves, Frenesi e correcoes do simulador"`
+- [ ] **2. Olhar o Console** — se acusar **erro de compilação**, me manda a linha. Até o Montar, as
+      verificações vão acusar as evoluções que faltam, com "rode o Montar": isso é esperado
+- [ ] **3. Montar** — **Tools → Corrida no Espaço → Montar**. Só cria e liga fichas
+- [ ] **4. Rodar as verificações** — **Testes → Rodar verificações**. Aqui já têm de passar todas; se
+      alguma falhar, me manda a linha
+- [ ] **5. Teste de fumaça: 75 corridas, uns 4 min** — Simulador de corridas:
+      - **Persona:** só o **Regular**
+      - **Naves:** todas as 5
+      - **Níveis:** **15, 40 e 60**
+      - **Fase:** só a **Fase 2**
+      - **Dificuldade:** só o **Difícil**
+      - **Repetições:** 5, **teto do poder desligado**
+
+      Me avisa quando acabar: eu confiro se os poderes novos dispararam antes de gastar as horas
+- [ ] **6. A base completa: 6.000 corridas, umas 4h40** — **só depois do meu OK na fumaça**:
+      1. **Marcar o retrato completo**
+      2. Marcar também a **Sem fim**, que o botão deixa de fora (4.500 → 6.000)
+      3. **Rodar**, e **não salvar nenhum `.cs`** até acabar. Se cair, o que rodou fica em
+         `docs/simulacoes/_parcial.csv`
+- [ ] **7. Bloco do poder guardado: 360 corridas, uns 17 min** — **teto do poder ligado**; **Regular e
+      Veterano**; **Nay, Raffa e Espreitador**; **níveis 40 e 60**; **Normal e Difícil**; **Fases 1 a 3**
+- [ ] **8. Commit dos relatórios** — `git add -A` e `git commit -m "Base de balanceamento: 6.000 corridas"`
 
 *Próxima rodada da curva, quando der: **só os níveis 15 e 40, sem a sem fim** (pedido do
 Raffael, 19/10). As sementes batem com as do retrato, e os relatórios se somam.*
@@ -165,9 +190,10 @@ mais conteúdo**: aí sai uma versão nova e ele pede que testem de novo.
       | Raffa *(Super IA)* | 45% | 85% | 1.071 un |
       | **Predadora** *(Reforço estrutural)* | **68%** | **95%** | **2.954 un** |
 
-      *Correção do Claude (19/10): as distâncias saíram **10 vezes maiores** na primeira leitura —
-      o CSV usa vírgula decimal ("2954,3") e a conta engoliu a vírgula. A proporção entre as
-      naves estava certa (a Predadora ~3 vezes as outras).*
+      *Correção do Claude (01/11): as distâncias deste retrato estão na **escala interna do CSV**. O
+      jogador e o relatório `.md` leem **10 vezes mais** (`ScoreBoard.DisplayScale`): os 2.954 un da
+      Predadora são 29.543 un na tela. A correção de 19/10, que atribuiu a diferença a uma vírgula
+      decimal, estava errada. A proporção entre as naves não muda.*
 
       **As discrepâncias, da maior para a menor — as decisões são suas:**
       1. **O poder ativo quase não vale nada; a Predadora vale muito.** As cinco naves têm os
@@ -285,8 +311,8 @@ mais conteúdo**: aí sai uma versão nova e ele pede que testem de novo.
 - [x] **Revisar as personas** ✅ *(revisto em 01/11 com uma análise da medição e um contraponto)* —
       **A única mudança: o Regular passou de "No aperto" para "Esperto".** A proposta maior, com
       reação e erro do Novato e do Regular e o hábito do Casual, **foi descartada**:
-      - **A régua já ordena as personas pela sem fim no nível 1:** com a Nave inicial, 299, 340, 421,
-        591 e 1.157 un, e a mesma ordem nas 5 naves. O empate é das vitórias, em que as Fases 1 a 3
+      - **A régua já ordena as personas pela sem fim no nível 1:** com a Nave inicial, 2.988, 3.403,
+        4.214, 5.912 e 11.569 un, e a mesma ordem nas 5 naves. O empate é das vitórias, em que as Fases 1 a 3
         no nível 1 saturam: em 16 das 30 casas os três de baixo empatam exatamente
       - **Comparar naves já funciona:** o corte da Predadora mexeu nas cinco personas (nv 1: 49→33,
         58→31, 62→40, 71→60, 100→96)
@@ -422,6 +448,85 @@ mais conteúdo**: aí sai uma versão nova e ele pede que testem de novo.
       idênticas. **Os ranks vão mexer nos atributos de base e também na evolução**, então o molde
       de evolução muda junto quando chegar a hora — ver a Parte 6. *Já decidido:* o jogador vê o
       rank, e alguns ranks sobem com os patamares. *Falta:* quanto vale cada rank, e quais sobem
+- [ ] **As evoluções definidas** *(Raffael, 01/11; **ainda não aplicadas**)*. **Ordem combinada:**
+      (1) fechar esta tabela ✅; (2) criar os 3 perfis de agente ✅ (`.claude/agents/`, ver `CLAUDE.md`);
+      (3) revisar com os três ✅; (4) aplicar; (5) rodar o teste grande.
+
+      **Decisões da revisão de 01/11:**
+      1. **Poder que garante a dobra:** aceito, e será medido *(Raffael)*. A Intangibilidade de 4 s
+         cobre a carga de qualquer dificuldade (2 / 2,8 / 3,5 s), mas é manual; a Super IA no nv 60 é a
+         "garantia" automática
+      2. **"Desabilitar Armas"** (o Debilitante de fase) **desliga a arma de verdade** *(Raffael)*. Hoje
+         o −100% conta sobre a base de fábrica, e sobra o bônus da evolução
+      3. **Tamanho do teste: as 6.000 corridas** *(decisão do Claude, delegada pelo Raffael)*. Ele,
+         `visao-geral` e `cacador-de-abusos` apoiam rodar tudo; só com a base completa as rodadas
+         parciais futuras têm com o que comparar. O `tecnico-birrento` alertou para o risco de rodar
+         4h40 sobre código novo, o que a fumaça e o CSV parcial cobrem. Ler pelos agregados: são só
+         15 corridas por casa
+      4. **Renovação de qualquer poder ativo** *(Raffael)*: usar de novo com o efeito ligado gasta a
+         carga e **volta a duração ao máximo**, no manual ou no automático. Com 1 uso, só acontece com
+         o modificador Recarga de poder. Substitui a proposta de disparar só quando precisasse
+      5. **Recarga do Espreitador: 12 s** *(Raffael, era 20 s)*, com o 2º uso servindo durante a fase, e
+         o trunfo da Raffa sendo terminar a fase sozinha ao chegar à dobra. Os três agentes confirmam
+         as contas, e não há intangibilidade perpétua: no máximo 8 s seguidos. **A conferir na base:**
+         se a Raffa perde o motivo de escolha entre os níveis 40 e 59, quando tem 1 uso contra 2 do
+         Espreitador e a mesma duração. Comparar persona a persona, e pela nova seção "das que
+         chegaram à dobra, quantas venceram"
+      6. **Raffa, nv 15, 3,5 s:** mantido *(Raffael e Claude)*, porque é exatamente a carga do Difícil
+
+      Parte 8 e Fase 9 ficam para depois de fechar o balanceamento *(Raffael)*.
+
+      **O que foi escrito (01/11), ainda sem compilar na Unity:**
+      - **Poderes:** fichas de upgrade da Nay, da Raffa, do Espreitador e da Predadora; passivas novas
+        `RapidFirePassive`, `AutoWarpPassive` e `FrenzyPassive`, cada uma na sua classe. Nomes
+        provisórios: **Gatilho rápido** e **Dobra assistida**, a trocar quando quiser
+      - **Estrutura:** `ActiveShipPassive`, para a passiva ter estado por corrida e ganchos de tempo,
+        abate e dobra; `chargesPerKill` no Reforço; `StatModifier.Zero` para o "Desabilitar Armas"
+      - **Renovação:** o `ShipAbilities.Activate` renova o efeito ligado, em vez de criar outro
+      - **Visual temporário do Frenesi:** o canto do poder mostra "12+6". O estágio visual do Reforço
+        no nível 40 passa para 10 e 20 cargas
+      - **Montagem:** o `ShipSetup` passa a ligar upgrades em ficha existente, e as verificações
+        conferem os números por nível e o pior caso com passivas (defesa real de 55%)
+      - **Simulador:** CSV parcial a cada 50 corridas; `poder_sobrando` consertado; `poder_usado` conta
+        também o disparo automático; colunas de renovação, recarga, segundos de efeito e cargas; dado
+        do piloto pelo número da persona, para a rodada parcial comparar; sorteio de faixa único
+      - **O Fácil e o Perfeito entram na base**, e os relatórios antigos deixam de comparar: mudaram
+        o Regular, as evoluções e a sorte das faixas
+
+      **Para depois da base, se fizer falta:** persona parada (~17 min) e hábito "guardar para a dobra"
+      (~25 min), ambos sugeridos pelo `cacador-de-abusos`. São rodadas à parte, e não invalidam a base
+
+      **Registrado para depois:**
+      - **Antes de existir moeda (Parte 8):** a nave parada talvez vença a Fase 1 limpando a própria
+        faixa (conta, não jogado); vale uma persona parada e pagar pela primeira vitória ou com retorno
+        decrescente. Derrota soma `races`, e abandonar não custa nada. As conquistas de teste
+        (`Teste-A/B/C`) valem 400 de Sucata e precisam sair antes do lançamento
+      - **Interface:** o cartão de patamar deve mostrar a mudança ("3 → 3,5 s"), e a passiva do
+        Espreitador precisa de aviso na tela, para ser percebida
+      - **Conteúdo:** o nv 60 só se sente onde há risco. Fácil e Normal no nv 60 já ficam entre 89 e
+        100%, e faltam fases que exijam a nave evoluída
+
+      | Nave | Nível 15 | Nível 40 | Nível 60 | Estado |
+      |---|---|---|---|---|
+      | Nave inicial | vazio | vazio | vazio | Fechada por ora |
+      | Nay | Recarga 30 → 20 s | Duração 3 → 5 s | Passiva: +25% de cadência | Fechada |
+      | Raffa | Duração 3 → 3,5 s | Duração → 4 s | Passiva: Super IA liga sozinha ao entrar na dobra, se houver carga | Fechada |
+      | Espreitador | Duração 3 → 4 s | 2 usos *(já existe, passa a 4 s)* | Intangibilidade perfeita *(já existe)* | Fechada |
+      | Predadora | 2 cargas por abate | Máximo de 20 cargas | Passiva: **Frenesi** | Fechada |
+
+      - **Predadora de fábrica:** 1 carga por abate, máximo de 10, cada carga valendo 1%
+      - **Frenesi:** cada abate dá +2 cargas temporárias, até 10, e renova uma janela de 4 s. Se a
+        janela acabar sem abate, perde **todas** as temporárias. As cargas normais não mudam. Visual
+        temporário, a refinar
+      - **Dobra automática da Raffa:** ao entrar na dobra com carga disponível, dispara. **Se a Super
+        IA já estiver ligada e sobrar carga, dispara também e renova o tempo**, para não sair no meio
+        da dobra. Sem carga, nada acontece
+      - **Para o futuro:** opção no menu de seleção da nave para ligar ou desligar a dobra automática,
+        porque quem joga no manual pode não querer. Fica de fora agora por pedir UI *(Raffael)*
+      - **O teste grande precisa dos níveis 15 e 40**, agora que eles têm conteúdo: 6.000 corridas,
+        umas 4h40, em vez de 3.000
+      - **Futuro:** a Nave inicial pode ganhar um pequeno bônus de recurso ou de pontuação na sem fim,
+        pouco, para não desestimular as outras *(ideia do Raffael)*
 - [ ] **Upgrade 1, upgrade 2 e passiva de cada nave** — Nave inicial, Nay, Raffa e Predadora.
       Upgrade é a ficha do poder duplicada com números maiores *(Parte 6)*. **Conferido nas fichas
       em 01/11:**
@@ -475,11 +580,7 @@ Raffael pedir pelo nome.*
 
 **Próximos, na ordem sugerida:**
 
-- [ ] **Consertar "derrotas com o poder na mão"** *(achado em 01/11, ao ler o teto do poder)* — o
-      `RaceDirector` zera o poder (`ResetForRace`) ao acabar a corrida, e o
-      `RaceSimulationRunner` só pergunta se ele está pronto depois disso. Por isso a resposta é
-      sempre "sim", e a seção do relatório e a coluna `poder_sobrando` deram 100% em toda derrota.
-      O conserto é guardar a resposta enquanto a corrida roda. Só mexe no simulador; os relatórios
+- [x] **Consertar "derrotas com o poder na mão"** ✅ *(01/11)* — feito junto das evoluções. Os relatórios
       antigos continuam com o número errado nessa seção
 - [ ] **Simulador: a sem fim por "quanto aguenta"** — hoje a sem fim tem teto de 300 s no
       simulador, para não rodar para sempre com o Perfeito. Se o Perfeito bater o teto sempre,
@@ -650,11 +751,10 @@ Raffael pedir pelo nome.*
   40 e 60
 
 ### O que vem agora
-1. **Ensaio do Regular**, de 6 min (📦)
-2. **Decidir os upgrades e as passivas** (✏️)
-3. **Retrato completo**, que vira a nova base de comparação
-4. **Colocar mais conteúdo**: ranks de atributo, mais naves e poderes (✏️)
-5. **Versão nova para os testadores**, com novo pedido de teste
+1. **Rodar a sequência da lista 📦**: Montar, fumaça e a base de 6.000 corridas
+2. **Ler a base** e ajustar o que ela mostrar
+3. **Colocar mais conteúdo**: ranks de atributo, mais naves e poderes (✏️)
+4. **Versão nova para os testadores**, com novo pedido de teste
 
 ---
 
@@ -3323,11 +3423,21 @@ Depois do lançamento. Anúncios antes de compras.
       - **Ideia do Raffael (01/11/2026): a Predadora como raridade extra e pacote inicial pago**,
         com grande vantagem para quem pagar. Pontos a resolver quando chegar a hora:
         - **O conceito de raridade não existe** no jogo: é estrutura nova
-        - **O tamanho da vantagem:** com o Reforço em 20%, nas fases ela fica só 7 pontos acima no
-          nv 1 e 2 a 4 no nv 60. O número foi cortado em 19/10 para aproximá-la das outras; se a
-          intenção agora é vantagem grande, ele volta à conversa
-        - **O placar:** na sem fim ela vai 40 a 50% mais longe. Com placar online, o topo tende a
-          ser só de quem pagou. Pode ser aceitável, mas é decisão a tomar de olhos abertos
+        - **O pacote compensa a Predadora fraca no nível 1** *(decisão do Raffael, 01/11)*: ela vem
+          já num nível maior, ou com os recursos para evoluir até ele. Exemplo: entregue no **nível
+          40**, onde é muito forte, abrindo espaço para mais jogo ou cobrança até o 60
+          *Revisão de 01/11:* nas fases, no nv 40, o poder dela rende uns 12%, e a vantagem do pacote
+          vem mais do nível que da nave. Quem compra no 40 também nunca vê os patamares 1 e 15. Teste
+          barato: um testador sobe a Predadora direto ao 40
+        - **O placar:** na sem fim ela foi 40 a 50% mais longe com o teto de 20%; com o Frenesi, o teto
+          vai a 30% e a diferença precisa ser medida de novo. Com placar online, o topo tende a ser só de
+          quem pagou: a saída é decidir por **placar por nave**, porque hoje o placar mistura as naves
+        - **Quando vender:** esta fase diz "depois do lançamento", mas o plano põe a monetização antes
+          do teste fechado, e vender depois tira de graça o que era grátis. Alinhar as duas coisas, e
+          definir antes o que a nave paga não compra. O custo de evolução ainda é 0
+        - **Posse e fraude:** o `ShipSelection` aceita qualquer nave que esteja no save. A posse deve
+          vir da Play Billing; recibo, reembolso e placar só um servidor valida, e cifrar o save só
+          atrasa. Entregar no nv 40 não pode rebaixar quem já passou dele (`ShipProgress`): usar o maior
         - **Quem já tem:** hoje ela é de graça para os testadores
         - **A Play:** compra no app muda o IARC e pede reler a declaração 9
           (`docs/play-console/declaracoes-do-app.md`)

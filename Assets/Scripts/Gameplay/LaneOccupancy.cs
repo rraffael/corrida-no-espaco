@@ -81,31 +81,48 @@ public static class LaneOccupancy
         var blocked = new bool[laneCount];
         int blockedCount = Fill(blocked, spawnY, waveWindow);
 
-        int chosen = -1;
-        int seen = 0;
+        int candidates = 0;
+        for (int start = 0; start + laneSpan <= laneCount; start++)
+        {
+            if (IsCandidate(blocked, blockedCount, laneCount, start, laneSpan))
+                candidates++;
+        }
+
+        // Um sorteio só, **sempre**, mesmo sem candidata: se o número de sorteios
+        // dependesse das faixas livres, um abate diferente desalinharia toda a
+        // sorte seguinte, e o simulador perderia a comparação pela mesma semente.
+        int pick = Random.Range(0, Mathf.Max(1, candidates));
+
+        if (candidates == 0)
+            return false;
 
         for (int start = 0; start + laneSpan <= laneCount; start++)
         {
-            bool free = true;
-            for (int i = start; i < start + laneSpan && free; i++)
-                free = !blocked[i];
-
-            // Ocupar isto ainda tem de deixar uma faixa vazia sobrando.
-            if (!free || blockedCount + laneSpan >= laneCount)
+            if (!IsCandidate(blocked, blockedCount, laneCount, start, laneSpan))
                 continue;
 
-            // Sorteio em passada única (amostragem de reservatório): evita alocar
-            // uma lista de candidatos a cada nascimento, e nascimento acontece
-            // várias vezes por segundo no fim de uma fase apertada.
-            seen++;
-            if (Random.Range(0, seen) == 0)
-                chosen = start;
+            if (pick-- == 0)
+            {
+                lane = start;
+                return true;
+            }
         }
 
-        if (chosen < 0)
+        return false;
+    }
+
+    static bool IsCandidate(bool[] blocked, int blockedCount, int laneCount, int start, int laneSpan)
+    {
+        // Ocupar isto ainda tem de deixar uma faixa vazia sobrando.
+        if (blockedCount + laneSpan >= laneCount)
             return false;
 
-        lane = chosen;
+        for (int i = start; i < start + laneSpan; i++)
+        {
+            if (blocked[i])
+                return false;
+        }
+
         return true;
     }
 }

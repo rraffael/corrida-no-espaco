@@ -127,7 +127,7 @@ public class AbilityHud : MonoBehaviour
 
     /// <summary>O condicional de que este canto fala. Nulo: fala do poder ativo.</summary>
     ActiveShipConditional conditional;
-    int shownCount = int.MinValue;
+    string shownCount;
 
     /// <summary>
     /// O canto do condicional: o número grande do meio é quantas cargas a nave
@@ -172,11 +172,18 @@ public class AbilityHud : MonoBehaviour
         float fill = max > 0 ? (float)count / max : 1f;
         group.alpha = fill >= 1f ? 1f : Mathf.Lerp(dimAlpha, 0.85f, fill);
 
-        if (cooldownLabel == null || count == shownCount)
+        if (cooldownLabel == null)
             return;
 
-        shownCount = count;
-        cooldownLabel.text = count.ToString();
+        // O bônus temporário da passiva vem ao lado das cargas, como "12+6".
+        // Visual provisório do Frenesi, a refinar.
+        var passive = abilities.Passive;
+        string text = count + (passive != null ? passive.Definition.HudBonus(passive) : string.Empty);
+        if (text == shownCount)
+            return;
+
+        shownCount = text;
+        cooldownLabel.text = text;
     }
 
     void Update()

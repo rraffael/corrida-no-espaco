@@ -59,11 +59,15 @@ public sealed class StatModifier
     /// </summary>
     public readonly float Multiply;
 
-    StatModifier(ShipStat stat, float add, float multiply)
+    /// <summary>Zera o atributo, seja qual for o resto. Ver <see cref="Zero"/>.</summary>
+    public readonly bool Zeroes;
+
+    StatModifier(ShipStat stat, float add, float multiply, bool zeroes = false)
     {
         Stat = stat;
         Add = add;
         Multiply = multiply;
+        Zeroes = zeroes;
     }
 
     /// <summary>Soma um tanto. <c>Plus(Acceleration, 2)</c> é "+2 de aceleração".</summary>
@@ -77,8 +81,16 @@ public sealed class StatModifier
     public static StatModifier Times(ShipStat stat, float factor) =>
         new StatModifier(stat, 0f, Mathf.Max(0f, factor));
 
+    /// <summary>
+    /// Zera o atributo enquanto valer, **ganhando de qualquer bônus**. Um
+    /// <c>Times(stat, 0)</c> tira só a base de fábrica, e a evolução sobraria: é o
+    /// que deixava nave evoluída atirando com as armas desabilitadas.
+    /// </summary>
+    public static StatModifier Zero(ShipStat stat) => new StatModifier(stat, 0f, 1f, zeroes: true);
+
     public override string ToString() =>
-        Add != 0f && Multiply != 1f ? $"{Stat} +{Add} ×{Multiply}"
+        Zeroes ? $"{Stat} zerado"
+        : Add != 0f && Multiply != 1f ? $"{Stat} +{Add} ×{Multiply}"
         : Add != 0f ? $"{Stat} +{Add}"
         : $"{Stat} ×{Multiply}";
 }

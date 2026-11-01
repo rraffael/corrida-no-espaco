@@ -347,10 +347,31 @@ static class RaceSimulatorDriver
         EditorApplication.EnterPlaymode();
     }
 
+    /// <summary>De quantas em quantas corridas o CSV parcial é regravado.</summary>
+    const int PartialEvery = 50;
+
+    static int lastPartial;
+
     static void Poll()
     {
-        if (IsRunning && EditorApplication.isPlaying && RaceSimulation.IsDone)
+        if (!IsRunning || !EditorApplication.isPlaying)
+            return;
+
+        if (RaceSimulation.IsDone)
+        {
             EditorApplication.ExitPlaymode();
+            return;
+        }
+
+        int done = RaceSimulation.Results.Count;
+        if (done < lastPartial)
+            lastPartial = 0;
+
+        if (done - lastPartial < PartialEvery)
+            return;
+
+        lastPartial = done;
+        SimulationReport.WritePartial(RaceSimulation.Results);
     }
 
     static void OnPlayModeChanged(PlayModeStateChange change)

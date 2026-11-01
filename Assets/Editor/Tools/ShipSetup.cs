@@ -54,44 +54,58 @@ static class ShipSetup
         Directory.CreateDirectory(AbilityFolder);
         AssetDatabase.Refresh();
 
-        var homing = GetOrCreatePower<HomingShotsAbility>("Poder-TirosTeleguiados", ability =>
+        // As evoluções vêm da decisão do Raffael de 01/11/2026: cada patamar é outra
+        // ficha do mesmo poder, com os números daquele nível.
+        var homing = GetOrCreatePower<HomingShotsAbility>("Poder-TirosTeleguiados",
+            ability => FillHoming(ability, cooldown: 30f, duration: 3f));
+        var homingUpgrade1 = GetOrCreatePower<HomingShotsAbility>("Poder-TirosTeleguiados-Upgrade1",
+            ability => FillHoming(ability, cooldown: 20f, duration: 3f));
+        var homingUpgrade2 = GetOrCreatePower<HomingShotsAbility>("Poder-TirosTeleguiados-Upgrade2",
+            ability => FillHoming(ability, cooldown: 20f, duration: 5f));
+
+        var rapidFire = GetOrCreatePower<RapidFirePassive>("Passiva-GatilhoRapido", passive =>
         {
-            ability.displayName = "Tiros teleguiados";
-            ability.description = "Os tiros perseguem os obstáculos, esteja a nave na faixa que estiver.";
-            ability.lifetime = ShipAbility.Lifetime.PorTempo;
-            ability.durationSeconds = 3f;
-            ability.cooldownSeconds = 30f;
-            ability.usesPerRace = 0; // Sem limite: quem segura é a recarga.
-            ability.color = new Color(0.55f, 0.95f, 1f, 1f);
+            passive.displayName = "Gatilho rápido";
+            passive.description = "+25% de cadência a corrida inteira.";
+            passive.extraAttackSpeed = 0.25f;
         });
 
-        var autopilot = GetOrCreatePower<AutopilotAbility>("Poder-SuperIA", ability =>
+        var autopilot = GetOrCreatePower<AutopilotAbility>("Poder-SuperIA",
+            ability => FillAutopilot(ability, duration: 3f));
+        var autopilotUpgrade1 = GetOrCreatePower<AutopilotAbility>("Poder-SuperIA-Upgrade1",
+            ability => FillAutopilot(ability, duration: 3.5f));
+        var autopilotUpgrade2 = GetOrCreatePower<AutopilotAbility>("Poder-SuperIA-Upgrade2",
+            ability => FillAutopilot(ability, duration: 4f));
+
+        var autoWarp = GetOrCreatePower<AutoWarpPassive>("Passiva-DobraAssistida", passive =>
         {
-            ability.displayName = "Super IA";
-            ability.description = "O jogo assume a nave e desvia sozinho dos obstáculos.";
-            ability.lifetime = ShipAbility.Lifetime.PorTempo;
-            ability.durationSeconds = 3f;
-            ability.cooldownSeconds = 0f; // Irrelevante: a carga é uma só e não volta.
-            ability.usesPerRace = 1;
-            ability.color = new Color(1f, 0.78f, 0.4f, 1f);
+            passive.displayName = "Dobra assistida";
+            passive.description = "Ao entrar na dobra, a Super IA liga sozinha, se houver carga.";
         });
 
-        var reinforcement = GetOrCreatePower<StructuralReinforcementConditional>(
-            "Condicional-ReforcoEstrutural", conditional =>
-            {
-                conditional.displayName = "Reforço estrutural";
-                conditional.description = "Cada abate soma 2% em defesa, dano, cadência e " +
-                                          "aceleração, até 20%.";
-                conditional.trigger = "a cada abate, até 10 cargas";
-                conditional.percentPerKill = 2f;
-                conditional.maxPercent = 20f;
-                conditional.stageCounts = new[] { 5, 10 };
-                conditional.color = new Color(0.95f, 0.35f, 0.3f, 1f);
-            });
+        var reinforcement = GetOrCreatePower<StructuralReinforcementConditional>("Condicional-ReforcoEstrutural",
+            conditional => FillReinforcement(conditional, chargesPerKill: 1, maxCharges: 10, stages: new[] { 5, 10 }));
+        var reinforcementUpgrade1 = GetOrCreatePower<StructuralReinforcementConditional>(
+            "Condicional-ReforcoEstrutural-Upgrade1",
+            conditional => FillReinforcement(conditional, chargesPerKill: 2, maxCharges: 10, stages: new[] { 5, 10 }));
+        var reinforcementUpgrade2 = GetOrCreatePower<StructuralReinforcementConditional>(
+            "Condicional-ReforcoEstrutural-Upgrade2",
+            conditional => FillReinforcement(conditional, chargesPerKill: 2, maxCharges: 20, stages: new[] { 10, 20 }));
 
-        // O Espreitador (17/10/2026, desenho do Gabriel): 3 s atravessando
-        // obstáculo, e 5 un/s a menos no fim. Uma vez por corrida; o patamar 3
-        // (nível 40) dá a segunda. A recarga só pesa no upgrade, que tem dois usos.
+        var frenzy = GetOrCreatePower<FrenzyPassive>("Passiva-Frenesi", passive =>
+        {
+            passive.displayName = "Frenesi";
+            passive.description = "Cada abate dá +2 cargas temporárias, até 10, e renova 4 s. Sem abater " +
+                                  "nesse tempo, perde todas as temporárias.";
+            passive.chargesPerKill = 2;
+            passive.maxCharges = 10;
+            passive.percentPerCharge = 1f;
+            passive.windowSeconds = 4f;
+        });
+
+        // O Espreitador (17/10/2026, desenho do Gabriel): atravessa obstáculo, e 5
+        // un/s a menos no fim. Uma vez por corrida; o patamar 3 (nível 40) dá a
+        // segunda. A recarga só pesa no upgrade, que tem dois usos.
         //
         // O poder ganhou nome em 18/10/2026 — "Atravessar" era provisório. O
         // arquivo muda junto, pelo AssetDatabase, que mantém o GUID: a nave não
@@ -99,17 +113,12 @@ static class ShipSetup
         RenamePower("Poder-Atravessar", "Poder-Intangibilidade");
         RenamePower("Poder-Atravessar-Upgrade2", "Poder-Intangibilidade-Upgrade2");
 
-        var phase = GetOrCreatePower<PhaseThroughAbility>("Poder-Intangibilidade", ability =>
-        {
-            FillPhaseThrough(ability);
-            ability.usesPerRace = 1;
-        });
-
-        var phaseUpgrade = GetOrCreatePower<PhaseThroughAbility>("Poder-Intangibilidade-Upgrade2", ability =>
-        {
-            FillPhaseThrough(ability);
-            ability.usesPerRace = 2;
-        });
+        var phase = GetOrCreatePower<PhaseThroughAbility>("Poder-Intangibilidade",
+            ability => FillPhaseThrough(ability, duration: 3f, uses: 1));
+        var phaseUpgrade1 = GetOrCreatePower<PhaseThroughAbility>("Poder-Intangibilidade-Upgrade1",
+            ability => FillPhaseThrough(ability, duration: 4f, uses: 1));
+        var phaseUpgrade = GetOrCreatePower<PhaseThroughAbility>("Poder-Intangibilidade-Upgrade2",
+            ability => FillPhaseThrough(ability, duration: 4f, uses: 2));
 
         // Nível 60 (18/10/2026): imune a tudo de fora enquanto a Intangibilidade
         // dura. É a passiva que dá o "perfeita" ao nome.
@@ -160,14 +169,29 @@ static class ShipSetup
             }),
         };
 
-        // A passiva e a curiosidade chegaram depois da nave, e a ficha de nave
-        // não é reescrita: só se preenche o que estiver vazio.
-        var stalker = ships[ships.Count - 1];
-        if (stalker.passiveAbility == null)
-        {
-            stalker.passiveAbility = perfect;
-            EditorUtility.SetDirty(stalker);
-        }
+        // As evoluções chegaram depois das naves, e a ficha de nave não é reescrita:
+        // só se preenche o que estiver vazio. Sem isto, os upgrades não ligariam nas
+        // fichas que já existem, e nada avisaria.
+        var nay = ships[0];
+        var raffa = ships[1];
+        var predator = ships[2];
+        var stalker = ships[3];
+
+        FillIfEmpty(nay, ship => ship.abilityUpgrade1, (ship, power) => ship.abilityUpgrade1 = power, homingUpgrade1);
+        FillIfEmpty(nay, ship => ship.abilityUpgrade2, (ship, power) => ship.abilityUpgrade2 = power, homingUpgrade2);
+        FillIfEmpty(nay, ship => ship.passiveAbility, (ship, power) => ship.passiveAbility = power, rapidFire);
+
+        FillIfEmpty(raffa, ship => ship.abilityUpgrade1, (ship, power) => ship.abilityUpgrade1 = power, autopilotUpgrade1);
+        FillIfEmpty(raffa, ship => ship.abilityUpgrade2, (ship, power) => ship.abilityUpgrade2 = power, autopilotUpgrade2);
+        FillIfEmpty(raffa, ship => ship.passiveAbility, (ship, power) => ship.passiveAbility = power, autoWarp);
+
+        FillIfEmpty(predator, ship => ship.conditionalUpgrade1, (ship, power) => ship.conditionalUpgrade1 = power, reinforcementUpgrade1);
+        FillIfEmpty(predator, ship => ship.conditionalUpgrade2, (ship, power) => ship.conditionalUpgrade2 = power, reinforcementUpgrade2);
+        FillIfEmpty(predator, ship => ship.passiveAbility, (ship, power) => ship.passiveAbility = power, frenzy);
+
+        FillIfEmpty(stalker, ship => ship.abilityUpgrade1, (ship, power) => ship.abilityUpgrade1 = power, phaseUpgrade1);
+        FillIfEmpty(stalker, ship => ship.abilityUpgrade2, (ship, power) => ship.abilityUpgrade2 = power, phaseUpgrade);
+        FillIfEmpty(stalker, ship => ship.passiveAbility, (ship, power) => ship.passiveAbility = power, perfect);
 
         if (string.IsNullOrEmpty(stalker.extraNotes))
         {
@@ -191,17 +215,63 @@ static class ShipSetup
         return ships;
     }
 
-    /// <summary>
-    /// O que as duas fichas da Intangibilidade têm em comum — tudo menos os usos.
-    /// É isto que garante que o upgrade muda **só** os usos, que é o que foi pedido.
-    /// </summary>
-    static void FillPhaseThrough(PhaseThroughAbility ability)
+    static void FillIfEmpty<T>(ShipDefinition ship, System.Func<ShipDefinition, T> read,
+                               System.Action<ShipDefinition, T> write, T power) where T : ScriptableObject
+    {
+        if (read(ship) != null)
+            return;
+
+        write(ship, power);
+        EditorUtility.SetDirty(ship);
+    }
+
+    // O que as fichas de um mesmo poder têm em comum fica num lugar só: assim cada
+    // patamar muda **só** o número que foi pedido.
+
+    static void FillHoming(HomingShotsAbility ability, float cooldown, float duration)
+    {
+        ability.displayName = "Tiros teleguiados";
+        ability.description = "Os tiros perseguem os obstáculos, esteja a nave na faixa que estiver.";
+        ability.lifetime = ShipAbility.Lifetime.PorTempo;
+        ability.durationSeconds = duration;
+        ability.cooldownSeconds = cooldown;
+        ability.usesPerRace = 0; // Sem limite: quem segura é a recarga.
+        ability.color = new Color(0.55f, 0.95f, 1f, 1f);
+    }
+
+    static void FillAutopilot(AutopilotAbility ability, float duration)
+    {
+        ability.displayName = "Super IA";
+        ability.description = "O jogo assume a nave e desvia sozinho dos obstáculos.";
+        ability.lifetime = ShipAbility.Lifetime.PorTempo;
+        ability.durationSeconds = duration;
+        ability.cooldownSeconds = 0f; // Irrelevante: a carga é uma só e não volta.
+        ability.usesPerRace = 1;
+        ability.color = new Color(1f, 0.78f, 0.4f, 1f);
+    }
+
+    static void FillReinforcement(StructuralReinforcementConditional conditional, int chargesPerKill,
+                                  int maxCharges, int[] stages)
+    {
+        conditional.displayName = "Reforço estrutural";
+        conditional.description = $"Cada abate dá {chargesPerKill} carga(s). Cada carga soma 1% em defesa, " +
+                                  $"dano, cadência e aceleração, até {maxCharges}%.";
+        conditional.trigger = $"a cada abate, até {maxCharges} cargas";
+        conditional.percentPerKill = 1f;
+        conditional.chargesPerKill = chargesPerKill;
+        conditional.maxPercent = maxCharges;
+        conditional.stageCounts = stages;
+        conditional.color = new Color(0.95f, 0.35f, 0.3f, 1f);
+    }
+
+    static void FillPhaseThrough(PhaseThroughAbility ability, float duration, int uses)
     {
         ability.displayName = "Intangibilidade";
-        ability.description = "Por 3 s a nave fica translúcida e atravessa os obstáculos. No fim, perde 5 de velocidade.";
+        ability.description = $"Por {duration:0.#} s a nave fica translúcida e atravessa os obstáculos. No fim, perde 5 de velocidade.";
         ability.lifetime = ShipAbility.Lifetime.PorTempo;
-        ability.durationSeconds = 3f;
-        ability.cooldownSeconds = 20f;
+        ability.durationSeconds = duration;
+        ability.usesPerRace = uses;
+        ability.cooldownSeconds = 12f;
         ability.speedLossAtEnd = 0.5f;
         ability.color = new Color(0.75f, 0.6f, 1f, 1f);
     }

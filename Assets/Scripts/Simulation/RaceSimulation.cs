@@ -25,7 +25,8 @@ using UnityEngine.SceneManagement;
 ///   largam com a mesma, e rodar o mesmo plano amanhã dá a mesma sequência de
 ///   largadas. Mudou uma nave e rodou de novo: a diferença é da mudança, não do
 ///   sorteio. *(Quase toda: um obstáculo destruído muda onde o próximo pode
-///   nascer, então a pista se afasta aos poucos entre pilotos diferentes.)*
+///   nascer. Por isso é comparação de pistas parecidas, e não idênticas; as
+///   corridas só são iguais até o primeiro abate ou poder diferente.)*
 /// - **O salvamento vira rascunho** (<see cref="SaveGame.UseSandbox"/>): o
 ///   simulador evolui nave, vence fase e entra em placar sem gravar nada.
 /// </summary>
@@ -134,6 +135,21 @@ public static class RaceSimulation
 
         /// <summary>Perdeu com o poder pronto e sem usar: o poder estava ali e não serviu.</summary>
         public bool diedWithPowerReady;
+
+        /// <summary>Ativações que pegaram o efeito ainda ligado e voltaram a duração ao máximo.</summary>
+        public int powerRenewals;
+
+        /// <summary>Recargas de poder pegas na pista que fizeram efeito.</summary>
+        public int powerRecharges;
+
+        /// <summary>Segundos de corrida com o efeito do poder ativo ligado.</summary>
+        public float effectSeconds;
+
+        /// <summary>Cargas do poder condicional no fim da corrida.</summary>
+        public int conditionalCharges;
+
+        /// <summary>O máximo do contador da passiva: no Frenesi, as cargas temporárias.</summary>
+        public int passivePeak;
     }
 
     public static Plan Current { get; private set; }

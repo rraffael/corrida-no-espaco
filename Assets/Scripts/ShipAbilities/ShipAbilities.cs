@@ -86,11 +86,41 @@ public class ShipAbilities : MonoBehaviour
     }
 
     /// <summary>
-    /// A passiva da nave escolhida. Guardada aqui e não relida da ficha a cada
-    /// uso: se o jogador trocar de nave entre corridas, a que tem de ser
-    /// desligada no fim é a que foi ligada no começo.
+    /// A passiva da nave escolhida, nesta corrida. Nula: ela não tem, ou ainda não
+    /// chegou ao patamar. Guardada aqui e não relida da ficha a cada uso: se o
+    /// jogador trocar de nave entre corridas, a que tem de ser desligada no fim é
+    /// a que foi ligada no começo.
     /// </summary>
-    ShipPassive passive;
+    ActiveShipPassive passive;
+
+    /// <summary>A passiva nesta corrida, para o HUD. Nula: não há.</summary>
+    public ActiveShipPassive Passive => passive;
+
+    // ── O que o simulador lê ─────────────────────────────────────────────
+    // A corrida acaba com o ResetForRace, e o simulador só anota depois. Por isso
+    // estes números não zeram nele; a cena recarrega a cada corrida e eles nascem
+    // zerados de novo.
+
+    /// <summary>Quantas vezes o poder ativo disparou nesta corrida, à mão ou sozinho.</summary>
+    public int ActivationCount { get; private set; }
+
+    /// <summary>Destas ativações, quantas pegaram o efeito ainda ligado e o renovaram.</summary>
+    public int RenewalCount { get; private set; }
+
+    /// <summary>Quantas vezes o poder foi recarregado por modificador de fase.</summary>
+    public int RechargeCount { get; private set; }
+
+    /// <summary>Segundos de corrida com o efeito do poder ativo ligado.</summary>
+    public float EffectSeconds { get; private set; }
+
+    /// <summary>O poder estava pronto quando a corrida acabou, antes de tudo voltar ao começo?</summary>
+    public bool WasReadyAtEnd { get; private set; }
+
+    /// <summary>As cargas do poder condicional quando a corrida acabou.</summary>
+    public int ConditionalCountAtEnd { get; private set; }
+
+    /// <summary>O máximo que o contador da passiva alcançou nesta corrida.</summary>
+    public int PassivePeakCount { get; private set; }
 
     /// <summary>
     /// O poder condicional da nave escolhida, nesta corrida. Nulo: ela não tem.
@@ -127,9 +157,12 @@ public class ShipAbilities : MonoBehaviour
         // de base antes de alguém escrever por cima deles.
         // Os dois pelo patamar: a passiva só existe no final, e o condicional vem
         // na versão do upgrade que a nave já alcançou.
-        passive = Stats != null ? ShipEvolution.Passive(Stats.Definition, Stats.Level) : null;
-        if (passive != null)
-            passive.OnRaceStarted(Stats);
+        var passiveDefinition = Stats != null ? ShipEvolution.Passive(Stats.Definition, Stats.Level) : null;
+        if (passiveDefinition != null)
+        {
+            passive = new ActiveShipPassive(passiveDefinition, this);
+            passiveDefinition.OnRaceStarted(passive);
+        }
 
         var conditionalDefinition = Stats != null
             ? ShipEvolution.Conditional(Stats.Definition, Stats.Level)
@@ -163,6 +196,11 @@ public class ShipAbilities : MonoBehaviour
     /// **Gasta o uso e começa a recarga na ativação**, e não no fim do efeito:
     /// assim o jogador sabe quando pode contar com ele de novo sem ter de
     /// acompanhar quanto o efeito anterior ainda dura.
+    ///
+    /// **Com o efeito ainda ligado, ativar de novo volta a duração ao máximo**
+    /// *(regra do Raffael, 01/11/2026)*: na prática, é ter usado o poder de novo.
+    /// Não cria um segundo efeito por cima, senão a Intangibilidade cobraria a
+    /// velocidade duas vezes no fim.
     /// </summary>
     public bool Activate()
     {
@@ -173,6 +211,17 @@ public class ShipAbilities : MonoBehaviour
             UsesLeft--;
 
         readyAt = Time.time + equipped.cooldownSeconds;
+        ActivationCount++;
+
+        for (int i = 0; i < active.Count; i++)
+        {
+            if (active[i].Definition != equipped || active[i].Finished)
+                continue;
+
+            active[i].Renew();
+            RenewalCount++;
+            return true;
+        }
 
         var runtime = equipped.CreateRuntime();
         runtime.Bind(equipped, this);
@@ -219,6 +268,9 @@ public class ShipAbilities : MonoBehaviour
             changed = true;
         }
 
+        if (changed)
+            RechargeCount++;
+
         return changed;
     }
 
@@ -231,8 +283,15 @@ public class ShipAbilities : MonoBehaviour
 
     void Update()
     {
+        // Antes do retorno de baixo: a passiva corre mesmo sem efeito ativo ligado,
+        // e a Predadora nem tem poder ativo.
+        if (passive != null)
+            passive.Definition.OnTick(passive, Time.deltaTime);
+
         if (active.Count == 0)
             return;
+
+        EffectSeconds += Time.deltaTime;
 
         for (int i = active.Count - 1; i >= 0; i--)
         {
@@ -288,6 +347,19 @@ public class ShipAbilities : MonoBehaviour
 
         if (conditional != null)
             conditional.Definition.OnObstacleDestroyed(conditional, obstacle);
+
+        if (passive != null)
+        {
+            passive.Definition.OnObstacleDestroyed(passive, obstacle);
+            PassivePeakCount = Mathf.Max(PassivePeakCount, passive.Count);
+        }
+    }
+
+    /// <summary>Chamado pelo diretor da corrida quando a nave chega à velocidade de dobra.</summary>
+    public void NotifyWarpEntered()
+    {
+        if (passive != null)
+            passive.Definition.OnWarpEntered(passive);
     }
 
     /// <summary>Chamado pelo obstáculo quando ele passa pela nave e sai de cena.</summary>
@@ -328,6 +400,9 @@ public class ShipAbilities : MonoBehaviour
     /// </summary>
     public void ResetForRace()
     {
+        WasReadyAtEnd = IsReady;
+        ConditionalCountAtEnd = conditional != null ? conditional.Count : 0;
+
         for (int i = active.Count - 1; i >= 0; i--)
         {
             var ability = active[i];
@@ -350,7 +425,8 @@ public class ShipAbilities : MonoBehaviour
         if (passive == null)
             return;
 
-        passive.OnRaceEnded(Stats);
+        passive.Definition.OnRaceEnded(passive);
+        passive.RemoveModifiers();
         passive = null;
     }
 

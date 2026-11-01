@@ -233,10 +233,14 @@ public class RaceDirector : MonoBehaviour
         if (race == null || IsEndless)
             return;
 
+        bool wasCharging = IsCharging;
         IsCharging = race.Current >= warpSpeed;
 
         if (IsCharging)
         {
+            if (!wasCharging && ShipAbilities.Instance != null)
+                ShipAbilities.Instance.NotifyWarpEntered();
+
             WarpCharge += Time.deltaTime;
 
             if (WarpCharge >= warpChargeSeconds)

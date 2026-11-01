@@ -36,11 +36,12 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 19/10/2026: vazia. As estrelas de dificuldade no Compêndio
-    /// rodaram e foram aprovadas pelo Raffael.
+    /// Estado em 01/11/2026: as evoluções das naves. Só cria e liga fichas, e não
+    /// encosta em cena.
     /// </summary>
     static readonly Step[] Steps =
     {
+        new Step("Evoluções: fichas dos upgrades e das passivas", ShipSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

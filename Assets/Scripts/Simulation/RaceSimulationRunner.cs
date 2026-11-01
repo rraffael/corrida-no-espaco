@@ -44,7 +44,11 @@ public class RaceSimulationRunner : MonoBehaviour
         }
 
         pilot = ship.gameObject.AddComponent<SimulatedPilot>();
-        pilot.Configure(RaceSimulation.PersonaAt(job.persona), job.seed * 7919 + job.persona);
+
+        // Pelo número da persona, e não pela posição no plano: senão o Regular
+        // rodando sozinho teria outro dado, e não compararia com a base.
+        var persona = RaceSimulation.PersonaAt(job.persona);
+        pilot.Configure(persona, job.seed * 7919 + persona.skillRank - 1);
 
         if (RaceSimulation.Current.hideRendering)
         {
@@ -120,9 +124,17 @@ public class RaceSimulationRunner : MonoBehaviour
             kills = kills,
             crashes = crashes,
             healthLeft = ship.Health.Fraction,
-            powerUses = pilot != null ? pilot.PowerUses : 0,
+            powerUses = abilities != null ? abilities.ActivationCount : 0,
             hasPower = hasPower,
-            diedWithPowerReady = hasPower && outcome == RaceSimulation.Outcome.Derrota && abilities.IsReady,
+
+            // O WasReadyAtEnd, e não o IsReady: o fim da corrida devolve usos e
+            // recarga, e o IsReady daria "pronto" em toda derrota.
+            diedWithPowerReady = hasPower && outcome == RaceSimulation.Outcome.Derrota && abilities.WasReadyAtEnd,
+            powerRenewals = abilities != null ? abilities.RenewalCount : 0,
+            powerRecharges = abilities != null ? abilities.RechargeCount : 0,
+            effectSeconds = abilities != null ? abilities.EffectSeconds : 0f,
+            conditionalCharges = abilities != null ? abilities.ConditionalCountAtEnd : 0,
+            passivePeak = abilities != null ? abilities.PassivePeakCount : 0,
         });
 
         index++;

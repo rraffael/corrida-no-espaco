@@ -15,6 +15,10 @@ using UnityEngine;
 /// tem uso e não aparece no canto do HUD — herdar tudo isso só para deixar tudo
 /// desligado daria uma ficha cheia de campo morto, que é exatamente o que o
 /// Inspector dos poderes foi escrito para evitar.
+///
+/// **A ficha nunca guarda estado de partida** — para isso existe o
+/// <see cref="ActiveShipPassive"/>, um por corrida. Os ganchos abaixo são os
+/// momentos da corrida a que uma passiva pode reagir; gancho novo entra aqui.
 /// </summary>
 public abstract class ShipPassive : ScriptableObject
 {
@@ -25,13 +29,28 @@ public abstract class ShipPassive : ScriptableObject
     [TextArea(1, 3)] public string description = "";
 
     /// <summary>
-    /// A corrida começou. É aqui que a passiva aplica o que ela faz — um
-    /// <see cref="StatModifier"/>, um <see cref="ShipTrait"/>, o que for.
-    /// Diferente do poder ativo, nada disto se desfaz sozinho: quem aplicou
-    /// desfaz no <see cref="OnRaceEnded"/>, e na prática a cena recarrega antes.
+    /// A corrida começou. É aqui que a passiva aplica o que vale desde a largada.
+    /// O <see cref="StatModifier"/> aplicado pelo <see cref="ActiveShipPassive"/>
+    /// sai sozinho no fim; um <see cref="ShipTrait"/> quem ligou desliga no
+    /// <see cref="OnRaceEnded"/>.
     /// </summary>
-    public virtual void OnRaceStarted(ShipStats ship) { }
+    public virtual void OnRaceStarted(ActiveShipPassive active) { }
+
+    /// <summary>Roda a cada quadro de corrida, para a passiva que conta tempo.</summary>
+    public virtual void OnTick(ActiveShipPassive active, float deltaTime) { }
+
+    /// <summary>A nave destruiu um obstáculo a tiro — não na batida.</summary>
+    public virtual void OnObstacleDestroyed(ActiveShipPassive active, ObstacleStats obstacle) { }
+
+    /// <summary>A nave acabou de chegar à velocidade de dobra e começou a carregar.</summary>
+    public virtual void OnWarpEntered(ActiveShipPassive active) { }
+
+    /// <summary>
+    /// O texto curto que a passiva acrescenta ao canto do poder, com ela valendo.
+    /// Vazio: não acrescenta nada.
+    /// </summary>
+    public virtual string HudBonus(ActiveShipPassive active) => string.Empty;
 
     /// <summary>A corrida acabou.</summary>
-    public virtual void OnRaceEnded(ShipStats ship) { }
+    public virtual void OnRaceEnded(ActiveShipPassive active) { }
 }

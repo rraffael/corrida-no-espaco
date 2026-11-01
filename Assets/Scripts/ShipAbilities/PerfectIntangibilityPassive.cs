@@ -16,15 +16,15 @@ using UnityEngine;
                  menuName = "Corrida no Espaço/Passiva da nave/Intangibilidade perfeita")]
 public class PerfectIntangibilityPassive : ShipPassive
 {
-    public override void OnRaceStarted(ShipStats ship)
+    public override void OnRaceStarted(ActiveShipPassive active)
     {
-        if (ship != null)
-            ship.AddTrait(ShipTrait.PhasingImmunity);
+        if (active.Stats != null)
+            active.Stats.AddTrait(ShipTrait.PhasingImmunity);
     }
 
-    public override void OnRaceEnded(ShipStats ship)
+    public override void OnRaceEnded(ActiveShipPassive active)
     {
-        if (ship != null)
-            ship.RemoveTrait(ShipTrait.PhasingImmunity);
+        if (active.Stats != null)
+            active.Stats.RemoveTrait(ShipTrait.PhasingImmunity);
     }
 }
