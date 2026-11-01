@@ -62,11 +62,11 @@ static class SimulationSetup
         {
             File = "Persona-3-Regular", Name = "Regular", Rank = 3,
             Description = "O jogador médio. Reação de gente atenta, erra pouco, vai atrás de prêmio e caça " +
-                          "obstáculo quando a pista está calma. Poder no aperto.",
+                          "obstáculo quando a pista está calma. Guarda o poder para o aperto e para o fim da dobra.",
             Reaction = 0.22f, Think = 0.10f, Swipe = 0.15f,
             Danger = 4.5f, Clear = 6f, Look = 12f,
             Mistake = 0.06f, Hunt = 0.40f,
-            Rewards = true, Debuffs = true, Power = PilotPersona.PowerHabit.NoAperto,
+            Rewards = true, Debuffs = true, Power = PilotPersona.PowerHabit.Esperto,
         },
         new Seed
         {

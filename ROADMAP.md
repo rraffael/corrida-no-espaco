@@ -36,29 +36,36 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 - [x] **Montar, estrelas no Compêndio e commit** ✅ *(Raffael, 19/10: "as estrelas estão boas")*
 - [x] **O simulador só com a Predadora** ✅ *(19/10 02h31, 600 corridas, 25 min)* — o Reforço
       **fica nos 20%** (decisão do Raffael, 19/10), commit feito
-**Para amanhã (20/10) — medir o poder ativo** *(o plano está em ⚖️, "Como medir o poder
-ativo"; o código foi escrito em 19/10 e ainda não compilou na sua Unity)*:
+- [x] **O teto do poder ativo** ✅ *(01/11 18h16, 900 corridas, 47 min)* — o código compilou, os
+      dois commits foram feitos e o resultado está em ⚖️, *"O que fazer com o poder ativo"*
+- [x] **Commit do ROADMAP com o teto do poder** ✅ *(Raffael, 01/11)*
 
-- [ ] **Abrir a Unity e olhar o Console** — se acusar erro de compilação, me manda a linha.
-      **Montar não precisa**: foi só código
+**Agora — fechar as personas e decidir as evoluções:**
+
+- [ ] **Olhar o Console da Unity** — o `SimulationSetup.cs` mudou. Se acusar erro, me manda a linha.
+      **Montar não precisa**
 - [ ] **Commit antes de rodar** — `git add -A` e
-      `git commit -m "Simulador: teto do poder e derrotas com o poder na mao"`
-- [ ] **Rodar o teto do poder** — Simulador de corridas:
-      1. **Marcar o retrato completo**
-      2. Desmarcar as naves **Nave inicial** e **Predadora** (ficam Nay, Espreitador e Raffa)
-      3. Desmarcar os níveis **15 e 40** (ficam 1 e 60) e a dificuldade **Fácil**
-      4. Ligar **"Teto do poder: todos usam o poder no primeiro perigo"**, no fim da janela
-      — Fases 1 a 3, sem a sem fim: **900 corridas, uns 40 min**. Depois é só me avisar; eu
-      comparo com a Nave inicial do retrato de 18/10, pelas mesmas sementes
-- [ ] **Commit do relatório** — `git add -A` e `git commit -m "Teto do poder: 900 corridas"`
+      `git commit -m "Personas: Regular passa a usar o poder com criterio"`
+- [ ] **Ensaio do Regular** — Simulador de corridas, 120 corridas, **uns 6 min**:
+      1. **Persona:** só o **Regular**
+      2. **Naves:** **Espreitador** e **Raffa**
+      3. **Níveis:** **1 e 60**
+      4. **Dificuldades:** **Normal e Difícil**
+      5. **Fases:** **1 a 3**, sem a sem fim
+      6. **Teto do poder desligado**
+
+      Passa se o Regular **usar mais o poder** (hoje, 81% das corridas sem usar). Não é para atingir
+      uma % de vitória. Depois é só me avisar; eu comparo com o retrato de 18/10
+- [ ] **Decidir o upgrade do 15, o do 40 e a passiva do 60 de cada nave** (✏️) — é **o que define a
+      base**: o retrato completo só roda **depois** disto
+- [ ] **Depois dos upgrades: o retrato completo como a nova base** — 3.000 corridas, 2h18
 
 *Próxima rodada da curva, quando der: **só os níveis 15 e 40, sem a sem fim** (pedido do
 Raffael, 19/10). As sementes batem com as do retrato, e os relatórios se somam.*
 
 ### 🛒 Play Console — acompanhar
-- [ ] **A primeira revisão da Play** — os 10 itens (página do app e declarações de 08/08) foram
-      enviados em 11/10/2026. Costuma levar de alguns dias a uma semana; **não trava o teste
-      interno**. Se voltar recusado, trazer o motivo
+- [x] **A primeira revisão da Play** ✅ *publicada (Raffael, 01/11/2026)* — os 10 itens de página
+      do app e declarações enviados em 11/10/2026
 - [x] **O nome pt-BR e o formato PC** ✅ *corrigidos pelo Raffael em 11/10/2026* — o nome em
       pt-BR virou **"Corrida no Espaço"**, com "E" maiúsculo, e o **"Google Play Games no PC"** foi
       desativado. As correções foram para a revisão
@@ -86,6 +93,10 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
 - [x] **Nada mudou nas fases** — **Gabriel** ✅
 - [x] **Os recordes de fase** — os dois notaram, cada um do seu jeito, que o recorde era um só
       para tudo (sem fim, fase, Fácil, Normal). **Virou os placares por fase** (ver 📦)
+
+**Retornos em dia** *(Raffael, 01/11/2026)*: tudo o que os testadores tinham a dizer sobre esta
+versão já chegou. Não há retorno pendente. **A próxima rodada vem depois de balancear e de entrar
+mais conteúdo**: aí sai uma versão nova e ele pede que testem de novo.
 
 ### ✏️ Pequenos, quando der
 - [ ] **O nome da conquista de evoluir** — a ficha `PrimeiraEvolucao` está com o nome
@@ -138,7 +149,9 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
         do Claude, para o seu OK: abrir o degrau de baixo — Novato com 0,6 s e 35% de erro,
         Regular mais perto do Veterano (0,18 s, 4%) — e rodar de novo só as personas.
         **Guardado para depois do teste da Predadora** *(decisão do Raffael, 19/10)*: mexer nas
-        personas agora invalidaria o retrato inteiro, e refazê-lo custa 2 horas
+        personas agora invalidaria o retrato inteiro, e refazê-lo custa 2 horas. *Em 01/11 esta
+        proposta foi revista e **descartada**: só o hábito do Regular mudou (ver "Revisar as
+        personas", abaixo)*
 - [ ] **O retrato das naves (18/10)** — `docs/simulacoes/2026-10-18_23h22.md`: as 5 naves nos
       níveis 1 e 60, as 5 personas, as Fases 1 a 3 e a sem fim, as três dificuldades, 5
       repetições = 3.000 corridas, 2 h 18 min. Nenhuma corrida esgotou o tempo. Vitórias de todas
@@ -269,8 +282,67 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
       | Espreitador | 60 | 47% | 40% | 47% | 93% | 100% | 65% |
       | Raffa | 60 | 40% | 40% | 40% | 93% | 100% | 63% |
       | Predadora | 60 | 67% | 73% | 93% | 87% | 100% | 84% |
-- [ ] **Como medir o poder ativo** *(pergunta do Raffael, 19/10; plano do Claude, aprovado — "registra
-      pra eu rodar amanhã"; as duas medidas foram escritas na mesma noite, falta rodar: ver 📦)* —
+- [x] **Revisar as personas** ✅ *(revisto em 01/11 com uma análise da medição e um contraponto)* —
+      **A única mudança: o Regular passou de "No aperto" para "Esperto".** A proposta maior, com
+      reação e erro do Novato e do Regular e o hábito do Casual, **foi descartada**:
+      - **A régua já ordena as personas pela sem fim no nível 1:** com a Nave inicial, 299, 340, 421,
+        591 e 1.157 un, e a mesma ordem nas 5 naves. O empate é das vitórias, em que as Fases 1 a 3
+        no nível 1 saturam: em 16 das 30 casas os três de baixo empatam exatamente
+      - **Comparar naves já funciona:** o corte da Predadora mexeu nas cinco personas (nv 1: 49→33,
+        58→31, 62→40, 71→60, 100→96)
+      - **Mexer em reação e erro seria ajustar a régua para dar o resultado esperado:** nada foi
+        calibrado com jogador de verdade, e a conta indica pouco efeito (estimativa, não medição)
+      - **O Casual fica como está:** gastaria o poder cedo, com efeito quase nulo. Ele passa a ser o
+        jogador que quase esquece o poder; o Novato gasta à toa; do Regular para cima, usa com critério
+      - **O Regular muda porque era o defeito real:** o jogador médio passava 81% das corridas sem usar
+        o poder, e um poder ativo novo não apareceria na coluna dele
+
+      **Como ler a base:** comparar **a mesma persona em duas naves**, e não uma persona contra a
+      outra, olhando as fases e a **sem fim no nível 1**. A diferença de 5 pontos entre duas personas
+      fica dentro do ruído estimado (±6). **Relatórios antigos não comparam mais na coluna do Regular**
+- [x] **O que fazer com o poder ativo** ✅ *(decisão do Raffael, 01/11)* — **Os poderes ficam como
+      estão, no máximo com a duração um pouco maior ou menor**, porque o efeito da maioria é binário.
+      O teto do
+      poder rodou (`docs/simulacoes/2026-11-01_18h16.md`): toda persona aperta o poder no primeiro
+      perigo em que ele estiver pronto. Pegou: só 126 das 900 corridas (14%) terminaram sem usar.
+      Vitórias nas Fases 1 a 3, todas as personas, 75 corridas por casa:
+
+      | | Normal nv 1 | Normal nv 60 | Difícil nv 1 | Difícil nv 60 |
+      |---|---|---|---|---|
+      | **Nave inicial** *(sem poder, retrato)* | **51%** | **91%** | **12%** | **60%** |
+      | Nay: hábito normal → teto | 48 → 49% | 92 → 96% | 12 → 12% | 57 → 57% |
+      | Espreitador: hábito normal → teto | 55 → 47% | 89 → 91% | 15 → 15% | 65 → 63% |
+      | Raffa: hábito normal → teto | 55 → 51% | 93 → 91% | 15 → 13% | 63 → **71%** |
+
+      **Leitura do Claude:**
+      - **Usar no primeiro perigo não ganha da nave sem poder.** Nas 12 casas, 11 ficam a até 5
+        pontos da Nave inicial. A exceção é a Super IA no Difícil nv 60: 71% contra 60%, +8 corridas
+        em 75
+      - **Correção do Claude (01/11): "a culpa é mais do poder" foi forte demais.** Olhando por
+        persona, **a hora do uso pesa**. Normal e Difícil, níveis 1 e 60, 60 corridas por casa:
+
+        | Persona | Nave inicial | Nay: normal → teto | Espreitador: normal → teto | Raffa: normal → teto |
+        |---|---|---|---|---|
+        | Novato | 38% | 42 → 40% | 38 → 40% | 43 → 43% |
+        | Casual | 42% | 40 → 43% | 38 → 40% | 38 → 37% |
+        | Regular | 43% | 42 → 45% | 43 → 43% | 40 → 48% |
+        | **Veterano** | **53%** | 50 → 52% | **68 → 55%** | **68 → 63%** |
+        | Perfeito | 90% | 88 → 88% | 92 → 90% | 92 → 90% |
+
+        O Veterano usa na hora certa, inclusive no fim da dobra, e **fica 15 pontos acima da Nave
+        inicial** com Espreitador e Raffa. Obrigado a gastar no primeiro perigo, ele perde parte
+        disso. **Esses dois poderes valem na mão de quem sabe usar.** São 9 corridas em 60: é sinal,
+        não prova
+      - **A Nay é a única sem sinal em nenhum hábito.** Se uma duração for mexida, é por ela que
+        vale começar
+      - **Ajuda a explicar o que os testadores sentiram:** o poder só rende bem se usado na hora
+        certa. É hipótese, e pode entrar no tutorial
+      - **A medida "derrotas com o poder na mão" saiu errada:** deu 100% em tudo, por defeito do
+        simulador, e não vale nesta rodada nem em nenhuma outra (conserto em 🤖). A leitura acima
+        não depende dela
+
+- [x] **Como medir o poder ativo** ✅ *(pergunta do Raffael, 19/10; plano do Claude, aprovado;
+      rodado em 01/11 — o resultado está no item acima)* —
       Nay, Espreitador e Raffa saem iguais à Nave inicial, que não tem poder. Antes de mexer no
       poder, é preciso saber **de quem é a culpa: do poder ou de quem o usa.**
 
@@ -340,6 +412,10 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
 - [ ] **Recarga de poder aparece para a Predadora**, que não tem o que recarregar *(Parte 7)*
 
 ### ✏️ Desenhar e decidir
+- [ ] **A Predadora como raridade extra e pacote inicial pago** *(ideia do Raffael, 01/11/2026,
+      para dar grande vantagem a quem pagar; detalhes na Fase 9)* — *entendido como a nave do
+      Reforço estrutural, a confirmar.* A decidir na hora: **quanta vantagem é "grande"**, e como
+      fica o **placar da sem fim**
 - [ ] **Ranks de atributo das naves: S → A → B → C → D → E** *(decidido pelo Raffael em
       26/09/2026; o desenho vem depois)* — cada nave terá um rank por atributo, dizendo no que ela
       é melhor (S) e pior (E). Motivo: o painel de balanceamento mostrou as quatro naves
@@ -347,7 +423,19 @@ com o retorno do Gabriel e da Nay — nenhum dos dois viu travar ou fechar sozin
       de evolução muda junto quando chegar a hora — ver a Parte 6. *Já decidido:* o jogador vê o
       rank, e alguns ranks sobem com os patamares. *Falta:* quanto vale cada rank, e quais sobem
 - [ ] **Upgrade 1, upgrade 2 e passiva de cada nave** — Nave inicial, Nay, Raffa e Predadora.
-      Upgrade é a ficha do poder duplicada com números maiores *(Parte 6)*
+      Upgrade é a ficha do poder duplicada com números maiores *(Parte 6)*. **Conferido nas fichas
+      em 01/11:**
+
+      | Nave | Nível 15 | Nível 40 | Nível 60 |
+      |---|---|---|---|
+      | Espreitador | vazio | **2 usos** | **Intangibilidade perfeita** |
+      | Nay | vazio | vazio | vazio |
+      | Raffa | vazio | vazio | vazio |
+      | Predadora | vazio | vazio | vazio |
+      | Nave inicial *(sem poder)* | — | — | vazio |
+
+      **Por isso, no simulador, o nível 60 dessas quatro naves mede só os atributos.** Upgrade novo
+      muda a medida dessas naves, mas não invalida as personas: basta rodar só a nave que mudou
 - [ ] **Mais naves e mais poderes** — a lista continua *(Parte 5)*
 - [ ] 🎨 **O visual da Predadora** — largada, 5 cargas e 10 cargas *(Parte 5)*
 - [ ] **Modificadores por fase** — junto com a reforma das fases *(Parte 7)*
@@ -387,11 +475,12 @@ Raffael pedir pelo nome.*
 
 **Próximos, na ordem sugerida:**
 
-- [ ] **A Super IA não enxerga estilhaço** *(achado de 18/10, ao escrever o simulador)* — ela
-      lê obstáculo e Debilitante, mas o estilhaço do Casulo não tem lista de vivos, então ela
-      (e as personas, que pensam com o mesmo cérebro) passa por cima dele sem saber. Dar a lista
-      ao estilhaço e pôr na leitura da pista é pouca coisa, **mas muda a Super IA, que você
-      acabou de testar** — por isso espera o seu OK. O simulador mede o antes e o depois
+- [ ] **Consertar "derrotas com o poder na mão"** *(achado em 01/11, ao ler o teto do poder)* — o
+      `RaceDirector` zera o poder (`ResetForRace`) ao acabar a corrida, e o
+      `RaceSimulationRunner` só pergunta se ele está pronto depois disso. Por isso a resposta é
+      sempre "sim", e a seção do relatório e a coluna `poder_sobrando` deram 100% em toda derrota.
+      O conserto é guardar a resposta enquanto a corrida roda. Só mexe no simulador; os relatórios
+      antigos continuam com o número errado nessa seção
 - [ ] **Simulador: a sem fim por "quanto aguenta"** — hoje a sem fim tem teto de 300 s no
       simulador, para não rodar para sempre com o Perfeito. Se o Perfeito bater o teto sempre,
       vale trocar o teto por "distância em que metade das corridas já caiu"
@@ -402,8 +491,8 @@ Raffael pedir pelo nome.*
       evoluir para **testes específicos que o Raffael define** ("a nave X passa da Fase 3 no
       Difícil?", "o modificador Y faz o Regular vencer mais?") com **resultados específicos**, e
       com o tempo ficar tudo automatizado. Antes disso, **avaliar e afinar as personas** pelos
-      relatórios: o degrau de cada uma, o uso do poder (ainda não visto: os ensaios foram com a
-      Nave inicial, que não tem poder ativo) e a caça. O formato do teste e o que o resultado deve dizer são dele
+      relatórios: o degrau de cada uma, o uso do poder (Casual e Regular quase não o apertam, ver
+      ⚖️) e a caça. O formato do teste e o que o resultado deve dizer são dele
 
 - [ ] **60 quadros por segundo no celular** — *só com o OK do Raffael*. O jogo não pede taxa de
       quadros, e no celular a Unity roda a **30** por padrão. Pedir 60 deixa tudo mais liso e dobra a margem de
@@ -414,8 +503,9 @@ Raffael pedir pelo nome.*
       `Game.unity`
 - [ ] **Limpar as chaves antigas de `PlayerPrefs`** — depois que os testadores tiverem aberto a
       versão com o `save.json` pelo menos uma vez. *Só com o OK do Raffael*: é o que tira a rede
-      da migração. **A versão com o `save.json` está na Play desde 11/10/2026** (código 2); falta
-      a migração passar no celular da esposa e os outros testadores atualizarem
+      da migração. **A versão com o `save.json` está na Play desde 11/10/2026** (código 2), e a
+      migração passou no celular da Nay (17/10); falta confirmar que os outros testadores
+      atualizaram
 - [ ] **Visual por estágio com arte de verdade** — quando a arte da Predadora existir, a ficha da
       nave ganha um sprite por estágio e o `ShipStageLook` troca o sprite em vez de tingir
 - [ ] **Pool de obstáculos e tiros** — *só se o aparelho engasgar*. Hoje cada tiro e obstáculo é
@@ -535,9 +625,40 @@ Raffael pedir pelo nome.*
 
 ---
 
-## 🚀 Onde estamos — fechamento de 19/10/2026
+## 🚀 Onde estamos — 01/11/2026
 
 *Resumo para retomar rápido. O detalhe de cada item está na Lista, no topo, e nas Partes.*
+
+**Etapa atual: balancear e colocar mais coisas, para então pedir um novo teste.**
+
+### O que foi feito
+- **O teto do poder rodou e foi lido:** gastar no primeiro perigo não ganha da Nave inicial, mas o
+  Veterano, que usa na hora certa, fica 15 pontos acima com Espreitador e Raffa (⚖️)
+- **Defeito achado no simulador:** "derrotas com o poder na mão" deu 100% em tudo e não vale
+  (conserto em 🤖)
+- **A revisão da Play foi publicada**
+
+### O que o Raffael decidiu
+- **A Super IA continua enxergando só obstáculos**, sem o estilhaço. A proposta de mudar saiu da
+  lista 🤖
+- **Os testadores estão em dia:** a próxima rodada vem depois de balancear e de entrar conteúdo
+- **Os poderes ativos mudam pouco:** no máximo a duração, para mais ou para menos
+- **O balanceamento não precisa ser perfeito:** precisa de uma base boa para comparar as naves novas
+- **A Predadora pode virar raridade extra e pacote inicial pago** (ideia para a Fase 9)
+
+- **As evoluções de todas as naves serão decididas agora**, porque mudam as vitórias nos níveis 15,
+  40 e 60
+
+### O que vem agora
+1. **Ensaio do Regular**, de 6 min (📦)
+2. **Decidir os upgrades e as passivas** (✏️)
+3. **Retrato completo**, que vira a nova base de comparação
+4. **Colocar mais conteúdo**: ranks de atributo, mais naves e poderes (✏️)
+5. **Versão nova para os testadores**, com novo pedido de teste
+
+---
+
+## O fechamento de 19/10/2026
 
 **Etapa atual: balancear as naves pelo simulador.** Em 18 e 19/10 rodaram o retrato das naves
 (3.000 corridas) e a Predadora com o Reforço pela metade (600). **A Predadora está resolvida**
@@ -1466,9 +1587,9 @@ espera — é o que só se resolve perto do lançamento.
         pacote → Downloads → Símbolos de depuração nativos*. Repetir a cada envio
 - [x] **Versão 2 no teste interno** (11/10/2026) — a leva de 26/09 (evolução, oficina,
       conquistas, `save.json`), código 2, instalada pela Play nos celulares do Raffael e da esposa
-- [ ] **A primeira revisão da Play** — enviada em 11/10/2026: página do app nos dois idiomas, as
-      declarações e a categoria, parados desde 08/08. Não trava o teste interno. Acompanhar na
-      Lista do Raffael (🛒)
+- [x] **A primeira revisão da Play** — enviada em 11/10/2026 e **publicada** (confirmado pelo
+      Raffael em 01/11/2026): página do app nos dois idiomas, as declarações e a categoria, parados
+      desde 08/08
 - [x] ~~Quando a conta sair da verificação:~~ **app criado no Console** (08/08/2026), com o
       `applicationId` novo `br.com.raffael.corridanoespaco`, aceito sem briga
 - [ ] Criar o projeto novo no Play Games Services — **só na Fase 7**, junto com login e conta
@@ -3199,6 +3320,17 @@ Depois do lançamento. Anúncios antes de compras.
 
 - [ ] Anúncios (integração)
 - [ ] Compras no app (design de economia — projeto próprio, do tamanho do jogo base)
+      - **Ideia do Raffael (01/11/2026): a Predadora como raridade extra e pacote inicial pago**,
+        com grande vantagem para quem pagar. Pontos a resolver quando chegar a hora:
+        - **O conceito de raridade não existe** no jogo: é estrutura nova
+        - **O tamanho da vantagem:** com o Reforço em 20%, nas fases ela fica só 7 pontos acima no
+          nv 1 e 2 a 4 no nv 60. O número foi cortado em 19/10 para aproximá-la das outras; se a
+          intenção agora é vantagem grande, ele volta à conversa
+        - **O placar:** na sem fim ela vai 40 a 50% mais longe. Com placar online, o topo tende a
+          ser só de quem pagou. Pode ser aceitável, mas é decisão a tomar de olhos abertos
+        - **Quem já tem:** hoje ela é de graça para os testadores
+        - **A Play:** compra no app muda o IARC e pede reler a declaração 9
+          (`docs/play-console/declaracoes-do-app.md`)
 
 ---
 

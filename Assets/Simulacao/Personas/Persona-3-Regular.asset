@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PilotPersona
   displayName: Regular
   description: "O jogador m\xE9dio. Rea\xE7\xE3o de gente atenta, erra pouco, vai
-    atr\xE1s de pr\xEAmio e ca\xE7a obst\xE1culo quando a pista est\xE1 calma. Poder
-    no aperto."
+    atr\xE1s de pr\xEAmio e ca\xE7a obst\xE1culo quando a pista est\xE1 calma. Guarda
+    o poder para o aperto e para o fim da dobra."
   skillRank: 3
   reactionSeconds: 0.22
   thinkInterval: 0.1
@@ -27,4 +27,4 @@ MonoBehaviour:
   huntChance: 0.4
   seeksRewards: 1
   avoidsDebuffs: 1
-  powerHabit: 2
+  powerHabit: 3
