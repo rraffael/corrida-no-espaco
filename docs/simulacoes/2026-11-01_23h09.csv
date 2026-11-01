@@ -1,0 +1,76 @@
+﻿persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando;renovacoes;recargas_pegas;segundos_de_efeito;cargas_fim;pico_passiva
+Regular;3;Nave inicial;15;Fase 2 — Comboio;Difícil;1;Derrota;20,7;172,07;121;;4;3;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;15;Fase 2 — Comboio;Difícil;2;Derrota;13,57;112,83;118;;3;2;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;15;Fase 2 — Comboio;Difícil;3;Derrota;13,7;111,04;110;;2;2;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;15;Fase 2 — Comboio;Difícil;4;Derrota;17,73;150,49;112;;2;2;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;15;Fase 2 — Comboio;Difícil;5;Derrota;17,9;169,81;141;;5;2;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;40;Fase 2 — Comboio;Difícil;1;Derrota;24,07;243,07;156;;6;3;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;40;Fase 2 — Comboio;Difícil;2;Derrota;19,73;198,23;147;;7;3;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;40;Fase 2 — Comboio;Difícil;3;Derrota;23;228,95;141;;5;3;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;40;Fase 2 — Comboio;Difícil;4;Derrota;17,93;177,61;163;;7;3;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;40;Fase 2 — Comboio;Difícil;5;Derrota;20,9;213,89;154;;6;3;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;60;Fase 2 — Comboio;Difícil;1;Derrota;29,63;341,25;190;29;9;4;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;60;Fase 2 — Comboio;Difícil;2;Derrota;21,73;229,94;159;;7;4;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;60;Fase 2 — Comboio;Difícil;3;Derrota;33,1;388,45;176;;6;4;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;60;Fase 2 — Comboio;Difícil;4;Derrota;26,1;295,72;177;;8;4;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;60;Fase 2 — Comboio;Difícil;5;Derrota;20,87;218,36;170;;5;4;0;0;;0;0;0;0;0
+Regular;3;Nay;15;Fase 2 — Comboio;Difícil;1;Derrota;20,87;169,76;112;;3;3;0;2;0;0;1;6,07;0;0
+Regular;3;Nay;15;Fase 2 — Comboio;Difícil;2;Derrota;13,57;115,63;129;;4;2;0;2;0;0;1;4,53;0;0
+Regular;3;Nay;15;Fase 2 — Comboio;Difícil;3;Derrota;13,7;111,04;110;;2;2;0;1;0;0;0;3,03;0;0
+Regular;3;Nay;15;Fase 2 — Comboio;Difícil;4;Derrota;17,73;150,28;112;;2;2;0;1;0;0;0;3,03;0;0
+Regular;3;Nay;15;Fase 2 — Comboio;Difícil;5;Derrota;17,9;169,81;141;;5;2;0;1;0;0;0;3,03;0;0
+Regular;3;Nay;40;Fase 2 — Comboio;Difícil;1;Derrota;29,63;329,77;190;28,73;13;4;0;3;0;0;2;13,6;0;0
+Regular;3;Nay;40;Fase 2 — Comboio;Difícil;2;Derrota;16,8;165,01;160;;7;3;0;1;0;0;0;5,03;0;0
+Regular;3;Nay;40;Fase 2 — Comboio;Difícil;3;Derrota;28,77;321,79;183;;10;4;0;2;0;0;0;9,57;0;0
+Regular;3;Nay;40;Fase 2 — Comboio;Difícil;4;Derrota;16,33;140,58;118;;2;3;0;1;0;0;0;5,03;0;0
+Regular;3;Nay;40;Fase 2 — Comboio;Difícil;5;Derrota;17,9;193,07;176;;6;3;0;1;0;0;0;5,03;0;0
+Regular;3;Nay;60;Fase 2 — Comboio;Difícil;1;Derrota;29,63;342,16;190;26,43;14;5;0;3;0;0;2;13,6;0;0
+Regular;3;Nay;60;Fase 2 — Comboio;Difícil;2;Derrota;21,67;221,11;187;;10;5;0;2;0;1;1;6,87;0;0
+Regular;3;Nay;60;Fase 2 — Comboio;Difícil;3;Vitoria;18,8;279,35;190;9,17;7;1;0,77;1;0;0;0;5,03;0;0
+Regular;3;Nay;60;Fase 2 — Comboio;Difícil;4;Derrota;28,07;373,38;190;7,47;11;4;0;2;0;0;1;7;0;0
+Regular;3;Nay;60;Fase 2 — Comboio;Difícil;5;Derrota;20,87;236,09;190;9,17;8;4;0;1;0;0;0;5,03;0;0
+Regular;3;Raffa;15;Fase 2 — Comboio;Difícil;1;Derrota;23,03;193,31;117;;4;3;0;1;0;0;0;3,53;0;0
+Regular;3;Raffa;15;Fase 2 — Comboio;Difícil;2;Derrota;13,57;112,83;118;;3;2;0;0;1;0;0;0;0;0
+Regular;3;Raffa;15;Fase 2 — Comboio;Difícil;3;Derrota;13,7;111,04;110;;2;2;0;0;1;0;0;0;0;0
+Regular;3;Raffa;15;Fase 2 — Comboio;Difícil;4;Derrota;17,73;150,49;112;;2;2;0;0;1;0;0;0;0;0
+Regular;3;Raffa;15;Fase 2 — Comboio;Difícil;5;Derrota;17,9;169,81;141;;5;2;0;0;1;0;0;0;0;0
+Regular;3;Raffa;40;Fase 2 — Comboio;Difícil;1;Derrota;24,07;243,07;156;;6;3;0;0;1;0;0;0;0;0
+Regular;3;Raffa;40;Fase 2 — Comboio;Difícil;2;Derrota;19,73;198,23;147;;7;3;0;0;1;0;0;0;0;0
+Regular;3;Raffa;40;Fase 2 — Comboio;Difícil;3;Derrota;23;228,95;141;;5;3;0;0;1;0;0;0;0;0
+Regular;3;Raffa;40;Fase 2 — Comboio;Difícil;4;Derrota;17,93;177,61;163;;7;3;0;0;1;0;0;0;0;0
+Regular;3;Raffa;40;Fase 2 — Comboio;Difícil;5;Derrota;20,9;213,89;154;;6;3;0;0;1;0;0;0;0;0
+Regular;3;Raffa;60;Fase 2 — Comboio;Difícil;1;Vitoria;32,5;395,72;190;29;9;4;0,17;1;0;0;0;3,5;0;0
+Regular;3;Raffa;60;Fase 2 — Comboio;Difícil;2;Derrota;21,73;229,94;159;;7;4;0;0;1;0;0;0;0;0
+Regular;3;Raffa;60;Fase 2 — Comboio;Difícil;3;Derrota;37,33;451,27;176;;7;4;0;1;1;0;1;4,03;0;0
+Regular;3;Raffa;60;Fase 2 — Comboio;Difícil;4;Derrota;26,1;295,72;177;;8;4;0;0;1;0;0;0;0;0
+Regular;3;Raffa;60;Fase 2 — Comboio;Difícil;5;Derrota;25,23;283,78;170;;7;4;0;1;0;0;0;4,03;0;0
+Regular;3;Predadora;15;Fase 2 — Comboio;Difícil;1;Derrota;29,73;295,17;157;;8;3;0;0;;0;0;0;10;0
+Regular;3;Predadora;15;Fase 2 — Comboio;Difícil;2;Derrota;16,9;140,82;120;;5;3;0;0;;0;0;0;10;0
+Regular;3;Predadora;15;Fase 2 — Comboio;Difícil;3;Derrota;38,8;477,32;184;;10;3;0;0;;0;0;0;10;0
+Regular;3;Predadora;15;Fase 2 — Comboio;Difícil;4;Derrota;26,3;241,85;131;;4;3;0;0;;0;0;0;8;0
+Regular;3;Predadora;15;Fase 2 — Comboio;Difícil;5;Derrota;20,67;216,91;147;;6;2;0;0;;0;0;0;10;0
+Regular;3;Predadora;40;Fase 2 — Comboio;Difícil;1;Derrota;33,07;367,67;164;;7;4;0;0;;0;0;0;14;0
+Regular;3;Predadora;40;Fase 2 — Comboio;Difícil;2;Derrota;25,13;255,77;148;;8;4;0;0;;0;0;0;16;0
+Regular;3;Predadora;40;Fase 2 — Comboio;Difícil;3;Derrota;31,6;354,61;164;;6;3;0;0;;0;0;0;12;0
+Regular;3;Predadora;40;Fase 2 — Comboio;Difícil;4;Derrota;26,17;272,9;164;;8;4;0;0;;0;0;0;16;0
+Regular;3;Predadora;40;Fase 2 — Comboio;Difícil;5;Derrota;18,4;189,87;156;;5;3;0;0;;0;0;0;10;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Difícil;1;Vitoria;27,77;340,58;190;24,27;9;3;0,39;0;;0;0;0;18;10
+Regular;3;Predadora;60;Fase 2 — Comboio;Difícil;2;Derrota;35,37;428,19;179;;9;5;0;0;;0;0;0;18;8
+Regular;3;Predadora;60;Fase 2 — Comboio;Difícil;3;Vitoria;45,27;590,01;190;36,13;10;5;0,03;0;;0;0;0;20;6
+Regular;3;Predadora;60;Fase 2 — Comboio;Difícil;4;Vitoria;28,53;369,74;190;19,63;12;4;0,34;0;;0;0;0;20;10
+Regular;3;Predadora;60;Fase 2 — Comboio;Difícil;5;Derrota;25;268,31;176;;10;5;0;0;;0;0;0;20;10
+Regular;3;Espreitador Espacial;15;Fase 2 — Comboio;Difícil;1;Derrota;29,17;268,07;143;;6;3;0;1;0;0;0;4,03;0;0
+Regular;3;Espreitador Espacial;15;Fase 2 — Comboio;Difícil;2;Derrota;13,57;112,83;118;;3;2;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;15;Fase 2 — Comboio;Difícil;3;Derrota;13,7;111,04;110;;2;2;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;15;Fase 2 — Comboio;Difícil;4;Derrota;17,73;150,49;112;;2;2;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;15;Fase 2 — Comboio;Difícil;5;Derrota;17,9;169,81;141;;5;2;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;40;Fase 2 — Comboio;Difícil;1;Derrota;24,07;243,07;156;;6;3;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;40;Fase 2 — Comboio;Difícil;2;Derrota;19,73;198,23;147;;7;3;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;40;Fase 2 — Comboio;Difícil;3;Derrota;23;228,95;141;;5;3;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;40;Fase 2 — Comboio;Difícil;4;Derrota;17,93;177,61;163;;7;3;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;40;Fase 2 — Comboio;Difícil;5;Derrota;20,9;213,89;154;;6;3;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Difícil;1;Derrota;29,63;341,25;190;29;9;4;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Difícil;2;Derrota;21,73;229,94;159;;7;4;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Difícil;3;Derrota;38,83;475,71;176;;7;4;0;1;1;0;1;4,03;0;0
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Difícil;4;Derrota;26,1;295,72;177;;8;4;0;0;1;0;0;0;0;0
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Difícil;5;Derrota;25,27;282,93;170;;7;4;0;1;0;0;0;4,03;0;0

@@ -16,12 +16,19 @@ MonoBehaviour:
   description: "Carrega uma carta s\xF3, e ela vale a corrida inteira se for jogada
     na hora certa."
   color: {r: 1, g: 0.78, b: 0.4, a: 1}
+  extraNotes: 
   cruiseSpeed: 8
   acceleration: 4
   killGainFactor: 0.16
   crashCost: 1
   intrinsicAbility: {fileID: 11400000, guid: 82fea0e2c0604d347b139ec470135ac4, type: 2}
-  passiveAbility: {fileID: 0}
+  conditionalAbility: {fileID: 0}
+  evolutionModel: {fileID: 0}
+  abilityUpgrade1: {fileID: 11400000, guid: 9c6ffaa9b378bd14aa838981c69ad68e, type: 2}
+  abilityUpgrade2: {fileID: 11400000, guid: ff4837f31c85c7446ac84f01fc3c4d9d, type: 2}
+  conditionalUpgrade1: {fileID: 0}
+  conditionalUpgrade2: {fileID: 0}
+  passiveAbility: {fileID: 11400000, guid: da82b8271b29fd346b3a20ee75befce0, type: 2}
   damage: 25
   attackSpeed: 3
   maxHealth: 100

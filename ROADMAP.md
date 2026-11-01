@@ -58,32 +58,32 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
       subida de vitórias é indício, e não prova
 - [x] **Decidir o upgrade do 15, o do 40 e a passiva do 60 de cada nave** ✅ *(01/11)*
 
-**Agora — as evoluções estão escritas, e falta rodar** *(ainda não compilaram na sua Unity)*:
+**Agora — as evoluções estão montadas, e falta a rodada longa:**
 
-- [ ] **1. Commit antes de rodar** — `git add -A` e
-      `git commit -m "Evolucoes das naves, Frenesi e correcoes do simulador"`
-- [ ] **2. Olhar o Console** — se acusar **erro de compilação**, me manda a linha. Até o Montar, as
-      verificações vão acusar as evoluções que faltam, com "rode o Montar": isso é esperado
-- [ ] **3. Montar** — **Tools → Corrida no Espaço → Montar**. Só cria e liga fichas
-- [ ] **4. Rodar as verificações** — **Testes → Rodar verificações**. Aqui já têm de passar todas; se
-      alguma falhar, me manda a linha
-- [ ] **5. Teste de fumaça: 75 corridas, uns 4 min** — Simulador de corridas:
-      - **Persona:** só o **Regular**
-      - **Naves:** todas as 5
-      - **Níveis:** **15, 40 e 60**
-      - **Fase:** só a **Fase 2**
-      - **Dificuldade:** só o **Difícil**
-      - **Repetições:** 5, **teto do poder desligado**
+- [x] **Commit, Montar e teste de fumaça** ✅ *(01/11 23h09, 75 corridas, 2 min 21 s;
+      `docs/simulacoes/2026-11-01_23h09.md`)* — **passou.** Conferido no CSV:
+      - **Duração:** Nay 3 s e 5 s; Raffa 3,5 s e 4 s; Espreitador 4 s, cada uma no seu nível
+      - **Dobra assistida:** dispara. Na semente 1 do nv 60, a Nave inicial cai aos 29,6 s, logo depois
+        de chegar à dobra; a Raffa, na mesma pista, liga a Super IA e vence aos 32,5 s
+      - **Reforço:** 1 ou 2 cargas por abate conforme o nível, e sem passar do teto (10 e 20)
+      - **Frenesi:** só no nv 60, com pico entre 6 e 10 cargas e sem passar de 10
+      - **Renovação:** a Nay renovou uma vez, em 6,87 s de efeito (1,84 s + 5,03 s), sem efeito duplicado
+      - **`poder_sobrando`:** agora varia: 0% na Nay, e 75 a 100% em Raffa e Espreitador
+      - **A mesma semente compara:** as corridas ficam iguais até o primeiro poder ou abate diferente
 
-      Me avisa quando acabar: eu confiro se os poderes novos dispararam antes de gastar as horas
-- [ ] **6. A base completa: 6.000 corridas, umas 4h40** — **só depois do meu OK na fumaça**:
+      **A fumaça não exercitou:** a recarga de 12 s, o 2º uso do Espreitador e o "Desabilitar Armas"
+      em corrida (só a verificação cobre esse último). A base cobre. **Para ler na base:** nesta fase,
+      o Regular morreu sem usar o poder em quase todas as derrotas de Raffa e Espreitador nos níveis 15
+      e 40, e a Predadora nv 60 venceu 3 de 5, contra 0 de 5 da Nave inicial. Amostra pequena
+- [ ] **A base completa: 6.000 corridas, umas 4h40** — Simulador de corridas:
       1. **Marcar o retrato completo**
       2. Marcar também a **Sem fim**, que o botão deixa de fora (4.500 → 6.000)
-      3. **Rodar**, e **não salvar nenhum `.cs`** até acabar. Se cair, o que rodou fica em
-         `docs/simulacoes/_parcial.csv`
-- [ ] **7. Bloco do poder guardado: 360 corridas, uns 17 min** — **teto do poder ligado**; **Regular e
+      3. Conferir: **6.000 corridas**, 5 repetições, primeira semente 1, teto do poder desligado
+      4. Deixar o Windows **sem suspender**, e **rodar**. **Não salvar nenhum `.cs`** até acabar. Se cair,
+         o que rodou fica em `docs/simulacoes/_parcial.csv`
+- [ ] **Bloco do poder guardado: 360 corridas, uns 17 min** — **teto do poder ligado**; **Regular e
       Veterano**; **Nay, Raffa e Espreitador**; **níveis 40 e 60**; **Normal e Difícil**; **Fases 1 a 3**
-- [ ] **8. Commit dos relatórios** — `git add -A` e `git commit -m "Base de balanceamento: 6.000 corridas"`
+- [ ] **Commit dos relatórios** — `git add -A` e `git commit -m "Base de balanceamento: 6.000 corridas"`
 
 *Próxima rodada da curva, quando der: **só os níveis 15 e 40, sem a sem fim** (pedido do
 Raffael, 19/10). As sementes batem com as do retrato, e os relatórios se somam.*

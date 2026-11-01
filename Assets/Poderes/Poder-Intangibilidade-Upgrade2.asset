@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Poder-Intangibilidade-Upgrade2
   m_EditorClassIdentifier: Assembly-CSharp::PhaseThroughAbility
   displayName: Intangibilidade
-  description: "Por 3 s a nave fica transl\xFAcida e atravessa os obst\xE1culos.
+  description: "Por 4 s a nave fica transl\xFAcida e atravessa os obst\xE1culos.
     No fim, perde 5 de velocidade."
   icon: {fileID: 0}
   color: {r: 0.75, g: 0.6, b: 1, a: 1}
   usesPerRace: 2
-  cooldownSeconds: 20
+  cooldownSeconds: 12
   lifetime: 1
-  durationSeconds: 3
+  durationSeconds: 4
   charges: 1
   speedLossAtEnd: 0.5

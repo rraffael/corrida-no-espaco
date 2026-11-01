@@ -15,6 +15,7 @@ MonoBehaviour:
   displayName: Nay
   description: Boa de tiro. O poder dela resolve o problema de estar na faixa errada.
   color: {r: 0.55, g: 0.95, b: 1, a: 1}
+  extraNotes: 
   cruiseSpeed: 8
   acceleration: 4
   killGainFactor: 0.16
@@ -22,11 +23,11 @@ MonoBehaviour:
   intrinsicAbility: {fileID: 11400000, guid: 0148a22fc3addaa48a2f6a6f17e57b7d, type: 2}
   conditionalAbility: {fileID: 0}
   evolutionModel: {fileID: 0}
-  abilityUpgrade1: {fileID: 0}
-  abilityUpgrade2: {fileID: 0}
+  abilityUpgrade1: {fileID: 11400000, guid: 3fb494030ba8ae94fb31df23b611c2cf, type: 2}
+  abilityUpgrade2: {fileID: 11400000, guid: dcaad4fe262ba4542b17f3cbbb56934a, type: 2}
   conditionalUpgrade1: {fileID: 0}
   conditionalUpgrade2: {fileID: 0}
-  passiveAbility: {fileID: 0}
+  passiveAbility: {fileID: 11400000, guid: c2b6485ea324aca43abf06a84d9604ba, type: 2}
   damage: 25
   attackSpeed: 3
   maxHealth: 100

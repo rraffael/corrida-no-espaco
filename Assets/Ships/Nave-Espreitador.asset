@@ -26,7 +26,7 @@ MonoBehaviour:
   intrinsicAbility: {fileID: 11400000, guid: e4cd1b02c811eb345842378811e096e9, type: 2}
   conditionalAbility: {fileID: 0}
   evolutionModel: {fileID: 0}
-  abilityUpgrade1: {fileID: 0}
+  abilityUpgrade1: {fileID: 11400000, guid: 644d997a3ee5b5e418fce2183ffddbde, type: 2}
   abilityUpgrade2: {fileID: 11400000, guid: 788d914e906432d489ff6c01a3c588a9, type: 2}
   conditionalUpgrade1: {fileID: 0}
   conditionalUpgrade2: {fileID: 0}

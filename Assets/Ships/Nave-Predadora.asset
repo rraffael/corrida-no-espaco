@@ -15,13 +15,21 @@ MonoBehaviour:
   displayName: Predadora
   description: "Fica mais forte a cada abate. Quanto mais ca\xE7a, mais perigosa."
   color: {r: 0.95, g: 0.35, b: 0.3, a: 1}
+  extraNotes: 
   cruiseSpeed: 8
   acceleration: 4
   killGainFactor: 0.16
   crashCost: 1
   intrinsicAbility: {fileID: 0}
   conditionalAbility: {fileID: 11400000, guid: b9594d8d6855eb64b90903bd05e69693, type: 2}
-  passiveAbility: {fileID: 0}
+  evolutionModel: {fileID: 0}
+  abilityUpgrade1: {fileID: 0}
+  abilityUpgrade2: {fileID: 0}
+  conditionalUpgrade1: {fileID: 11400000, guid: faccba9d107897849b91d493ecd46c25,
+    type: 2}
+  conditionalUpgrade2: {fileID: 11400000, guid: d5d5c612279d775408b5a4e7423f042e,
+    type: 2}
+  passiveAbility: {fileID: 11400000, guid: 426fadc4e8840d6418a61682ffe9735e, type: 2}
   damage: 25
   attackSpeed: 3
   maxHealth: 100

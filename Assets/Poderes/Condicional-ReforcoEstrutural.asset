@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Condicional-ReforcoEstrutural
   m_EditorClassIdentifier: Assembly-CSharp::StructuralReinforcementConditional
   displayName: "Refor\xE7o estrutural"
-  description: "Cada abate soma 2% em defesa, dano, cad\xEAncia e acelera\xE7\xE3o,
-    at\xE9 20%."
+  description: "Cada abate d\xE1 1 carga(s). Cada carga soma 1% em defesa, dano,
+    cad\xEAncia e acelera\xE7\xE3o, at\xE9 10%."
   trigger: "a cada abate, at\xE9 10 cargas"
   icon: {fileID: 0}
   color: {r: 0.95, g: 0.35, b: 0.3, a: 1}
-  percentPerKill: 2
-  maxPercent: 20
+  percentPerKill: 1
+  chargesPerKill: 1
+  maxPercent: 10
   stageCounts: 050000000a000000
