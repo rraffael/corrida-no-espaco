@@ -35,6 +35,46 @@ static class RaceSetup
     /// <summary>Um tico mais alto que a tela, para a emenda entre ladrilhos nunca aparecer.</summary>
     const float TileHeightFactor = 1.05f;
 
+    /// <summary>
+    /// A vista mais longa, em teste *(ideia do Raffael, 02/11/2026)*: a nave passa a ver
+    /// 9,45 un à frente, e não 8, e tudo fica 17% menor na tela. O topo fica em 6,45
+    /// para o obstáculo mais alto, de 1,1, ainda nascer fora da tela, em y 7.
+    /// </summary>
+    const float WideViewSize = 6f;
+    const float WideViewCameraY = 0.45f;
+
+    /// <summary>
+    /// Só a câmera e o fundo, que precisa crescer junto. O <see cref="Setup"/> recriaria
+    /// também o HUD e quebraria as referências da montagem do combate.
+    /// </summary>
+    internal static void ApplyWideView()
+    {
+        var scene = OpenGameScene();
+        if (!scene.IsValid())
+            return;
+
+        var cam = Camera.main;
+        if (cam == null)
+        {
+            Debug.LogError("[Corrida] Nenhuma câmera com a tag MainCamera na cena.");
+            return;
+        }
+
+        cam.orthographicSize = WideViewSize;
+        var position = cam.transform.position;
+        cam.transform.position = new Vector3(position.x, WideViewCameraY, position.z);
+        EditorUtility.SetDirty(cam);
+        EditorUtility.SetDirty(cam.transform);
+
+        float viewHeight = WideViewSize * 2f;
+        float tileHeight = viewHeight * TileHeightFactor;
+        float tileWidth = viewHeight * TileWidthFactor;
+        BuildBackground(scene, cam, LoadOrCreateStarfield(tileWidth, tileHeight), tileWidth, tileHeight);
+
+        EditorSceneManager.MarkSceneDirty(scene);
+        EditorSceneManager.SaveScene(scene);
+    }
+
     [MenuItem(ProjectTools.RaceItem, false, 100)]
     internal static void Setup()
     {

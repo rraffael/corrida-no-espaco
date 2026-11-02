@@ -160,10 +160,44 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
            de verdade. Depois, Ctrl+C, e avisar o Claude: o arquivo fica em `tools/logcat-<data>.txt`
          - **No simulador, 10 corridas:** Parada; Nave inicial e Predadora; nível 60; só Sem fim; só Fácil; 5 repetições;
            semente 1; teto desligado. Rodar a 30 quadros, e de novo com "60 quadros por segundo"
-      7. **Como ler:**
-         - **Diferença proporcional nas duas naves:** a base roda, sem usar valores absolutos da Sem fim
-         - **Só na Predadora, ou 60 quadros mudam muito:** a base fica adiada
-         - **Parado rende tanto quanto jogar, no aparelho:** o anti-parada vem antes dos testadores, com os 7 s recalibrados
+      7. **Log lido (02/11, `tools/logcat-20261102-140547.txt`, 1 corrida de cada): o celular bateu com o simulador.**
+         Predadora parada, teto 350: 14.271 (simulador, teto 425: 14.287). Nave inicial parada: 10.299 (simulador: 10.796).
+         **30,1 quadros por segundo, 0 engasgos**, mesmos atributos. **Causa mais provável dos 23 a 47 mil, a confirmar com o
+         Raffael:** aqueles testes rodaram numa versão antiga, sem teto e sem colisão por trecho. O erro de assinatura mostra
+         que o build novo não vinha sendo instalado, e sem a colisão por trecho os obstáculos atravessam a nave
+      8. **Conferir ainda:** como aqueles builds foram instalados, e as duas rodadas do simulador a 30 e 60 quadros, agora com
+         a Predadora em 350. A corrida "jogando de verdade" do log não vale: o Raffael se distraiu. Ela será repetida no
+         teste da tela maior
+- [ ] **Teste da tela maior, +18%: pronto, falta rodar** *(decisão do Raffael, 02/11: 18% primeiro; os 25% só se ele achar
+      insuficiente)* — só câmera e fundo:
+      1. **Commit antes:** `git add -A` e `git commit -m "Tela maior em teste: camera e fundo"`
+      2. **Console**, depois **Montar**, depois **verificações**
+      3. **Build And Run**, com **Development Build** marcado
+      4. **Log no terminal:** `powershell -ExecutionPolicy Bypass -File .\tools\logcat.ps1 -Save`
+      5. **Jogar, nv 60:** Fase 2, sentindo se dá para reagir antes e distinguir obstáculos e itens; Sem fim, Fácil: Predadora
+         parada e Predadora jogando até o fim. Ctrl+C e avisar o Claude
+      6. **Para desfazer, se não gostar:** avisar o Claude, que reverte a câmera
+- [ ] **Na rodada com testadores: versões diferentes do que quisermos comparar** *(pedido do Raffael, 02/11)* — cada grupo
+      joga uma versão, para ver a diferença de retorno. Candidatos: tela maior, anti-parada, tetos de velocidade
+- [ ] **Tela maior, análise** *(ideia do Raffael, 02/11; agentes consultados)* — hoje a nave vê 8 un à
+      frente. **Em teste: só câmera, tamanho 6 e y 0,45: 9,45 un (+18%), com tudo 17% menor na tela.** Com +25%, o topo
+      chega ao ponto onde os obstáculos nascem, e subir esse ponto dá mais tempo de tiro e também favorece a nave parada.
+      **Só com a câmera, nenhum número do simulador muda, e a base não precisa esperar.** Mexer no `spawnY` exigiria decidir
+      antes dela. Limites: o simulador não mede leitura nem o ganho de ver mais longe, porque as personas de Casual em diante
+      já enxergam os 10 un em que os obstáculos nascem. O ganho na Sem fim é pequeno: 0,19 s para 0,22 s a 425 un/s. **Se
+      passar no aparelho, a visão menor das personas se mede com clones temporários:** 8 un contra 9,45 un, nas mesmas sementes.
+      **Alternativas levantadas:** aviso na borda de obstáculo vindo, nave mais baixa e teto menor.
+      **Proposta do Raffael, analisada pelos agentes em 02/11:** +25% (10 un, 0,286 s a 350 un/s), com nascimento mais distante
+      e tiro limitado, ou com menos cadência:
+      - **Nascimento:** dá para estender. Mínimo y 7,55, subindo os dois spawners juntos; a fuga e o ritmo não mudam
+      - **Tiro:** para nada levar tiro fora da tela, ele precisa sumir em y 6,6, por causa do alcance do acerto. Conta do técnico,
+        não medida: nascimento 7,6 e tiro 6,6 dão -0,2% de tempo de tiro a 80 un/s e -7,4% a 425. Precisa também acertar antes
+        de sumir, e o teleguiado não pode mirar acima do limite. **Muda o simulador, então exige decidir antes da base**
+      - **Cadência:** pior, porque corta em toda velocidade, mexe em todas as fichas e a 30 quadros vira degraus
+      - **Os 280 ms não bastam:** é reação simples. Com escolha, troca de faixa e latência, o pesquisador estima 510 a 600 ms,
+        o que a 350 un/s pediria 19 a 21 un. Só um aviso na borda alcança; os 0,286 s valem para padrão já conhecido
+      - **Não se ganha "intenção" só com alcance:** o tiro segue automático. O anti-parada e a vida dos obstáculos pesam mais
+      - **Próximo passo sugerido:** testar 18% e 25% no aparelho antes da base
 - [ ] **Só depois disso, com o OK do Claude, a base nova** (segue valendo o roteiro acima)
 - [ ] **Decidir na reforma das fases: obstáculo anti-parada** *(ideia do Raffael, 02/11)* — aparece depois de 7 s ou
       mais na mesma faixa, é indestrutível e dá dano mínimo, para gerar o atraso de velocidade e forçar a virar.

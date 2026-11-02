@@ -77,7 +77,8 @@ IA tivesse deixado um assistente a bordo. A outra opção do nível 60 é a Dobr
 3. **Testar bases diferentes para as naves.**
 4. Estrutura da escolha de poder.
 5. Tela de escolha e troca.
-6. Poderes alternativos, medidos, começando pela Raffa. **Depois desta etapa, rodada com os testadores.**
+6. Poderes alternativos, medidos, começando pela Raffa. **Depois desta etapa, rodada com os testadores**, com **versões
+   diferentes do que quisermos comparar**, para ver a diferença de retorno entre elas *(pedido do Raffael, 02/11)*.
 7. **Reforma das fases**, incluindo a **Sem fim única**: um só "Sem fim", sem escolher dificuldade *(decidido em
    02/11; o balanceamento dela sai nesta etapa)* e a decisão sobre o **obstáculo anti-parada** *(ideia do Raffael,
    02/11; detalhes no ROADMAP)*.
