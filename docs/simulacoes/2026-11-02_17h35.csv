@@ -1,0 +1,61 @@
+﻿persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando;renovacoes;recargas_pegas;segundos_de_efeito;cargas_fim;pico_passiva;quadros_fora;hash_pista;segundos_acima_420;batidas_acima_420;poder_na_carga;dobra_com_efeito;recargas_perdidas;colisoes_por_trecho;itens_vazios;maior_tempo_na_faixa;vezes_7s_na_faixa;tiros;trocas_de_faixa
+Regular;3;Nave inicial;1;Sem fim;Fácil;1;FimDaSemFim;35,52;395,13;164;;9;4;0;0;;0;0;0;0;0;0;58345281;0;0;0;0;0;0;2;19,9;2;105;8
+Perfeito;5;Nave inicial;1;Sem fim;Fácil;1;FimDaSemFim;94,56;1976,34;337;;17;4;0;0;;0;0;0;0;0;0;58345281;0;0;0;0;0;0;2;19,7;4;277;24
+Parada;6;Nave inicial;1;Sem fim;Fácil;1;FimDaSemFim;33,87;381,19;164;;7;4;0;0;;0;0;0;0;0;0;58345281;0;0;0;0;0;0;2;33,85;1;102;0
+Regular;3;Nave inicial;1;Sem fim;Fácil;2;FimDaSemFim;24,9;212,63;122;;3;4;0;0;;0;0;0;0;0;0;;0;0;0;0;0;0;1;14,18;1;72;12
+Perfeito;5;Nave inicial;1;Sem fim;Fácil;2;FimDaSemFim;80,89;1383,92;291;;13;3;0;0;;0;0;0;0;0;0;a70c8726;0;0;0;0;0;0;3;17,63;5;246;13
+Parada;6;Nave inicial;1;Sem fim;Fácil;2;FimDaSemFim;33,13;321,61;143;;8;4;0;0;;0;0;0;0;0;0;a70c8726;0;0;0;0;0;0;1;33,12;1;108;0
+Regular;3;Nave inicial;1;Sem fim;Fácil;3;FimDaSemFim;48,1;526,43;179;;11;4;0;0;;0;0;0;0;0;0;0fd5a5f0;0;0;0;0;0;0;1;24,4;2;152;7
+Perfeito;5;Nave inicial;1;Sem fim;Fácil;3;FimDaSemFim;94,77;1926,47;352;;21;4;0;0;;0;0;0;0;0;0;0fd5a5f0;0;0;0;0;0;0;1;22,25;5;291;12
+Parada;6;Nave inicial;1;Sem fim;Fácil;3;FimDaSemFim;37,23;384,73;146;;7;4;0;0;;0;0;0;0;0;0;0fd5a5f0;0;0;0;0;0;0;1;37,22;1;112;0
+Regular;3;Nave inicial;1;Sem fim;Fácil;4;FimDaSemFim;36,23;402,69;170;;11;4;0;0;;0;0;0;0;0;0;20cba98a;0;0;0;0;0;0;1;20,58;1;108;6
+Perfeito;5;Nave inicial;1;Sem fim;Fácil;4;FimDaSemFim;61,92;999,25;244;;13;4;0;0;;0;0;0;0;0;0;20cba98a;0;0;0;0;0;0;2;20,38;1;182;12
+Parada;6;Nave inicial;1;Sem fim;Fácil;4;FimDaSemFim;28,93;299,11;170;;6;4;0;0;;0;0;0;0;0;0;20cba98a;0;0;0;0;0;0;1;28,92;1;87;0
+Regular;3;Nave inicial;1;Sem fim;Fácil;5;FimDaSemFim;32,47;348,22;158;;10;4;0;0;;0;0;0;0;0;0;1e91d0da;0;0;0;0;0;0;0;13,02;1;105;9
+Perfeito;5;Nave inicial;1;Sem fim;Fácil;5;FimDaSemFim;46,15;675,32;197;;12;3;0;0;;0;0;0;0;0;0;1e91d0da;0;0;0;0;0;0;0;12,75;3;136;7
+Parada;6;Nave inicial;1;Sem fim;Fácil;5;FimDaSemFim;28,12;284,88;158;;8;4;0;0;;0;0;0;0;0;0;1e91d0da;0;0;0;0;0;0;0;28,1;1;93;0
+Regular;3;Nave inicial;60;Sem fim;Fácil;1;FimDaSemFim;67,88;1445,16;379;;16;6;0;0;;0;0;0;0;0;0;58345281;0;0;0;0;0;0;2;19,78;4;221;8
+Perfeito;5;Nave inicial;60;Sem fim;Fácil;1;FimDaSemFim;63,67;1230,72;351;;19;5;0;0;;0;0;0;0;0;0;58345281;0;0;0;0;0;0;2;19,62;4;217;8
+Parada;6;Nave inicial;60;Sem fim;Fácil;1;FimDaSemFim;72,75;1512,19;385;;19;7;0;0;;0;0;0;0;0;0;58345281;0;0;0;0;0;0;2;72,73;1;239;0
+Regular;3;Nave inicial;60;Sem fim;Fácil;2;FimDaSemFim;76,1;1915,99;425;;21;4;0;0;;0;0;0;0;0;0;a70c8726;2,43;0;0;0;0;0;2;32,48;4;262;5
+Perfeito;5;Nave inicial;60;Sem fim;Fácil;2;FimDaSemFim;76,12;1586,19;404;;18;5;0;0;;0;0;0;0;0;0;a70c8726;0;0;0;0;0;0;2;31,22;3;268;9
+Parada;6;Nave inicial;60;Sem fim;Fácil;2;FimDaSemFim;58,18;1241,92;425;;18;5;0;0;;0;0;0;0;0;0;a70c8726;2,7;1;0;0;0;0;2;58,17;1;210;0
+Regular;3;Nave inicial;60;Sem fim;Fácil;3;FimDaSemFim;66,98;1359,68;375;;14;5;0;0;;0;0;0;0;0;0;0fd5a5f0;0;0;0;0;0;0;1;33,82;3;231;8
+Perfeito;5;Nave inicial;60;Sem fim;Fácil;3;FimDaSemFim;80,89;1920,48;425;;23;4;0;0;;0;0;0;0;0;0;0fd5a5f0;0,73;1;0;0;0;0;1;40,52;3;286;6
+Parada;6;Nave inicial;60;Sem fim;Fácil;3;FimDaSemFim;61,33;1128,3;307;;14;6;0;0;;0;0;0;0;0;0;0fd5a5f0;0;0;0;0;0;0;1;61,32;1;212;0
+Regular;3;Nave inicial;60;Sem fim;Fácil;4;FimDaSemFim;57,5;1125,11;364;;17;5;0;0;;0;0;0;0;0;0;20cba98a;0;0;0;0;0;0;2;20,52;3;196;9
+Perfeito;5;Nave inicial;60;Sem fim;Fácil;4;FimDaSemFim;90,82;2575,08;425;;19;5;0;0;;0;0;0;0;0;0;20cba98a;16,77;2;0;0;0;0;4;35,7;3;312;3
+Parada;6;Nave inicial;60;Sem fim;Fácil;4;FimDaSemFim;55,2;1037,78;351;;21;6;0;0;;0;0;0;0;0;0;20cba98a;0;0;0;0;0;0;2;55,18;1;187;0
+Regular;3;Nave inicial;60;Sem fim;Fácil;5;FimDaSemFim;59,02;1293,73;352;;19;5;0;0;;0;0;0;0;0;0;1e91d0da;0;0;0;0;0;0;1;34,82;3;203;3
+Perfeito;5;Nave inicial;60;Sem fim;Fácil;5;FimDaSemFim;46,03;710,68;237;;12;6;0;0;;0;0;0;0;0;0;1e91d0da;0;0;0;0;0;0;0;12,67;3;156;7
+Parada;6;Nave inicial;60;Sem fim;Fácil;5;FimDaSemFim;44,18;791,97;338;;18;5;0;0;;0;0;0;0;0;0;1e91d0da;0;0;0;0;0;0;0;44,17;1;162;0
+Regular;3;Predadora;1;Sem fim;Fácil;1;FimDaSemFim;33,8;384,83;167;;8;4;0;0;;0;0;0;8;0;0;58345281;0;0;0;0;0;0;2;19,9;2;104;7
+Perfeito;5;Predadora;1;Sem fim;Fácil;1;FimDaSemFim;85,05;1733,01;350;;20;4;0;0;;0;0;0;10;0;0;58345281;0;0;0;0;0;0;2;19,68;3;267;21
+Parada;6;Predadora;1;Sem fim;Fácil;1;FimDaSemFim;35,47;399,28;167;;8;4;0;0;;0;0;0;8;0;0;58345281;0;0;0;0;0;0;2;35,45;1;111;0
+Regular;3;Predadora;1;Sem fim;Fácil;2;FimDaSemFim;24,88;212,7;122;;2;4;0;0;;0;0;0;2;0;0;;0;0;0;0;0;0;1;14,18;1;74;11
+Perfeito;5;Predadora;1;Sem fim;Fácil;2;FimDaSemFim;92,19;1655,15;306;;14;4;0;0;;0;0;0;10;0;0;a70c8726;0;0;0;0;0;0;3;17,62;6;295;15
+Parada;6;Predadora;1;Sem fim;Fácil;2;FimDaSemFim;33,05;340,89;165;;8;4;0;0;;0;0;0;8;0;0;a70c8726;0;0;0;0;0;0;1;33,03;1;112;0
+Regular;3;Predadora;1;Sem fim;Fácil;3;FimDaSemFim;48,08;537,76;188;;11;4;0;0;;0;0;0;10;0;0;0fd5a5f0;0;0;0;0;0;0;1;24,38;2;159;7
+Perfeito;5;Predadora;1;Sem fim;Fácil;3;FimDaSemFim;94,77;2093,06;350;;24;4;0;0;;0;0;0;10;0;0;0fd5a5f0;0;0;0;0;0;0;1;20,12;5;311;14
+Parada;6;Predadora;1;Sem fim;Fácil;3;FimDaSemFim;37,2;389,11;147;;7;4;0;0;;0;0;0;7;0;0;0fd5a5f0;0;0;0;0;0;0;1;37,18;1;116;0
+Regular;3;Predadora;1;Sem fim;Fácil;4;FimDaSemFim;36,22;410,93;173;;11;4;0;0;;0;0;0;10;0;0;20cba98a;0;0;0;0;0;0;1;20,58;1;113;6
+Perfeito;5;Predadora;1;Sem fim;Fácil;4;FimDaSemFim;61,88;1034,6;255;;13;4;0;0;;0;0;0;10;0;0;20cba98a;0;0;0;0;0;0;2;20,38;1;194;12
+Parada;6;Predadora;1;Sem fim;Fácil;4;FimDaSemFim;36,17;419,04;176;;12;4;0;0;;0;0;0;10;0;0;20cba98a;0;0;0;0;0;0;1;36,15;1;114;0
+Regular;3;Predadora;1;Sem fim;Fácil;5;FimDaSemFim;32,48;348,51;160;;9;4;0;0;;0;0;0;9;0;0;1e91d0da;0;0;0;0;0;0;0;13,02;1;110;10
+Perfeito;5;Predadora;1;Sem fim;Fácil;5;FimDaSemFim;73,18;1293,82;271;;15;4;0;0;;0;0;0;10;0;0;1e91d0da;0;0;0;0;0;0;1;28,92;4;235;7
+Parada;6;Predadora;1;Sem fim;Fácil;5;FimDaSemFim;28,08;289,06;160;;8;4;0;0;;0;0;0;8;0;0;1e91d0da;0;0;0;0;0;0;0;28,07;1;97;0
+Regular;3;Predadora;60;Sem fim;Fácil;1;FimDaSemFim;107,29;2841,37;350;;33;5;0;0;;0;0;0;20;10;0;58345281;0;0;0;0;0;0;2;44,28;6;432;6
+Perfeito;5;Predadora;60;Sem fim;Fácil;1;FimDaSemFim;151,49;4336,08;350;;57;4;0;0;;0;0;0;20;10;0;58345281;0;0;0;0;0;0;4;29,68;7;626;11
+Parada;6;Predadora;60;Sem fim;Fácil;1;FimDaSemFim;108,46;2869,47;350;;45;6;0;0;;0;0;0;20;10;0;58345281;0;0;0;0;0;0;2;108,44;1;431;0
+Regular;3;Predadora;60;Sem fim;Fácil;2;FimDaSemFim;150,64;4354,09;350;;49;7;0;0;;0;0;0;20;10;0;a70c8726;0;0;0;0;0;0;6;31,83;7;599;15
+Perfeito;5;Predadora;60;Sem fim;Fácil;2;FimDaSemFim;112,41;3148,03;350;;46;4;0;0;;0;0;0;20;10;0;a70c8726;0;0;0;0;0;0;3;35,12;4;466;10
+Parada;6;Predadora;60;Sem fim;Fácil;2;FimDaSemFim;144,73;4386,53;350;;61;4;0;0;;0;0;0;20;10;0;a70c8726;0;0;0;0;0;0;5;144,71;1;622;0
+Regular;3;Predadora;60;Sem fim;Fácil;3;FimDaSemFim;103,37;2417,56;350;;28;7;0;0;;0;0;0;20;10;0;0fd5a5f0;0;0;0;0;0;0;1;33,42;5;391;10
+Perfeito;5;Predadora;60;Sem fim;Fácil;3;FimDaSemFim;158,37;4710,07;350;;57;4;0;0;;0;0;0;20;10;0;0fd5a5f0;0;0;0;0;0;0;2;87,4;3;666;7
+Parada;6;Predadora;60;Sem fim;Fácil;3;FimDaSemFim;110,49;2884,11;350;;33;7;0;0;;0;0;0;20;10;0;0fd5a5f0;0;0;0;0;0;0;1;110,48;1;443;0
+Regular;3;Predadora;60;Sem fim;Fácil;4;FimDaSemFim;117,56;3322,91;350;;37;5;0;0;;0;0;0;20;10;0;20cba98a;0;0;0;0;0;0;4;65,7;4;479;5
+Perfeito;5;Predadora;60;Sem fim;Fácil;4;FimDaSemFim;116,18;3356,44;350;;32;4;0;0;;0;0;0;20;10;0;20cba98a;0;0;0;0;0;0;4;95,84;2;480;1
+Parada;6;Predadora;60;Sem fim;Fácil;4;FimDaSemFim;95,39;2352,34;350;;39;9;0;0;;0;0;0;20;10;0;20cba98a;0;0;0;0;0;0;4;95,37;1;352;0
+Regular;3;Predadora;60;Sem fim;Fácil;5;FimDaSemFim;122,86;3524,39;350;;46;7;0;0;;0;0;0;20;10;0;1e91d0da;0;0;0;0;0;0;2;39,45;6;500;14
+Perfeito;5;Predadora;60;Sem fim;Fácil;5;FimDaSemFim;154,59;4775,76;350;;55;4;0;0;;0;0;0;20;10;0;1e91d0da;0;0;0;0;0;0;2;86,07;4;643;5
+Parada;6;Predadora;60;Sem fim;Fácil;5;FimDaSemFim;118,29;3373,74;350;;55;6;0;0;;0;0;0;20;10;0;1e91d0da;0;0;0;0;0;0;2;118,28;1;506;0

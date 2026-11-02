@@ -13,6 +13,11 @@ public class RaceSimulationRunner : MonoBehaviour
     float warpReachedAt;
     SimulatedPilot pilot;
 
+    /// <summary>De 0 a 4 passos por quadro. Dado próprio: o da pista não pode saber dos quadros.</summary>
+    const float ShortestVariableFrame = 1f / 120f;
+    const float LongestVariableFrame = 1f / 15f;
+    readonly System.Random frameDice = new System.Random(1);
+
     int offStepFrames;
     float lastTimeScale;
     float secondsAtHighSpeed;
@@ -172,12 +177,21 @@ public class RaceSimulationRunner : MonoBehaviour
         if (!racing || !RaceSimulation.IsActive)
             return;
 
-        // Contra a escala atual e a do quadro anterior: o Tempo Lento pode mudar a
-        // escala no meio de um quadro, e isso não é erro de passo.
-        float step = RaceSimulation.Current.frameSeconds;
-        if (Mathf.Abs(Time.deltaTime - step * Time.timeScale) > 0.00001f &&
-            Mathf.Abs(Time.deltaTime - step * lastTimeScale) > 0.00001f)
-            offStepFrames++;
+        if (RaceSimulation.Current.variableFrames)
+        {
+            // Sem conferir o tamanho do quadro: aqui ele varia de propósito.
+            Time.captureDeltaTime = Mathf.Lerp(ShortestVariableFrame, LongestVariableFrame,
+                                               (float)frameDice.NextDouble());
+        }
+        else
+        {
+            // Contra a escala atual e a do quadro anterior: o Tempo Lento pode mudar a
+            // escala no meio de um quadro, e isso não é erro de passo.
+            float step = RaceSimulation.Current.frameSeconds;
+            if (Mathf.Abs(Time.deltaTime - step * Time.timeScale) > 0.00001f &&
+                Mathf.Abs(Time.deltaTime - step * lastTimeScale) > 0.00001f)
+                offStepFrames++;
+        }
 
         lastTimeScale = Time.timeScale;
 

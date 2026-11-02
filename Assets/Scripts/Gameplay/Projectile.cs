@@ -40,6 +40,9 @@ public class Projectile : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (RaceDirector.RaceOver)
+            return;
+
         if (turnRate > 0f)
             Steer();
 

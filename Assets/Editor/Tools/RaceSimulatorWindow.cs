@@ -31,9 +31,12 @@ public class RaceSimulatorWindow : EditorWindow
     [SerializeField] int firstSeed = 1;
     [SerializeField] float maxSeconds = 240f;
     [SerializeField] float maxEndlessSeconds = 300f;
-    [SerializeField] bool sixtyFps;
+    /// <summary>Índice em <see cref="FrameModes"/>. 0 é o padrão; o resto muda só o tempo de rodada.</summary>
+    [SerializeField] int frameMode;
     [SerializeField] bool hideRendering = true;
     [SerializeField] bool powerOnDanger;
+
+    static readonly string[] FrameModes = { "30", "60", "15", "Variável, de 15 a 120 (teste)" };
 
     Vector2 scroll;
 
@@ -122,7 +125,9 @@ public class RaceSimulatorWindow : EditorWindow
                                                "mesmas largadas."), firstSeed);
         maxSeconds = Mathf.Max(30f, EditorGUILayout.FloatField("Teto das fases (s)", maxSeconds));
         maxEndlessSeconds = Mathf.Max(30f, EditorGUILayout.FloatField("Teto da sem fim (s)", maxEndlessSeconds));
-        sixtyFps = EditorGUILayout.ToggleLeft("60 quadros por segundo (teste: o resultado tem de sair igual)", sixtyFps);
+        frameMode = EditorGUILayout.Popup(
+            new GUIContent("Quadros por segundo", "O resultado tem de sair igual em todos. Só o tempo de rodada muda."),
+            frameMode, FrameModes);
         hideRendering = EditorGUILayout.ToggleLeft("Não desenhar a tela (bem mais rápido)", hideRendering);
         powerOnDanger = EditorGUILayout.ToggleLeft(
             new GUIContent("Teto do poder: todos usam o poder no primeiro perigo",
@@ -184,7 +189,8 @@ public class RaceSimulatorWindow : EditorWindow
             firstSeed = firstSeed,
             maxSeconds = maxSeconds,
             maxEndlessSeconds = maxEndlessSeconds,
-            frameSeconds = sixtyFps ? 1f / 60f : 1f / 30f,
+            frameSeconds = frameMode == 1 ? 1f / 60f : frameMode == 2 ? 1f / 15f : 1f / 30f,
+            variableFrames = frameMode == 3,
             hideRendering = hideRendering,
             powerOnDanger = powerOnDanger,
         };
@@ -268,7 +274,7 @@ public class RaceSimulatorWindow : EditorWindow
         extraLevelsText = string.Empty;
         easy = normal = hard = true;
         powerOnDanger = false;
-        sixtyFps = false;
+        frameMode = 0;
     }
 
     static void Section(string title)

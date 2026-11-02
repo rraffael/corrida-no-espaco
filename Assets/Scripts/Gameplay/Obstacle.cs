@@ -86,6 +86,9 @@ public class Obstacle : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (RaceDirector.RaceOver)
+            return;
+
         // Anda na velocidade da corrida: quanto mais rápido a nave, mais rápido
         // o obstáculo vem para cima dela.
         float previousY = transform.position.y;

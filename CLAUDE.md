@@ -28,9 +28,11 @@ Jogo mobile Android feito na Unity `6000.3.20f1`. Divisão de trabalho:
 **O jogo nunca roda diferente por causa do aparelho ou dos quadros por segundo.** Um jogador não pode ter
 resultado melhor ou pior por ter um celular melhor ou pior. Toda a lógica da corrida (obstáculos, tiros, troca de
 faixa, poderes, velocidade, colisão) anda em `FixedUpdate`, no passo fixo do `Services/RaceClock.cs`. `Update` fica só
-para visual e para ler o dedo. **Sair de cena dentro do passo é `SetActive(false)` junto do `Destroy`:** um quadro pode
-ter vários passos, e o `Destroy` sozinho espera o fim do quadro. **Prova:** o mesmo plano do simulador, a 30 e a 60
-quadros, tem de dar a mesma **Impressão do CSV**.
+para visual e para ler o dedo. Quem mexe na corrida respeita `RaceDirector.RaceOver`: os passos que restam no quadro
+ainda rodam depois do fim. **Sair de cena dentro do passo é `SetActive(false)` junto do `Destroy`:** um quadro pode
+ter vários passos, e o `Destroy` sozinho espera o fim do quadro. **Prova:** o mesmo plano do simulador, a 30, a 15 e em
+quadro variável, tem de dar a mesma **Impressão do CSV** na mesma máquina. Entre o PC e o celular, compara-se só o agregado: o
+cálculo de `float` pode diferir por um bit, e nenhuma corrida isolada é garantida igual.
 
 ## Regras de edição
 

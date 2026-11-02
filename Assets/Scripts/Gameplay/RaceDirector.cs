@@ -75,6 +75,13 @@ public class RaceDirector : MonoBehaviour
     /// <summary>Falso depois da vitória ou da derrota — arma e spawner consultam.</summary>
     public bool IsRunning { get; private set; }
 
+    /// <summary>
+    /// A corrida já acabou. O fim congela o tempo, mas os passos que restam no quadro ainda
+    /// rodam, e são mais passos a 30 quadros do que a 60: quem mexe na corrida consulta isto,
+    /// senão um golpe depois da vitória mudaria o resultado conforme o aparelho.
+    /// </summary>
+    public static bool RaceOver => Instance != null && !Instance.IsRunning;
+
     /// <summary>Segundos de dobra já acumulados. A vitória é encher isto até o tempo da fase.</summary>
     public float WarpCharge { get; private set; }
 

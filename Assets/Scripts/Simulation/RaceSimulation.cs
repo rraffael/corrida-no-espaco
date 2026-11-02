@@ -77,6 +77,12 @@ public static class RaceSimulation
         /// <summary>Segundos de jogo por quadro.</summary>
         public float frameSeconds = 1f / 30f;
 
+        /// <summary>
+        /// Teste: cada quadro com uma duração diferente, como no celular de verdade. 30 e 60
+        /// quadros dão sempre os mesmos 2 e 1 passos, e nunca passam por um quadro sem passo.
+        /// </summary>
+        public bool variableFrames;
+
         /// <summary>Desliga as câmeras: sem desenhar, cada corrida sai bem mais depressa.</summary>
         public bool hideRendering = true;
 

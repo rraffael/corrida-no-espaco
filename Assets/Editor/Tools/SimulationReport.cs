@@ -79,7 +79,8 @@ static class SimulationReport
                         (results.Count < planned ? " — **interrompida**, o que está aqui é o que rodou" : string.Empty));
         text.AppendLine($"- **Repetições por combinação:** {plan.repetitions} (sementes {plan.firstSeed} a " +
                         $"{plan.firstSeed + plan.repetitions - 1})");
-        text.AppendLine($"- **Quadro:** {Mathf.RoundToInt(1f / plan.frameSeconds)} por segundo, com passo de jogo de " +
+        string frames = plan.variableFrames ? "variável, de 15 a 120" : Mathf.RoundToInt(1f / plan.frameSeconds).ToString();
+        text.AppendLine($"- **Quadro:** {frames} por segundo, com passo de jogo de " +
                         $"{Mathf.RoundToInt(1f / RaceClock.TickSeconds)} por segundo · **teto:** " +
                         $"{plan.maxSeconds:0} s nas fases, {plan.maxEndlessSeconds:0} s na sem fim");
         text.AppendLine($"- **Levou:** {ScoreBoard.FormatTime(realSeconds)} de relógio");

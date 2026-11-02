@@ -39,6 +39,9 @@ public class Shrapnel : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (RaceDirector.RaceOver)
+            return;
+
         // Soma à velocidade da corrida: se andasse só com ela, nunca alcançaria
         // a nave e o perigo não existiria.
         float previousY = transform.position.y;

@@ -62,6 +62,9 @@ public class LevelModifierPickup : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (RaceDirector.RaceOver)
+            return;
+
         float previousY = transform.position.y;
         float step = (race != null ? race.Current : 0f) * Time.deltaTime;
         transform.position += Vector3.down * step;
