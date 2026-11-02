@@ -17,6 +17,25 @@ using UnityEngine;
 static class ShipSetup
 {
     public const string ShipFolder = "Assets/Ships";
+
+    /// <summary>Em unidades internas: aparece como 350 un/s. Pedido do Raffael em 02/11/2026.</summary>
+    const float PredatorEndlessTopSpeed = 35f;
+
+    /// <summary>Só o teto da Predadora: a montagem inteira refaria todas as fichas das naves.</summary>
+    internal static void SetPredatorTopSpeed()
+    {
+        string path = $"{ShipFolder}/Nave-Predadora.asset";
+        var predator = AssetDatabase.LoadAssetAtPath<ShipDefinition>(path);
+        if (predator == null)
+        {
+            Debug.LogError($"[Naves] Não achei {path}.");
+            return;
+        }
+
+        predator.endlessTopSpeed = PredatorEndlessTopSpeed;
+        EditorUtility.SetDirty(predator);
+        AssetDatabase.SaveAssets();
+    }
     public const string AbilityFolder = "Assets/Poderes";
     public const string StarterShipPath = ShipFolder + "/NaveInicial.asset";
     public const string CatalogPath = LevelSetup.ResourcesFolder + "/ShipCatalog.asset";
@@ -153,6 +172,7 @@ static class ShipSetup
             {
                 ship.displayName = "Predadora";
                 ship.description = "Fica mais forte a cada abate. Quanto mais caça, mais perigosa.";
+                ship.endlessTopSpeed = PredatorEndlessTopSpeed;
                 ship.color = new Color(0.95f, 0.35f, 0.3f, 1f);
                 ship.conditionalAbility = reinforcement;
             }),

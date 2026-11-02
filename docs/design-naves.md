@@ -78,7 +78,9 @@ IA tivesse deixado um assistente a bordo. A outra opção do nível 60 é a Dobr
 4. Estrutura da escolha de poder.
 5. Tela de escolha e troca.
 6. Poderes alternativos, medidos, começando pela Raffa. **Depois desta etapa, rodada com os testadores.**
-7. **Reforma das fases.**
+7. **Reforma das fases**, incluindo a **Sem fim única**: um só "Sem fim", sem escolher dificuldade *(decidido em
+   02/11; o balanceamento dela sai nesta etapa)* e a decisão sobre o **obstáculo anti-parada** *(ideia do Raffael,
+   02/11; detalhes no ROADMAP)*.
 8. Power score **final**, que diz quanto cada nave vale em relação às outras.
 9. Recurso (Parte 8): quanto se ganha por partida, e os preços em Sucata.
 10. Monetização (Fase 9), no lugar previsto no plano de lançamento.
@@ -94,7 +96,7 @@ confirma na base nova.
 
 **Antes de a moeda valer algo:** fases e larguras fechadas; progresso guardado por fase e dificuldade, para
 fase nova não pagar de novo o que já foi vencido; retorno decrescente ou pagamento pela primeira vitória;
-persona parada medida; conquistas de teste removidas; placar por nave decidido.
+persona parada medida; obstáculo anti-parada decidido; conquistas de teste removidas; placar por nave decidido.
 
 ## Pendências de decisão
 

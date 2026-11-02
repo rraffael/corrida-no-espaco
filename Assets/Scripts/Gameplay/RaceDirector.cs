@@ -193,13 +193,21 @@ public class RaceDirector : MonoBehaviour
     /// errar** nos 2,5 segundos mais tensos da corrida. Agora os dois jeitos de
     /// jogar fazem a mesma prova. Ver <see cref="RaceSpeed.SpeedCeiling"/>.
     /// </para>
+    ///
+    /// <para>
+    /// **A sem fim ganhou teto próprio em 02/11/2026** *(pedido do Raffael)*: a 760
+    /// un/s, sobrava 0,01 s para agir depois de ver o obstáculo. O teto vale para
+    /// todas as naves, porque o jogo é desviar, e isso tem de seguir possível. A
+    /// ficha de uma nave pode baixá-lo; a Predadora fica em 350 un/s.
+    /// </para>
     /// </summary>
     void ApplySpeedCeiling()
     {
         if (race == null)
             return;
 
-        race.SetSpeedCeiling(IsEndless ? float.PositiveInfinity : warpSpeed);
+        var ship = ShipStats.Instance != null ? ShipStats.Instance.Definition : null;
+        race.SetSpeedCeiling(IsEndless ? Level.EndlessTopSpeedFor(ship) : warpSpeed);
     }
 
     void Update()

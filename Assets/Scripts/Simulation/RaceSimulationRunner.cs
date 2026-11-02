@@ -22,6 +22,11 @@ public class RaceSimulationRunner : MonoBehaviour
     int lastCrashes;
     int lastActivations;
     int lastShownSpeed;
+    ShipLaneController shipLanes;
+    int lastLane;
+    float secondsInLane;
+    float longestInLane;
+    int longStaysInLane;
 
     void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -76,6 +81,11 @@ public class RaceSimulationRunner : MonoBehaviour
         lastActivations = 0;
         lastShownSpeed = 0;
         CollisionSweep.ResetHits();
+        shipLanes = ship.GetComponent<ShipLaneController>();
+        lastLane = -1;
+        secondsInLane = 0f;
+        longestInLane = 0f;
+        longStaysInLane = 0;
         racing = true;
     }
 
@@ -93,6 +103,8 @@ public class RaceSimulationRunner : MonoBehaviour
             offStepFrames++;
 
         lastTimeScale = Time.timeScale;
+
+        ObserveLane();
 
         var race = RaceSpeed.Instance;
         if (race == null)
@@ -114,6 +126,26 @@ public class RaceSimulationRunner : MonoBehaviour
         if (director.IsCharging && abilities.ActivationCount > lastActivations)
             powerUsesWhileCharging += abilities.ActivationCount - lastActivations;
         lastActivations = abilities.ActivationCount;
+    }
+
+    void ObserveLane()
+    {
+        if (shipLanes == null)
+            return;
+
+        if (shipLanes.CurrentLane != lastLane)
+        {
+            lastLane = shipLanes.CurrentLane;
+            secondsInLane = 0f;
+            return;
+        }
+
+        float before = secondsInLane;
+        secondsInLane += Time.deltaTime;
+        longestInLane = Mathf.Max(longestInLane, secondsInLane);
+
+        if (before < RaceSimulation.LongStayInLane && secondsInLane >= RaceSimulation.LongStayInLane)
+            longStaysInLane++;
     }
 
     void Update()
@@ -164,6 +196,7 @@ public class RaceSimulationRunner : MonoBehaviour
         var abilities = ShipAbilities.Instance;
         bool hasPower = abilities != null && abilities.Equipped != null;
         var spawner = FindAnyObjectByType<ObstacleSpawner>();
+        var modifierSpawner = FindAnyObjectByType<LevelModifierSpawner>();
 
         // A batida letal fecha a corrida antes de o Observe vê-la.
         if (crashes > lastCrashes && lastShownSpeed >= RaceSimulation.HighSpeedShown)
@@ -210,6 +243,9 @@ public class RaceSimulationRunner : MonoBehaviour
             reachedWarpWithEffect = reachedWarpWithEffect,
             wastedRecharges = abilities != null ? abilities.WastedRechargeCount : 0,
             sweepHits = CollisionSweep.Hits,
+            emptyModifierTurns = modifierSpawner != null ? modifierSpawner.EmptyTurns : 0,
+            longestInLane = longestInLane,
+            longStaysInLane = longStaysInLane,
         });
 
         index++;

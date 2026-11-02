@@ -83,4 +83,9 @@ public class PilotPersona : ScriptableObject
     public bool avoidsDebuffs = true;
 
     public PowerHabit powerHabit = PowerHabit.NoAperto;
+
+    [Header("Teste")]
+    [Tooltip("Nunca troca de faixa nem aperta o poder: mede quanto rende deixar a nave parada, " +
+             "atirando. Persona de teste, e por isso fica de fora do retrato completo.")]
+    public bool staysPut;
 }

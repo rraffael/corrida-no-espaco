@@ -654,6 +654,15 @@ static class GameChecks
 
             report.Check(level.laneCount == 0 || level.laneCount >= 2,
                          $"{level.name}: largura da pista é 0 (a da cena) ou pelo menos 2 faixas");
+
+            // A ficha da nave não pode largar acima do teto da sem fim.
+            if (level.endless)
+            {
+                int top = ShipEvolutionModel.Default != null ? ShipEvolutionModel.Default.maxLevel : 60;
+                foreach (var ship in CatalogShips(report))
+                    report.Check(ShipEvolution.Value(ship, ShipStat.CruiseSpeed, top) <= level.EndlessTopSpeedFor(ship),
+                                 $"{level.name}: {ship.displayName} não larga acima do teto de velocidade");
+            }
         }
     }
 
@@ -763,7 +772,7 @@ static class GameChecks
     {
         var personas = AssetDatabase.FindAssets("t:PilotPersona")
             .Select(guid => AssetDatabase.LoadAssetAtPath<PilotPersona>(AssetDatabase.GUIDToAssetPath(guid)))
-            .Where(p => p != null)
+            .Where(p => p != null && !p.staysPut)
             .OrderBy(p => p.skillRank)
             .ToList();
 

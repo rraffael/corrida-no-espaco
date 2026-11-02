@@ -34,6 +34,7 @@ static class SimulationSetup
         public float Mistake, Hunt;
         public bool Rewards, Debuffs;
         public PilotPersona.PowerHabit Power;
+        public bool StaysPut;
     }
 
     static readonly Seed[] Seeds =
@@ -88,6 +89,17 @@ static class SimulationSetup
             Mistake = 0f, Hunt = 1f,
             Rewards = true, Debuffs = true, Power = PilotPersona.PowerHabit.Esperto,
         },
+        new Seed
+        {
+            File = "Persona-Teste-Parada", Name = "Parada", Rank = 6,
+            Description = "Persona de teste: larga a nave na faixa inicial e não toca mais na tela. Mede quanto " +
+                          "rende ficar parado atirando. Fica de fora do retrato completo.",
+            Reaction = 0.2f, Think = 0.1f, Swipe = 0.15f,
+            Danger = 5f, Clear = 7f, Look = 14f,
+            Mistake = 0f, Hunt = 0f,
+            Rewards = false, Debuffs = false, Power = PilotPersona.PowerHabit.Nunca,
+            StaysPut = true,
+        },
     };
 
     [MenuItem(ProjectTools.PersonasItem, false, 120)]
@@ -117,6 +129,7 @@ static class SimulationSetup
             persona.seeksRewards = seed.Rewards;
             persona.avoidsDebuffs = seed.Debuffs;
             persona.powerHabit = seed.Power;
+            persona.staysPut = seed.StaysPut;
 
             AssetDatabase.CreateAsset(persona, path);
             created++;

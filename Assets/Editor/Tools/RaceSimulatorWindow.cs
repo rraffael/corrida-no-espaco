@@ -261,6 +261,9 @@ public class RaceSimulatorWindow : EditorWindow
         if (catalog != null && catalog.endlessLevel != null)
             excluded.Add(catalog.endlessLevel.name);
 
+        // Persona de teste mede uma pergunta só, e mudaria o tamanho e os totais do retrato.
+        excluded.AddRange(personas.Where(p => p.staysPut).Select(p => p.name));
+
         tierLevels = Tiers().ToList();
         extraLevelsText = string.Empty;
         easy = normal = hard = true;

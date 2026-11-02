@@ -106,6 +106,9 @@ public static class Compendium
             Attributes = $"<b>Nível 1</b>\n{StatsLine(ship, 1)}\n<b>Nível {max}</b>\n{StatsLine(ship, max)}",
             Power = ShipPowers(ship, model),
             Extra = Join(ship.extraNotes,
+                         ship.endlessTopSpeed > 0f
+                             ? $"Velocidade máxima na sem fim: {RaceSpeed.Format(ship.endlessTopSpeed)}."
+                             : string.Empty,
                          $"Patamares nos níveis {model.upgrade1Level}, {model.upgrade2Level} e {model.passiveLevel}: " +
                          "os dois primeiros melhoram o poder, o último liga a passiva."),
         };

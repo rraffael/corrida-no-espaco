@@ -370,7 +370,8 @@ static class SimulationReport
                         "distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando;" +
                         "renovacoes;recargas_pegas;segundos_de_efeito;cargas_fim;pico_passiva;" +
                         "quadros_fora;hash_pista;segundos_acima_420;batidas_acima_420;poder_na_carga;" +
-                        "dobra_com_efeito;recargas_perdidas;colisoes_por_trecho");
+                        "dobra_com_efeito;recargas_perdidas;colisoes_por_trecho;" +
+                        "itens_vazios;maior_tempo_na_faixa;vezes_7s_na_faixa");
 
         foreach (var r in results)
             text.AppendLine(CsvLine(r));
@@ -388,7 +389,8 @@ static class SimulationReport
             r.hasPower ? (r.diedWithPowerReady ? "1" : "0") : string.Empty,
             r.powerRenewals, r.powerRecharges, Comma(r.effectSeconds), r.conditionalCharges, r.passivePeak,
             r.offStepFrames, r.trackHash, Comma(r.secondsAtHighSpeed), r.crashesAtHighSpeed,
-            r.powerUsesWhileCharging, r.reachedWarpWithEffect ? "1" : "0", r.wastedRecharges, r.sweepHits);
+            r.powerUsesWhileCharging, r.reachedWarpWithEffect ? "1" : "0", r.wastedRecharges, r.sweepHits,
+            r.emptyModifierTurns, Comma(r.longestInLane), r.longStaysInLane);
 
     static string Comma(float value) => value.ToString("0.##", Br);
 }

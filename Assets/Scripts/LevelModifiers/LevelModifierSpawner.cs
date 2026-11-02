@@ -33,6 +33,9 @@ public class LevelModifierSpawner : MonoBehaviour
     LevelDefinition level;
     float timer;
 
+    /// <summary>Vezes em que o sorteio caiu num modificador que não serve para esta nave. O simulador lê.</summary>
+    public int EmptyTurns { get; private set; }
+
     void Awake()
     {
         if (track == null)
@@ -88,7 +91,10 @@ public class LevelModifierSpawner : MonoBehaviour
         // Depois do sorteio, e não antes: tirar a ficha da roleta aumentaria a chance
         // das outras, e a nave sem poder ativo ganharia modificadores a mais.
         if (ShipStats.Instance != null && !definition.ServesShip(ShipStats.Instance))
+        {
+            EmptyTurns++;
             return;
+        }
 
         Spawn(definition, lane);
     }

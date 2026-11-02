@@ -36,12 +36,11 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 02/11/2026: colisão, Recarga e Intangibilidade. Só o aviso da
-    /// Recarga no Compêndio precisa de montagem; o resto é código.
+    /// Estado em 02/11/2026: o teto de velocidade da Predadora, na ficha dela.
     /// </summary>
     static readonly Step[] Steps =
     {
-        new Step("Recarga de poder: aviso no Compêndio", ModifierSetup.NoteRechargeRule),
+        new Step("Predadora: velocidade máxima na sem fim", ShipSetup.SetPredatorTopSpeed),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

@@ -56,6 +56,10 @@ public class ShipDefinition : ScriptableObject
              "é o tempo que se perde voltando.")]
     [SerializeField, Min(0f)] float crashCost = 1f;
 
+    [Tooltip("Velocidade máxima desta nave na fase sem fim, em unidades internas: o painel mostra dez " +
+             "vezes isto. Zero: vale o teto da fase. Só pode baixar o teto, nunca subir.")]
+    [Min(0f)] public float endlessTopSpeed;
+
     [Header("Poder da nave")]
     [Tooltip("Poder ATIVO desta nave, disparado pelo jogador com toque duplo. É único por nave: " +
              "é o que torna uma diferente da outra além dos números.")]

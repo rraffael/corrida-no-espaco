@@ -94,6 +94,10 @@ public class SimulatedPilot : MonoBehaviour
         if (RaceDirector.Instance != null && !RaceDirector.Instance.IsRunning)
             return;
 
+        // Sem tocar na tela: a arma atira sozinha, e é justamente isso que se mede.
+        if (persona.staysPut)
+            return;
+
         clock += Time.deltaTime / Mathf.Max(0.05f, GameTime.SlowFactor);
 
         // A Super IA ligada é o jogo no comando: o arraste do jogador é ignorado,

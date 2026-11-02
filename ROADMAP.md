@@ -123,20 +123,57 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
          mesma semente; Espreitador com 2º uso, poder na carga e dobra com efeito. **O CSV não prova a regra da
          Recarga**, porque nave sem poder nunca conta recarga; isso fica para o item 6. **Para ler na base:** o
          Espreitador venceu todas as 28 corridas que chegaram à dobra
-      6. **No aparelho, com o build de sempre e sem subir na Play:**
-         - Predadora nv 60, Sem fim, Fácil: dizer se as batidas em alta velocidade parecem justas e como o jogo
-           fica se engasgar
-         - Nave inicial, uma ou duas corridas longas: a Recarga de poder não pode aparecer
-         - Nay ou Raffa, uma corrida longa: a Recarga continua aparecendo
+      6. **No aparelho** ✅ *(Raffael, 02/11)* — batidas justas. **Recarga não deu para confirmar a olho**, porque
+         a imagem do item ainda é difícil de identificar; o Claude propõe um contador. **Achado:** com a nave
+         parada, ele chegou a 38.000 de distância e 760 un/s, velocidade impossível de desviar
+- [x] **Teste da velocidade máxima e da persona parada** ✅ *(02/11 13h01, 360 corridas, 17 min 40 s;
+      `docs/simulacoes/2026-11-02_13h01.md`)* — **passou:** o teto segurou em 425 un/s e nenhuma corrida parou no
+      teto do simulador. A regra da Recarga está provada: a Nave inicial teve vez vazia em 55 corridas, e a Nay em
+      nenhuma. **Nenhuma das duas condições do anti-parada disparou** (ver abaixo)
+- [ ] **Predadora com velocidade máxima de 350 un/s na Sem fim** *(pedido do Raffael, 02/11)* — as outras naves seguem
+      em 425. O valor fica na ficha da nave (`endlessTopSpeed`), e o Compêndio mostra:
+      1. **Commit:** `git add -A` e `git commit -m "Predadora com velocidade maxima de 350 na Sem fim"`
+      2. **Console:** sem erro de compilação
+      3. **Montar**
+      4. **Verificações:** Testes → Rodar verificações
+      5. **Teste, 10 corridas:** **Regular**; **Predadora**; nível **60**; só **Sem fim**; **Fácil** e **Difícil**;
+         **5 repetições**; **semente 1**; teto do poder desligado. Avisar o Claude
+- [ ] **Antes da base: entender por que a nave parada rende mais no aparelho** — o Raffael passa de 30.000 com a Predadora
+      parada; o simulador faz 14.287 no Fácil (13.508 a 15.988). **Causa ainda não conhecida.** Com o mesmo build, duas
+      rodadas de 10 corridas: **Parada**; **Nave inicial** e **Predadora**; nível **60**; só **Sem fim**; só **Fácil**;
+      **5 repetições**; **semente 1**; teto do poder desligado:
+      1. **Rodada A:** 30 quadros, como sempre
+      2. **Rodada B:** marcar **"60 quadros por segundo"**. Desmarcar depois
+      3. **Dizer ao Claude:** os 30.000 foram antes ou depois do teto de 425? A nave ficou na faixa do meio? Era a Predadora
+         nv 60, no Fácil?
+- [ ] **Só depois disso, com o OK do Claude, a base nova** (segue valendo o roteiro acima)
+- [ ] **Decidir na reforma das fases: obstáculo anti-parada** *(ideia do Raffael, 02/11)* — aparece depois de 7 s ou
+      mais na mesma faixa, é indestrutível e dá dano mínimo, para gerar o atraso de velocidade e forçar a virar.
+      Vale em todas as fases, inclusive a Sem fim. **Padrão, confirmado pelos três agentes em 02/11: entra na etapa
+      7, e o mais tardar antes da etapa 8.** Deixar para lá não custa rodada extra, porque a etapa 7 já desatualiza as
+      referências. O teste acima e a base medem o tempo na mesma faixa (`maior_tempo_na_faixa` e
+      `vezes_7s_na_faixa`), para calibrar. **Condições lidas no teste de 360 (02/11), nenhuma disparou:**
+      - **Antecipar para antes dos testadores:** no nível 60, a Parada fica abaixo do Regular em distância na Sem fim
+        (7.035 / 6.974 / 9.425 contra 9.984 / 10.552 / 14.528) e em vitórias na Fase 2 (15 contra 18 de 30)
+      - **Adiar a base:** Regular e Veterano passam dos 7 s em cerca de 85% das corridas da Fase 2, mas igual nas três
+        naves (34, 35 e 34 de 40), então a comparação entre elas não muda
+      - **Achado para a calibragem:** com esse número, **7 s atingiria quase toda corrida normal**. Ou o tempo sobe, ou
+        as personas ficam paradas mais do que gente real; falta conferir com jogador de verdade
+      - **Outro achado:** na Fase 2 Fácil nv 60, a Parada venceu 15 de 15 sem tocar na tela; no Difícil, 0 de 15
+
+      A decidir: dança entre duas faixas, batida durante a carga da dobra, escudo e Intangibilidade, regra da faixa
+      livre, tiro teleguiado e Super IA
+- [ ] **Arte do item Recarga de poder:** hoje é difícil de identificar jogando *(Raffael, 02/11)*
 - [ ] **Hábito "guardar para a dobra":** o Claude escreve depois da base nova, para o bloco de 360
 - [ ] **Só com o OK da fumaça, à noite, a base nova:** Marcar o retrato completo, marcar a Sem fim, conferir
       6.000 corridas, primeira semente 1, teto desligado, e não salvar `.cs`. **Ela não se compara corrida a
       corrida com a base anterior:** a pista muda, então só valem os agregados
 - [ ] **Depois da base nova, investigar as anomalias:** Nay nv 15 com a mesma persona sem usar o poder (o
       teleguiado pode desviar o tiro); Novato × Regular com a caça zerada em clone temporário da persona
-- [ ] **Decidir depois da base nova:** placar da Sem fim hoje é um só para todas as dificuldades, e basta
-      escolher o Fácil (28.415 contra 6.401 da Predadora nv 60 com o Regular). Opções: um placar por
-      dificuldade, ou dificuldade única. Pacote e placar da Predadora só depois de reler a Sem fim
+- [ ] **Sem fim única, na reforma das fases** *(decisão do Raffael, 02/11)* — existirá um só "Sem fim", sem
+      escolher dificuldade, em vez de um placar por dificuldade. Hoje o Fácil rende cerca de 3 vezes o Difícil
+      no mesmo placar. **Falta decidir na etapa 7:** como ela fica balanceada, com os dados da base nova. A base
+      nova segue medindo as três dificuldades. Pacote e placar da Predadora só depois de reler a Sem fim
 - [ ] **Antes do próximo AAB:** o jogo não pausa ao ir para o segundo plano. Abrir a pausa ao sair, sem travar
       o simulador. **Na etapa 6:** comparação pareada, com mais sementes; **testadores recebem nave evoluída**,
       por causa do salto da Fase 2 no Normal

@@ -104,6 +104,17 @@ public class LevelDefinition : ScriptableObject
              "É a única que alimenta o leaderboard.")]
     public bool endless;
 
+    [Tooltip("Velocidade máxima da fase sem fim, em unidades internas: o painel mostra dez vezes " +
+             "isto, então 42,5 aparece como 425 un/s. Acima disso, o jogador não tem tempo de " +
+             "ver o obstáculo e desviar. As fases com dobra usam a dobra como teto.")]
+    [Min(1f)] public float endlessTopSpeed = 42.5f;
+
+    /// <summary>O teto da sem fim para esta nave: o da fase, ou o da ficha da nave, se for menor.</summary>
+    public float EndlessTopSpeedFor(ShipDefinition ship) =>
+        ship != null && ship.endlessTopSpeed > 0f
+            ? Mathf.Min(endlessTopSpeed, ship.endlessTopSpeed)
+            : endlessTopSpeed;
+
     /// <summary>Intervalo entre obstáculos no segundo indicado da corrida.</summary>
     public float IntervalAt(float elapsedSeconds)
     {

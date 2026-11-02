@@ -176,7 +176,19 @@ public static class RaceSimulation
 
         /// <summary>Colisões que só existiram por pular a janela. A 30 quadros, as fases devem ficar em zero ou perto.</summary>
         public int sweepHits;
+
+        /// <summary>Vezes em que o item sorteado não nasceu, por não servir para a nave.</summary>
+        public int emptyModifierTurns;
+
+        /// <summary>O maior tempo seguido na mesma faixa, em segundos de corrida.</summary>
+        public float longestInLane;
+
+        /// <summary>Quantas vezes a nave passou de <see cref="LongStayInLane"/> na mesma faixa.</summary>
+        public int longStaysInLane;
     }
+
+    /// <summary>O tempo na mesma faixa que o obstáculo anti-parada usaria, se entrar: serve para medir a ideia.</summary>
+    public const float LongStayInLane = 7f;
 
     /// <summary>
     /// A velocidade mostrada a partir da qual um obstáculo pequeno pode pular a
