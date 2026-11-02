@@ -131,11 +131,12 @@ decide: as decisões continuam com o Raffael, e o relatório deles passa por mim
 
 | Perfil | Enfoque |
 |---|---|
-| `tecnico-birrento` | Refuta com argumento técnico válido, para achar erro e melhorar o resultado |
+| `tecnico-birrento` | Refuta com argumento técnico válido, para achar erro e melhorar o resultado, com foco em performance, manutenção e reutilização |
 | `visao-geral` | Big picture: jogador, identidade das naves, progressão e rumo do projeto |
 | `cacador-de-abusos` | Brechas, loops e abusos, supondo que todo jogador vai tentar explorar o jogo |
+| `pesquisador` | Pesquisa jeitos melhores de fazer o que já existe: testes, arquitetura, Unity e Claude Code. É o único com acesso à web |
 
-**Quais usar:** o Raffael pode nomear os perfis no pedido. Se não nomear, o **padrão são os três** antes
+**Quais usar:** o Raffael pode nomear os perfis no pedido. Se não nomear, o **padrão são os três primeiros** antes
 de aplicar uma mudança de jogo que leve a uma rodada longa no simulador; nos outros casos, eu pergunto.
 Agente só roda com pedido dele. Perfil novo é um arquivo a mais na pasta e uma linha nesta tabela.
 

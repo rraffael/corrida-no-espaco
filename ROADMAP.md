@@ -75,13 +75,13 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
       em corrida (só a verificação cobre esse último). A base cobre. **Para ler na base:** nesta fase,
       o Regular morreu sem usar o poder em quase todas as derrotas de Raffa e Espreitador nos níveis 15
       e 40, e a Predadora nv 60 venceu 3 de 5, contra 0 de 5 da Nave inicial. Amostra pequena
-- [ ] **A base completa: 6.000 corridas, umas 4h40** — Simulador de corridas:
-      1. **Marcar o retrato completo**
-      2. Marcar também a **Sem fim**, que o botão deixa de fora (4.500 → 6.000)
-      3. Conferir: **6.000 corridas**, 5 repetições, primeira semente 1, teto do poder desligado
-      4. Deixar o Windows **sem suspender**, e **rodar**. **Não salvar nenhum `.cs`** até acabar. Se cair,
-         o que rodou fica em `docs/simulacoes/_parcial.csv`
-- [ ] **Bloco do poder guardado: 360 corridas, uns 17 min** — **teto do poder ligado**; **Regular e
+- [ ] **A primeira base: 6.000 corridas, rodando desde 01/11** — o Raffael decidiu deixar terminar, para
+      guardar os dados (02/11). **Ao chegar:** conferir no Console se saíram 6.000, fazer o commit
+      (`git add -A` e `git commit -m "Primeira base: 6.000 corridas"`) e avisar o Claude com "acabou"
+- [ ] **Depois, o Claude aplica as correções já decididas**, e o Raffael roda: commit, Console, Montar,
+      verificações e fumaça. **Só com o OK da fumaça, à noite, a base nova:** Marcar o retrato completo,
+      marcar a Sem fim, conferir 6.000 corridas, primeira semente 1, teto desligado, e não salvar `.cs`
+- [ ] **Bloco do poder no primeiro perigo: 360 corridas, uns 17 min** — **teto do poder ligado**; **Regular e
       Veterano**; **Nay, Raffa e Espreitador**; **níveis 40 e 60**; **Normal e Difícil**; **Fases 1 a 3**
 - [ ] **Commit dos relatórios** — `git add -A` e `git commit -m "Base de balanceamento: 6.000 corridas"`
 
@@ -438,16 +438,50 @@ mais conteúdo**: aí sai uma versão nova e ele pede que testem de novo.
 - [ ] **Recarga de poder aparece para a Predadora**, que não tem o que recarregar *(Parte 7)*
 
 ### ✏️ Desenhar e decidir
-- [ ] **A Predadora como raridade extra e pacote inicial pago** *(ideia do Raffael, 01/11/2026,
-      para dar grande vantagem a quem pagar; detalhes na Fase 9)* — *entendido como a nave do
-      Reforço estrutural, a confirmar.* A decidir na hora: **quanta vantagem é "grande"**, e como
-      fica o **placar da sem fim**
+- [ ] **Design novo das naves: sem rank visível, power score, escolha de poder e sem pay-to-win**
+      *(Raffael, 01 e 02/11; registrado em `docs/design-naves.md`, **nada implementado**; nada de `.cs`
+      até as 6.000 corridas acabarem)*. **Decidido:** escolha no nível 60, entre duas passivas; troca paga
+      em Sucata; atributos iguais até ler a base; a Raffa primeiro.
+
+      **Plano aprovado (02/11):** (1) referência por nave, com cenários fixos; (2) power score provisório;
+      (3) testar bases diferentes; (4) estrutura da escolha de poder; (5) tela; (6) os poderes alternativos,
+      e então uma rodada com os testadores; (7) **reforma das fases**; (8) score final, com o valor relativo
+      de cada nave; (9) Parte 8, com os preços em Sucata; (10) Fase 9. Ao ler a base, as fases sobem para
+      antes da etapa 3 se as Fases 2 e 3 não separarem as naves (`docs/design-naves.md`). **Cada rodada
+      seguinte cobre só o que mudou**, para não testar em duplicidade.
+
+      **Decidido (02/11):** o poder alternativo da Raffa é o **AI-ssistant**, e as regras de fallback estão
+      em `docs/design-naves.md`. **Falta decidir:** as próximas naves.
+
+      **Plano de testes, a aprovar (proposta do Claude, com os quatro agentes, 02/11):** reduzir por
+      **escopo, nunca por semente**. Camadas: fumaça (75), nave (900 + sentinelas), fase (1.500 + sentinelas),
+      completa (4.500) e sem fim (1.500). Antes de reaproveitar qualquer resultado: relógio e sorte por corrida,
+      entender por que a 1ª corrida do Play diverge, e carimbar os relatórios com plano e versão. Rodadas
+      completas: a atual, uma depois dessas correções, e a final depois das fases, todas à noite. Player em
+      paralelo: só depois, com um teste Editor × Player linha a linha
+
+      **Corrigir no simulador depois da rodada** *(`cacador-de-abusos`)*: o piloto não aperta o poder com a
+      Super IA ligada, e o jogador pode, então a renovação fica sem medir; o bloco de 360 corridas usa o poder
+      no primeiro perigo e **não** mede "guardar para a dobra", que pede um hábito próprio; persona que caça
+      a Recarga, porque hoje ninguém vai atrás dela
+
+      **Para corrigir depois das 6.000 corridas** *(achado pelo `cacador-de-abusos`, conferido no código)*:
+      - **Obstáculo pode atravessar a nave em velocidade muito alta:** a colisão só olha a posição atual
+        (`Obstacle.cs`), e por volta de 420 un/s, a 30 quadros, o obstáculo pode pular a janela de batida.
+        Só a sem fim chega lá. Ao ler a base, contar as corridas acima disso; a correção pode exigir
+        rodar a sem fim de novo, umas 1.500 corridas
+      - **Progresso por fase e dificuldade:** `LevelProgress` guarda um degrau só, e fase nova muda o que
+        cada degrau significa. Corrigir antes de pagar moeda por primeira vitória
+      - **"Moeda sombra":** o relatório pode calcular vitórias, distância e abates por minuto, para achar
+        o farm antes de existir moeda
+- [ ] **A Predadora como raridade extra e pacote pago** *(ideia do Raffael, 01/11/2026; detalhes na
+      Fase 9)* — **revista no mesmo dia pela regra "nada de pay-to-win":** ela também precisa ser obtenível
+      jogando, e o pacote só acelera, por exemplo entregando-a já no nível 40. A confirmar
 - [ ] **Ranks de atributo das naves: S → A → B → C → D → E** *(decidido pelo Raffael em
-      26/09/2026; o desenho vem depois)* — cada nave terá um rank por atributo, dizendo no que ela
-      é melhor (S) e pior (E). Motivo: o painel de balanceamento mostrou as quatro naves
-      idênticas. **Os ranks vão mexer nos atributos de base e também na evolução**, então o molde
-      de evolução muda junto quando chegar a hora — ver a Parte 6. *Já decidido:* o jogador vê o
-      rank, e alguns ranks sobem com os patamares. *Falta:* quanto vale cada rank, e quais sobem
+      26/09/2026; **revisto em 01/11: o jogador não vê rank**, e o power score cobre a comparação, ver
+      `docs/design-naves.md`)* — cada nave teria um rank por atributo, dizendo no que ela é melhor (S) e
+      pior (E). Motivo: o painel de balanceamento mostrou as quatro naves idênticas. Ranks mexeriam nos
+      atributos de base e na evolução. *Falta decidir se a diferença de atributos continua*
 - [ ] **As evoluções definidas** *(Raffael, 01/11; **ainda não aplicadas**)*. **Ordem combinada:**
       (1) fechar esta tabela ✅; (2) criar os 3 perfis de agente ✅ (`.claude/agents/`, ver `CLAUDE.md`);
       (3) revisar com os três ✅; (4) aplicar; (5) rodar o teste grande.
@@ -3420,8 +3454,11 @@ Depois do lançamento. Anúncios antes de compras.
 
 - [ ] Anúncios (integração)
 - [ ] Compras no app (design de economia — projeto próprio, do tamanho do jogo base)
-      - **Ideia do Raffael (01/11/2026): a Predadora como raridade extra e pacote inicial pago**,
-        com grande vantagem para quem pagar. Pontos a resolver quando chegar a hora:
+      - **Princípio do Raffael (01/11/2026): nada de pay-to-win.** Toda mecânica é obtenível jogando, e
+        pagar só acelera (`docs/design-naves.md`)
+      - **Ideia do Raffael (01/11/2026): a Predadora como raridade extra e pacote pago**. A "grande
+        vantagem para quem pagar" da primeira versão **foi substituída pelo princípio acima**. Pontos a
+        resolver quando chegar a hora:
         - **O conceito de raridade não existe** no jogo: é estrutura nova
         - **O pacote compensa a Predadora fraca no nível 1** *(decisão do Raffael, 01/11)*: ela vem
           já num nível maior, ou com os recursos para evoluir até ele. Exemplo: entregue no **nível
