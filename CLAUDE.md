@@ -91,6 +91,9 @@ quê**, não o que a linha já diz.
 
 - Montar: menu **Tools → Corrida no Espaço → Montar** — o único item que ele roda. Ver as regras
   de edição acima.
+- Testar: menu **Tools → Corrida no Espaço → Testar** — o único item de teste que ele roda. Faz as verificações,
+  encadeia as rodadas do simulador e grava o veredito em `docs/simulacoes/`. **Ao pedir um teste de simulador, reescrever a lista
+  `Rounds` em `Assets/Editor/Tools/Testar.cs`, em vez de ditar campos da janela.** Lista vazia é resposta válida
 - Ferramentas: menu **Tools → Corrida no Espaço → Painel de ferramentas** — lista o que falta
   rodar e o que já rodou, com a data. O diário fica em `UserSettings/`, fora do git.
 - Build: menu **Tools → Corrida no Espaço → Build**, ou `-executeMethod BuildAndroid.Release`

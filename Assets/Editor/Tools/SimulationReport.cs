@@ -23,6 +23,9 @@ static class SimulationReport
 
     static readonly CultureInfo Br = new CultureInfo("pt-BR");
 
+    /// <summary>A Impressão do CSV do último relatório gravado.</summary>
+    public static string LastPrint { get; private set; } = string.Empty;
+
     /// <summary>
     /// Grava o que já rodou, para uma queda de energia ou um reinício do Windows
     /// não levarem horas de corrida junto.
@@ -49,14 +52,20 @@ static class SimulationReport
     {
         Directory.CreateDirectory(Folder);
 
+        // Com os segundos só se precisar: duas rodadas seguidas podem cair no mesmo minuto,
+        // e a segunda apagaria a primeira.
         string stamp = DateTime.Now.ToString("yyyy-MM-dd_HH'h'mm");
+        if (File.Exists(Path.Combine(Folder, stamp + ".md")))
+            stamp = DateTime.Now.ToString("yyyy-MM-dd_HH'h'mm'm'ss");
+
         string markdown = Path.Combine(Folder, stamp + ".md");
         string csv = Path.Combine(Folder, stamp + ".csv");
 
         string csvText = Csv(results);
+        LastPrint = SimulationStamp.Of(csvText);
         File.WriteAllText(csv, csvText, new UTF8Encoding(true));
         File.WriteAllText(markdown, Markdown(plan, results, sentinels, planned, realSeconds, Path.GetFileName(csv),
-                                             stampAtStart, stampAtEnd, SimulationStamp.Of(csvText)),
+                                             stampAtStart, stampAtEnd, LastPrint),
                           new UTF8Encoding(false));
 
         if (File.Exists(PartialCsv))

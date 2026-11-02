@@ -165,6 +165,10 @@ public class RaceSimulatorWindow : EditorWindow
 
     void DrawProgress()
     {
+        string queue = Testar.Status;
+        if (queue.Length > 0)
+            EditorGUILayout.LabelField(queue, EditorStyles.boldLabel);
+
         // Conta a sentinela: ela também leva tempo, embora fique fora do relatório.
         int done = RaceSimulation.Results.Count + RaceSimulation.Sentinels.Count;
         int total = Mathf.Max(1, Mathf.Max(RaceSimulatorDriver.Planned, RaceSimulation.Jobs.Count));
@@ -220,20 +224,20 @@ public class RaceSimulatorWindow : EditorWindow
         plan.personas.Count * plan.ships.Count * plan.shipLevels.Count * plan.levels.Count *
         plan.difficulties.Count * plan.repetitions;
 
-    static List<PilotPersona> Personas() =>
+    internal static List<PilotPersona> Personas() =>
         AssetDatabase.FindAssets("t:PilotPersona")
             .Select(guid => AssetDatabase.LoadAssetAtPath<PilotPersona>(AssetDatabase.GUIDToAssetPath(guid)))
             .Where(p => p != null)
             .OrderBy(p => p.skillRank)
             .ToList();
 
-    static List<ShipDefinition> Ships()
+    internal static List<ShipDefinition> Ships()
     {
         var catalog = AssetDatabase.LoadAssetAtPath<ShipCatalog>(ShipSetup.CatalogPath);
         return catalog != null ? catalog.ships.Where(s => s != null).ToList() : new List<ShipDefinition>();
     }
 
-    static List<LevelDefinition> Levels()
+    internal static List<LevelDefinition> Levels()
     {
         var catalog = LevelCatalog.Load();
         var levels = new List<LevelDefinition>();
@@ -248,7 +252,7 @@ public class RaceSimulatorWindow : EditorWindow
     }
 
     /// <summary>Os patamares do molde de evolução — os mesmos níveis do painel de balanceamento.</summary>
-    static int[] Tiers()
+    internal static int[] Tiers()
     {
         var model = ShipEvolutionModel.Default;
         if (model == null)
@@ -325,10 +329,41 @@ static class RaceSimulatorDriver
     const string SecondsPerRaceKey = "cne.simulador.segundos-por-corrida";
     const string StampKey = "cne.simulador.carimbo";
     const string PlanJsonKey = "cne.simulador.plano-carimbado";
+    const string LastRoundKey = "cne.simulador.ultima-rodada";
+
+    /// <summary>O que o <see cref="Testar"/> precisa saber de uma rodada, sem ler o relatório.</summary>
+    [System.Serializable]
+    public class RoundSummary
+    {
+        public string report;
+        public string print;
+        public string stamp;
+        public bool stampChanged;
+        public int races;
+        public int planned;
+        public int wins;
+        public int timeouts;
+        public int powerUses;
+        public float seconds;
+    }
+
+    /// <summary>A rodada acabou e o Editor já saiu do Play.</summary>
+    public static event System.Action RoundFinished;
 
     public static bool IsRunning => SessionState.GetBool(RunningKey, false);
     public static int Planned => SessionState.GetInt(PlannedKey, 0);
     public static string LastReport => SessionState.GetString(LastReportKey, string.Empty);
+    public static float LastSecondsPerRace => EditorPrefs.GetFloat(SecondsPerRaceKey, 0f);
+
+    /// <summary>Nulo se a última rodada não chegou a terminar nenhuma corrida.</summary>
+    public static RoundSummary LastRound
+    {
+        get
+        {
+            string json = SessionState.GetString(LastRoundKey, string.Empty);
+            return json.Length > 0 ? JsonUtility.FromJson<RoundSummary>(json) : null;
+        }
+    }
 
     static RaceSimulatorDriver()
     {
@@ -356,6 +391,7 @@ static class RaceSimulatorDriver
         SessionState.SetString(PlanJsonKey, planJson);
         SessionState.SetString(StampKey, SimulationStamp.Take(planJson));
 
+        SessionState.EraseString(LastRoundKey);
         SessionState.SetString(RaceSimulation.PlanKey, planJson);
         SessionState.SetInt(PlannedKey, planned);
         SessionState.SetBool(RunningKey, true);
@@ -414,6 +450,7 @@ static class RaceSimulatorDriver
             EditorSceneManager.playModeStartScene = null;
             Time.captureDeltaTime = 0f;
             SaveGame.EndSandbox();
+            RoundFinished?.Invoke();
         }
     }
 
@@ -435,6 +472,19 @@ static class RaceSimulatorDriver
         string path = SimulationReport.Write(RaceSimulation.Current, results, RaceSimulation.Sentinels, Planned, real,
                                              stampAtStart, stampAtEnd);
         SessionState.SetString(LastReportKey, path);
+        SessionState.SetString(LastRoundKey, JsonUtility.ToJson(new RoundSummary
+        {
+            report = path,
+            print = SimulationReport.LastPrint,
+            stamp = stampAtStart,
+            stampChanged = stampAtStart != stampAtEnd,
+            races = results.Count,
+            planned = Planned,
+            wins = results.Count(r => r.outcome == RaceSimulation.Outcome.Vitoria),
+            timeouts = results.Count(r => r.outcome == RaceSimulation.Outcome.TempoEsgotado),
+            powerUses = results.Sum(r => r.powerUses),
+            seconds = real,
+        }));
 
         Debug.Log($"[Simulador] {results.Count} corrida(s) em {ScoreBoard.FormatTime(real)}. Relatório: {path}");
     }

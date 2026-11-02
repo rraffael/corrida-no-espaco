@@ -194,12 +194,12 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
       jogo por segundo de relógio, sem queda; 60 quadros levam o dobro de 30
 - [ ] **Prova ampla da consistência, antes da base: pronta, falta rodar** *(pedida no checkup, 02/11)* — a prova anterior não teve vitória
       nem uso de poder. Montar vazio:
-      1. **Commit:** `git add -A` e `git commit -m "Fim da corrida congela a pista e prova com quadro variavel"`
-      2. **Console**, depois **Testes → Rodar verificações**
-      3. **Três rodadas, mesmo plano, 180 corridas cada:** **Regular** e **Veterano**; as **5 naves**; níveis **1** e **60**; **Fase 2**,
-         **Fase 3** e **Sem fim**; só **Normal**; **3 repetições**; **semente 1**; teto do poder desligado. O campo **Quadros por
-         segundo** novo fica em **30**, depois **15**, depois **Variável**. Total estimado: 30 min, sem salvar `.cs`
-      4. **A prova:** a **Impressão do CSV** tem de ser igual nas três, sem erro no Console. O Claude confere vitórias e uso de poder
+      1. **Commit:** `git add -A` e `git commit -m "Botao Testar, fim da corrida congela a pista e quadro variavel"`
+      2. **Console**, depois **Tools → Corrida no Espaço → Testar**. O botão roda as verificações e as três rodadas sozinho (180 corridas
+         cada, Regular e Veterano, 5 naves, níveis 1 e 60, Fase 2, Fase 3 e Sem fim, Normal, 3 repetições; a 30, 15 e quadro variável).
+         Total estimado: 30 min, sem salvar `.cs`
+      3. **A prova:** o botão diz **PASSOU** ou **NÃO PASSOU** e grava `docs/simulacoes/*_testar.md`. Avisar o Claude, que confere vitórias e
+         uso de poder
 - [ ] **No aparelho, com o commit acima: 15 min, antes da base** — Build And Run. Sem fim, Fácil, nv 60, olhando a distância e a sensação:
       - **Predadora parada:** esperado de 23 a 44 mil. Antes, no celular, cerca de 14 mil
       - **Nave inicial parada:** esperado de 8 a 15 mil
@@ -277,11 +277,10 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
       livre, tiro teleguiado e Super IA
 - [ ] **Arte do item Recarga de poder:** hoje é difícil de identificar jogando *(Raffael, 02/11)*
 - [ ] **Hábito "guardar para a dobra":** o Claude escreve depois da base nova, para o bloco de 360
-- [ ] **Só com o OK do checkup, a base nova:** Marcar o retrato completo, marcar a Sem fim, depois pôr **15** em
-      Quadros por segundo (o botão do retrato volta para 30), conferir 6.000 corridas, primeira semente 1, teto desligado, e não
+- [ ] **Só com o OK do checkup, a base nova:** o Claude põe as 6.000 corridas no botão **Testar**, e o Raffael só aperta, sem
       salvar `.cs`. **Ela não se compara corrida a corrida com a base anterior:** a pista muda, então só valem os agregados
 - [ ] **Logo depois da base, o bloco da Parada: 300 corridas** *(visão geral e caçador, 02/11)* — o retrato a exclui, e o anti-parada precisa
-      desse dado. **Parada**; as **5 naves**; níveis **1, 15, 40 e 60**; **3 dificuldades**; **5 repetições**; **só Sem fim**
+      desse dado. Também entra no **Testar**: Parada, 5 naves, níveis 1, 15, 40 e 60, 3 dificuldades, 5 repetições, só Sem fim
 - [ ] **Na reforma das fases, ler a Predadora:** nv 40 contra nv 60. Se o salto estiver no 60, olhar primeiro o Frenesi (visão geral). Hoje,
       uma nave de caça paga rende quase o mesmo sem se mexer. **Sugestão do caçador:** placar e moeda só com um mínimo de trocas de faixa
 - [ ] **Reservar outra base depois da etapa 7:** a reforma mexe em todas as naves, e a Sem fim da Predadora caduca com o anti-parada

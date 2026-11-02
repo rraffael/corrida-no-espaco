@@ -27,6 +27,9 @@ static class ProjectTools
     /// </summary>
     public const string SetupAllItem = MenuRoot + "Montar";
 
+    /// <summary>O item único de teste. Na raiz, pelo mesmo motivo do Montar.</summary>
+    public const string TestItem = MenuRoot + "Testar";
+
     public const string PreflightItem = MenuRoot + "Conferir configuração";
     public const string BalanceItem = MenuRoot + "Balanceamento";
     public const string SimulatorItem = MenuRoot + "Simulador de corridas";
@@ -101,6 +104,14 @@ static class ProjectTools
                       "mantém a lista dentro do Montar.cs. Os itens do submenu Montagem continuam " +
                       "existindo para remontar uma coisa isolada.",
             MenuPath = SetupAllItem,
+        },
+        new Tool
+        {
+            Title = "Testar",
+            Summary = "Roda as verificações e, se passarem, as rodadas do simulador que a última mudança " +
+                      "precisa, uma atrás da outra, e grava o veredito em docs/simulacoes/. O Claude mantém " +
+                      "a lista dentro do Testar.cs.",
+            MenuPath = TestItem,
         },
         new Tool
         {

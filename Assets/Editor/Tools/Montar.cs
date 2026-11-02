@@ -36,7 +36,7 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 02/11/2026: o fim da corrida congela a pista, e o simulador ganha 15 quadros e quadro variável. Só código.
+    /// Estado em 02/11/2026: o botão Testar, o fim da corrida congela a pista, e o simulador ganha 15 quadros e quadro variável. Só código.
     /// </summary>
     static readonly Step[] Steps =
     {
