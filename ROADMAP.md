@@ -118,11 +118,16 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
       2. **Console:** sem erro de compilação
       3. **Montar**
       4. **Verificações:** Testes → Rodar verificações
-      5. **Fumaça, 240 corridas, uns 15 min:** **Regular** e **Veterano**; **Nave inicial**, **Espreitador** e
-         **Predadora**; níveis **40** e **60**; **Fase 2** e **Sem fim**; **Fácil** e **Difícil**; **5 repetições**;
-         **semente 1**; teto desligado. Avisar o Claude, que lê o relatório
-      6. **No aparelho, com o build de sempre e sem subir na Play:** Predadora nv 60, Sem fim, Fácil. Dizer se as
-         batidas em alta velocidade parecem justas e como o jogo fica se engasgar
+      5. **Fumaça** ✅ *(02/11 12h10, 240 corridas, 15 min 44 s; `docs/simulacoes/2026-11-02_12h10.md`)* — **passou:**
+         0 quadros fora do passo; colisões por trecho, 0 nas fases e 48 na Sem fim; mesma pista entre as naves na
+         mesma semente; Espreitador com 2º uso, poder na carga e dobra com efeito. **O CSV não prova a regra da
+         Recarga**, porque nave sem poder nunca conta recarga; isso fica para o item 6. **Para ler na base:** o
+         Espreitador venceu todas as 28 corridas que chegaram à dobra
+      6. **No aparelho, com o build de sempre e sem subir na Play:**
+         - Predadora nv 60, Sem fim, Fácil: dizer se as batidas em alta velocidade parecem justas e como o jogo
+           fica se engasgar
+         - Nave inicial, uma ou duas corridas longas: a Recarga de poder não pode aparecer
+         - Nay ou Raffa, uma corrida longa: a Recarga continua aparecendo
 - [ ] **Hábito "guardar para a dobra":** o Claude escreve depois da base nova, para o bloco de 360
 - [ ] **Só com o OK da fumaça, à noite, a base nova:** Marcar o retrato completo, marcar a Sem fim, conferir
       6.000 corridas, primeira semente 1, teto desligado, e não salvar `.cs`. **Ela não se compara corrida a
