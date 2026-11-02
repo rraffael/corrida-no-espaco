@@ -122,7 +122,7 @@ public class RaceSimulatorWindow : EditorWindow
                                                "mesmas largadas."), firstSeed);
         maxSeconds = Mathf.Max(30f, EditorGUILayout.FloatField("Teto das fases (s)", maxSeconds));
         maxEndlessSeconds = Mathf.Max(30f, EditorGUILayout.FloatField("Teto da sem fim (s)", maxEndlessSeconds));
-        sixtyFps = EditorGUILayout.ToggleLeft("60 quadros por segundo (o celular roda a 30)", sixtyFps);
+        sixtyFps = EditorGUILayout.ToggleLeft("60 quadros por segundo (teste: o resultado tem de sair igual)", sixtyFps);
         hideRendering = EditorGUILayout.ToggleLeft("Não desenhar a tela (bem mais rápido)", hideRendering);
         powerOnDanger = EditorGUILayout.ToggleLeft(
             new GUIContent("Teto do poder: todos usam o poder no primeiro perigo",
@@ -268,6 +268,7 @@ public class RaceSimulatorWindow : EditorWindow
         extraLevelsText = string.Empty;
         easy = normal = hard = true;
         powerOnDanger = false;
+        sixtyFps = false;
     }
 
     static void Section(string title)

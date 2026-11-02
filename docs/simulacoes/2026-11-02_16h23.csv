@@ -1,0 +1,11 @@
+﻿persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando;renovacoes;recargas_pegas;segundos_de_efeito;cargas_fim;pico_passiva;quadros_fora;hash_pista;segundos_acima_420;batidas_acima_420;poder_na_carga;dobra_com_efeito;recargas_perdidas;colisoes_por_trecho;itens_vazios;maior_tempo_na_faixa;vezes_7s_na_faixa;tiros;trocas_de_faixa
+Parada;6;Nave inicial;60;Sem fim;Fácil;1;FimDaSemFim;68,2;1260,89;349;;17;7;0;0;;0;0;0;0;0;0;e4e9f680;0;0;0;0;0;0;2;68,17;1;216;0
+Parada;6;Nave inicial;60;Sem fim;Fácil;2;FimDaSemFim;52,53;969,34;411;;17;5;0;0;;0;0;0;0;0;0;8e549a1c;0;0;0;0;0;0;2;52,5;1;183;0
+Parada;6;Nave inicial;60;Sem fim;Fácil;3;FimDaSemFim;66;1333,3;362;;15;6;0;0;;0;0;0;0;0;0;de33f8d3;0;0;0;0;0;1;1;65,97;1;220;0
+Parada;6;Nave inicial;60;Sem fim;Fácil;4;FimDaSemFim;54,5;1023,48;354;;21;6;0;0;;0;0;0;0;0;0;61afa462;0;0;0;0;0;0;2;54,47;1;181;0
+Parada;6;Nave inicial;60;Sem fim;Fácil;5;FimDaSemFim;44,37;810,98;386;;18;5;0;0;;0;0;0;0;0;0;e0962f4e;0;0;0;0;0;1;0;44,33;1;156;0
+Parada;6;Predadora;60;Sem fim;Fácil;1;FimDaSemFim;72;1350,28;348;;16;9;0;0;;0;0;0;20;10;0;e4e9f680;0;0;0;0;0;0;2;71,97;1;252;0
+Parada;6;Predadora;60;Sem fim;Fácil;2;FimDaSemFim;68,27;1364,93;350;;20;8;0;0;;0;0;0;20;10;0;8e549a1c;0;0;0;0;0;0;2;68,23;1;263;0
+Parada;6;Predadora;60;Sem fim;Fácil;3;FimDaSemFim;76,77;1596,51;350;;16;8;0;0;;0;0;0;20;8;0;de33f8d3;0;0;0;0;0;1;1;76,73;1;281;0
+Parada;6;Predadora;60;Sem fim;Fácil;4;FimDaSemFim;74,7;1582,01;350;;29;9;0;0;;0;0;0;20;10;0;61afa462;0;0;0;0;0;2;3;74,67;1;281;0
+Parada;6;Predadora;60;Sem fim;Fácil;5;FimDaSemFim;65,5;1420,23;350;;22;8;0;0;;0;0;0;20;10;0;e0962f4e;0;0;0;0;0;1;1;65,47;1;253;0

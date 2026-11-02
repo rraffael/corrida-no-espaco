@@ -118,7 +118,7 @@ public class LevelModifiers : MonoBehaviour
         return runtime;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (active.Count == 0)
             return;

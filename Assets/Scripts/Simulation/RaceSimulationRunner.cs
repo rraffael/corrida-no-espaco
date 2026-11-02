@@ -95,15 +95,6 @@ public class RaceSimulationRunner : MonoBehaviour
     /// </summary>
     void Observe(RaceDirector director)
     {
-        // Contra a escala atual e a do quadro anterior: o Tempo Lento pode mudar a
-        // escala no meio de um quadro, e isso não é erro de passo.
-        float step = RaceSimulation.Current.frameSeconds;
-        if (Mathf.Abs(Time.deltaTime - step * Time.timeScale) > 0.00001f &&
-            Mathf.Abs(Time.deltaTime - step * lastTimeScale) > 0.00001f)
-            offStepFrames++;
-
-        lastTimeScale = Time.timeScale;
-
         ObserveLane();
 
         var race = RaceSpeed.Instance;
@@ -148,36 +139,52 @@ public class RaceSimulationRunner : MonoBehaviour
             longStaysInLane++;
     }
 
-    void Update()
+    /// <summary>Cada passo do jogo, como a corrida: o que se observa não depende dos quadros.</summary>
+    void FixedUpdate()
     {
         if (!racing || !RaceSimulation.IsActive)
             return;
 
         var director = RaceDirector.Instance;
         var ship = ShipStats.Instance;
-        if (director == null || ship == null)
+        if (director == null || ship == null || !director.IsRunning)
             return;
 
-        if (director.IsRunning)
+        Observe(director);
+
+        var race = RaceSpeed.Instance;
+        if (warpReachedAt < 0f && !director.IsEndless && race != null &&
+            race.Current >= director.WarpSpeed)
         {
-            Observe(director);
-
-            var race = RaceSpeed.Instance;
-            if (warpReachedAt < 0f && !director.IsEndless && race != null &&
-                race.Current >= director.WarpSpeed)
-            {
-                warpReachedAt = director.Elapsed;
-                reachedWarpWithEffect = ShipAbilities.Instance != null && ShipAbilities.Instance.Active.Count > 0;
-            }
-
-            var plan = RaceSimulation.Current;
-            float limit = director.IsEndless ? plan.maxEndlessSeconds : plan.maxSeconds;
-            if (director.Elapsed >= limit)
-                Record(director, ship, RaceSimulation.Outcome.TempoEsgotado,
-                       CareerStats.RaceKills, CareerStats.RaceCrashes);
-
-            return;
+            warpReachedAt = director.Elapsed;
+            reachedWarpWithEffect = ShipAbilities.Instance != null && ShipAbilities.Instance.Active.Count > 0;
         }
+
+        var plan = RaceSimulation.Current;
+        float limit = director.IsEndless ? plan.maxEndlessSeconds : plan.maxSeconds;
+        if (director.Elapsed >= limit)
+            Record(director, ship, RaceSimulation.Outcome.TempoEsgotado,
+                   CareerStats.RaceKills, CareerStats.RaceCrashes);
+    }
+
+    void Update()
+    {
+        if (!racing || !RaceSimulation.IsActive)
+            return;
+
+        // Contra a escala atual e a do quadro anterior: o Tempo Lento pode mudar a
+        // escala no meio de um quadro, e isso não é erro de passo.
+        float step = RaceSimulation.Current.frameSeconds;
+        if (Mathf.Abs(Time.deltaTime - step * Time.timeScale) > 0.00001f &&
+            Mathf.Abs(Time.deltaTime - step * lastTimeScale) > 0.00001f)
+            offStepFrames++;
+
+        lastTimeScale = Time.timeScale;
+
+        var director = RaceDirector.Instance;
+        var ship = ShipStats.Instance;
+        if (director == null || ship == null || director.IsRunning)
+            return;
 
         var outcome = director.IsEndless ? RaceSimulation.Outcome.FimDaSemFim
             : ship.Health.IsAlive ? RaceSimulation.Outcome.Vitoria

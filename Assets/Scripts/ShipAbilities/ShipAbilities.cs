@@ -286,7 +286,7 @@ public class ShipAbilities : MonoBehaviour
         ResetForRace();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // Antes do retorno de baixo: a passiva corre mesmo sem efeito ativo ligado,
         // e a Predadora nem tem poder ativo.

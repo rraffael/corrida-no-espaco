@@ -79,7 +79,7 @@ public class Autopilot : MonoBehaviour
             sense = new LaneSense(transform, lanes, track);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (stats == null || sense == null)
             return;

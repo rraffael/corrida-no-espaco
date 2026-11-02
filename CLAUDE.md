@@ -23,6 +23,15 @@ Jogo mobile Android feito na Unity `6000.3.20f1`. Divisão de trabalho:
 - **Raffael abre a Unity** — roda, testa no aparelho, faz arte e áudio, e **publica**. Upload na
   Play Store é sempre dele: ação externa irreversível e envolve segredos de assinatura.
 
+## Consistência (regra do Raffael, 02/11/2026)
+
+**O jogo nunca roda diferente por causa do aparelho ou dos quadros por segundo.** Um jogador não pode ter
+resultado melhor ou pior por ter um celular melhor ou pior. Toda a lógica da corrida (obstáculos, tiros, troca de
+faixa, poderes, velocidade, colisão) anda em `FixedUpdate`, no passo fixo do `Services/RaceClock.cs`. `Update` fica só
+para visual e para ler o dedo. **Sair de cena dentro do passo é `SetActive(false)` junto do `Destroy`:** um quadro pode
+ter vários passos, e o `Destroy` sozinho espera o fim do quadro. **Prova:** o mesmo plano do simulador, a 30 e a 60
+quadros, tem de dar a mesma **Impressão do CSV**.
+
 ## Regras de edição
 
 - **Nunca editar cena (`.unity`) ou prefab na mão** para mudanças estruturais. Escrever um editor

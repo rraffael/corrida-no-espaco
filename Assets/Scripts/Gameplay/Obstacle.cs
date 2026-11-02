@@ -74,7 +74,17 @@ public class Obstacle : MonoBehaviour
     /// <summary>True se este obstáculo ocupa a faixa indicada.</summary>
     public bool Occupies(int lane) => lane >= Lane && lane < Lane + LaneSpan;
 
-    void Update()
+    /// <summary>
+    /// Sai de cena na hora. Só o Destroy esperaria o fim do quadro, e um quadro pode ter
+    /// vários passos: o obstáculo já batido bateria de novo no passo seguinte.
+    /// </summary>
+    void Despawn()
+    {
+        gameObject.SetActive(false);
+        Destroy(gameObject);
+    }
+
+    void FixedUpdate()
     {
         // Anda na velocidade da corrida: quanto mais rápido a nave, mais rápido
         // o obstáculo vem para cima dela.
@@ -106,7 +116,7 @@ public class Obstacle : MonoBehaviour
                     ShipAbilities.Instance.NotifyObstaclePassed(stats);
             }
 
-            Destroy(gameObject);
+            Despawn();
         }
     }
 
@@ -185,8 +195,8 @@ public class Obstacle : MonoBehaviour
         }
 
         // O obstáculo se desfaz na batida: já cobrou o preço dele, e deixá-lo
-        // grudado na nave cobraria de novo no frame seguinte.
-        Destroy(gameObject);
+        // grudado na nave cobraria de novo no passo seguinte.
+        Despawn();
         return true;
     }
 
@@ -278,7 +288,7 @@ public class Obstacle : MonoBehaviour
                 SpawnShrapnel();
         }
 
-        Destroy(gameObject);
+        Despawn();
     }
 
     /// <summary>

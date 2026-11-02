@@ -162,21 +162,60 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
            semente 1; teto desligado. Rodar a 30 quadros, e de novo com "60 quadros por segundo"
       7. **Log lido (02/11, `tools/logcat-20261102-140547.txt`, 1 corrida de cada): o celular bateu com o simulador.**
          Predadora parada, teto 350: 14.271 (simulador, teto 425: 14.287). Nave inicial parada: 10.299 (simulador: 10.796).
-         **30,1 quadros por segundo, 0 engasgos**, mesmos atributos. **Causa mais provável dos 23 a 47 mil, a confirmar com o
-         Raffael:** aqueles testes rodaram numa versão antiga, sem teto e sem colisão por trecho. O erro de assinatura mostra
-         que o build novo não vinha sendo instalado, e sem a colisão por trecho os obstáculos atravessam a nave
-      8. **Conferir ainda:** como aqueles builds foram instalados, e as duas rodadas do simulador a 30 e 60 quadros, agora com
-         a Predadora em 350. A corrida "jogando de verdade" do log não vale: o Raffael se distraiu. Ela será repetida no
-         teste da tela maior
+         **30,1 quadros por segundo, 0 engasgos**, mesmos atributos. **Causa corrigida pelo Raffael:** os 23 a 47 mil foram no
+         **Play do Editor, no computador**, e não no celular. A hipótese do Claude, de versão antiga, estava errada. O simulador
+         representa o celular; o provável é o Play do Editor rodar a muito mais quadros, valor ainda não medido
+      8. **Duas corridas jogando, no celular com a tela maior (log 14h37):** 16.083 e 16.972, com 30 e 28 trocas de faixa.
+         A única Predadora parada válida fez 14.271, na tela anterior, então parada rende cerca de 15% menos que jogando
+      9. **Rodadas de 30 e 60 quadros ✅ (02/11, 16h23 e 16h22): é isso.** Parada, Sem fim, Fácil, nv 60:
+
+         | | 30 quadros | 60 quadros |
+         |---|---|---|
+         | Nave inicial | 10.796 | 10.375 |
+         | Predadora | 14.628 (13.503 a 15.965) | **23.662 (16.391 a 33.089)** |
+
+         A faixa de 60 quadros lembra os 23 a 47 mil do Play do Editor, e a variação grande também. **Só a Predadora muda.** A causa
+         mais provável é a arma descartar a sobra de tempo: a 30 quadros, a cadência anda em degraus. Pouca cadência a mais
+         vira abate, abate vira mais cadência, e a Predadora dispara. **O celular está em 30 quadros, então a base mede o jogo
+         real. Mas a Predadora está perto de um precipício:** pouca cadência a mais pode dobrar a distância. Em análise com
+         os agentes: corrigir a arma antes da base ou não
+- [ ] **Consistência em qualquer taxa de quadros: pronta, falta rodar** *(regra do Raffael, 02/11: "um jogador não deveria ter um
+      resultado diferente só porque tem um celular melhor ou pior")* — a lógica anda em passo fixo de 60 por segundo, e a arma
+      guarda a sobra de tempo. Muda o balanceamento, sobretudo a Predadora. O Montar está vazio:
+      1. **Commit:** `git add -A` e `git commit -m "Consistencia: logica em passo fixo e cadencia exata"`
+      2. **Console**, depois **Testes → Rodar verificações**
+      3. **Duas rodadas, mesmo plano, 60 corridas cada:** **Regular**, **Parada** e **Perfeito**; **Nave inicial** e **Predadora**;
+         níveis **1** e **60**; só **Sem fim**; só **Fácil**; **5 repetições**; **semente 1**; teto do poder desligado. Rodada A
+         a 30 quadros; rodada B com **"60 quadros por segundo"**. Desmarcar depois
+      4. **A prova:** as linhas **Impressão do CSV** têm de ser iguais. Avisar o Claude, que também compara o tempo de rodada
+      5. **No aparelho:** jogar normalmente e dizer se a sensação mudou
+- [ ] **Checkup completo antes da base** *(pedido do Raffael, 02/11)* — os quatro agentes e o Claude revisam tudo. **O Raffael só
+      roda o retrato completo depois do OK de todos.** Rodada de 02/11: nada mais invalida a medição. **A arma foi decidida pelo
+      Raffael: corrigir, dentro da consistência acima.** Como estava a análise:
+      - **Corrigir antes da base (técnico, visão geral e Claude):** a arma guarda a sobra do tempo. O jogo fica igual em qualquer
+        taxa de quadros, e os degraus somem. A 30 quadros, hoje, de 10 a 27 cargas o ganho de cadência é zero, o que atrapalha
+        medir poder e atributo. **Efeito:** Predadora nv 60 de 3,75 para 4,05 tiros/s, e talvez 23 mil parada; Nave inicial nv 60, +3,6%.
+        Depois: Parada a 30 e 60 quadros tem de convergir. Se não convergir, a hipótese cai
+      - **Manter (caçador aceita):** a base mede o jogo atual, mas corrigir depois joga fora as 4h42
+      - **Retroalimentação abate-cadência:** não provada. Abates por segundo sobem 29%, com só 5 corridas
+      - **Junto, pequeno:** Montar vazio, o retrato zerar os "60 quadros" e o parcial gravado sem risco de se perder numa queda
+- [ ] **Tiro mais rápido logo depois de trocar de faixa, na reforma das fases** *(ideia do Raffael, 02/11)* — hoje caçar é
+      penalizado: a arma cala na troca, e o obstáculo se aproxima. A proposta recompensa o reflexo com uma rajada breve.
+      Combina com o anti-parada, porque premia se mexer. **A decidir:** como evitar que trocar de faixa à toa vire a melhor cadência,
+      e o efeito na Predadora, que reage muito à cadência
 - [ ] **Teste da tela maior, +18%: pronto, falta rodar** *(decisão do Raffael, 02/11: 18% primeiro; os 25% só se ele achar
       insuficiente)* — só câmera e fundo:
       1. **Commit antes:** `git add -A` e `git commit -m "Tela maior em teste: camera e fundo"`
       2. **Console**, depois **Montar**, depois **verificações**
       3. **Build And Run**, com **Development Build** marcado
       4. **Log no terminal:** `powershell -ExecutionPolicy Bypass -File .\tools\logcat.ps1 -Save`
-      5. **Jogar, nv 60:** Fase 2, sentindo se dá para reagir antes e distinguir obstáculos e itens; Sem fim, Fácil: Predadora
-         parada e Predadora jogando até o fim. Ctrl+C e avisar o Claude
-      6. **Para desfazer, se não gostar:** avisar o Claude, que reverte a câmera
+      5. **Jogar, nv 60** ✅ *(Raffael e a esposa, 02/11)* — "dá para reagir melhorzinho". Log com duas corridas jogando
+      6. **Decidido pelo Raffael (02/11): ficam os 18%**. As versões para os testadores podem comparar outros valores
+- [ ] **Curva de jogabilidade intencional, na reforma das fases** *(ideia do Raffael, 02/11)* — no começo, quem joga bem caça
+      obstáculos para ganhar velocidade; depois de certa velocidade, o foco vira desviar, porque não dá mais tempo de escolher
+      destruir. Vale nas fases e na Sem fim. Nas fases, a carga da dobra já é esse trecho final. Conta aproximada do Claude,
+      nv 60 na tela nova: dá tempo de destruir um Detrito até cerca de 160 un/s, e uma Barcaça só perto de 80 un/s.
+      **A definir na etapa 7:** a velocidade de virada, como ela muda com o nível, e como a nave parada fica nessa curva
 - [ ] **Na rodada com testadores: versões diferentes do que quisermos comparar** *(pedido do Raffael, 02/11)* — cada grupo
       joga uma versão, para ver a diferença de retorno. Candidatos: tela maior, anti-parada, tetos de velocidade
 - [ ] **Tela maior, análise** *(ideia do Raffael, 02/11; agentes consultados)* — hoje a nave vê 8 un à

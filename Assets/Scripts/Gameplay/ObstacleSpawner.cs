@@ -71,7 +71,7 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (track == null || level == null)
             return;

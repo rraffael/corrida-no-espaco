@@ -30,7 +30,16 @@ static class SimulationReport
     public static void WritePartial(IReadOnlyList<RaceSimulation.Result> results)
     {
         Directory.CreateDirectory(Folder);
-        File.WriteAllText(PartialCsv, Csv(results), new UTF8Encoding(true));
+
+        // Grava ao lado e troca no fim: uma queda de energia no meio da gravação não
+        // pode destruir o parcial que já existia.
+        string temporary = PartialCsv + ".tmp";
+        File.WriteAllText(temporary, Csv(results), new UTF8Encoding(true));
+
+        if (File.Exists(PartialCsv))
+            File.Replace(temporary, PartialCsv, null);
+        else
+            File.Move(temporary, PartialCsv);
     }
 
     /// <summary>Grava os dois arquivos e devolve o caminho do <c>.md</c>.</summary>
@@ -70,7 +79,8 @@ static class SimulationReport
                         (results.Count < planned ? " — **interrompida**, o que está aqui é o que rodou" : string.Empty));
         text.AppendLine($"- **Repetições por combinação:** {plan.repetitions} (sementes {plan.firstSeed} a " +
                         $"{plan.firstSeed + plan.repetitions - 1})");
-        text.AppendLine($"- **Quadro:** {Mathf.RoundToInt(1f / plan.frameSeconds)} por segundo · **teto:** " +
+        text.AppendLine($"- **Quadro:** {Mathf.RoundToInt(1f / plan.frameSeconds)} por segundo, com passo de jogo de " +
+                        $"{Mathf.RoundToInt(1f / RaceClock.TickSeconds)} por segundo · **teto:** " +
                         $"{plan.maxSeconds:0} s nas fases, {plan.maxEndlessSeconds:0} s na sem fim");
         text.AppendLine($"- **Levou:** {ScoreBoard.FormatTime(realSeconds)} de relógio");
         text.AppendLine($"- **Cada corrida:** `{csvName}`");

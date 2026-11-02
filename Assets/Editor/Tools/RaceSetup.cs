@@ -36,7 +36,7 @@ static class RaceSetup
     const float TileHeightFactor = 1.05f;
 
     /// <summary>
-    /// A vista mais longa, em teste *(ideia do Raffael, 02/11/2026)*: a nave passa a ver
+    /// A vista mais longa *(ideia e decisão do Raffael, 02/11/2026)*: a nave passa a ver
     /// 9,45 un à frente, e não 8, e tudo fica 17% menor na tela. O topo fica em 6,45
     /// para o obstáculo mais alto, de 1,1, ainda nascer fora da tela, em y 7.
     /// </summary>

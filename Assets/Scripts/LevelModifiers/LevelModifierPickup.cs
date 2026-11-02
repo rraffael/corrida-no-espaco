@@ -53,7 +53,14 @@ public class LevelModifierPickup : MonoBehaviour
         Lane = lane;
     }
 
-    void Update()
+    /// <summary>Sai de cena na hora, para não valer de novo no próximo passo do mesmo quadro.</summary>
+    void Despawn()
+    {
+        gameObject.SetActive(false);
+        Destroy(gameObject);
+    }
+
+    void FixedUpdate()
     {
         float previousY = transform.position.y;
         float step = (race != null ? race.Current : 0f) * Time.deltaTime;
@@ -72,7 +79,7 @@ public class LevelModifierPickup : MonoBehaviour
             return;
 
         if (transform.position.y < despawnY)
-            Destroy(gameObject);
+            Despawn();
     }
 
     /// <summary>Devolve se o item foi pego e já está saindo de cena.</summary>
@@ -102,7 +109,7 @@ public class LevelModifierPickup : MonoBehaviour
         if (LevelModifiers.Instance != null)
             LevelModifiers.Instance.Grant(definition);
 
-        Destroy(gameObject);
+        Despawn();
         return true;
     }
 }

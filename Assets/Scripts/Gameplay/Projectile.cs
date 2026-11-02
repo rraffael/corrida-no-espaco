@@ -31,7 +31,14 @@ public class Projectile : MonoBehaviour
         turnRate = homingTurnRate;
     }
 
-    void Update()
+    /// <summary>Sai de cena na hora, para não acertar de novo no próximo passo do mesmo quadro.</summary>
+    void Despawn()
+    {
+        gameObject.SetActive(false);
+        Destroy(gameObject);
+    }
+
+    void FixedUpdate()
     {
         if (turnRate > 0f)
             Steer();
@@ -43,7 +50,7 @@ public class Projectile : MonoBehaviour
         // alvo, e some pela mesma porta por onde os obstáculos somem.
         if (transform.position.y > despawnY || transform.position.y < -despawnY)
         {
-            Destroy(gameObject);
+            Despawn();
             return;
         }
 
@@ -58,7 +65,8 @@ public class Projectile : MonoBehaviour
     /// </summary>
     void Steer()
     {
-        if (target == null)
+        // O alvo que já saiu de cena ainda não é nulo até o fim do quadro.
+        if (target == null || !target.isActiveAndEnabled)
             target = FindTarget();
 
         if (target == null)
@@ -122,7 +130,7 @@ public class Projectile : MonoBehaviour
                 continue;
 
             candidate.TakeDamage(damage);
-            Destroy(gameObject);
+            Despawn();
             return;
         }
 
@@ -167,6 +175,6 @@ public class Projectile : MonoBehaviour
 
         CollisionSweep.Note();
         first.TakeDamage(damage);
-        Destroy(gameObject);
+        Despawn();
     }
 }

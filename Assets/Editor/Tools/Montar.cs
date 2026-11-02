@@ -36,11 +36,10 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 02/11/2026: o teste da vista mais longa. Só câmera e fundo da Game.unity.
+    /// Estado em 02/11/2026: o passo fixo do jogo. Só código.
     /// </summary>
     static readonly Step[] Steps =
     {
-        new Step("Vista mais longa: câmera e fundo", RaceSetup.ApplyWideView),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

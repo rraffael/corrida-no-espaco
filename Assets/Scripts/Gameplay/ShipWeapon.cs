@@ -75,7 +75,7 @@ public class ShipWeapon : MonoBehaviour
         lanes = GetComponent<ShipLaneController>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (stats == null || !stats.Health.IsAlive)
             return;
@@ -100,9 +100,16 @@ public class ShipWeapon : MonoBehaviour
         if (cooldown > 0f)
             return;
 
-        cooldown = stats.ShotInterval;
+        cooldown = NextCooldown(cooldown, stats.ShotInterval);
         Fire();
     }
+
+    /// <summary>
+    /// Guarda a sobra do passo em que o tiro saiu: descartá-la fazia a cadência andar
+    /// em degraus, e um ganho pequeno de cadência podia valer zero ou um salto. O piso
+    /// em zero impede uma rajada para compensar atraso.
+    /// </summary>
+    public static float NextCooldown(float cooldown, float interval) => Mathf.Max(cooldown + interval, 0f);
 
     /// <summary>
     /// A arma está calada porque a nave está trocando de faixa.

@@ -56,7 +56,7 @@ public class LevelModifierSpawner : MonoBehaviour
         timer = NextInterval();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (track == null)
             return;

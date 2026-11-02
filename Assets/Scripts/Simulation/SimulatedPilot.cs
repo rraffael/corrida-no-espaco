@@ -86,7 +86,7 @@ public class SimulatedPilot : MonoBehaviour
         };
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (GameTime.IsPaused || !stats.Health.IsAlive)
             return;

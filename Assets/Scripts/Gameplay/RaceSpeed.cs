@@ -246,7 +246,7 @@ public class RaceSpeed : MonoBehaviour
             Instance = null;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // A retomada acaba quando a nave chega no que perseguia — ou quando o
         // alvo, mais baixo, a alcança primeiro. Aqui em cima porque o resto do
@@ -260,7 +260,7 @@ public class RaceSpeed : MonoBehaviour
         if (!recoiling)
             AdvanceTarget();
 
-        // Time.deltaTime é zero com o jogo pausado, então a corrida congela
+        // Com o jogo pausado, o FixedUpdate nem roda, então a corrida congela
         // junto com o menu sem precisar de nenhuma checagem aqui.
         float step = acceleration * Time.deltaTime;
 

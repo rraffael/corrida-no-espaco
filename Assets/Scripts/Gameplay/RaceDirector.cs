@@ -210,7 +210,7 @@ public class RaceDirector : MonoBehaviour
         race.SetSpeedCeiling(IsEndless ? Level.EndlessTopSpeedFor(ship) : warpSpeed);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!IsRunning)
             return;

@@ -32,9 +32,17 @@ public class RaceClock : MonoBehaviour
     /// </summary>
     const float MaxFrameSeconds = 0.1f;
 
+    /// <summary>
+    /// O passo fixo do jogo. **Regra do Raffael, 02/11/2026: consistência.** Toda a lógica
+    /// da corrida anda em FixedUpdate, sempre neste passo, para o resultado não depender
+    /// dos quadros por segundo do aparelho. Só o que é visual anda em Update.
+    /// </summary>
+    public const float TickSeconds = 1f / 60f;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Create()
     {
+        Time.fixedDeltaTime = TickSeconds;
         Time.maximumDeltaTime = MaxFrameSeconds;
 
         var host = new GameObject("Relógio da corrida");
@@ -52,5 +60,5 @@ public class RaceClock : MonoBehaviour
         RaceLuck.NewRace();
     }
 
-    void Update() => Now += Time.deltaTime;
+    void FixedUpdate() => Now += Time.deltaTime;
 }

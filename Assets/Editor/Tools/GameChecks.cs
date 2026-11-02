@@ -158,6 +158,7 @@ static class GameChecks
             CheckPersonas(report);
             CheckRaceLuck(report);
             CheckCollisionSweep(report);
+            CheckWeaponConsistency(report);
             CheckPhaseLoss(report);
             CheckRechargeNote(report);
             CheckSaveRoundTrip(report);
@@ -837,6 +838,42 @@ static class GameChecks
         {
             RaceLuck.UseFreeTrack();
         }
+    }
+
+    /// <summary>
+    /// Consistência: a mesma cadência rende os mesmos tiros em qualquer passo, sem degraus.
+    /// Cadências vizinhas têm de dar resultados vizinhos.
+    /// </summary>
+    static void CheckWeaponConsistency(Report report)
+    {
+        report.Check(RaceClock.TickSeconds > 0f && RaceClock.TickSeconds <= 1f / 30f,
+                     "passo fixo do jogo: pelo menos 30 por segundo");
+
+        foreach (float rate in new[] { 3f, 3.45f, 4.05f, 4.35f })
+        {
+            float expected = rate * 60f;
+            report.Check(Mathf.Abs(ShotsIn(60f, rate, RaceClock.TickSeconds) - expected) <= 2f,
+                         $"arma: cadência {rate} rende {expected:0} tiros em 60 s, no passo do jogo");
+            report.Check(Mathf.Abs(ShotsIn(60f, rate, 1f / 30f) - expected) <= 2f,
+                         $"arma: cadência {rate} rende {expected:0} tiros em 60 s, mesmo a 30 passos por segundo");
+        }
+    }
+
+    static int ShotsIn(float seconds, float rate, float step)
+    {
+        int shots = 0;
+        float cooldown = 0f;
+        for (int i = 0; i < Mathf.RoundToInt(seconds / step); i++)
+        {
+            cooldown -= step;
+            if (cooldown > 0f)
+                continue;
+
+            cooldown = ShipWeapon.NextCooldown(cooldown, 1f / rate);
+            shots++;
+        }
+
+        return shots;
     }
 
     /// <summary>Só a janela pulada inteira conta: abaixo da velocidade do salto, nada pode mudar.</summary>

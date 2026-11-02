@@ -83,11 +83,11 @@ public class ShipLaneController : MonoBehaviour
         EndGesture();
     }
 
-    void Update()
-    {
-        ReadInput();
-        MoveTowardsLane();
-    }
+    // O dedo é lido a cada quadro, senão um gesto rápido se perderia entre dois passos.
+    // Quem anda a nave é o passo fixo, para a troca de faixa durar o mesmo em todo aparelho.
+    void Update() => ReadInput();
+
+    void FixedUpdate() => MoveTowardsLane();
 
     void ReadInput()
     {

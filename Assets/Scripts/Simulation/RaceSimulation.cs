@@ -20,8 +20,8 @@ using UnityEngine.SceneManagement;
 /// - **A cena é a mesma do jogador**, recarregada a cada corrida, como no menu.
 /// - **O quadro tem tamanho fixo** (<see cref="Time.captureDeltaTime"/>): a
 ///   corrida anda tão depressa quanto o Editor aguenta, mas cada quadro vale o
-///   mesmo tempo de jogo — 1/30 s por padrão, o que a Unity documenta para o Android.
-///   Para conferir no aparelho, ver <see cref="RaceDiagnostics"/>.
+///   mesmo tempo de jogo — 1/30 s por padrão. A lógica anda no passo fixo do
+///   <see cref="RaceClock"/>, então o resultado tem de sair igual em qualquer quadro.
 /// - **A sorte é numerada** (<see cref="RaceLuck"/>). Semente, fase e dificuldade
 ///   definem a pista; nave, nível e persona não mudam a largada, e o mesmo plano
 ///   amanhã dá as mesmas corridas. Mudou uma nave e rodou de novo: a diferença é

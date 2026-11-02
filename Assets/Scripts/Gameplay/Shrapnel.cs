@@ -30,7 +30,14 @@ public class Shrapnel : MonoBehaviour
         race = RaceSpeed.Instance;
     }
 
-    void Update()
+    /// <summary>Sai de cena na hora, para não acertar de novo no próximo passo do mesmo quadro.</summary>
+    void Despawn()
+    {
+        gameObject.SetActive(false);
+        Destroy(gameObject);
+    }
+
+    void FixedUpdate()
     {
         // Soma à velocidade da corrida: se andasse só com ela, nunca alcançaria
         // a nave e o perigo não existiria.
@@ -43,7 +50,7 @@ public class Shrapnel : MonoBehaviour
             return;
 
         if (transform.position.y < despawnY)
-            Destroy(gameObject);
+            Despawn();
     }
 
     /// <summary>Devolve se o estilhaço acertou e já está saindo de cena.</summary>
@@ -86,7 +93,7 @@ public class Shrapnel : MonoBehaviour
         if (!hit.BlockTimeCost)
             race?.Graze();
 
-        Destroy(gameObject);
+        Despawn();
         return true;
     }
 }
