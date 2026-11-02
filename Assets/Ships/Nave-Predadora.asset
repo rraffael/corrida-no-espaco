@@ -20,6 +20,7 @@ MonoBehaviour:
   acceleration: 4
   killGainFactor: 0.16
   crashCost: 1
+  endlessTopSpeed: 35
   intrinsicAbility: {fileID: 0}
   conditionalAbility: {fileID: 11400000, guid: b9594d8d6855eb64b90903bd05e69693, type: 2}
   evolutionModel: {fileID: 0}

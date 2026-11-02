@@ -36,11 +36,10 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 02/11/2026: o teto de velocidade da Predadora, na ficha dela.
+    /// Estado em 02/11/2026: o log de diagnóstico da corrida. Só código.
     /// </summary>
     static readonly Step[] Steps =
     {
-        new Step("Predadora: velocidade máxima na sem fim", ShipSetup.SetPredatorTopSpeed),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

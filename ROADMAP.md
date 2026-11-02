@@ -144,8 +144,26 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
       **5 repetições**; **semente 1**; teto do poder desligado:
       1. **Rodada A:** 30 quadros, como sempre
       2. **Rodada B:** marcar **"60 quadros por segundo"**. Desmarcar depois
-      3. **Dizer ao Claude:** os 30.000 foram antes ou depois do teto de 425? A nave ficou na faixa do meio? Era a Predadora
-         nv 60, no Fácil?
+      3. **Respondido pelo Raffael (02/11):** 23.000, 31.000 e 38.900, **com teto de 425**, parada na faixa do meio, Predadora
+         nv 60, Fácil, Sem fim. O teto não explica a diferença
+      4. **Agentes (02/11): causa não provada, e a base espera.** O código não mostra nada que dobre o rendimento: sem laço
+         de abate, cadência no máximo 6,7% maior de 30 para 60 quadros, e save, câmeras e HUD descartados. A documentação
+         da Unity diz 30 quadros no Android, mas isso nunca foi medido neste jogo
+      5. **Predadora em 350, sem trocar de faixa (Raffael, 02/11):** 47.000, 30.000 e 30.000. **Subiu com menos teto**: mais
+         devagar, a nave tem mais tempo para atirar, o risco que estava previsto
+      6. **Log de diagnóstico pronto, falta rodar** — escreve uma linha `[Diagnostico]` no fim da corrida e não muda o jogo:
+         - **Commit:** `git add -A` e `git commit -m "Log de diagnostico da corrida"`
+         - **Console:** sem erro de compilação. O Montar está vazio nesta parte
+         - **Build** no aparelho, sem subir na Play, com o cabo ligado e depuração USB
+         - **Log:** `.\tools\logcat.ps1 -Save`, deixando aberto durante as corridas
+         - **3 corridas de cada, tudo em Sem fim, Fácil, nv 60:** Predadora parada, Nave inicial parada e Predadora jogando
+           de verdade. Depois, Ctrl+C, e avisar o Claude: o arquivo fica em `tools/logcat-<data>.txt`
+         - **No simulador, 10 corridas:** Parada; Nave inicial e Predadora; nível 60; só Sem fim; só Fácil; 5 repetições;
+           semente 1; teto desligado. Rodar a 30 quadros, e de novo com "60 quadros por segundo"
+      7. **Como ler:**
+         - **Diferença proporcional nas duas naves:** a base roda, sem usar valores absolutos da Sem fim
+         - **Só na Predadora, ou 60 quadros mudam muito:** a base fica adiada
+         - **Parado rende tanto quanto jogar, no aparelho:** o anti-parada vem antes dos testadores, com os 7 s recalibrados
 - [ ] **Só depois disso, com o OK do Claude, a base nova** (segue valendo o roteiro acima)
 - [ ] **Decidir na reforma das fases: obstáculo anti-parada** *(ideia do Raffael, 02/11)* — aparece depois de 7 s ou
       mais na mesma faixa, é indestrutível e dá dano mínimo, para gerar o atraso de velocidade e forçar a virar.

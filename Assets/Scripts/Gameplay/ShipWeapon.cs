@@ -129,6 +129,8 @@ public class ShipWeapon : MonoBehaviour
 
     void Fire()
     {
+        RaceDiagnostics.NoteShot();
+
         var shot = new GameObject("Tiro");
         shot.transform.position = transform.position + Vector3.up * muzzleOffset;
 

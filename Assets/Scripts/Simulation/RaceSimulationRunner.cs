@@ -246,6 +246,8 @@ public class RaceSimulationRunner : MonoBehaviour
             emptyModifierTurns = modifierSpawner != null ? modifierSpawner.EmptyTurns : 0,
             longestInLane = longestInLane,
             longStaysInLane = longStaysInLane,
+            shots = RaceDiagnostics.Shots,
+            laneChanges = RaceDiagnostics.LaneChanges,
         });
 
         index++;
