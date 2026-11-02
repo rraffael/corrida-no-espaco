@@ -85,6 +85,11 @@ public class LevelModifierSpawner : MonoBehaviour
         if (!LaneOccupancy.TryPickLane(RaceLuck.Stream.ModifierLane, track.LaneCount, 1, spawnY, waveWindow, out int lane))
             return; // A leva atual já não deixa saída: melhor pular esta vez.
 
+        // Depois do sorteio, e não antes: tirar a ficha da roleta aumentaria a chance
+        // das outras, e a nave sem poder ativo ganharia modificadores a mais.
+        if (ShipStats.Instance != null && !definition.ServesShip(ShipStats.Instance))
+            return;
+
         Spawn(definition, lane);
     }
 

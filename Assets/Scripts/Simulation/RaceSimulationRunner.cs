@@ -75,6 +75,7 @@ public class RaceSimulationRunner : MonoBehaviour
         lastCrashes = 0;
         lastActivations = 0;
         lastShownSpeed = 0;
+        CollisionSweep.ResetHits();
         racing = true;
     }
 
@@ -164,6 +165,10 @@ public class RaceSimulationRunner : MonoBehaviour
         bool hasPower = abilities != null && abilities.Equipped != null;
         var spawner = FindAnyObjectByType<ObstacleSpawner>();
 
+        // A batida letal fecha a corrida antes de o Observe vê-la.
+        if (crashes > lastCrashes && lastShownSpeed >= RaceSimulation.HighSpeedShown)
+            crashesAtHighSpeed += crashes - lastCrashes;
+
         var results = job.sentinel ? RaceSimulation.Sentinels : RaceSimulation.Results;
         results.Add(new RaceSimulation.Result
         {
@@ -204,6 +209,7 @@ public class RaceSimulationRunner : MonoBehaviour
             powerUsesWhileCharging = powerUsesWhileCharging,
             reachedWarpWithEffect = reachedWarpWithEffect,
             wastedRecharges = abilities != null ? abilities.WastedRechargeCount : 0,
+            sweepHits = CollisionSweep.Hits,
         });
 
         index++;

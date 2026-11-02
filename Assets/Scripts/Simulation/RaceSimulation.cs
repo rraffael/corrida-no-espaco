@@ -173,6 +173,9 @@ public static class RaceSimulation
 
         /// <summary>Recargas pegas com o poder pronto e cheio.</summary>
         public int wastedRecharges;
+
+        /// <summary>Colisões que só existiram por pular a janela. A 30 quadros, as fases devem ficar em zero ou perto.</summary>
+        public int sweepHits;
     }
 
     /// <summary>

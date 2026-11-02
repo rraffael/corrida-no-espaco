@@ -55,6 +55,7 @@ public class LevelModifierPickup : MonoBehaviour
 
     void Update()
     {
+        float previousY = transform.position.y;
         float step = (race != null ? race.Current : 0f) * Time.deltaTime;
         transform.position += Vector3.down * step;
 
@@ -66,36 +67,42 @@ public class LevelModifierPickup : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, 0f, spin);
         }
 
-        if (transform.position.y < despawnY)
-        {
-            Destroy(gameObject);
+        // Antes de sumir: num engasgo, o mesmo quadro pode pular a nave e o fim da tela.
+        if (CheckPickup(previousY))
             return;
-        }
 
-        CheckPickup();
+        if (transform.position.y < despawnY)
+            Destroy(gameObject);
     }
 
-    void CheckPickup()
+    /// <summary>Devolve se o item foi pego e já está saindo de cena.</summary>
+    bool CheckPickup(float previousY)
     {
         var ship = ShipStats.Instance;
         if (ship == null || !ship.Health.IsAlive || definition == null)
-            return;
+            return false;
 
         // Ao alcance na horizontal e na vertical, e não faixa contra faixa:
         // pegar no meio de uma troca conta, que é o que o jogador vê acontecer —
         // a mesma regra da batida.
         var delta = ship.transform.position - transform.position;
-        if (Mathf.Abs(delta.x) > pickupDistance || Mathf.Abs(delta.y) > pickupDistance)
-            return;
+        float shipY = ship.transform.position.y;
+        bool jumped = CollisionSweep.Jumped(previousY - shipY, transform.position.y - shipY, pickupDistance);
+        if (Mathf.Abs(delta.x) > pickupDistance || (!jumped && Mathf.Abs(delta.y) > pickupDistance))
+            return false;
 
         // Imune, o Debilitante passa por dentro da nave e segue descendo. Reforço
         // e Especial continuam valendo: a imunidade protege, não tira o que é bom.
         if (ship.IsUntouchable && definition.category == LevelModifier.Category.Debilitante)
-            return;
+            return false;
+
+        if (jumped)
+            CollisionSweep.Note();
 
         if (LevelModifiers.Instance != null)
             LevelModifiers.Instance.Grant(definition);
 
         Destroy(gameObject);
+        return true;
     }
 }

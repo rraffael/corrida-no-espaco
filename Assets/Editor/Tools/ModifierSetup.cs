@@ -21,6 +21,24 @@ static class ModifierSetup
 {
     public const string Folder = "Assets/Modificadores";
 
+    const string RechargeNote = "Só aparece para nave com poder ativo.";
+
+    /// <summary>Só o aviso da Recarga no Compêndio: rodar a montagem inteira refaria todas as fichas.</summary>
+    internal static void NoteRechargeRule()
+    {
+        string path = $"{Folder}/Especial-RecargaDePoder.asset";
+        var recharge = AssetDatabase.LoadAssetAtPath<AbilityRecharge>(path);
+        if (recharge == null)
+        {
+            Debug.LogError($"[Modificadores] Não achei {path}.");
+            return;
+        }
+
+        recharge.extraNotes = RechargeNote;
+        EditorUtility.SetDirty(recharge);
+        AssetDatabase.SaveAssets();
+    }
+
     [MenuItem(ProjectTools.ModifiersItem, false, 106)]
     internal static void Setup()
     {
@@ -107,6 +125,7 @@ static class ModifierSetup
         {
             modifier.displayName = "Recarga de poder";
             modifier.description = "Recarrega o poder da nave.";
+            modifier.extraNotes = RechargeNote;
             modifier.category = LevelModifier.Category.Especial;
             modifier.lifetime = LevelModifier.Lifetime.Instantaneo;
         }));

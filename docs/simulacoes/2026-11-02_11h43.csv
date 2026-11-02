@@ -1,0 +1,11 @@
+﻿persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando;renovacoes;recargas_pegas;segundos_de_efeito;cargas_fim;pico_passiva;quadros_fora;hash_pista;segundos_acima_420;batidas_acima_420;poder_na_carga;dobra_com_efeito;recargas_perdidas
+Regular;3;Nave inicial;15;Fase 2 — Comboio;Normal;1;Derrota;36,97;472,06;175;26,47;8;3;0;0;;0;0;0;0;0;0;86b12f77;0;0;0;0;0
+Regular;3;Nave inicial;15;Fase 2 — Comboio;Normal;2;Derrota;16,4;134,43;128;;3;3;0;0;;0;0;0;0;0;0;;0;0;0;0;0
+Regular;3;Nave inicial;15;Fase 2 — Comboio;Normal;3;Derrota;33,77;349,94;141;;6;3;0;0;;0;0;0;0;0;0;4893a8cc;0;0;0;0;0
+Regular;3;Nave inicial;15;Fase 2 — Comboio;Normal;4;Derrota;30,87;357,64;168;;7;3;0;0;;0;0;0;0;0;0;34ad196f;0;0;0;0;0
+Regular;3;Nave inicial;15;Fase 2 — Comboio;Normal;5;Derrota;34,73;352,54;154;;7;3;0;0;;0;0;0;0;0;0;0ef81857;0;0;0;0;0
+Regular;3;Nay;15;Fase 2 — Comboio;Normal;1;Derrota;37,47;483,27;175;26,47;11;3;0;2;0;0;0;6,07;0;0;0;86b12f77;0;0;0;0;0
+Regular;3;Nay;15;Fase 2 — Comboio;Normal;2;Derrota;16,37;135,03;128;;5;3;0;1;0;0;0;3,03;0;0;0;;0;0;0;0;0
+Regular;3;Nay;15;Fase 2 — Comboio;Normal;3;Derrota;31,17;330,19;143;;7;3;0;2;0;0;0;5,8;0;0;0;4893a8cc;0;0;0;0;0
+Regular;3;Nay;15;Fase 2 — Comboio;Normal;4;Derrota;30,97;351,26;158;;6;3;0;1;0;0;0;3,03;0;0;0;34ad196f;0;0;0;0;0
+Regular;3;Nay;15;Fase 2 — Comboio;Normal;5;Derrota;29,9;300,68;141;;7;3;0;1;1;0;0;3,03;0;0;0;0ef81857;0;0;0;0;0

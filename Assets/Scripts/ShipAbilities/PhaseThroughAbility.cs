@@ -12,7 +12,9 @@ using UnityEngine;
 ///
 /// **O preço vem no fim, e não no começo,** porque é o fim que o jogador sente:
 /// sair da intangibilidade e já estar um pouco mais devagar é o lembrete de que
-/// aquilo foi um atalho.
+/// aquilo foi um atalho. **Só não derruba a nave da dobra durante a carga**
+/// *(decisão do Raffael, 02/11/2026)*: o poder não pode punir quem o usou para
+/// aguentar justamente esse trecho.
 ///
 /// Quem faz a nave atravessar é o traço <see cref="ShipTrait.Phasing"/>, que o
 /// obstáculo e o estilhaço consultam. Este arquivo só liga o traço e cobra a
@@ -37,7 +39,22 @@ public class PhaseThroughAbility : ShipAbility
         if (director == null || !director.IsRunning)
             return;
 
-        if (RaceSpeed.Instance != null && speedLossAtEnd > 0f)
-            RaceSpeed.Instance.Nudge(-speedLossAtEnd);
+        var race = RaceSpeed.Instance;
+        if (race == null)
+            return;
+
+        // A velocidade, e não o IsCharging: este poder roda antes do diretor no
+        // quadro, e o aviso de carga chegaria um quadro atrasado.
+        bool charging = !director.IsEndless && race.Current >= director.WarpSpeed;
+        float loss = LossAtEnd(speedLossAtEnd, race.Target, director.WarpSpeed, charging);
+        if (loss > 0f)
+            race.Nudge(-loss);
     }
+
+    /// <summary>
+    /// Quanto cobrar. Na carga, só o que sobra acima da dobra: o piso segura a queda,
+    /// mas nunca sobe o alvo, senão acabar o poder daria velocidade.
+    /// </summary>
+    public static float LossAtEnd(float loss, float target, float warpSpeed, bool charging) =>
+        charging ? Mathf.Clamp(target - warpSpeed, 0f, loss) : loss;
 }

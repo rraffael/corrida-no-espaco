@@ -78,10 +78,15 @@ public class Obstacle : MonoBehaviour
     {
         // Anda na velocidade da corrida: quanto mais rápido a nave, mais rápido
         // o obstáculo vem para cima dela.
+        float previousY = transform.position.y;
         float step = (race != null ? race.Current : 0f) * Time.deltaTime;
         transform.position += Vector3.down * step;
 
         WatchPass();
+
+        // Antes de sumir: num engasgo, o mesmo quadro pode pular a nave e o fim da tela.
+        if (CheckCrash(previousY))
+            return;
 
         if (transform.position.y < despawnY)
         {
@@ -102,27 +107,29 @@ public class Obstacle : MonoBehaviour
             }
 
             Destroy(gameObject);
-            return;
         }
-
-        CheckCrash();
     }
 
     /// <summary>A nave estava dentro deste obstáculo, atravessando, e ainda não saiu.</summary>
     bool phasedThrough;
 
-    void CheckCrash()
+    /// <summary>Devolve se o obstáculo bateu e já está saindo de cena.</summary>
+    bool CheckCrash(float previousY)
     {
         var ship = ShipStats.Instance;
         if (ship == null || !ship.Health.IsAlive || stats == null)
-            return;
+            return false;
 
         // Distância no plano, e não faixa contra faixa: bater no meio de uma
         // troca de faixa conta, que é o que o jogador vê acontecer. Com obstáculo
         // largo, a folga horizontal cresce junto com a largura dele.
         var delta = ship.transform.position - transform.position;
         float horizontalReach = stats.crashDistance + (LaneSpan - 1) * 0.5f * LaneWidth();
-        bool touching = Mathf.Abs(delta.x) <= horizontalReach && Mathf.Abs(delta.y) <= stats.crashDistance;
+        bool inColumn = Mathf.Abs(delta.x) <= horizontalReach;
+        float shipY = ship.transform.position.y;
+        bool jumped = inColumn && CollisionSweep.Jumped(previousY - shipY, transform.position.y - shipY,
+                                                        stats.crashDistance);
+        bool touching = jumped || (inColumn && Mathf.Abs(delta.y) <= stats.crashDistance);
 
         // Atravessando: a nave passa por dentro e o obstáculo segue inteiro, para
         // ser destruído ou desviado depois como qualquer outro.
@@ -134,21 +141,24 @@ public class Obstacle : MonoBehaviour
         if (ship.Has(ShipTrait.Phasing))
         {
             phasedThrough = touching;
-            return;
+            return false;
         }
 
         if (!touching)
         {
             phasedThrough = false;
-            return;
+            return false;
         }
 
         if (phasedThrough)
-            return;
+            return false;
+
+        if (jumped)
+            CollisionSweep.Note();
 
         // Pela nave, e não direto na vida: é lá que a defesa desconta e que os
         // poderes têm chance de segurar o golpe.
-        var hit = ship.TakeHit(contactDamage);
+        var hit = ship.TakeHit(contactDamage, countsAsCrash: true);
 
         if (hit.BlockTimeCost)
         {
@@ -172,12 +182,12 @@ public class Obstacle : MonoBehaviour
             // O custo de tempo é cobrado à parte do dano, e um poder pode segurar
             // só um dos dois. Quem decide é o poder; aqui só se obedece.
             race?.Crash(stats.speedPenaltyOnCrash);
-            CareerStats.AddCrash();
         }
 
         // O obstáculo se desfaz na batida: já cobrou o preço dele, e deixá-lo
         // grudado na nave cobraria de novo no frame seguinte.
         Destroy(gameObject);
+        return true;
     }
 
     float LaneWidth() => track != null ? track.LaneWidth : 1.6f;

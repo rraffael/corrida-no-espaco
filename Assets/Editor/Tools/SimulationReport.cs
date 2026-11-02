@@ -80,6 +80,8 @@ static class SimulationReport
         text.AppendLine($"- **Impressão do CSV:** {csvPrint}. Mesmo plano e mesmo carimbo têm de dar a mesma");
         text.AppendLine($"- **Quadros fora do passo:** {results.Sum(r => r.offStepFrames)}" +
                         (results.Count > 0 ? $" (na 1ª corrida: {results[0].offStepFrames})" : string.Empty));
+        text.AppendLine($"- **Colisões por trecho:** {results.Where(r => !r.endless).Sum(r => r.sweepHits)} nas fases · " +
+                        $"{results.Where(r => r.endless).Sum(r => r.sweepHits)} na sem fim");
         if (planned >= RaceSimulation.SentinelMinimumJobs)
             text.AppendLine($"- **Sentinela:** {SentinelVerdict(results, sentinels)}");
         if (plan.powerOnDanger)
@@ -368,7 +370,7 @@ static class SimulationReport
                         "distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando;" +
                         "renovacoes;recargas_pegas;segundos_de_efeito;cargas_fim;pico_passiva;" +
                         "quadros_fora;hash_pista;segundos_acima_420;batidas_acima_420;poder_na_carga;" +
-                        "dobra_com_efeito;recargas_perdidas");
+                        "dobra_com_efeito;recargas_perdidas;colisoes_por_trecho");
 
         foreach (var r in results)
             text.AppendLine(CsvLine(r));
@@ -386,7 +388,7 @@ static class SimulationReport
             r.hasPower ? (r.diedWithPowerReady ? "1" : "0") : string.Empty,
             r.powerRenewals, r.powerRecharges, Comma(r.effectSeconds), r.conditionalCharges, r.passivePeak,
             r.offStepFrames, r.trackHash, Comma(r.secondsAtHighSpeed), r.crashesAtHighSpeed,
-            r.powerUsesWhileCharging, r.reachedWarpWithEffect ? "1" : "0", r.wastedRecharges);
+            r.powerUsesWhileCharging, r.reachedWarpWithEffect ? "1" : "0", r.wastedRecharges, r.sweepHits);
 
     static string Comma(float value) => value.ToString("0.##", Br);
 }

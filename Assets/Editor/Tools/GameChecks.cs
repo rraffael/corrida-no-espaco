@@ -157,6 +157,9 @@ static class GameChecks
             CheckCompendium(report);
             CheckPersonas(report);
             CheckRaceLuck(report);
+            CheckCollisionSweep(report);
+            CheckPhaseLoss(report);
+            CheckRechargeNote(report);
             CheckSaveRoundTrip(report);
             CheckLeaderboardLayout(report);
             CheckLeaderboardOrder(report);
@@ -825,6 +828,34 @@ static class GameChecks
         {
             RaceLuck.UseFreeTrack();
         }
+    }
+
+    /// <summary>Só a janela pulada inteira conta: abaixo da velocidade do salto, nada pode mudar.</summary>
+    static void CheckCollisionSweep(Report report)
+    {
+        report.Check(CollisionSweep.Jumped(1f, -1f, 0.7f), "colisão: pular a janela inteira conta");
+        report.Check(!CollisionSweep.Jumped(1f, 0.1f, 0.7f), "colisão: chegar à janela não é salto");
+        report.Check(!CollisionSweep.Jumped(0.1f, -1f, 0.7f), "colisão: quem saiu da janela não bate de novo");
+        report.Check(!CollisionSweep.Jumped(1f, -0.7f, 0.7f), "colisão: terminar na borda da janela não é salto");
+        report.Check(!CollisionSweep.Jumped(-1f, -2f, 0.7f), "colisão: o que já passou não bate");
+    }
+
+    /// <summary>A Intangibilidade cobra a velocidade, mas não derruba a nave da dobra durante a carga.</summary>
+    static void CheckPhaseLoss(Report report)
+    {
+        report.Near(PhaseThroughAbility.LossAtEnd(0.5f, 15f, 19f, false), 0.5f, "Intangibilidade: fora da carga, cobra tudo");
+        report.Near(PhaseThroughAbility.LossAtEnd(0.5f, 20f, 19f, true), 0.5f, "Intangibilidade: com folga na carga, cobra tudo");
+        report.Near(PhaseThroughAbility.LossAtEnd(0.5f, 19.2f, 19f, true), 0.2f, "Intangibilidade: na carga, cobra só a folga");
+        report.Near(PhaseThroughAbility.LossAtEnd(0.5f, 19f, 19f, true), 0f, "Intangibilidade: sem folga na carga, não cobra");
+        report.Near(PhaseThroughAbility.LossAtEnd(0.5f, 18f, 19f, true), 0f, "Intangibilidade: alvo abaixo da dobra não vira cobrança negativa");
+    }
+
+    /// <summary>A regra da Recarga aparece no Compêndio. A fumaça cobre o resto: a nave sem poder não a pega.</summary>
+    static void CheckRechargeNote(Report report)
+    {
+        var recharge = AssetDatabase.LoadAssetAtPath<AbilityRecharge>($"{ModifierSetup.Folder}/Especial-RecargaDePoder.asset");
+        report.Warn(recharge != null && !string.IsNullOrEmpty(recharge.extraNotes),
+                    "a Recarga de poder ainda não avisa no Compêndio — rode o Montar");
     }
 
     /// <summary>O salvamento vai e volta pelo JSON sem perder nada.</summary>

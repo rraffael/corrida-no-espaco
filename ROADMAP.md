@@ -110,16 +110,20 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 - [x] **Parte 1, teste de repetição** ✅ *(02/11, 11h32 e 11h33)* — as duas rodadas deram CSV idêntico, e as
       duas naves tiveram a mesma pista em cada semente. **Achado:** toda corrida depois da primeira tinha 1 quadro
       fora do passo, a causa provável de só a primeira corrida do Play jogar diferente
-- [ ] **Parte 1, conferir a correção do quadro** — mesmo perfil de plano: **Regular**, nível **15**, **Fase 2**,
-      **Normal**, **5 repetições**, **semente 1**, teto desligado:
-      1. **Commit:** `git add -A` e `git commit -m "Simulador: corrida nova nao nasce com o tempo parado"`
+- [x] **Parte 1, correção do quadro conferida** ✅ *(02/11, 11h43 e 11h44)* — zero quadros fora do passo, e a
+      Nay saiu idêntica como primeira corrida do Play e depois de 5 corridas de outra nave. **Medição fechada**
+- [ ] **Parte 2, jogo: pronta, falta rodar** — colisão nas quatro coisas, limite de engasgo, Recarga,
+      Intangibilidade e batida letal (confirmada no código):
+      1. **Commit:** `git add -A` e `git commit -m "Colisao por trecho, Recarga, Intangibilidade e batida letal"`
       2. **Console:** sem erro de compilação
-      3. **Rodada A:** **Nave inicial** e **Nay**, 10 corridas
-      4. **Rodada B:** só a **Nay**, 5 corridas
-      5. **Avisar o Claude**, que confere quadros fora do passo em zero e a Nay igual nas duas rodadas
-- [ ] **Parte 2, jogo: o Claude escreve depois da parte 1** — colisão nas quatro coisas, limite de engasgo,
-      Recarga, Intangibilidade e, se confirmar, a batida letal. O Raffael roda: commit, Console, Montar,
-      verificações, fumaça ampliada e aparelho
+      3. **Montar**
+      4. **Verificações:** Testes → Rodar verificações
+      5. **Fumaça, 240 corridas, uns 15 min:** **Regular** e **Veterano**; **Nave inicial**, **Espreitador** e
+         **Predadora**; níveis **40** e **60**; **Fase 2** e **Sem fim**; **Fácil** e **Difícil**; **5 repetições**;
+         **semente 1**; teto desligado. Avisar o Claude, que lê o relatório
+      6. **No aparelho, com o build de sempre e sem subir na Play:** Predadora nv 60, Sem fim, Fácil. Dizer se as
+         batidas em alta velocidade parecem justas e como o jogo fica se engasgar
+- [ ] **Hábito "guardar para a dobra":** o Claude escreve depois da base nova, para o bloco de 360
 - [ ] **Só com o OK da fumaça, à noite, a base nova:** Marcar o retrato completo, marcar a Sem fim, conferir
       6.000 corridas, primeira semente 1, teto desligado, e não salvar `.cs`. **Ela não se compara corrida a
       corrida com a base anterior:** a pista muda, então só valem os agregados

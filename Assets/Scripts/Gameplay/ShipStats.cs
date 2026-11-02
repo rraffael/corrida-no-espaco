@@ -406,7 +406,7 @@ public class ShipStats : MonoBehaviour
     /// tem piso de 1 de dano de propósito, então um poder que rodasse antes dele
     /// veria o golpe que segurou ressuscitar como 1.
     /// </summary>
-    public Hit TakeHit(float rawDamage)
+    public Hit TakeHit(float rawDamage, bool countsAsCrash = false)
     {
         var hit = new Hit { Damage = DamageAfterDefense(rawDamage) };
 
@@ -419,11 +419,19 @@ public class ShipStats : MonoBehaviour
         if (abilities != null)
             abilities.ModifyIncomingHit(ref hit);
 
+        // Antes do dano: o golpe letal encerra a corrida ali dentro, e a contagem
+        // fecha junto. Contar depois perdia justamente a última batida.
+        if (countsAsCrash && !hit.BlockTimeCost)
+            CareerStats.AddCrash();
+
         if (hit.Damage > 0f)
             Health.TakeDamage(hit.Damage);
 
         return hit;
     }
+
+    /// <summary>A nave tem poder ativo? Para os modificadores, que não enxergam o poder.</summary>
+    public bool HasActivePower => abilities != null && abilities.Equipped != null;
 
     /// <summary>
     /// Recarrega o poder da nave. Existe para o modificador de fase que faz isso

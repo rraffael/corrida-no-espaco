@@ -34,42 +34,49 @@ public class Shrapnel : MonoBehaviour
     {
         // Soma à velocidade da corrida: se andasse só com ela, nunca alcançaria
         // a nave e o perigo não existiria.
+        float previousY = transform.position.y;
         float step = ((race != null ? race.Current : 0f) + extraSpeed) * Time.deltaTime;
         transform.position += Vector3.down * step;
 
-        if (transform.position.y < despawnY)
-        {
-            Destroy(gameObject);
+        // Antes de sumir: num engasgo, o mesmo quadro pode pular a nave e o fim da tela.
+        if (CheckHit(previousY))
             return;
-        }
 
-        CheckHit();
+        if (transform.position.y < despawnY)
+            Destroy(gameObject);
     }
 
-    void CheckHit()
+    /// <summary>Devolve se o estilhaço acertou e já está saindo de cena.</summary>
+    bool CheckHit(float previousY)
     {
         var ship = ShipStats.Instance;
         if (ship == null || !ship.Health.IsAlive)
-            return;
+            return false;
 
-        bool touching = Vector2.Distance(transform.position, ship.transform.position) <= hitDistance;
+        float shipY = ship.transform.position.y;
+        bool jumped = Mathf.Abs(transform.position.x - ship.transform.position.x) <= hitDistance &&
+                      CollisionSweep.Jumped(previousY - shipY, transform.position.y - shipY, hitDistance);
+        bool touching = jumped || Vector2.Distance(transform.position, ship.transform.position) <= hitDistance;
 
         // Estilhaço é pedaço de obstáculo: quem atravessa um atravessa o outro,
         // com a mesma carência do Obstacle quando o efeito acaba lá dentro.
         if (ship.Has(ShipTrait.Phasing))
         {
             phasedThrough = touching;
-            return;
+            return false;
         }
 
         if (!touching)
         {
             phasedThrough = false;
-            return;
+            return false;
         }
 
         if (phasedThrough)
-            return;
+            return false;
+
+        if (jumped)
+            CollisionSweep.Note();
 
         var hit = ship.TakeHit(damage);
 
@@ -80,5 +87,6 @@ public class Shrapnel : MonoBehaviour
             race?.Graze();
 
         Destroy(gameObject);
+        return true;
     }
 }

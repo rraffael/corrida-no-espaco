@@ -9,7 +9,9 @@ using UnityEngine;
 /// **Especial, e não Reforço** *(escolha do Raffael, 26/09/2026)*: não mexe em
 /// atributo nenhum, e o quanto ele vale depende da nave e do momento — é um
 /// segundo Tiros teleguiados para a Nay, uma segunda Super IA para a Raffa, e
-/// nada para quem não tem poder ativo.
+/// nada para quem não tem poder ativo. **Por isso não nasce para essa nave**
+/// *(decisão do Raffael, 02/11/2026)*: aquela vez do sorteio fica vazia, e os outros
+/// modificadores mantêm a mesma taxa.
 ///
 /// Não fala com o poder direto: pede à nave, que é quem conhece os dois
 /// sistemas. Ver <see cref="ShipStats.RechargeAbility"/>.
@@ -18,6 +20,9 @@ using UnityEngine;
                  menuName = "Corrida no Espaço/Modificador de fase/Especial — recarga de poder")]
 public class AbilityRecharge : LevelModifier
 {
+    /// <summary>Pela nave, e não pelo estado do poder: senão o jogador controlaria o que nasce.</summary>
+    public override bool ServesShip(ShipStats ship) => ship.HasActivePower;
+
     public override void OnGained(ActiveLevelModifier active)
     {
         var stats = active.Owner != null ? active.Owner.Stats : null;

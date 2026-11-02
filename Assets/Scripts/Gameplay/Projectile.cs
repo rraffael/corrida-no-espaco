@@ -36,6 +36,7 @@ public class Projectile : MonoBehaviour
         if (turnRate > 0f)
             Steer();
 
+        float previousY = transform.position.y;
         transform.position += (Vector3)(direction * (speed * Time.deltaTime));
 
         // Só a saída por cima conta: um tiro teleguiado pode descer atrás de um
@@ -46,7 +47,7 @@ public class Projectile : MonoBehaviour
             return;
         }
 
-        CheckHit();
+        CheckHit(transform.position.y - previousY);
     }
 
     /// <summary>
@@ -104,7 +105,7 @@ public class Projectile : MonoBehaviour
         return best;
     }
 
-    void CheckHit()
+    void CheckHit(float shotRise)
     {
         var targets = Obstacle.Active;
 
@@ -124,5 +125,48 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        CheckJumpedTarget(shotRise);
+    }
+
+    /// <summary>
+    /// Ninguém ao alcance agora, mas o tiro pode ter cruzado um obstáculo entre os
+    /// dois quadros: os dois andam um contra o outro, e o salto é a soma dos passos.
+    /// O acerto vai no primeiro que o tiro teria encontrado subindo.
+    /// </summary>
+    void CheckJumpedTarget(float shotRise)
+    {
+        var race = RaceSpeed.Instance;
+        float closing = shotRise + (race != null ? race.Current : 0f) * Time.deltaTime;
+
+        Obstacle first = null;
+        float firstBefore = float.MaxValue;
+
+        var targets = Obstacle.Active;
+        for (int i = 0; i < targets.Count; i++)
+        {
+            var candidate = targets[i];
+            if (candidate == null)
+                continue;
+
+            float reach = hitDistance + candidate.HitDistance;
+            if (Mathf.Abs(candidate.transform.position.x - transform.position.x) > reach)
+                continue;
+
+            float now = candidate.transform.position.y - transform.position.y;
+            float before = now + closing;
+            if (before < firstBefore && CollisionSweep.Jumped(before, now, reach))
+            {
+                first = candidate;
+                firstBefore = before;
+            }
+        }
+
+        if (first == null)
+            return;
+
+        CollisionSweep.Note();
+        first.TakeDamage(damage);
+        Destroy(gameObject);
     }
 }

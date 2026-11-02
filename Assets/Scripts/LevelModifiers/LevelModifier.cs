@@ -128,6 +128,12 @@ public abstract class LevelModifier : ScriptableObject
     /// </summary>
     public virtual ActiveLevelModifier CreateRuntime() => new ActiveLevelModifier();
 
+    /// <summary>
+    /// Este modificador faz sentido para esta nave? Falso: não nasce, e aquela vez
+    /// do sorteio fica vazia. Quem sabe a própria regra é a filha.
+    /// </summary>
+    public virtual bool ServesShip(ShipStats ship) => true;
+
     /// <summary>Acabou de ser pego. Efeito instantâneo (curar) acontece aqui.</summary>
     public virtual void OnGained(ActiveLevelModifier active) { }
 

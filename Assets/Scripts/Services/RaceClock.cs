@@ -24,9 +24,19 @@ public class RaceClock : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void ResetOnLoad() => Now = 0f;
 
+    /// <summary>
+    /// O maior pedaço de tempo que um quadro pode andar. Num engasgo mais longo, o
+    /// jogo desacelera em vez de saltar: com a colisão por trecho, um salto grande
+    /// poderia cobrar duas batidas de uma vez, sem chance de reação. O simulador não
+    /// sente isto, porque o quadro dele é bem menor.
+    /// </summary>
+    const float MaxFrameSeconds = 0.1f;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Create()
     {
+        Time.maximumDeltaTime = MaxFrameSeconds;
+
         var host = new GameObject("Relógio da corrida");
         DontDestroyOnLoad(host);
         host.AddComponent<RaceClock>();
