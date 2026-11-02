@@ -37,36 +37,27 @@ static class Testar
         public bool PowerOnDanger;
     }
 
-    const string Regular = "Persona-3-Regular";
-    const string Veterano = "Persona-4-Veterano";
-
     /// <summary>
     /// O que o teste faz hoje. **Esta lista é reescrita a cada pedido.** Lista vazia é resposta
     /// válida: não há nada para testar.
     ///
-    /// Estado em 02/11/2026: a prova ampla da consistência. As três rodadas só mudam os quadros.
+    /// Estado em 02/11/2026: a base nova e o bloco da Parada, que o retrato não mede. A 15 quadros,
+    /// porque a prova de 19h46 deu a mesma Impressão a 30, a 15 e em quadro variável.
     /// </summary>
     static readonly Round[] Rounds =
     {
-        ConsistencyProof("30 quadros", frames: 30, variable: false),
-        ConsistencyProof("15 quadros", frames: 15, variable: false),
-        ConsistencyProof("Quadro variável", frames: 30, variable: true),
+        new Round { Title = "Retrato completo", Frames = 15 },
+        new Round
+        {
+            Title = "Bloco da Parada",
+            Personas = new[] { "Persona-Teste-Parada" },
+            Levels = new[] { "FaseInfinita" },
+            Frames = 15,
+        },
     };
 
     /// <summary>Verdadeiro: as rodadas têm de dar a mesma Impressão do CSV, e o veredito cobra isso.</summary>
-    static readonly bool MustMatch = true;
-
-    static Round ConsistencyProof(string title, int frames, bool variable) => new Round
-    {
-        Title = title,
-        Personas = new[] { Regular, Veterano },
-        ShipLevels = new[] { 1, 60 },
-        Levels = new[] { "Fase2", "Fase3", "FaseInfinita" },
-        Difficulties = new[] { Difficulty.Normal },
-        Repetitions = 3,
-        Frames = frames,
-        VariableFrames = variable,
-    };
+    static readonly bool MustMatch = false;
 
     // ── A fila ───────────────────────────────────────────────────────────
 

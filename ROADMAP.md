@@ -192,26 +192,20 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
       A Predadora parada foi de 14.628 a 30 quadros e 23.662 a 60 quadros, antes, para 31.732 nos dois. Parada, ela faz 96% do Regular e
       2,8 vezes a Nave inicial parada. **Para decidir na reforma:** a Parada fica perto do Regular. **Tempo:** cerca de 390 quadros de
       jogo por segundo de relógio, sem queda; 60 quadros levam o dobro de 30
-- [ ] **Prova ampla da consistência, antes da base: pronta, falta rodar** *(pedida no checkup, 02/11)* — a prova anterior não teve vitória
-      nem uso de poder. Montar vazio:
-      1. **Commit:** `git add -A` e `git commit -m "Botao Testar, fim da corrida congela a pista e quadro variavel"`
-      2. **Console**, depois **Tools → Corrida no Espaço → Testar**. O botão roda as verificações e as três rodadas sozinho (180 corridas
-         cada, Regular e Veterano, 5 naves, níveis 1 e 60, Fase 2, Fase 3 e Sem fim, Normal, 3 repetições; a 30, 15 e quadro variável).
-         Total estimado: 30 min, sem salvar `.cs`
-      3. **A prova:** o botão diz **PASSOU** ou **NÃO PASSOU** e grava `docs/simulacoes/*_testar.md`. Avisar o Claude, que confere vitórias e
-         uso de poder
-- [ ] **No aparelho, com o commit acima: 15 min, antes da base** — Build And Run. Sem fim, Fácil, nv 60, olhando a distância e a sensação:
+- [x] **Prova ampla da consistência** ✅ *(02/11 19h46; `docs/simulacoes/2026-11-02_19h46_testar.md`)* — **PASSOU:** a mesma Impressão (4c2c337a)
+      a 30, a 15 e em quadro variável, com 73 vitórias e 83 usos de poder em cada, 0 colisão por trecho e o mesmo carimbo. 180 corridas
+      levaram 10:02 a 30 quadros e 6:19 a 15
+- [ ] **No aparelho: 15 min, adiado pelo Raffael para depois da base** *(02/11; no PC, Predadora parada deu 41 mil, e ele achou "mais limpo")* —
+      Build And Run. Sem fim, Fácil, nv 60, olhando a distância e a sensação:
       - **Predadora parada:** esperado de 23 a 44 mil. Antes, no celular, cerca de 14 mil
       - **Nave inicial parada:** esperado de 8 a 15 mil
       - **Predadora jogando:** dizer se a sensação mudou e se os toques respondem bem
 
-      Fora dessas faixas, a base mediria outro jogo: avisar o Claude antes de rodar
-- [ ] **Checkup completo antes da base: falta a prova ampla e o aparelho** *(pedido do Raffael, 02/11)* — os quatro agentes e o Claude
-      revisaram em 02/11: **visão geral e caçador**, OK; **pesquisador**, OK, com a prova ampla; **técnico**, OK só com a prova ampla; **Claude**, OK
-      com a prova ampla e o aparelho. O técnico achou uma falha real, já corrigida: depois do fim, os passos restantes do quadro ainda deixavam um
-      golpe mudar o resultado, e só a 30 quadros. **Se tudo passar, a base roda a 15 quadros:** mesmo resultado, em cerca de 2h40 em vez de 5 h
-      (estimativa). **O Raffael só
-      roda o retrato completo depois do OK de todos.** Rodada de 02/11: nada mais invalida a medição. **A arma foi decidida pelo
+      Fora dessas faixas, a base mediu outro jogo: avisar o Claude antes de usar os números dela
+- [x] **Checkup completo antes da base** ✅ *(pedido do Raffael, 02/11)* — os quatro agentes e o Claude revisaram: **pesquisador e técnico**, OK com a
+      prova ampla, que passou; **visão geral, caçador e Claude** pediram também o aparelho, e o Raffael decidiu adiá-lo e aceitar o risco. O técnico achou uma falha
+      real, já corrigida: depois do fim, os passos restantes do quadro ainda deixavam um golpe mudar o resultado, e só a 30 quadros. **A base roda a 15
+      quadros.** Rodada de 02/11: nada mais invalida a medição. **A arma foi decidida pelo
       Raffael: corrigir, dentro da consistência acima.** Como estava a análise:
       - **Corrigir antes da base (técnico, visão geral e Claude):** a arma guarda a sobra do tempo. O jogo fica igual em qualquer
         taxa de quadros, e os degraus somem. A 30 quadros, hoje, de 10 a 27 cargas o ganho de cadência é zero, o que atrapalha
@@ -277,10 +271,13 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
       livre, tiro teleguiado e Super IA
 - [ ] **Arte do item Recarga de poder:** hoje é difícil de identificar jogando *(Raffael, 02/11)*
 - [ ] **Hábito "guardar para a dobra":** o Claude escreve depois da base nova, para o bloco de 360
-- [ ] **Só com o OK do checkup, a base nova:** o Claude põe as 6.000 corridas no botão **Testar**, e o Raffael só aperta, sem
-      salvar `.cs`. **Ela não se compara corrida a corrida com a base anterior:** a pista muda, então só valem os agregados
-- [ ] **Logo depois da base, o bloco da Parada: 300 corridas** *(visão geral e caçador, 02/11)* — o retrato a exclui, e o anti-parada precisa
-      desse dado. Também entra no **Testar**: Parada, 5 naves, níveis 1, 15, 40 e 60, 3 dificuldades, 5 repetições, só Sem fim
+- [ ] **A base nova e o bloco da Parada: prontos no botão, falta rodar** — **6.000 corridas** e **300 da Parada** (o retrato a exclui, e o anti-parada
+      precisa desse dado), a 15 quadros. Cerca de 3 a 4 h (estimativa):
+      1. **Commit:** `git add -A` e `git commit -m "Testar: base nova e bloco da Parada"`
+      2. **Console**, depois **Tools → Corrida no Espaço → Testar**. A janela tem de dizer **6000** e **300** corridas
+      3. **Até terminar:** Windows sem suspender nem reiniciar, e nenhum `.cs` salvo. Avisar o Claude, que lê as duas
+
+      **Ela não se compara corrida a corrida com a base anterior:** a pista muda, então só valem os agregados
 - [ ] **Na reforma das fases, ler a Predadora:** nv 40 contra nv 60. Se o salto estiver no 60, olhar primeiro o Frenesi (visão geral). Hoje,
       uma nave de caça paga rende quase o mesmo sem se mexer. **Sugestão do caçador:** placar e moeda só com um mínimo de trocas de faixa
 - [ ] **Reservar outra base depois da etapa 7:** a reforma mexe em todas as naves, e a Sem fim da Predadora caduca com o anti-parada

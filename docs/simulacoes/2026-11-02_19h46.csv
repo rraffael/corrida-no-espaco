@@ -1,0 +1,181 @@
+﻿persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando;renovacoes;recargas_pegas;segundos_de_efeito;cargas_fim;pico_passiva;quadros_fora;hash_pista;segundos_acima_420;batidas_acima_420;poder_na_carga;dobra_com_efeito;recargas_perdidas;colisoes_por_trecho;itens_vazios;maior_tempo_na_faixa;vezes_7s_na_faixa;tiros;trocas_de_faixa
+Regular;3;Nave inicial;1;Fase 2 — Comboio;Normal;1;Derrota;16,98;176,3;168;;8;3;0;0;;0;0;0;0;0;0;;0;0;0;0;0;0;0;13,02;1;50;5
+Veterano;4;Nave inicial;1;Fase 2 — Comboio;Normal;1;Derrota;34,43;421,94;170;;8;3;0;0;;0;0;0;0;0;0;d0f46530;0;0;0;0;0;0;0;8,63;1;100;16
+Regular;3;Nave inicial;1;Fase 2 — Comboio;Normal;2;Derrota;12,92;103,49;120;;3;3;0;0;;0;0;0;0;0;0;;0;0;0;0;0;0;0;6,93;0;37;8
+Veterano;4;Nave inicial;1;Fase 2 — Comboio;Normal;2;Vitoria;28,77;349,51;175;25,97;10;1;0,64;0;;0;0;0;0;0;0;f98e9f46;0;0;0;0;0;0;0;6,8;0;83;14
+Regular;3;Nave inicial;1;Fase 2 — Comboio;Normal;3;Derrota;31,95;296,62;124;;7;4;0;0;;0;0;0;0;0;0;4db10357;0;0;0;0;0;0;0;9,52;3;95;6
+Veterano;4;Nave inicial;1;Fase 2 — Comboio;Normal;3;Derrota;39,07;473,54;167;;8;3;0;0;;0;0;0;0;0;0;4db10357;0;0;0;0;0;0;1;9,37;2;114;16
+Regular;3;Nave inicial;60;Fase 2 — Comboio;Normal;1;Vitoria;11,67;163,74;175;8,87;7;0;1;0;;0;0;0;0;0;0;;0;0;0;0;0;0;0;11,63;1;41;0
+Veterano;4;Nave inicial;60;Fase 2 — Comboio;Normal;1;Vitoria;11,67;163,74;175;8,87;7;0;1;0;;0;0;0;0;0;0;;0;0;0;0;0;0;0;11,63;1;41;0
+Regular;3;Nave inicial;60;Fase 2 — Comboio;Normal;2;Vitoria;19,18;242,73;175;16,38;7;2;0,64;0;;0;0;0;0;0;0;;0;0;0;0;0;0;0;6,83;0;65;7
+Veterano;4;Nave inicial;60;Fase 2 — Comboio;Normal;2;Vitoria;25,87;336,83;175;23,07;6;2;0,64;0;;0;0;0;0;0;0;f98e9f46;0;0;0;0;0;0;0;8,78;1;88;7
+Regular;3;Nave inicial;60;Fase 2 — Comboio;Normal;3;Derrota;37,9;469,22;175;25,47;9;6;0;0;;0;0;0;0;0;0;4db10357;0;0;0;0;0;0;1;9,4;3;127;14
+Veterano;4;Nave inicial;60;Fase 2 — Comboio;Normal;3;Derrota;50,03;687,1;175;15,27;14;6;0;0;;0;0;0;0;0;0;4db10357;0;0;0;0;0;0;1;11,47;4;168;18
+Regular;3;Nay;1;Fase 2 — Comboio;Normal;1;Derrota;16,98;176,3;168;;8;3;0;1;0;0;0;3,02;0;0;0;;0;0;0;0;0;0;0;13,02;1;50;5
+Veterano;4;Nay;1;Fase 2 — Comboio;Normal;1;Derrota;34,43;421,94;170;;8;3;0;1;1;0;0;3,02;0;0;0;d0f46530;0;0;0;0;0;0;0;8,63;1;100;16
+Regular;3;Nay;1;Fase 2 — Comboio;Normal;2;Derrota;12,92;103,62;120;;4;3;0;1;0;0;0;3,02;0;0;0;;0;0;0;0;0;0;0;6,93;0;37;8
+Veterano;4;Nay;1;Fase 2 — Comboio;Normal;2;Derrota;32,6;358,05;147;;8;3;0;1;0;0;0;3,02;0;0;0;f98e9f46;0;0;0;0;0;0;0;16,62;1;96;10
+Regular;3;Nay;1;Fase 2 — Comboio;Normal;3;Derrota;31,9;315,75;134;;8;4;0;1;0;0;0;3,02;0;0;0;4db10357;0;0;0;0;0;0;0;9,52;2;94;8
+Veterano;4;Nay;1;Fase 2 — Comboio;Normal;3;Derrota;34;419,96;175;30,63;8;3;0;1;1;0;0;3,02;0;0;0;4db10357;0;0;0;0;0;0;0;9,37;2;99;13
+Regular;3;Nay;60;Fase 2 — Comboio;Normal;1;Vitoria;11,67;163,94;175;8,87;7;0;1;0;0;0;0;0;0;0;0;;0;0;0;0;0;0;0;11,63;1;49;0
+Veterano;4;Nay;60;Fase 2 — Comboio;Normal;1;Vitoria;11,67;163,94;175;8,87;7;0;1;0;0;0;0;0;0;0;0;;0;0;0;0;0;0;0;11,63;1;49;0
+Regular;3;Nay;60;Fase 2 — Comboio;Normal;2;Vitoria;15,63;213,68;175;7,12;6;1;0,82;1;0;0;0;5;0;0;0;;0;0;0;0;0;0;0;8,75;1;66;1
+Veterano;4;Nay;60;Fase 2 — Comboio;Normal;2;Vitoria;15,63;213,68;175;7,12;7;1;0,82;1;0;0;0;5;0;0;0;;0;0;1;0;0;0;0;6,7;0;64;5
+Regular;3;Nay;60;Fase 2 — Comboio;Normal;3;Vitoria;12,42;171,38;175;9,62;4;0;1;0;0;0;0;0;0;0;0;;0;0;0;0;0;0;0;9,4;1;52;1
+Veterano;4;Nay;60;Fase 2 — Comboio;Normal;3;Vitoria;12,42;171,38;175;9,62;4;0;1;0;0;0;0;0;0;0;0;;0;0;0;0;0;0;0;9,3;1;52;1
+Regular;3;Raffa;1;Fase 2 — Comboio;Normal;1;Derrota;16,98;176,3;168;;8;3;0;0;1;0;0;0;0;0;0;;0;0;0;0;0;0;0;13,02;1;50;5
+Veterano;4;Raffa;1;Fase 2 — Comboio;Normal;1;Derrota;34,43;421,94;170;;8;3;0;0;1;0;0;0;0;0;0;d0f46530;0;0;0;0;0;0;0;8,63;1;100;16
+Regular;3;Raffa;1;Fase 2 — Comboio;Normal;2;Derrota;12,92;103,49;120;;3;3;0;0;1;0;0;0;0;0;0;;0;0;0;0;0;0;0;6,93;0;37;8
+Veterano;4;Raffa;1;Fase 2 — Comboio;Normal;2;Vitoria;28,77;349,51;175;25,97;10;1;0,64;1;0;0;0;1,35;0;0;0;f98e9f46;0;0;1;0;0;0;0;6,8;0;83;14
+Regular;3;Raffa;1;Fase 2 — Comboio;Normal;3;Derrota;31,95;296,62;124;;7;4;0;0;1;0;0;0;0;0;0;4db10357;0;0;0;0;0;0;0;9,52;3;95;6
+Veterano;4;Raffa;1;Fase 2 — Comboio;Normal;3;Derrota;39,07;473,54;167;;8;3;0;0;1;0;0;0;0;0;0;4db10357;0;0;0;0;0;0;0;9,37;2;114;16
+Regular;3;Raffa;60;Fase 2 — Comboio;Normal;1;Vitoria;11,67;163,74;175;8,87;7;0;1;1;0;0;0;2,8;0;0;0;;0;0;1;1;0;0;0;11,63;1;41;0
+Veterano;4;Raffa;60;Fase 2 — Comboio;Normal;1;Vitoria;11,67;163,74;175;8,87;7;0;1;1;0;0;0;2,8;0;0;0;;0;0;1;1;0;0;0;11,63;1;41;0
+Regular;3;Raffa;60;Fase 2 — Comboio;Normal;2;Vitoria;19,18;242,73;175;16,38;9;2;0,64;1;0;0;0;2,8;0;0;0;;0;0;1;1;0;0;0;6,83;0;64;8
+Veterano;4;Raffa;60;Fase 2 — Comboio;Normal;2;Vitoria;25,87;336,83;175;23,07;6;2;0,64;1;0;0;0;2,8;0;0;0;f98e9f46;0;0;1;1;0;0;0;8,78;1;88;7
+Regular;3;Raffa;60;Fase 2 — Comboio;Normal;3;Vitoria;28,27;377,21;175;25,47;6;2;0,64;1;0;0;0;2,8;0;0;0;4db10357;0;0;1;1;0;0;0;9,4;3;97;5
+Veterano;4;Raffa;60;Fase 2 — Comboio;Normal;3;Vitoria;18,07;265,71;175;15,27;4;0;1;1;0;0;0;2,8;0;0;0;;0;0;1;1;0;0;0;9,3;2;62;2
+Regular;3;Predadora;1;Fase 2 — Comboio;Normal;1;Derrota;28,53;344,43;175;27,05;11;3;0;0;;0;0;0;10;0;0;d0f46530;0;0;0;0;0;0;0;13,02;2;90;5
+Veterano;4;Predadora;1;Fase 2 — Comboio;Normal;1;Vitoria;26,23;346,03;175;23,43;9;1;0,66;0;;0;0;0;9;0;0;d0f46530;0;0;0;0;0;0;0;11,1;2;82;5
+Regular;3;Predadora;1;Fase 2 — Comboio;Normal;2;Derrota;12,92;103,86;120;;3;3;0;0;;0;0;0;3;0;0;;0;0;0;0;0;0;0;6,93;0;38;9
+Veterano;4;Predadora;1;Fase 2 — Comboio;Normal;2;Derrota;32,63;346,65;142;;7;3;0;0;;0;0;0;7;0;0;f98e9f46;0;0;0;0;0;0;0;16,57;1;100;11
+Regular;3;Predadora;1;Fase 2 — Comboio;Normal;3;Derrota;31,82;320,25;140;;7;3;0;0;;0;0;0;7;0;0;4db10357;0;0;0;0;0;0;0;9,52;3;98;6
+Veterano;4;Predadora;1;Fase 2 — Comboio;Normal;3;Derrota;39,12;462,25;151;;6;3;0;0;;0;0;0;6;0;0;4db10357;0;0;0;0;0;0;1;11,42;3;118;15
+Regular;3;Predadora;60;Fase 2 — Comboio;Normal;1;Vitoria;11,22;156,77;175;8,42;6;0;1;0;;0;0;0;12;10;0;;0;0;0;0;0;0;0;11,18;1;42;0
+Veterano;4;Predadora;60;Fase 2 — Comboio;Normal;1;Vitoria;11,22;156,77;175;8,42;6;0;1;0;;0;0;0;12;10;0;;0;0;0;0;0;0;0;11,18;1;42;0
+Regular;3;Predadora;60;Fase 2 — Comboio;Normal;2;Vitoria;18,95;242,79;175;16,15;6;2;0,69;0;;0;0;0;12;6;0;;0;0;0;0;0;0;0;6,83;0;70;5
+Veterano;4;Predadora;60;Fase 2 — Comboio;Normal;2;Vitoria;11,88;170,46;175;9,08;4;0;1;0;;0;0;0;8;6;0;;0;0;0;0;0;0;0;6,7;0;43;3
+Regular;3;Predadora;60;Fase 2 — Comboio;Normal;3;Vitoria;20,68;279,62;175;17,88;5;1;0,84;0;;0;0;0;10;4;0;;0;0;0;0;0;0;1;9,4;2;76;3
+Veterano;4;Predadora;60;Fase 2 — Comboio;Normal;3;Vitoria;20,68;279,62;175;17,88;5;1;0,84;0;;0;0;0;10;4;0;;0;0;0;0;0;0;1;9,3;2;76;3
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Normal;1;Derrota;16,98;176,3;168;;8;3;0;0;1;0;0;0;0;0;0;;0;0;0;0;0;0;0;13,02;1;50;5
+Veterano;4;Espreitador Espacial;1;Fase 2 — Comboio;Normal;1;Derrota;34,43;421,94;170;;8;3;0;0;1;0;0;0;0;0;0;d0f46530;0;0;0;0;0;0;0;8,63;1;100;16
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Normal;2;Derrota;12,92;103,49;120;;3;3;0;0;1;0;0;0;0;0;0;;0;0;0;0;0;0;0;6,93;0;37;8
+Veterano;4;Espreitador Espacial;1;Fase 2 — Comboio;Normal;2;Vitoria;28,77;349,51;175;25,97;10;1;0,64;1;0;0;0;1,35;0;0;0;f98e9f46;0;0;1;0;0;0;0;6,8;0;83;14
+Regular;3;Espreitador Espacial;1;Fase 2 — Comboio;Normal;3;Derrota;31,95;296,62;124;;7;4;0;0;1;0;0;0;0;0;0;4db10357;0;0;0;0;0;0;0;9,52;3;95;6
+Veterano;4;Espreitador Espacial;1;Fase 2 — Comboio;Normal;3;Derrota;39,07;473,54;167;;8;3;0;0;1;0;0;0;0;0;0;4db10357;0;0;0;0;0;0;0;9,37;2;114;16
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Normal;1;Vitoria;11,67;163,74;175;8,87;7;0;1;0;0;0;0;0;0;0;0;;0;0;0;0;0;0;0;11,63;1;41;0
+Veterano;4;Espreitador Espacial;60;Fase 2 — Comboio;Normal;1;Vitoria;11,67;163,74;175;8,87;7;0;1;1;0;0;0;1,88;0;0;0;;0;0;1;0;0;0;0;11,63;1;41;0
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Normal;2;Vitoria;19,18;242,73;175;16,38;7;2;0,64;1;0;0;0;2,27;0;0;0;;0;0;1;0;0;0;0;6,83;0;65;7
+Veterano;4;Espreitador Espacial;60;Fase 2 — Comboio;Normal;2;Vitoria;25,87;336,83;175;23,07;6;2;0,64;1;0;0;0;1,92;0;0;0;f98e9f46;0;0;1;0;0;0;0;8,78;1;88;7
+Regular;3;Espreitador Espacial;60;Fase 2 — Comboio;Normal;3;Vitoria;28,27;377,21;175;25,47;6;2;0,64;1;0;0;0;0,87;0;0;0;4db10357;0;0;1;0;0;0;0;9,4;3;96;7
+Veterano;4;Espreitador Espacial;60;Fase 2 — Comboio;Normal;3;Vitoria;18,07;265,71;175;15,27;4;0;1;1;0;0;0;0,5;0;0;0;;0;0;1;0;0;0;0;9,3;2;62;3
+Regular;3;Nave inicial;1;Fase 3 — Ninho;Normal;1;Derrota;14,85;120,14;124;;4;3;0;0;;0;0;0;0;0;0;;0;0;0;0;0;0;0;3,83;0;51;8
+Veterano;4;Nave inicial;1;Fase 3 — Ninho;Normal;1;Vitoria;39,7;481,51;175;36,9;7;1;0,64;0;;0;0;0;0;0;0;b212e309;0;0;0;0;0;0;0;6,85;0;125;16
+Regular;3;Nave inicial;1;Fase 3 — Ninho;Normal;2;Derrota;39,47;458,63;175;37,88;10;3;0;0;;0;0;0;0;0;0;1d964ae6;0;0;0;0;0;0;1;15,5;3;118;3
+Veterano;4;Nave inicial;1;Fase 3 — Ninho;Normal;2;Vitoria;29,18;372,74;175;26,38;7;0;1;0;;0;0;0;0;0;0;1d964ae6;0;0;0;0;0;0;0;11,97;2;86;7
+Regular;3;Nave inicial;1;Fase 3 — Ninho;Normal;3;Derrota;25,25;257,69;161;;9;2;0;0;;0;0;0;0;0;0;896d02d3;0;0;0;0;0;0;0;10,92;2;84;4
+Veterano;4;Nave inicial;1;Fase 3 — Ninho;Normal;3;Derrota;43,3;507,99;161;;7;3;0;0;;0;0;0;0;0;0;896d02d3;0;0;0;0;0;0;1;10,77;2;135;18
+Regular;3;Nave inicial;60;Fase 3 — Ninho;Normal;1;Vitoria;28,53;351,06;175;10,13;10;4;0,32;0;;0;0;0;0;0;0;b212e309;0;0;0;0;0;0;0;7,4;1;84;15
+Veterano;4;Nave inicial;60;Fase 3 — Ninho;Normal;1;Vitoria;24,4;328,94;175;20,6;6;1;0,74;0;;0;0;0;0;0;0;b212e309;0;0;0;0;0;0;0;6,7;0;81;11
+Regular;3;Nave inicial;60;Fase 3 — Ninho;Normal;2;Vitoria;19,97;262,29;175;17,17;7;1;0,82;0;;0;0;0;0;0;0;;0;0;0;0;0;0;0;9,75;2;68;5
+Veterano;4;Nave inicial;60;Fase 3 — Ninho;Normal;2;Vitoria;22,08;320,63;175;19,28;5;0;1;0;;0;0;0;0;0;0;1d964ae6;0;0;0;0;0;0;0;12,4;2;76;1
+Regular;3;Nave inicial;60;Fase 3 — Ninho;Normal;3;Vitoria;24,92;316,88;175;21,12;9;2;0,48;0;;0;0;0;0;0;0;896d02d3;0;0;0;0;0;0;0;11,73;2;94;3
+Veterano;4;Nave inicial;60;Fase 3 — Ninho;Normal;3;Vitoria;15,47;206,62;175;12,67;3;0;1;0;;0;0;0;0;0;0;;0;0;0;0;0;0;0;11,63;1;62;3
+Regular;3;Nay;1;Fase 3 — Ninho;Normal;1;Derrota;23,22;182,8;116;;5;3;0;1;0;0;0;3,02;0;0;0;b212e309;0;0;0;0;0;0;0;3,27;0;67;13
+Veterano;4;Nay;1;Fase 3 — Ninho;Normal;1;Derrota;45,6;579,58;175;41,63;9;3;0;2;0;0;0;6,03;0;0;0;b212e309;0;0;0;0;0;0;0;8,5;1;132;22
+Regular;3;Nay;1;Fase 3 — Ninho;Normal;2;Derrota;27,58;301,98;153;;8;3;0;1;0;0;0;3,02;0;0;0;1d964ae6;0;0;0;0;0;0;0;9,75;2;81;8
+Veterano;4;Nay;1;Fase 3 — Ninho;Normal;2;Vitoria;24,55;324,74;175;21,75;8;0;1;1;0;0;0;3,02;0;0;0;1d964ae6;0;0;0;0;0;0;0;11,98;2;73;4
+Regular;3;Nay;1;Fase 3 — Ninho;Normal;3;Derrota;25,8;244,77;136;;7;2;0;1;0;0;0;3,02;0;0;0;896d02d3;0;0;0;0;0;0;0;10,8;1;84;10
+Veterano;4;Nay;1;Fase 3 — Ninho;Normal;3;Derrota;37,33;450,16;175;36,73;10;3;0;2;0;0;0;4,87;0;0;0;896d02d3;0;0;0;1;0;0;0;10,7;2;117;15
+Regular;3;Nay;60;Fase 3 — Ninho;Normal;1;Vitoria;10,5;121,49;175;7,7;7;1;0,88;1;0;0;0;5;0;0;0;;0;0;0;1;0;0;0;3,83;0;43;3
+Veterano;4;Nay;60;Fase 3 — Ninho;Normal;1;Vitoria;11,35;147,54;175;8,55;7;0;1;1;0;0;0;5;0;0;0;;0;0;0;1;0;0;0;6,7;0;47;3
+Regular;3;Nay;60;Fase 3 — Ninho;Normal;2;Vitoria;14,07;191,32;175;11,27;4;0;1;0;0;0;0;0;0;0;0;;0;0;0;0;0;0;0;9,75;1;59;1
+Veterano;4;Nay;60;Fase 3 — Ninho;Normal;2;Vitoria;14,07;191,32;175;11,27;4;0;1;0;0;0;0;0;0;0;0;;0;0;0;0;0;0;0;9,63;1;59;1
+Regular;3;Nay;60;Fase 3 — Ninho;Normal;3;Vitoria;24,85;329,98;175;9,5;12;2;0,48;1;0;0;0;5;0;0;0;896d02d3;0;0;0;1;0;0;0;11,73;2;113;3
+Veterano;4;Nay;60;Fase 3 — Ninho;Normal;3;Vitoria;11,67;155,73;175;8,87;7;0;1;1;0;0;0;5;0;0;0;;0;0;0;1;0;0;0;11,63;1;58;1
+Regular;3;Raffa;1;Fase 3 — Ninho;Normal;1;Derrota;14,85;120,14;124;;4;3;0;0;1;0;0;0;0;0;0;;0;0;0;0;0;0;0;3,83;0;51;8
+Veterano;4;Raffa;1;Fase 3 — Ninho;Normal;1;Vitoria;39,7;481,51;175;36,9;7;1;0,64;1;0;0;0;0,03;0;0;0;b212e309;0;0;1;0;0;0;0;6,85;0;125;17
+Regular;3;Raffa;1;Fase 3 — Ninho;Normal;2;Derrota;39,47;458,63;175;37,88;10;3;0;1;0;0;0;0,07;0;0;0;1d964ae6;0;0;1;0;1;0;0;15,5;3;118;3
+Veterano;4;Raffa;1;Fase 3 — Ninho;Normal;2;Vitoria;29,18;372,74;175;26,38;6;0;1;1;0;0;0;1,98;0;0;0;1d964ae6;0;0;1;0;0;0;0;11,97;2;86;6
+Regular;3;Raffa;1;Fase 3 — Ninho;Normal;3;Derrota;25,25;257,69;161;;9;2;0;0;1;0;0;0;0;0;0;896d02d3;0;0;0;0;0;0;0;10,92;2;84;4
+Veterano;4;Raffa;1;Fase 3 — Ninho;Normal;3;Derrota;43,3;507,99;161;;7;3;0;0;1;0;0;0;0;0;0;896d02d3;0;0;0;0;0;0;0;10,77;2;135;18
+Regular;3;Raffa;60;Fase 3 — Ninho;Normal;1;Vitoria;12,93;156,43;175;10,13;4;1;0,88;1;0;0;0;2,8;0;0;0;;0;0;1;1;0;0;0;3,88;0;43;5
+Veterano;4;Raffa;60;Fase 3 — Ninho;Normal;1;Vitoria;23,4;312,5;175;20,6;6;1;0,82;1;0;0;0;2,8;0;0;0;b212e309;0;0;1;1;0;0;0;6,7;0;78;10
+Regular;3;Raffa;60;Fase 3 — Ninho;Normal;2;Vitoria;19,97;262,29;175;17,17;7;1;0,82;1;0;0;0;2,8;0;0;0;;0;0;1;1;0;0;0;9,75;2;68;5
+Veterano;4;Raffa;60;Fase 3 — Ninho;Normal;2;Vitoria;22,08;320,63;175;19,28;5;0;1;1;0;0;0;2,8;0;0;0;1d964ae6;0;0;1;1;0;0;0;12,4;2;76;1
+Regular;3;Raffa;60;Fase 3 — Ninho;Normal;3;Vitoria;24,92;316,88;175;21,12;10;2;0,48;1;0;0;0;3,8;0;0;0;896d02d3;0;0;1;1;0;0;0;11,73;1;94;4
+Veterano;4;Raffa;60;Fase 3 — Ninho;Normal;3;Vitoria;15,47;206,62;175;12,67;3;0;1;1;0;0;0;2,8;0;0;0;;0;0;1;1;0;0;0;11,63;1;62;3
+Regular;3;Predadora;1;Fase 3 — Ninho;Normal;1;Derrota;23,35;195,43;125;;5;3;0;0;;0;0;0;5;0;0;b212e309;0;0;0;0;0;0;0;3,83;0;77;13
+Veterano;4;Predadora;1;Fase 3 — Ninho;Normal;1;Vitoria;39,42;480,19;175;36,62;7;1;0,64;0;;0;0;0;7;0;0;b212e309;0;0;0;0;0;0;0;6,85;0;127;16
+Regular;3;Predadora;1;Fase 3 — Ninho;Normal;2;Derrota;39,47;454,69;175;;10;3;0;0;;0;0;0;10;0;0;1d964ae6;0;0;0;0;0;0;1;15,5;3;124;3
+Veterano;4;Predadora;1;Fase 3 — Ninho;Normal;2;Vitoria;24,37;310,12;175;21,57;8;0;1;0;;0;0;0;8;0;0;1d964ae6;0;0;0;0;0;0;0;9,7;1;75;5
+Regular;3;Predadora;1;Fase 3 — Ninho;Normal;3;Derrota;26,72;280,67;164;;9;3;0;0;;0;0;0;9;0;0;896d02d3;0;0;0;0;0;0;0;10,92;1;90;8
+Veterano;4;Predadora;1;Fase 3 — Ninho;Normal;3;Vitoria;33,23;415,42;175;30,43;4;0;1;0;;0;0;0;4;0;0;896d02d3;0;0;0;0;0;0;0;10,77;1;108;13
+Regular;3;Predadora;60;Fase 3 — Ninho;Normal;1;Vitoria;30,22;384,02;175;10,1;10;4;0,41;0;;0;0;0;20;10;0;b212e309;0;0;0;0;0;0;0;7,15;1;98;17
+Veterano;4;Predadora;60;Fase 3 — Ninho;Normal;1;Vitoria;31,72;421,27;175;20,87;10;2;0,57;0;;0;0;0;20;10;0;b212e309;0;0;0;0;0;0;0;6,7;0;115;13
+Regular;3;Predadora;60;Fase 3 — Ninho;Normal;2;Vitoria;13,18;175,98;175;10,38;4;0;1;0;;0;0;0;8;6;0;;0;0;0;0;0;0;0;9,75;1;48;1
+Veterano;4;Predadora;60;Fase 3 — Ninho;Normal;2;Vitoria;13,18;175,98;175;10,38;4;0;1;0;;0;0;0;8;6;0;;0;0;0;0;0;0;0;9,63;1;48;1
+Regular;3;Predadora;60;Fase 3 — Ninho;Normal;3;Vitoria;24,73;317,88;175;15,5;9;2;0,58;0;;0;0;0;18;8;0;896d02d3;0;0;0;0;0;0;0;11,73;2;101;3
+Veterano;4;Predadora;60;Fase 3 — Ninho;Normal;3;Vitoria;15,38;205,65;175;12,58;3;0;1;0;;0;0;0;6;4;0;;0;0;0;0;0;0;0;11,63;1;64;3
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Normal;1;Derrota;14,85;120,14;124;;4;3;0;0;1;0;0;0;0;0;0;;0;0;0;0;0;0;0;3,83;0;51;8
+Veterano;4;Espreitador Espacial;1;Fase 3 — Ninho;Normal;1;Vitoria;39,7;481,51;175;36,9;7;1;0,64;1;0;0;0;0,03;0;0;0;b212e309;0;0;1;0;0;0;0;6,85;0;125;16
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Normal;2;Vitoria;40,68;479,92;175;37,88;10;2;0,28;1;0;0;0;1,28;0;0;0;1d964ae6;0;0;1;0;1;0;0;15,5;3;121;5
+Veterano;4;Espreitador Espacial;1;Fase 3 — Ninho;Normal;2;Vitoria;29,18;372,74;175;26,38;7;0;1;1;0;0;0;1,98;0;0;0;1d964ae6;0;0;1;0;0;0;0;11,97;2;86;7
+Regular;3;Espreitador Espacial;1;Fase 3 — Ninho;Normal;3;Derrota;25,25;257,69;161;;9;2;0;0;1;0;0;0;0;0;0;896d02d3;0;0;0;0;0;0;0;10,92;2;84;4
+Veterano;4;Espreitador Espacial;1;Fase 3 — Ninho;Normal;3;Derrota;43,3;507,99;161;;7;3;0;0;1;0;0;0;0;0;0;896d02d3;0;0;0;0;0;0;0;10,77;2;135;18
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Normal;1;Vitoria;12,93;156,43;175;10,13;4;1;0,88;1;0;0;0;1,93;0;0;0;;0;0;1;0;0;0;0;4,15;0;44;5
+Veterano;4;Espreitador Espacial;60;Fase 3 — Ninho;Normal;1;Vitoria;23,4;312,5;175;20,6;6;1;0,82;1;0;0;0;0,68;0;0;0;b212e309;0;0;1;0;0;0;0;6,7;0;78;10
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Normal;2;Vitoria;19,97;262,29;175;17,17;7;1;0,82;0;0;0;0;0;0;0;0;;0;0;0;0;0;0;0;9,75;2;68;5
+Veterano;4;Espreitador Espacial;60;Fase 3 — Ninho;Normal;2;Vitoria;22,08;320,63;175;19,28;5;0;1;1;0;0;0;0,6;0;0;0;1d964ae6;0;0;1;0;0;0;0;12,4;2;76;1
+Regular;3;Espreitador Espacial;60;Fase 3 — Ninho;Normal;3;Vitoria;23,92;300,44;175;21,12;9;2;0,56;1;0;0;0;1,85;0;0;0;896d02d3;0;0;1;0;0;0;0;11,73;2;91;3
+Veterano;4;Espreitador Espacial;60;Fase 3 — Ninho;Normal;3;Vitoria;15,47;206,62;175;12,67;3;0;1;0;0;0;0;0;0;0;0;;0;0;0;0;0;0;0;11,63;1;62;3
+Regular;3;Nave inicial;1;Sem fim;Normal;1;FimDaSemFim;34,72;378,82;147;;5;3;0;0;;0;0;0;0;0;0;8fa060cc;0;0;0;0;0;0;1;21,7;2;113;3
+Veterano;4;Nave inicial;1;Sem fim;Normal;1;FimDaSemFim;47,13;581,33;187;;9;3;0;0;;0;0;0;0;0;0;8fa060cc;0;0;0;0;0;0;1;15,6;2;156;13
+Regular;3;Nave inicial;1;Sem fim;Normal;2;FimDaSemFim;34,03;366,45;147;;5;3;0;0;;0;0;0;0;0;0;b516fffe;0;0;0;0;0;0;0;22,12;1;102;4
+Veterano;4;Nave inicial;1;Sem fim;Normal;2;FimDaSemFim;62,42;828,9;197;;10;4;0;0;;0;0;0;0;0;0;b516fffe;0;0;0;0;0;0;2;13,97;3;192;16
+Regular;3;Nave inicial;1;Sem fim;Normal;3;FimDaSemFim;35,68;430,86;176;;8;3;0;0;;0;0;0;0;0;0;0aa99e9b;0;0;0;0;0;0;0;24,12;1;106;6
+Veterano;4;Nave inicial;1;Sem fim;Normal;3;FimDaSemFim;40,82;538,89;189;;9;3;0;0;;0;0;0;0;0;0;0aa99e9b;0;0;0;0;0;0;0;19,9;1;120;12
+Regular;3;Nave inicial;60;Sem fim;Normal;1;FimDaSemFim;65,37;1250,65;358;;15;5;0;0;;0;0;0;0;0;0;8fa060cc;0;0;0;0;0;0;2;15,52;4;229;11
+Veterano;4;Nave inicial;60;Sem fim;Normal;1;FimDaSemFim;59,88;1099,16;340;;14;3;0;0;;0;0;0;0;0;0;8fa060cc;0;0;0;0;0;0;2;22,47;4;214;6
+Regular;3;Nave inicial;60;Sem fim;Normal;2;FimDaSemFim;65,43;1189,1;311;;14;6;0;0;;0;0;0;0;0;0;b516fffe;0;0;0;0;0;0;2;23,32;3;234;5
+Veterano;4;Nave inicial;60;Sem fim;Normal;2;FimDaSemFim;76,09;1550,83;364;;17;6;0;0;;0;0;0;0;0;0;b516fffe;0;0;0;0;0;0;3;21,92;5;270;7
+Regular;3;Nave inicial;60;Sem fim;Normal;3;FimDaSemFim;53,68;935,62;276;;14;6;0;0;;0;0;0;0;0;0;0aa99e9b;0;0;0;0;0;0;0;24,03;2;172;7
+Veterano;4;Nave inicial;60;Sem fim;Normal;3;FimDaSemFim;51,5;913,79;333;;16;5;0;0;;0;0;0;0;0;0;0aa99e9b;0;0;0;0;0;0;0;23,93;1;172;12
+Regular;3;Nay;1;Sem fim;Normal;1;FimDaSemFim;34,53;448,67;185;;9;3;0;1;0;0;0;3,02;0;0;0;8fa060cc;0;0;0;0;0;0;0;15,98;1;112;5
+Veterano;4;Nay;1;Sem fim;Normal;1;FimDaSemFim;36,52;495,09;193;;11;3;0;1;0;0;1;3,02;0;0;0;8fa060cc;0;0;0;0;0;0;0;7,7;1;109;14
+Regular;3;Nay;1;Sem fim;Normal;2;FimDaSemFim;38,92;496,29;186;;9;3;0;1;0;0;0;3,02;0;0;0;b516fffe;0;0;0;0;1;0;0;22,12;2;126;2
+Veterano;4;Nay;1;Sem fim;Normal;2;FimDaSemFim;62,35;918,55;225;;13;4;0;2;0;0;0;6,03;0;0;0;b516fffe;0;0;0;0;1;0;0;13,9;3;185;15
+Regular;3;Nay;1;Sem fim;Normal;3;FimDaSemFim;35,68;430,86;176;;8;3;0;1;0;0;0;3,02;0;0;0;0aa99e9b;0;0;0;0;0;0;0;24,12;1;106;6
+Veterano;4;Nay;1;Sem fim;Normal;3;FimDaSemFim;40,82;538,89;189;;9;3;0;2;0;0;0;6,03;0;0;0;0aa99e9b;0;0;0;0;0;0;0;19,9;1;120;12
+Regular;3;Nay;60;Sem fim;Normal;1;FimDaSemFim;67,63;1488,96;413;;17;4;0;2;0;0;0;9,18;0;0;0;8fa060cc;0;0;0;0;1;0;0;17,78;5;276;11
+Veterano;4;Nay;60;Sem fim;Normal;1;FimDaSemFim;67,6;1609,62;425;;15;3;0;2;0;0;0;7,8;0;0;0;8fa060cc;3,07;1;0;0;1;0;0;33,53;3;291;5
+Regular;3;Nay;60;Sem fim;Normal;2;FimDaSemFim;86,42;1952,8;420;;20;6;0;2;0;0;2;10;0;0;0;b516fffe;0,13;1;0;0;0;0;0;33,73;4;370;5
+Veterano;4;Nay;60;Sem fim;Normal;2;FimDaSemFim;76,09;1598,61;378;;18;6;0;2;0;0;1;10;0;0;0;b516fffe;0;0;0;0;0;0;0;21,92;5;326;7
+Regular;3;Nay;60;Sem fim;Normal;3;FimDaSemFim;53,62;1044,64;343;;18;6;0;2;0;0;0;10;0;0;0;0aa99e9b;0;0;0;0;0;0;0;24,02;2;209;7
+Veterano;4;Nay;60;Sem fim;Normal;3;FimDaSemFim;53,62;1046,84;348;;18;6;0;2;0;0;0;10;0;0;0;0aa99e9b;0;0;0;0;0;0;0;23,95;2;208;12
+Regular;3;Raffa;1;Sem fim;Normal;1;FimDaSemFim;34,72;378,82;147;;5;3;0;0;0;0;0;0;0;0;0;8fa060cc;0;0;0;0;0;0;0;21,7;2;113;3
+Veterano;4;Raffa;1;Sem fim;Normal;1;FimDaSemFim;47,13;581,33;187;;9;3;0;0;0;0;0;0;0;0;0;8fa060cc;0;0;0;0;1;0;0;15,6;2;156;13
+Regular;3;Raffa;1;Sem fim;Normal;2;FimDaSemFim;34,03;366,45;147;;5;3;0;0;0;0;0;0;0;0;0;b516fffe;0;0;0;0;0;0;0;22,12;1;102;4
+Veterano;4;Raffa;1;Sem fim;Normal;2;FimDaSemFim;62,42;828,9;197;;10;4;0;0;0;0;0;0;0;0;0;b516fffe;0;0;0;0;1;0;0;13,97;3;192;16
+Regular;3;Raffa;1;Sem fim;Normal;3;FimDaSemFim;35,68;430,86;176;;8;3;0;0;0;0;0;0;0;0;0;0aa99e9b;0;0;0;0;0;0;0;24,12;1;106;6
+Veterano;4;Raffa;1;Sem fim;Normal;3;FimDaSemFim;40,82;538,89;189;;9;3;0;0;0;0;0;0;0;0;0;0aa99e9b;0;0;0;0;0;0;0;19,9;1;120;12
+Regular;3;Raffa;60;Sem fim;Normal;1;FimDaSemFim;67,65;1296,3;358;;15;5;0;1;0;0;0;4,02;0;0;0;8fa060cc;0;0;0;0;1;0;0;15,52;4;237;12
+Veterano;4;Raffa;60;Sem fim;Normal;1;FimDaSemFim;63,27;1323,39;407;;15;3;0;1;0;0;0;4,02;0;0;0;8fa060cc;0;0;0;0;1;0;0;33,52;3;226;5
+Regular;3;Raffa;60;Sem fim;Normal;2;FimDaSemFim;76,1;1509,63;337;;16;6;0;1;0;0;0;4,02;0;0;0;b516fffe;0;0;0;0;1;0;0;23,12;4;270;6
+Veterano;4;Raffa;60;Sem fim;Normal;2;FimDaSemFim;87,47;1990,45;390;;16;6;0;2;0;0;1;8,03;0;0;0;b516fffe;0;0;0;0;0;0;0;23,7;5;309;7
+Regular;3;Raffa;60;Sem fim;Normal;3;FimDaSemFim;53,63;956,87;333;;17;6;0;1;0;0;0;4,02;0;0;0;0aa99e9b;0;0;0;0;0;0;0;24,03;1;179;11
+Veterano;4;Raffa;60;Sem fim;Normal;3;FimDaSemFim;51,5;913,79;333;;16;5;0;0;0;0;0;0;0;0;0;0aa99e9b;0;0;0;0;0;0;0;23,93;1;172;12
+Regular;3;Predadora;1;Sem fim;Normal;1;FimDaSemFim;34,7;380,89;148;;5;3;0;0;;0;0;0;5;0;0;8fa060cc;0;0;0;0;0;0;1;21,7;2;115;4
+Veterano;4;Predadora;1;Sem fim;Normal;1;FimDaSemFim;47,15;587,2;179;;8;3;0;0;;0;0;0;8;0;0;8fa060cc;0;0;0;0;0;0;1;13,55;3;161;11
+Regular;3;Predadora;1;Sem fim;Normal;2;FimDaSemFim;31,52;318,97;145;;5;3;0;0;;0;0;0;5;0;0;b516fffe;0;0;0;0;0;0;0;22,12;1;96;4
+Veterano;4;Predadora;1;Sem fim;Normal;2;FimDaSemFim;62,37;861;217;;11;4;0;0;;0;0;0;10;0;0;b516fffe;0;0;0;0;0;0;2;13,97;3;194;15
+Regular;3;Predadora;1;Sem fim;Normal;3;FimDaSemFim;35,67;437,57;179;;8;3;0;0;;0;0;0;8;0;0;0aa99e9b;0;0;0;0;0;0;0;24,12;1;111;5
+Veterano;4;Predadora;1;Sem fim;Normal;3;FimDaSemFim;40,82;539,89;187;;8;3;0;0;;0;0;0;8;0;0;0aa99e9b;0;0;0;0;0;0;0;17,73;1;126;12
+Regular;3;Predadora;60;Sem fim;Normal;1;FimDaSemFim;67,6;1277,55;350;;15;6;0;0;;0;0;0;20;6;0;8fa060cc;0;0;0;0;0;0;2;19,18;5;254;11
+Veterano;4;Predadora;60;Sem fim;Normal;1;FimDaSemFim;77,69;1685,86;350;;18;4;0;0;;0;0;0;20;8;0;8fa060cc;0;0;0;0;0;0;2;33,53;4;310;5
+Regular;3;Predadora;60;Sem fim;Normal;2;FimDaSemFim;98,16;2296,15;350;;21;7;0;0;;0;0;0;20;10;0;b516fffe;0;0;0;0;0;0;4;33,73;4;396;6
+Veterano;4;Predadora;60;Sem fim;Normal;2;FimDaSemFim;107,69;2672,25;350;;23;6;0;0;;0;0;0;20;10;0;b516fffe;0;0;0;0;0;0;5;21,95;6;434;11
+Regular;3;Predadora;60;Sem fim;Normal;3;FimDaSemFim;61,95;1158,3;350;;17;7;0;0;;0;0;0;20;8;0;0aa99e9b;0;0;0;0;0;0;0;24,03;3;230;9
+Veterano;4;Predadora;60;Sem fim;Normal;3;FimDaSemFim;61,95;1190,19;350;;18;7;0;0;;0;0;0;20;10;0;0aa99e9b;0;0;0;0;0;0;0;23,93;3;230;13
+Regular;3;Espreitador Espacial;1;Sem fim;Normal;1;FimDaSemFim;34,72;378,82;147;;5;3;0;0;0;0;0;0;0;0;0;8fa060cc;0;0;0;0;0;0;0;21,7;2;113;3
+Veterano;4;Espreitador Espacial;1;Sem fim;Normal;1;FimDaSemFim;47,13;581,33;187;;9;3;0;0;0;0;0;0;0;0;0;8fa060cc;0;0;0;0;1;0;0;15,6;2;156;13
+Regular;3;Espreitador Espacial;1;Sem fim;Normal;2;FimDaSemFim;34,03;366,45;147;;5;3;0;0;0;0;0;0;0;0;0;b516fffe;0;0;0;0;0;0;0;22,12;1;102;4
+Veterano;4;Espreitador Espacial;1;Sem fim;Normal;2;FimDaSemFim;62,42;828,9;197;;10;4;0;0;0;0;0;0;0;0;0;b516fffe;0;0;0;0;1;0;0;13,97;3;192;16
+Regular;3;Espreitador Espacial;1;Sem fim;Normal;3;FimDaSemFim;35,68;430,86;176;;8;3;0;0;0;0;0;0;0;0;0;0aa99e9b;0;0;0;0;0;0;0;24,12;1;106;6
+Veterano;4;Espreitador Espacial;1;Sem fim;Normal;3;FimDaSemFim;40,82;538,89;189;;9;3;0;0;0;0;0;0;0;0;0;0aa99e9b;0;0;0;0;0;0;0;19,9;1;120;12
+Regular;3;Espreitador Espacial;60;Sem fim;Normal;1;FimDaSemFim;67,62;1303,22;358;;15;5;0;1;0;0;0;4,02;0;0;0;8fa060cc;0;0;0;0;1;0;0;15,52;4;236;14
+Veterano;4;Espreitador Espacial;60;Sem fim;Normal;1;FimDaSemFim;67,62;1278,27;348;;15;5;0;2;0;0;0;8,03;0;0;0;8fa060cc;0;0;0;0;1;0;0;17,87;4;240;9
+Regular;3;Espreitador Espacial;60;Sem fim;Normal;2;FimDaSemFim;76,09;1513,32;351;;17;6;0;1;0;0;1;4,02;0;0;0;b516fffe;0;0;0;0;1;0;0;30,53;3;271;6
+Veterano;4;Espreitador Espacial;60;Sem fim;Normal;2;FimDaSemFim;84,89;1866,42;383;;19;6;0;3;0;0;1;12,05;0;0;0;b516fffe;0;0;0;0;0;0;0;21,92;5;301;7
+Regular;3;Espreitador Espacial;60;Sem fim;Normal;3;FimDaSemFim;53,68;936,8;271;;14;6;0;1;0;0;0;4,02;0;0;0;0aa99e9b;0;0;0;0;0;0;0;24,03;2;172;7
+Veterano;4;Espreitador Espacial;60;Sem fim;Normal;3;FimDaSemFim;51,5;913,79;333;;16;5;0;0;0;0;0;0;0;0;0;0aa99e9b;0;0;0;0;0;0;0;23,93;1;172;12
