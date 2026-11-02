@@ -88,7 +88,9 @@ relação à base. A base completa só roda de novo quando a mudança atingir to
 
 **Ponto de checagem, ao ler a base:** as fases vêm antes da etapa 3 se as Fases 2 e 3 não separarem as
 naves nos níveis 15 a 40, se a ordem das naves mudar muito de fase para fase, ou se o Difícil nível 60
-também saturar, porque aí uma passiva sutil não apareceria.
+também saturar, porque aí uma passiva sutil não apareceria. **Lido em 02/11, na primeira base: não dispara,
+e as fases seguem na etapa 7.** Essa base veio antes das correções do relógio e da sorte; a checagem se
+confirma na base nova.
 
 **Antes de a moeda valer algo:** fases e larguras fechadas; progresso guardado por fase e dificuldade, para
 fase nova não pagar de novo o que já foi vencido; retorno decrescente ou pagamento pela primeira vitória;

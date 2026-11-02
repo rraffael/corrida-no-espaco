@@ -75,15 +75,64 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
       em corrida (só a verificação cobre esse último). A base cobre. **Para ler na base:** nesta fase,
       o Regular morreu sem usar o poder em quase todas as derrotas de Raffa e Espreitador nos níveis 15
       e 40, e a Predadora nv 60 venceu 3 de 5, contra 0 de 5 da Nave inicial. Amostra pequena
-- [ ] **A primeira base: 6.000 corridas, rodando desde 01/11** — o Raffael decidiu deixar terminar, para
-      guardar os dados (02/11). **Ao chegar:** conferir no Console se saíram 6.000, fazer o commit
-      (`git add -A` e `git commit -m "Primeira base: 6.000 corridas"`) e avisar o Claude com "acabou"
-- [ ] **Depois, o Claude aplica as correções já decididas**, e o Raffael roda: commit, Console, Montar,
-      verificações e fumaça. **Só com o OK da fumaça, à noite, a base nova:** Marcar o retrato completo,
-      marcar a Sem fim, conferir 6.000 corridas, primeira semente 1, teto desligado, e não salvar `.cs`
-- [ ] **Bloco do poder no primeiro perigo: 360 corridas, uns 17 min** — **teto do poder ligado**; **Regular e
-      Veterano**; **Nay, Raffa e Espreitador**; **níveis 40 e 60**; **Normal e Difícil**; **Fases 1 a 3**
-- [ ] **Commit dos relatórios** — `git add -A` e `git commit -m "Base de balanceamento: 6.000 corridas"`
+- [x] **A primeira base: 6.000 corridas** ✅ *(02/11 03h57, 4 h 42; `docs/simulacoes/2026-11-02_03h57.md`;
+      commit feito)* — nas fases, 2.858 vitórias e 1.642 derrotas somam as 4.500 corridas, sem nenhuma
+      parada pelo teto. **Serve de direção, e não de número final:** roda antes das correções do relógio e
+      da sorte. Não usar para nerf nem preço. Leitura de 02/11:
+
+      | Vitórias, todas as personas | nv 1 | nv 15 | nv 40 | nv 60 |
+      |---|---|---|---|---|
+      | Nave inicial | 40% | 52% | 65% | 77% |
+      | Espreitador | 42% | 55% | 72% | 84% |
+      | Nay | 42% | 53% | 75% | 87% |
+      | Raffa | 42% | 58% | 70% | 87% |
+      | Predadora | 45% | 62% | 77% | 87% |
+
+      - **Ponto de checagem: não dispara, e as fases seguem na etapa 7.** Fases 2 e 3, sem o Perfeito, em
+        60 corridas por célula: nv 15 vai de 20% a 32%; nv 40, de 33% a 58%, com ordem parecida. No Difícil
+        nv 60, as outras personas ficam entre 33% e 80%; só o Perfeito satura
+      - **Passivas do 60, ganho no Difícil sobre o nv 40:** Nave inicial +4 pontos, Espreitador +9, Nay +11,
+        Raffa +13, Predadora +16
+      - **Para a reforma das fases:** a Fase 1 dá 100% no Fácil e no Normal para todas as personas. No
+        Normal, no nível 1, Novato, Casual e Regular quase só vencem a Fase 1
+      - **A Predadora nv 60 lidera a Sem fim:** Regular com 15.057, contra 8.507 da Nave inicial. Isso pesa
+        no placar por nave e no pacote pago
+      - **A investigar, sem conclusão:** Novato vence mais que Regular na Fase 3 (75/41/12% contra 62/34/8%);
+        Nay nv 15 no Difícil fica abaixo da Nave inicial nv 15 (17% contra 28%, pode ser ruído)
+      - **Viés de piloto:** Regular e Veterano morrem com o poder na mão em boa parte das derrotas de
+        Raffa e Espreitador (33% a 100%, conforme o nível), e quase nunca com a Nay (até 11%). Comparar Nay com essas
+        duas favorece a Nay; o bloco de 360 corridas mede isso
+- [x] **Revisão das correções pelos agentes** ✅ *(02/11: técnico, visão geral e caçador, com o pesquisador só
+      sugerindo)* — nenhum pediu para parar; todos pediram ajustes
+- [x] **Decisões do pacote** ✅ *(Raffael, 02/11: tudo como recomendado)* — colisão nas quatro coisas; engasgo
+      de 0,33 s para 0,1 s no jogo real; sementes por hash; Fase 1 mantida na base nova e cortada nas seguintes;
+      hábito "guardar para a dobra" escrito depois da base nova; renovar com Recarga adiado
+- [ ] **Parte 1, medição: pronta, falta rodar** — relógio por corrida, sorte separada, carimbo, sentinela e
+      colunas novas. Não muda regra de jogo, e o Montar está vazio nesta parte:
+      1. **Commit:** `git add -A` e `git commit -m "Simulador: relogio por corrida, sorte separada e carimbo"`
+      2. **Console:** sem erro de compilação
+      3. **Verificações:** Testes → Rodar verificações
+      4. **Teste de repetição, duas vezes, com o mesmo plano:** só **Regular**; **Nave inicial** e **Nay**;
+         nível **15**; **Fase 2**; **Normal**; **5 repetições**; **semente 1**; teto desligado. São 10 corridas por
+         rodada. Abrir cada `.md`: as linhas **Carimbo** e **Impressão do CSV** têm de ser iguais nas duas
+      5. **Avisar o Claude**, que confere quadros fora do passo e a pista igual entre as duas naves
+- [ ] **Parte 2, jogo: o Claude escreve depois da parte 1** — colisão nas quatro coisas, limite de engasgo,
+      Recarga, Intangibilidade e, se confirmar, a batida letal. O Raffael roda: commit, Console, Montar,
+      verificações, fumaça ampliada e aparelho
+- [ ] **Só com o OK da fumaça, à noite, a base nova:** Marcar o retrato completo, marcar a Sem fim, conferir
+      6.000 corridas, primeira semente 1, teto desligado, e não salvar `.cs`. **Ela não se compara corrida a
+      corrida com a base anterior:** a pista muda, então só valem os agregados
+- [ ] **Depois da base nova, investigar as anomalias:** Nay nv 15 com a mesma persona sem usar o poder (o
+      teleguiado pode desviar o tiro); Novato × Regular com a caça zerada em clone temporário da persona
+- [ ] **Decidir depois da base nova:** placar da Sem fim hoje é um só para todas as dificuldades, e basta
+      escolher o Fácil (28.415 contra 6.401 da Predadora nv 60 com o Regular). Opções: um placar por
+      dificuldade, ou dificuldade única. Pacote e placar da Predadora só depois de reler a Sem fim
+- [ ] **Antes do próximo AAB:** o jogo não pausa ao ir para o segundo plano. Abrir a pausa ao sair, sem travar
+      o simulador. **Na etapa 6:** comparação pareada, com mais sementes; **testadores recebem nave evoluída**,
+      por causa do salto da Fase 2 no Normal
+- [ ] **Depois da base nova, o bloco do poder no primeiro perigo: 360 corridas, uns 17 min** — **teto do
+      poder ligado**; **Regular e Veterano**; **Nay, Raffa e Espreitador**; **níveis 40 e 60**; **Normal e
+      Difícil**; **Fases 1 a 3**
 
 *Próxima rodada da curva, quando der: **só os níveis 15 e 40, sem a sem fim** (pedido do
 Raffael, 19/10). As sementes batem com as do retrato, e os relatórios se somam.*

@@ -147,7 +147,7 @@ public class RaceSpeed : MonoBehaviour
 
     /// <summary>
     /// A partir de que instante a nave volta a acelerar. Uma batida empurra isto
-    /// para a frente; <see cref="Time.time"/> e não <c>unscaledTime</c>, para a
+    /// para a frente; <see cref="RaceClock"/> e não <c>unscaledTime</c>, para a
     /// pausa do jogo não gastar o tempo do baque.
     /// </summary>
     float recoveryResumesAt;
@@ -194,7 +194,7 @@ public class RaceSpeed : MonoBehaviour
     /// acelera nem ganha velocidade passiva — só desacelera, se o alvo estiver
     /// abaixo dela.
     /// </summary>
-    public bool InCrashRecoil => Time.time < recoveryResumesAt;
+    public bool InCrashRecoil => RaceClock.Now < recoveryResumesAt;
 
     /// <summary>
     /// **A velocidade mais alta que esta corrida deixa alcançar.** O RaceDirector
@@ -490,7 +490,7 @@ public class RaceSpeed : MonoBehaviour
         // jeito, e mirar mais baixo criaria um degrau lento no meio da subida.
         crashRecoveryTarget = Mathf.Max(cruiseSpeed, before - penalty);
         inCrashRecovery = true;
-        recoveryResumesAt = Time.time + recoveryDelaySeconds * crashCostFactor;
+        recoveryResumesAt = RaceClock.Now + recoveryDelaySeconds * crashCostFactor;
 
         float dropped = before * crashSpeedFraction;
 
@@ -519,7 +519,7 @@ public class RaceSpeed : MonoBehaviour
     public void Graze()
     {
         if (grazeDelaySeconds > 0f)
-            recoveryResumesAt = Mathf.Max(recoveryResumesAt, Time.time + grazeDelaySeconds);
+            recoveryResumesAt = Mathf.Max(recoveryResumesAt, RaceClock.Now + grazeDelaySeconds);
 
         float loss = Current * grazeSpeedLoss;
 

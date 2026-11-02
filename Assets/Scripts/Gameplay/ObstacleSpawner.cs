@@ -67,7 +67,7 @@ public class ObstacleSpawner : MonoBehaviour
             var schedule = level.obstacles[i];
             float earliest = Mathf.Min(schedule.earliestSeconds, schedule.latestSeconds);
             float latest = Mathf.Max(schedule.earliestSeconds, schedule.latestSeconds);
-            entryTimes[i] = Random.Range(earliest, latest);
+            entryTimes[i] = RaceLuck.Range(RaceLuck.Stream.ObstacleEntry, earliest, latest);
         }
     }
 
@@ -86,7 +86,8 @@ public class ObstacleSpawner : MonoBehaviour
             return;
 
         float interval = level.IntervalAt(elapsed) * difficulty.intervalFactor;
-        timer = Mathf.Max(0.2f, interval + Random.Range(-level.intervalJitter, level.intervalJitter));
+        timer = Mathf.Max(0.2f, interval + RaceLuck.Range(RaceLuck.Stream.ObstacleTiming,
+                                                          -level.intervalJitter, level.intervalJitter));
 
         TrySpawn();
     }
@@ -100,8 +101,8 @@ public class ObstacleSpawner : MonoBehaviour
         // A regra da faixa livre mora no LaneOccupancy desde 30/08/2026, e não
         // mais aqui: ela passou a valer contra obstáculo E modificador de fase,
         // e cada sorteador garantindo a fuga por conta própria não garantia nada.
-        if (!LaneOccupancy.TryPickLane(track.LaneCount, Mathf.Max(1, stats.laneSpan),
-                                       spawnY, waveWindow, out int lane))
+        if (!LaneOccupancy.TryPickLane(RaceLuck.Stream.ObstacleLane, track.LaneCount,
+                                       Mathf.Max(1, stats.laneSpan), spawnY, waveWindow, out int lane))
             return; // A leva atual já não deixa saída: melhor pular a batida.
 
         Spawn(stats, lane);
@@ -120,7 +121,7 @@ public class ObstacleSpawner : MonoBehaviour
         if (total <= 0f)
             return null;
 
-        float roll = Random.Range(0f, total);
+        float roll = RaceLuck.Range(RaceLuck.Stream.ObstacleType, 0f, total);
         for (int i = 0; i < level.obstacles.Length; i++)
         {
             if (!IsReleased(i))
@@ -128,10 +129,39 @@ public class ObstacleSpawner : MonoBehaviour
 
             roll -= level.obstacles[i].weight;
             if (roll <= 0f)
+            {
+                NoteTrackRoll(i);
                 return level.obstacles[i].stats;
+            }
         }
 
         return null;
+    }
+
+    /// <summary>Quantos sorteios entram na <see cref="TrackHash"/>. Poucos: corrida curta também precisa chegar lá.</summary>
+    const int TrackHashRolls = 20;
+
+    int trackRolls;
+    uint trackHash = 2166136261u;
+
+    /// <summary>
+    /// Impressão de quando e qual obstáculo a pista sorteou nos primeiros
+    /// sorteios. Vazia em corrida que não chegou lá. **Duas naves na mesma semente
+    /// têm de dar a mesma**, o que prova que abate e poder não mudam a pista.
+    /// </summary>
+    public string TrackHash => trackRolls >= TrackHashRolls ? trackHash.ToString("x8") : string.Empty;
+
+    void NoteTrackRoll(int type)
+    {
+        if (trackRolls >= TrackHashRolls)
+            return;
+
+        trackRolls++;
+        unchecked
+        {
+            trackHash = (trackHash ^ (uint)type) * 16777619u;
+            trackHash = (trackHash ^ (uint)Mathf.RoundToInt(elapsed * 1000f)) * 16777619u;
+        }
     }
 
     bool IsReleased(int index)

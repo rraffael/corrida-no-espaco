@@ -39,7 +39,7 @@ public class ShipAbilities : MonoBehaviour
     public bool HasUses => equipped != null && (equipped.HasUnlimitedUses || UsesLeft > 0);
 
     /// <summary>Segundos que faltam para poder ativar de novo. Zero: pronto.</summary>
-    public float CooldownLeft => Mathf.Max(0f, readyAt - Time.time);
+    public float CooldownLeft => Mathf.Max(0f, readyAt - RaceClock.Now);
 
     /// <summary>De 0 (acabou de usar) a 1 (pronto). Para o canto da tela desenhar a espera.</summary>
     public float CooldownFraction =>
@@ -109,6 +109,9 @@ public class ShipAbilities : MonoBehaviour
 
     /// <summary>Quantas vezes o poder foi recarregado por modificador de fase.</summary>
     public int RechargeCount { get; private set; }
+
+    /// <summary>Recargas pegas com o poder pronto e cheio: não mudaram nada.</summary>
+    public int WastedRechargeCount { get; private set; }
 
     /// <summary>Segundos de corrida com o efeito do poder ativo ligado.</summary>
     public float EffectSeconds { get; private set; }
@@ -210,7 +213,7 @@ public class ShipAbilities : MonoBehaviour
         if (IsLimited)
             UsesLeft--;
 
-        readyAt = Time.time + equipped.cooldownSeconds;
+        readyAt = RaceClock.Now + equipped.cooldownSeconds;
         ActivationCount++;
 
         for (int i = 0; i < active.Count; i++)
@@ -270,6 +273,8 @@ public class ShipAbilities : MonoBehaviour
 
         if (changed)
             RechargeCount++;
+        else
+            WastedRechargeCount++;
 
         return changed;
     }

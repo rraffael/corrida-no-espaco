@@ -156,6 +156,7 @@ static class GameChecks
             CheckAchievements(report);
             CheckCompendium(report);
             CheckPersonas(report);
+            CheckRaceLuck(report);
             CheckSaveRoundTrip(report);
             CheckLeaderboardLayout(report);
             CheckLeaderboardOrder(report);
@@ -783,6 +784,47 @@ static class GameChecks
                      "simulador: o salvamento vira rascunho em branco");
         SaveGame.EndSandbox();
         report.Check(!SaveGame.IsSandboxed, "simulador: sair do rascunho volta ao salvamento de verdade");
+    }
+
+    /// <summary>
+    /// A pista fixa se repete, cada semente, fase, dificuldade e dado tem a sua, e
+    /// um dado não mexe em outro. É o que sustenta a comparação do simulador.
+    /// </summary>
+    static void CheckRaceLuck(Report report)
+    {
+        // Pedida pelo menu durante uma rodada, esta conta trocaria a pista da corrida.
+        if (RaceSimulation.IsActive)
+            return;
+
+        try
+        {
+            RaceLuck.UseFixedTrack(1, "Fase", 0);
+            int seed = RaceLuck.TrackSeed("sistema");
+            float first = RaceLuck.Range(RaceLuck.Stream.ObstacleType, 0f, 1f);
+
+            RaceLuck.UseFixedTrack(1, "Fase", 0);
+            report.Check(RaceLuck.TrackSeed("sistema") == seed, "sorte: a mesma pista dá a mesma semente");
+
+            // Gastar outro dado antes não pode mudar o que este tira.
+            RaceLuck.Range(RaceLuck.Stream.ObstacleLane, 0, 100);
+            report.Check(RaceLuck.Range(RaceLuck.Stream.ObstacleType, 0f, 1f) == first,
+                         "sorte: um dado não mexe em outro");
+
+            report.Check(RaceLuck.TrackSeed("outro") != seed, "sorte: cada sistema tem sua semente");
+
+            RaceLuck.UseFixedTrack(2, "Fase", 0);
+            report.Check(RaceLuck.TrackSeed("sistema") != seed, "sorte: cada semente tem sua pista");
+
+            RaceLuck.UseFixedTrack(1, "Outra", 0);
+            report.Check(RaceLuck.TrackSeed("sistema") != seed, "sorte: cada fase tem sua pista");
+
+            RaceLuck.UseFixedTrack(1, "Fase", 1);
+            report.Check(RaceLuck.TrackSeed("sistema") != seed, "sorte: cada dificuldade tem sua pista");
+        }
+        finally
+        {
+            RaceLuck.UseFreeTrack();
+        }
     }
 
     /// <summary>O salvamento vai e volta pelo JSON sem perder nada.</summary>

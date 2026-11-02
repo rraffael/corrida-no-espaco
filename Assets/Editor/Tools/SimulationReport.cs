@@ -35,7 +35,8 @@ static class SimulationReport
 
     /// <summary>Grava os dois arquivos e devolve o caminho do <c>.md</c>.</summary>
     public static string Write(RaceSimulation.Plan plan, IReadOnlyList<RaceSimulation.Result> results,
-                               int planned, float realSeconds)
+                               IReadOnlyList<RaceSimulation.Result> sentinels,
+                               int planned, float realSeconds, string stampAtStart, string stampAtEnd)
     {
         Directory.CreateDirectory(Folder);
 
@@ -43,8 +44,10 @@ static class SimulationReport
         string markdown = Path.Combine(Folder, stamp + ".md");
         string csv = Path.Combine(Folder, stamp + ".csv");
 
-        File.WriteAllText(csv, Csv(results), new UTF8Encoding(true));
-        File.WriteAllText(markdown, Markdown(plan, results, planned, realSeconds, Path.GetFileName(csv)),
+        string csvText = Csv(results);
+        File.WriteAllText(csv, csvText, new UTF8Encoding(true));
+        File.WriteAllText(markdown, Markdown(plan, results, sentinels, planned, realSeconds, Path.GetFileName(csv),
+                                             stampAtStart, stampAtEnd, SimulationStamp.Of(csvText)),
                           new UTF8Encoding(false));
 
         if (File.Exists(PartialCsv))
@@ -56,7 +59,9 @@ static class SimulationReport
     // ── Markdown ─────────────────────────────────────────────────────────
 
     static string Markdown(RaceSimulation.Plan plan, IReadOnlyList<RaceSimulation.Result> results,
-                           int planned, float realSeconds, string csvName)
+                           IReadOnlyList<RaceSimulation.Result> sentinels,
+                           int planned, float realSeconds, string csvName,
+                           string stampAtStart, string stampAtEnd, string csvPrint)
     {
         var text = new StringBuilder();
         text.AppendLine($"# Simulação de {DateTime.Now:dd/MM/yyyy HH:mm}");
@@ -69,14 +74,23 @@ static class SimulationReport
                         $"{plan.maxSeconds:0} s nas fases, {plan.maxEndlessSeconds:0} s na sem fim");
         text.AppendLine($"- **Levou:** {ScoreBoard.FormatTime(realSeconds)} de relógio");
         text.AppendLine($"- **Cada corrida:** `{csvName}`");
+        text.AppendLine($"- **Carimbo:** {stampAtStart}");
+        if (stampAtStart != stampAtEnd)
+            text.AppendLine($"- **ATENÇÃO, arquivos mudaram durante a rodada.** No fim: {stampAtEnd}");
+        text.AppendLine($"- **Impressão do CSV:** {csvPrint}. Mesmo plano e mesmo carimbo têm de dar a mesma");
+        text.AppendLine($"- **Quadros fora do passo:** {results.Sum(r => r.offStepFrames)}" +
+                        (results.Count > 0 ? $" (na 1ª corrida: {results[0].offStepFrames})" : string.Empty));
+        if (planned >= RaceSimulation.SentinelMinimumJobs)
+            text.AppendLine($"- **Sentinela:** {SentinelVerdict(results, sentinels)}");
         if (plan.powerOnDanger)
             text.AppendLine("- **Teto do poder ligado:** toda persona apertou o poder no primeiro perigo, " +
                             "ignorando o hábito dela — aqui se mede o poder, e não quem o usa");
         text.AppendLine();
         text.AppendLine("> **Como ler.** Uma persona sozinha diz pouco; o que mede é a mesma persona em duas " +
                         "circunstâncias — antes e depois de mexer. Com 5 repetições, cada corrida vale 20 pontos " +
-                        "na taxa de vitória: diferença de uma corrida pode ser sorte. As sementes são as mesmas " +
-                        "a cada rodada, então rodar o mesmo plano depois de uma mudança compara pistas parecidas.");
+                        "na taxa de vitória: diferença de uma corrida pode ser sorte. Semente, fase e dificuldade " +
+                        "definem a pista, então rodar o mesmo plano depois de uma mudança compara pistas parecidas. " +
+                        "Relatórios anteriores a 02/11/2026 usavam outra sorte: com eles, só valem os totais.");
         text.AppendLine();
 
         var races = results.Where(r => !r.endless).ToList();
@@ -141,6 +155,20 @@ static class SimulationReport
             text.AppendLine();
             Matrix(text, endless, r => ShipLabel(r), r => (0, 0),
                    group => ScoreBoard.FormatDistance(group.Average(r => r.distance)));
+
+            // A média das três engana: o Fácil pesa muito mais na distância.
+            var endlessDifficulties = endless.Select(r => r.difficulty).Distinct().OrderBy(d => d).ToList();
+            if (endlessDifficulties.Count > 1)
+            {
+                foreach (var difficulty in endlessDifficulties)
+                {
+                    text.AppendLine($"### Sem fim — só o {DifficultyName(difficulty)}");
+                    text.AppendLine();
+                    Matrix(text, endless.Where(r => r.difficulty == difficulty).ToList(),
+                           r => ShipLabel(r), r => (0, 0),
+                           group => ScoreBoard.FormatDistance(group.Average(r => r.distance)));
+                }
+            }
         }
 
         text.AppendLine("## Detalhe");
@@ -200,6 +228,25 @@ static class SimulationReport
         }
 
         return text.ToString();
+    }
+
+    /// <summary>As corridas repetidas no fim têm de sair iguais às do começo, em todas as colunas.</summary>
+    static string SentinelVerdict(IReadOnlyList<RaceSimulation.Result> results,
+                                  IReadOnlyList<RaceSimulation.Result> sentinels)
+    {
+        if (sentinels.Count == 0)
+            return "não rodou, porque a rodada parou antes";
+
+        int same = 0;
+        for (int i = 0; i < sentinels.Count && i < results.Count; i++)
+        {
+            if (CsvLine(results[i]) == CsvLine(sentinels[i]))
+                same++;
+        }
+
+        return same == sentinels.Count
+            ? $"{same} de {sentinels.Count} corridas iguais às do começo"
+            : $"**ATENÇÃO, só {same} de {sentinels.Count} iguais às do começo: a medição mudou durante a rodada**";
     }
 
     /// <summary>Linhas por persona, colunas pelo que <paramref name="column"/> disser.</summary>
@@ -319,22 +366,27 @@ static class SimulationReport
         var text = new StringBuilder();
         text.AppendLine("persona;nivel_persona;nave;nivel_nave;fase;dificuldade;semente;desfecho;segundos;" +
                         "distancia;vel_max;dobra_em;abates;batidas;vida_no_fim;poder_usado;poder_sobrando;" +
-                        "renovacoes;recargas_pegas;segundos_de_efeito;cargas_fim;pico_passiva");
+                        "renovacoes;recargas_pegas;segundos_de_efeito;cargas_fim;pico_passiva;" +
+                        "quadros_fora;hash_pista;segundos_acima_420;batidas_acima_420;poder_na_carga;" +
+                        "dobra_com_efeito;recargas_perdidas");
 
         foreach (var r in results)
-        {
-            text.AppendLine(string.Join(";",
-                r.persona, r.personaRank, r.shipName, r.shipLevel, r.levelName,
-                DifficultyName(r.difficulty), r.seed, r.outcome,
-                Comma(r.seconds), Comma(r.distance), RaceSpeed.Shown(r.topSpeed),
-                r.warpReachedAt >= 0f ? Comma(r.warpReachedAt) : string.Empty,
-                r.kills, r.crashes, Comma(r.healthLeft), r.powerUses,
-                r.hasPower ? (r.diedWithPowerReady ? "1" : "0") : string.Empty,
-                r.powerRenewals, r.powerRecharges, Comma(r.effectSeconds), r.conditionalCharges, r.passivePeak));
-        }
+            text.AppendLine(CsvLine(r));
 
         return text.ToString();
     }
+
+    static string CsvLine(RaceSimulation.Result r) =>
+        string.Join(";",
+            r.persona, r.personaRank, r.shipName, r.shipLevel, r.levelName,
+            DifficultyName(r.difficulty), r.seed, r.outcome,
+            Comma(r.seconds), Comma(r.distance), RaceSpeed.Shown(r.topSpeed),
+            r.warpReachedAt >= 0f ? Comma(r.warpReachedAt) : string.Empty,
+            r.kills, r.crashes, Comma(r.healthLeft), r.powerUses,
+            r.hasPower ? (r.diedWithPowerReady ? "1" : "0") : string.Empty,
+            r.powerRenewals, r.powerRecharges, Comma(r.effectSeconds), r.conditionalCharges, r.passivePeak,
+            r.offStepFrames, r.trackHash, Comma(r.secondsAtHighSpeed), r.crashesAtHighSpeed,
+            r.powerUsesWhileCharging, r.reachedWarpWithEffect ? "1" : "0", r.wastedRecharges);
 
     static string Comma(float value) => value.ToString("0.##", Br);
 }

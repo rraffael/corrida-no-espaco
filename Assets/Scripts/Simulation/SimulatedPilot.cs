@@ -16,7 +16,9 @@ using UnityEngine;
 ///
 /// **Os sorteios dele usam um dado próprio**, e não o <see cref="Random"/> da
 /// Unity: assim errar mais ou menos não muda a sequência de obstáculos que a
-/// fase sorteia, e as cinco personas largam na mesma pista.
+/// fase sorteia, e as cinco personas largam na mesma pista. **O poder tem um dado
+/// só dele:** só nave com poder sorteia esse uso, e dividir o dado faria o mesmo
+/// Novato errar em momentos diferentes conforme a nave.
 /// </summary>
 public class SimulatedPilot : MonoBehaviour
 {
@@ -28,6 +30,7 @@ public class SimulatedPilot : MonoBehaviour
 
     PilotPersona persona;
     System.Random dice;
+    System.Random powerDice;
 
     ShipStats stats;
     ShipLaneController lanes;
@@ -58,6 +61,7 @@ public class SimulatedPilot : MonoBehaviour
     {
         persona = pilotPersona;
         dice = new System.Random(seed);
+        powerDice = new System.Random(seed ^ 0x5bd1e995);
     }
 
     void Start()
@@ -273,7 +277,7 @@ public class SimulatedPilot : MonoBehaviour
         else switch (persona.powerHabit)
         {
             case PilotPersona.PowerHabit.AToa:
-                use = Roll(Mathf.Max(persona.thinkInterval, Time.deltaTime) / RandomPowerSeconds);
+                use = powerDice.NextDouble() < Mathf.Max(persona.thinkInterval, Time.deltaTime) / RandomPowerSeconds;
                 break;
 
             case PilotPersona.PowerHabit.NoAperto:

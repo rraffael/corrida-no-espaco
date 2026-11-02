@@ -71,7 +71,8 @@ public class LevelModifierSpawner : MonoBehaviour
 
     float NextInterval() =>
         Mathf.Max(0.5f, level.modifierInterval +
-                        Random.Range(-level.modifierIntervalJitter, level.modifierIntervalJitter));
+                        RaceLuck.Range(RaceLuck.Stream.ModifierTiming,
+                                       -level.modifierIntervalJitter, level.modifierIntervalJitter));
 
     void TrySpawn()
     {
@@ -81,7 +82,7 @@ public class LevelModifierSpawner : MonoBehaviour
 
         // Ocupa uma faixa, sempre: modificador largo não existe, e se um dia
         // existir é aqui que o número deixa de ser 1.
-        if (!LaneOccupancy.TryPickLane(track.LaneCount, 1, spawnY, waveWindow, out int lane))
+        if (!LaneOccupancy.TryPickLane(RaceLuck.Stream.ModifierLane, track.LaneCount, 1, spawnY, waveWindow, out int lane))
             return; // A leva atual já não deixa saída: melhor pular esta vez.
 
         Spawn(definition, lane);
@@ -112,7 +113,7 @@ public class LevelModifierSpawner : MonoBehaviour
         if (total <= 0f)
             return null;
 
-        float roll = Random.Range(0f, total);
+        float roll = RaceLuck.Range(RaceLuck.Stream.ModifierPick, 0f, total);
         for (int i = 0; i < level.modifiers.Length; i++)
         {
             var candidate = level.modifiers[i];

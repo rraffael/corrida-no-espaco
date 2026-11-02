@@ -120,11 +120,11 @@ public class ShipWeapon : MonoBehaviour
 
         if (lanes.IsChangingLane)
         {
-            resumeFireAt = Time.time + holdFireAfterLaneChange;
+            resumeFireAt = RaceClock.Now + holdFireAfterLaneChange;
             return true;
         }
 
-        return Time.time < resumeFireAt;
+        return RaceClock.Now < resumeFireAt;
     }
 
     void Fire()

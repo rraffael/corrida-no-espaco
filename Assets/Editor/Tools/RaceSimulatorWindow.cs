@@ -160,8 +160,9 @@ public class RaceSimulatorWindow : EditorWindow
 
     void DrawProgress()
     {
-        int done = RaceSimulation.Results.Count;
-        int total = Mathf.Max(1, RaceSimulatorDriver.Planned);
+        // Conta a sentinela: ela também leva tempo, embora fique fora do relatório.
+        int done = RaceSimulation.Results.Count + RaceSimulation.Sentinels.Count;
+        int total = Mathf.Max(1, Mathf.Max(RaceSimulatorDriver.Planned, RaceSimulation.Jobs.Count));
         float real = RaceSimulation.RealSeconds;
         string left = done > 0 ? $" — falta perto de {ScoreBoard.FormatTime(real / done * (total - done))}" : string.Empty;
 
@@ -312,6 +313,8 @@ static class RaceSimulatorDriver
     const string PlannedKey = "cne.simulador.planejadas";
     const string LastReportKey = "cne.simulador.ultimo-relatorio";
     const string SecondsPerRaceKey = "cne.simulador.segundos-por-corrida";
+    const string StampKey = "cne.simulador.carimbo";
+    const string PlanJsonKey = "cne.simulador.plano-carimbado";
 
     public static bool IsRunning => SessionState.GetBool(RunningKey, false);
     public static int Planned => SessionState.GetInt(PlannedKey, 0);
@@ -337,7 +340,13 @@ static class RaceSimulatorDriver
             return;
         }
 
-        SessionState.SetString(RaceSimulation.PlanKey, JsonUtility.ToJson(plan));
+        // Depois de salvar a cena, para o carimbo medir o que vai rodar. O plano fica
+        // guardado à parte, porque o Play apaga a chave dele ao ler.
+        string planJson = JsonUtility.ToJson(plan);
+        SessionState.SetString(PlanJsonKey, planJson);
+        SessionState.SetString(StampKey, SimulationStamp.Take(planJson));
+
+        SessionState.SetString(RaceSimulation.PlanKey, planJson);
         SessionState.SetInt(PlannedKey, planned);
         SessionState.SetBool(RunningKey, true);
 
@@ -410,7 +419,11 @@ static class RaceSimulatorDriver
         float real = RaceSimulation.RealSeconds;
         EditorPrefs.SetFloat(SecondsPerRaceKey, real / results.Count);
 
-        string path = SimulationReport.Write(RaceSimulation.Current, results, Planned, real);
+        string stampAtStart = SessionState.GetString(StampKey, string.Empty);
+        string stampAtEnd = SimulationStamp.Take(SessionState.GetString(PlanJsonKey, string.Empty));
+
+        string path = SimulationReport.Write(RaceSimulation.Current, results, RaceSimulation.Sentinels, Planned, real,
+                                             stampAtStart, stampAtEnd);
         SessionState.SetString(LastReportKey, path);
 
         Debug.Log($"[Simulador] {results.Count} corrida(s) em {ScoreBoard.FormatTime(real)}. Relatório: {path}");

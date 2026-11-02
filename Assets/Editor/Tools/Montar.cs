@@ -36,12 +36,10 @@ static class Montar
     /// Lista vazia é resposta válida — quer dizer que a mudança foi só de código
     /// e não encosta em cena nem em asset.
     ///
-    /// Estado em 01/11/2026: as evoluções das naves. Só cria e liga fichas, e não
-    /// encosta em cena.
+    /// Estado em 02/11/2026: relógio, sorte e relatórios do simulador. Só código.
     /// </summary>
     static readonly Step[] Steps =
     {
-        new Step("Evoluções: fichas dos upgrades e das passivas", ShipSetup.Setup),
     };
 
     [MenuItem(ProjectTools.SetupAllItem, false, 90)]

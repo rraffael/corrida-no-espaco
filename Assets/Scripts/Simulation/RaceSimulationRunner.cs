@@ -13,6 +13,16 @@ public class RaceSimulationRunner : MonoBehaviour
     float warpReachedAt;
     SimulatedPilot pilot;
 
+    int offStepFrames;
+    float lastTimeScale;
+    float secondsAtHighSpeed;
+    int crashesAtHighSpeed;
+    int powerUsesWhileCharging;
+    bool reachedWarpWithEffect;
+    int lastCrashes;
+    int lastActivations;
+    int lastShownSpeed;
+
     void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
 
     void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -33,7 +43,6 @@ public class RaceSimulationRunner : MonoBehaviour
         }
 
         var job = RaceSimulation.Jobs[index];
-        Random.InitState(job.seed);
 
         var ship = ShipStats.Instance;
         if (ship == null)
@@ -48,7 +57,7 @@ public class RaceSimulationRunner : MonoBehaviour
         // Pelo número da persona, e não pela posição no plano: senão o Regular
         // rodando sozinho teria outro dado, e não compararia com a base.
         var persona = RaceSimulation.PersonaAt(job.persona);
-        pilot.Configure(persona, job.seed * 7919 + persona.skillRank - 1);
+        pilot.Configure(persona, RaceLuck.TrackSeed("piloto" + persona.skillRank));
 
         if (RaceSimulation.Current.hideRendering)
         {
@@ -57,7 +66,53 @@ public class RaceSimulationRunner : MonoBehaviour
         }
 
         warpReachedAt = -1f;
+        offStepFrames = 0;
+        lastTimeScale = Time.timeScale;
+        secondsAtHighSpeed = 0f;
+        crashesAtHighSpeed = 0;
+        powerUsesWhileCharging = 0;
+        reachedWarpWithEffect = false;
+        lastCrashes = 0;
+        lastActivations = 0;
+        lastShownSpeed = 0;
         racing = true;
+    }
+
+    /// <summary>
+    /// Anota o que a corrida fez neste quadro. Só lê: nada aqui pode mudar a corrida,
+    /// senão o simulador mediria a si mesmo.
+    /// </summary>
+    void Observe(RaceDirector director)
+    {
+        // Contra a escala atual e a do quadro anterior: o Tempo Lento pode mudar a
+        // escala no meio de um quadro, e isso não é erro de passo.
+        float step = RaceSimulation.Current.frameSeconds;
+        if (Mathf.Abs(Time.deltaTime - step * Time.timeScale) > 0.00001f &&
+            Mathf.Abs(Time.deltaTime - step * lastTimeScale) > 0.00001f)
+            offStepFrames++;
+
+        lastTimeScale = Time.timeScale;
+
+        var race = RaceSpeed.Instance;
+        if (race == null)
+            return;
+
+        // A velocidade do quadro anterior: a batida já derrubou a deste.
+        if (CareerStats.RaceCrashes > lastCrashes && lastShownSpeed >= RaceSimulation.HighSpeedShown)
+            crashesAtHighSpeed += CareerStats.RaceCrashes - lastCrashes;
+        lastCrashes = CareerStats.RaceCrashes;
+
+        lastShownSpeed = RaceSpeed.Shown(race.Current);
+        if (lastShownSpeed >= RaceSimulation.HighSpeedShown)
+            secondsAtHighSpeed += Time.deltaTime;
+
+        var abilities = ShipAbilities.Instance;
+        if (abilities == null)
+            return;
+
+        if (director.IsCharging && abilities.ActivationCount > lastActivations)
+            powerUsesWhileCharging += abilities.ActivationCount - lastActivations;
+        lastActivations = abilities.ActivationCount;
     }
 
     void Update()
@@ -72,10 +127,15 @@ public class RaceSimulationRunner : MonoBehaviour
 
         if (director.IsRunning)
         {
+            Observe(director);
+
             var race = RaceSpeed.Instance;
             if (warpReachedAt < 0f && !director.IsEndless && race != null &&
                 race.Current >= director.WarpSpeed)
+            {
                 warpReachedAt = director.Elapsed;
+                reachedWarpWithEffect = ShipAbilities.Instance != null && ShipAbilities.Instance.Active.Count > 0;
+            }
 
             var plan = RaceSimulation.Current;
             float limit = director.IsEndless ? plan.maxEndlessSeconds : plan.maxSeconds;
@@ -102,8 +162,10 @@ public class RaceSimulationRunner : MonoBehaviour
 
         var abilities = ShipAbilities.Instance;
         bool hasPower = abilities != null && abilities.Equipped != null;
+        var spawner = FindAnyObjectByType<ObstacleSpawner>();
 
-        RaceSimulation.Results.Add(new RaceSimulation.Result
+        var results = job.sentinel ? RaceSimulation.Sentinels : RaceSimulation.Results;
+        results.Add(new RaceSimulation.Result
         {
             persona = persona.displayName,
             personaRank = persona.skillRank,
@@ -135,6 +197,13 @@ public class RaceSimulationRunner : MonoBehaviour
             effectSeconds = abilities != null ? abilities.EffectSeconds : 0f,
             conditionalCharges = abilities != null ? abilities.ConditionalCountAtEnd : 0,
             passivePeak = abilities != null ? abilities.PassivePeakCount : 0,
+            offStepFrames = offStepFrames,
+            trackHash = spawner != null ? spawner.TrackHash : string.Empty,
+            secondsAtHighSpeed = secondsAtHighSpeed,
+            crashesAtHighSpeed = crashesAtHighSpeed,
+            powerUsesWhileCharging = powerUsesWhileCharging,
+            reachedWarpWithEffect = reachedWarpWithEffect,
+            wastedRecharges = abilities != null ? abilities.WastedRechargeCount : 0,
         });
 
         index++;

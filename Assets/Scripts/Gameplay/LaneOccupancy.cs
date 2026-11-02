@@ -69,8 +69,10 @@ public static class LaneOccupancy
     /// Sorteia uma faixa livre que **ainda deixe pelo menos uma vazia** depois de
     /// a coisa nascer. Devolve falso quando não existe posição assim — e aí quem
     /// chamou pula a vez, que é como o corredor respira.
+    ///
+    /// Quem chama diz qual dado usar: obstáculo e modificador não dividem a sorte.
     /// </summary>
-    public static bool TryPickLane(int laneCount, int laneSpan, float spawnY, float waveWindow,
+    public static bool TryPickLane(RaceLuck.Stream luck, int laneCount, int laneSpan, float spawnY, float waveWindow,
                                    out int lane)
     {
         lane = 0;
@@ -91,7 +93,7 @@ public static class LaneOccupancy
         // Um sorteio só, **sempre**, mesmo sem candidata: se o número de sorteios
         // dependesse das faixas livres, um abate diferente desalinharia toda a
         // sorte seguinte, e o simulador perderia a comparação pela mesma semente.
-        int pick = Random.Range(0, Mathf.Max(1, candidates));
+        int pick = RaceLuck.Range(luck, 0, Mathf.Max(1, candidates));
 
         if (candidates == 0)
             return false;

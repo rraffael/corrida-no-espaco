@@ -21,12 +21,11 @@ using UnityEngine.SceneManagement;
 /// - **O quadro tem tamanho fixo** (<see cref="Time.captureDeltaTime"/>): a
 ///   corrida anda tão depressa quanto o Editor aguenta, mas cada quadro vale o
 ///   mesmo tempo de jogo — 1/30 s por padrão, como no celular.
-/// - **A sorte é numerada.** Cada repetição tem uma semente; as cinco personas
-///   largam com a mesma, e rodar o mesmo plano amanhã dá a mesma sequência de
-///   largadas. Mudou uma nave e rodou de novo: a diferença é da mudança, não do
-///   sorteio. *(Quase toda: um obstáculo destruído muda onde o próximo pode
-///   nascer. Por isso é comparação de pistas parecidas, e não idênticas; as
-///   corridas só são iguais até o primeiro abate ou poder diferente.)*
+/// - **A sorte é numerada** (<see cref="RaceLuck"/>). Semente, fase e dificuldade
+///   definem a pista; nave, nível e persona não mudam a largada, e o mesmo plano
+///   amanhã dá as mesmas corridas. Mudou uma nave e rodou de novo: a diferença é
+///   da mudança, não do sorteio. *(Quase toda: um obstáculo destruído muda onde o
+///   próximo pode nascer. Quando e qual obstáculo vem segue igual; a faixa, não.)*
 /// - **O salvamento vira rascunho** (<see cref="SaveGame.UseSandbox"/>): o
 ///   simulador evolui nave, vence fase e entra em placar sem gravar nada.
 /// </summary>
@@ -98,6 +97,9 @@ public static class RaceSimulation
         public string level;
         public Difficulty difficulty;
         public int seed;
+
+        /// <summary>Repetição do começo da rodada, no fim dela: fora da conta, só para conferir.</summary>
+        public bool sentinel;
     }
 
     [Serializable]
@@ -150,11 +152,50 @@ public static class RaceSimulation
 
         /// <summary>O máximo do contador da passiva: no Frenesi, as cargas temporárias.</summary>
         public int passivePeak;
+
+        /// <summary>Quadros em que o tempo não andou o passo do plano. Tem de ser zero.</summary>
+        public int offStepFrames;
+
+        /// <summary>Impressão dos primeiros obstáculos sorteados. Mesma semente, fase e dificuldade: a mesma.</summary>
+        public string trackHash;
+
+        /// <summary>Segundos de corrida acima de <see cref="HighSpeedShown"/>.</summary>
+        public float secondsAtHighSpeed;
+
+        /// <summary>Batidas a partir de <see cref="HighSpeedShown"/>.</summary>
+        public int crashesAtHighSpeed;
+
+        /// <summary>Ativações do poder durante a carga da dobra.</summary>
+        public int powerUsesWhileCharging;
+
+        /// <summary>Chegou à velocidade de dobra com o efeito do poder ligado.</summary>
+        public bool reachedWarpWithEffect;
+
+        /// <summary>Recargas pegas com o poder pronto e cheio.</summary>
+        public int wastedRecharges;
     }
+
+    /// <summary>
+    /// A velocidade mostrada a partir da qual um obstáculo pequeno pode pular a
+    /// nave de um quadro para o outro, a 30 quadros por segundo.
+    /// </summary>
+    public const int HighSpeedShown = 420;
+
+    /// <summary>A partir de quantas corridas a rodada ganha a sentinela no fim.</summary>
+    public const int SentinelMinimumJobs = 500;
+
+    /// <summary>Quantas corridas do começo a sentinela repete.</summary>
+    const int SentinelJobs = 25;
 
     public static Plan Current { get; private set; }
     public static readonly List<Job> Jobs = new List<Job>();
     public static readonly List<Result> Results = new List<Result>();
+
+    /// <summary>
+    /// As corridas do começo repetidas no fim da rodada. Têm de sair iguais às
+    /// primeiras; se não saírem, a medição mudou no meio da noite.
+    /// </summary>
+    public static readonly List<Result> Sentinels = new List<Result>();
 
     public static bool IsActive { get; private set; }
     public static bool IsDone { get; private set; }
@@ -181,6 +222,7 @@ public static class RaceSimulation
         Current = plan;
         Jobs.Clear();
         Results.Clear();
+        Sentinels.Clear();
         IsDone = false;
         IsActive = true;
         startedAt = Time.realtimeSinceStartup;
@@ -243,6 +285,24 @@ public static class RaceSimulation
                 seed = plan.firstSeed + repetition,
             });
         }
+
+        if (Jobs.Count < SentinelMinimumJobs)
+            return;
+
+        for (int i = 0; i < SentinelJobs; i++)
+        {
+            var first = Jobs[i];
+            Jobs.Add(new Job
+            {
+                persona = first.persona,
+                ship = first.ship,
+                shipLevel = first.shipLevel,
+                level = first.level,
+                difficulty = first.difficulty,
+                seed = first.seed,
+                sentinel = true,
+            });
+        }
     }
 
     internal static void Prepare(Job job)
@@ -255,7 +315,7 @@ public static class RaceSimulation
         }
 
         LevelSelection.Choose(FindLevel(job.level), job.difficulty);
-        UnityEngine.Random.InitState(job.seed);
+        RaceLuck.UseFixedTrack(job.seed, job.level, (int)job.difficulty);
     }
 
     internal static void Finish()
@@ -264,6 +324,7 @@ public static class RaceSimulation
         IsDone = true;
         endedAt = Time.realtimeSinceStartup;
         Time.captureDeltaTime = 0f;
+        RaceLuck.UseFreeTrack();
 
         if (runner != null)
             UnityEngine.Object.Destroy(runner.gameObject);
@@ -317,6 +378,7 @@ public static class RaceSimulation
         Current = null;
         Jobs.Clear();
         Results.Clear();
+        Sentinels.Clear();
         IsActive = false;
         IsDone = false;
         runner = null;
