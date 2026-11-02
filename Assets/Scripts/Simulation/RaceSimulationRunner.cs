@@ -214,6 +214,11 @@ public class RaceSimulationRunner : MonoBehaviour
         }
 
         RaceSimulation.Prepare(RaceSimulation.Jobs[index]);
+
+        // A corrida que acabou deixou o tempo parado. Solto agora, e não só ao
+        // descarregar a cena: senão a próxima nasce com um quadro de tempo zero, o
+        // piloto pensa um quadro antes, e só a primeira corrida do Play joga diferente.
+        GameTime.ResetAll();
         SceneManager.LoadScene(RaceSimulation.GameScene);
     }
 }

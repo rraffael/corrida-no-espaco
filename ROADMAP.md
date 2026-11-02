@@ -107,15 +107,16 @@ resumo e o aviso de que a lista mudou — nada que ele precise guardar fica só 
 - [x] **Decisões do pacote** ✅ *(Raffael, 02/11: tudo como recomendado)* — colisão nas quatro coisas; engasgo
       de 0,33 s para 0,1 s no jogo real; sementes por hash; Fase 1 mantida na base nova e cortada nas seguintes;
       hábito "guardar para a dobra" escrito depois da base nova; renovar com Recarga adiado
-- [ ] **Parte 1, medição: pronta, falta rodar** — relógio por corrida, sorte separada, carimbo, sentinela e
-      colunas novas. Não muda regra de jogo, e o Montar está vazio nesta parte:
-      1. **Commit:** `git add -A` e `git commit -m "Simulador: relogio por corrida, sorte separada e carimbo"`
+- [x] **Parte 1, teste de repetição** ✅ *(02/11, 11h32 e 11h33)* — as duas rodadas deram CSV idêntico, e as
+      duas naves tiveram a mesma pista em cada semente. **Achado:** toda corrida depois da primeira tinha 1 quadro
+      fora do passo, a causa provável de só a primeira corrida do Play jogar diferente
+- [ ] **Parte 1, conferir a correção do quadro** — mesmo perfil de plano: **Regular**, nível **15**, **Fase 2**,
+      **Normal**, **5 repetições**, **semente 1**, teto desligado:
+      1. **Commit:** `git add -A` e `git commit -m "Simulador: corrida nova nao nasce com o tempo parado"`
       2. **Console:** sem erro de compilação
-      3. **Verificações:** Testes → Rodar verificações
-      4. **Teste de repetição, duas vezes, com o mesmo plano:** só **Regular**; **Nave inicial** e **Nay**;
-         nível **15**; **Fase 2**; **Normal**; **5 repetições**; **semente 1**; teto desligado. São 10 corridas por
-         rodada. Abrir cada `.md`: as linhas **Carimbo** e **Impressão do CSV** têm de ser iguais nas duas
-      5. **Avisar o Claude**, que confere quadros fora do passo e a pista igual entre as duas naves
+      3. **Rodada A:** **Nave inicial** e **Nay**, 10 corridas
+      4. **Rodada B:** só a **Nay**, 5 corridas
+      5. **Avisar o Claude**, que confere quadros fora do passo em zero e a Nay igual nas duas rodadas
 - [ ] **Parte 2, jogo: o Claude escreve depois da parte 1** — colisão nas quatro coisas, limite de engasgo,
       Recarga, Intangibilidade e, se confirmar, a batida letal. O Raffael roda: commit, Console, Montar,
       verificações, fumaça ampliada e aparelho
